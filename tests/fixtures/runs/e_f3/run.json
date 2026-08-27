@@ -1,0 +1,65 @@
+{
+  "format_version": 1,
+  "run_at": "2026-08-26T10:00:00+00:00",
+  "input": {
+    "ask": "ceramics shop near me",
+    "scope": {"kind": "near", "lat": 42.0, "lng": 12.0, "radius_km": 5.0},
+    "when": null,
+    "max_detour_min": null,
+    "prefs": [],
+    "exclude": [],
+    "card": "salumeria",
+    "depth": "full",
+    "contact_drafts": false
+  },
+  "calls": [
+    {
+      "adapter": "model",
+      "operation": "parse",
+      "request": {},
+      "response": {
+        "request": {
+          "ask": "ceramics shop near me",
+          "category": "ceramics",
+          "country": "IT",
+          "local_language": "it",
+          "required_attributes": [],
+          "scope": {"kind": "near", "lat": 42.0, "lng": 12.0, "radius_km": 5.0},
+          "arrival_start": null,
+          "arrival_end": null,
+          "max_detour_min": null,
+          "exclusions": [],
+          "preferences": []
+        }
+      }
+    },
+    {
+      "adapter": "goplaces",
+      "operation": "sweep",
+      "request": {},
+      "response": {
+        "candidates": [
+          {
+            "id": "dead-shop",
+            "displayName": {"text": "Closed Ceramics"},
+            "businessStatus": "CLOSED_PERMANENTLY",
+            "location": {"latitude": 42.0, "longitude": 12.0}
+          }
+        ]
+      }
+    },
+    {
+      "adapter": "web",
+      "operation": "registry",
+      "request": {},
+      "response": {"qualifications": [], "injected": []}
+    },
+    {
+      "adapter": "model",
+      "operation": "assemble",
+      "request": {},
+      "response": {}
+    }
+  ],
+  "output": {}
+}

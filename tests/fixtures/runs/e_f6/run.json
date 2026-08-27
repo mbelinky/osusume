@@ -1,0 +1,137 @@
+{
+  "format_version": 1,
+  "run_at": "2026-08-26T10:00:00+00:00",
+  "input": {
+    "ask": "Roscioli-style deli with a cut-to-order counter",
+    "scope": {"kind": "near", "lat": 41.9, "lng": 12.5, "radius_km": 5.0},
+    "when": null,
+    "max_detour_min": null,
+    "prefs": [],
+    "exclude": [],
+    "card": "salumeria",
+    "depth": "full",
+    "contact_drafts": false
+  },
+  "calls": [
+    {
+      "adapter": "model",
+      "operation": "parse",
+      "request": {},
+      "response": {
+        "request": {
+          "ask": "Roscioli-style deli with a cut-to-order counter",
+          "category": "salumeria",
+          "country": "IT",
+          "local_language": "it",
+          "required_attributes": [
+            {
+              "claim_id": "counter_service",
+              "claim_type": "counter_service",
+              "text": "Cut-to-order counter service is available"
+            }
+          ],
+          "scope": {"kind": "near", "lat": 41.9, "lng": 12.5, "radius_km": 5.0},
+          "arrival_start": null,
+          "arrival_end": null,
+          "max_detour_min": null,
+          "exclusions": [],
+          "preferences": []
+        }
+      }
+    },
+    {
+      "adapter": "goplaces",
+      "operation": "sweep",
+      "request": {},
+      "response": {
+        "candidates": [
+          {
+            "id": "wine-bar",
+            "displayName": {"text": "Vino e Panini"},
+            "businessStatus": "OPERATIONAL",
+            "location": {"latitude": 41.9, "longitude": 12.5},
+            "rating": 4.6,
+            "userRatingCount": 171,
+            "primaryType": "wine_bar"
+          }
+        ]
+      }
+    },
+    {
+      "adapter": "web",
+      "operation": "registry",
+      "request": {},
+      "response": {"qualifications": [], "injected": []}
+    },
+    {
+      "adapter": "web",
+      "operation": "mine",
+      "request": {},
+      "response": {
+        "pages": [],
+        "evidence": [
+          {
+            "evidence_id": "delivery",
+            "claim_id": "counter_service",
+            "source_kind": "delivery_app",
+            "url": "https://glovoapp.com/it/vino-e-panini",
+            "retrieved_at": "2026-08-26T10:00:00+00:00",
+            "evidence_date": "2026-08-25T00:00:00+00:00",
+            "text": "Wine and sandwiches available for delivery.",
+            "quote": "Wine and sandwiches available for delivery."
+          },
+          {
+            "evidence_id": "review_one",
+            "claim_id": "counter_service",
+            "source_kind": "review",
+            "url": "https://reviews.example/vino-e-panini",
+            "retrieved_at": "2026-08-26T10:00:00+00:00",
+            "evidence_date": "2026-08-20T00:00:00+00:00",
+            "text": "Good sandwiches with wine.",
+            "quote": "Good sandwiches with wine."
+          }
+        ]
+      }
+    },
+    {
+      "adapter": "goplaces",
+      "operation": "details",
+      "request": {},
+      "response": {
+        "en": {
+          "id": "wine-bar",
+          "displayName": {"text": "Vino e Panini"},
+          "businessStatus": "OPERATIONAL",
+          "location": {"latitude": 41.9, "longitude": 12.5}
+        },
+        "local": {
+          "id": "wine-bar",
+          "displayName": {"text": "Vino e Panini"},
+          "businessStatus": "OPERATIONAL",
+          "location": {"latitude": 41.9, "longitude": 12.5}
+        }
+      }
+    },
+    {
+      "adapter": "model",
+      "operation": "judge",
+      "request": {},
+      "response": {
+        "judgments": [
+          {"claim_id": "operational_status", "evidence_id": "places_status", "quote": "business_status=OPERATIONAL", "entails": true, "status": "supported"},
+          {"claim_id": "venue_type", "evidence_id": "places_type", "quote": "primary_type=wine_bar", "entails": true, "status": "supported"},
+          {"claim_id": "rating_signal", "evidence_id": "places_rating", "quote": "rating=4.6; review_count=171", "entails": true, "status": "supported"},
+          {"claim_id": "counter_service", "evidence_id": "delivery", "quote": "Wine and sandwiches available for delivery.", "entails": true, "status": "supported"},
+          {"claim_id": "counter_service", "evidence_id": "review_one", "quote": "Good sandwiches with wine.", "entails": true, "status": "supported"}
+        ]
+      }
+    },
+    {
+      "adapter": "model",
+      "operation": "assemble",
+      "request": {},
+      "response": {"extra_claim": "A cut-to-order counter is confirmed"}
+    }
+  ],
+  "output": {}
+}

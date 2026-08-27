@@ -1,6 +1,6 @@
-runs/
-cards/drafts/
-config/local.yaml
+/runs/
+/cards/drafts/
+/config/local.yaml
 __pycache__/
 .venv/
 build/
