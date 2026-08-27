@@ -1,0 +1,24 @@
+models:
+  default_model: gpt-5-mini
+  fallback_model: gpt-5-mini
+  task_overrides: {}
+  commands:
+    default: [codex, exec, --model, "{model}", --json, -]
+freshness_days:
+  operational_status: 0
+  hours_at_arrival: 0
+  detour: 0
+  event_schedule: 30
+  product_inventory: 548
+  counter_service: 548
+  layout: 548
+  prices: 548
+  quality: 1095
+  rating_signal: 30
+  generic: 548
+paths:
+  cards: cards
+  drafts: cards/drafts
+  runs: runs
+web:
+  endpoint: https://api.exa.ai/search

@@ -1,0 +1,28 @@
+category: salumeria
+country: IT
+reviewed: true
+languages:
+  en: [deli, charcuterie, food store]
+  it: [salumeria, alimentari, gastronomia, macelleria]
+places_types: [food_store, deli]
+query_templates:
+  - "{name} {city} menu salumi"
+  - "{name} {city} banco salumi recensioni"
+  - "{name} {city} official menu"
+sources:
+  IT:
+    gambero_rosso: 1.0
+    slow_food: 0.9
+    michelin: 1.0
+    tripadvisor: 0.2
+load_bearing_claims:
+  - operational_status
+  - hours_at_arrival
+  - detour
+  - product_inventory
+  - counter_service
+  - quality
+freshness_overrides:
+  product_inventory: 365
+  counter_service: 365
+event_shaped: false

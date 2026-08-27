@@ -1,0 +1,27 @@
+category: antiques
+country: IT
+reviewed: true
+languages:
+  en: [antiques, antique shop, vintage furniture]
+  it: [antiquariato, negozio di antiquariato, mobili antichi, mercatino antiquariato]
+places_types: [antique_store, home_goods_store]
+query_templates:
+  - "{name} {city} antiquariato sito ufficiale"
+  - "{name} {city} recensioni antiquariato"
+  - "{name} {city} mostra antiquaria catalogo"
+sources:
+  IT:
+    associazione_antiquari_italia: 1.0
+    comune_calendar: 1.0
+    tripadvisor: 0.1
+load_bearing_claims:
+  - operational_status
+  - hours_at_arrival
+  - detour
+  - product_inventory
+  - layout
+  - quality
+freshness_overrides:
+  product_inventory: 365
+  layout: 365
+event_shaped: false

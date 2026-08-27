@@ -1,0 +1,87 @@
+e_f1:
+  required: {claim_id: importance, claim_type: importance, text: "Market morning is the reason to visit"}
+  evidence:
+    evidence_id: blog_market
+    claim_id: importance
+    source_kind: travel_blog
+    url: https://travel.example/market
+    retrieved_at: "2026-08-26T10:00:00+00:00"
+    evidence_date: "2026-08-20T00:00:00+00:00"
+    text: "A lively market morning draws visitors."
+    quote: "A lively market morning draws visitors."
+  expected_status: wrong_source
+  expected_verdict: unconfirmed
+e_f2:
+  required: {claim_id: quality, claim_type: quality, text: "Quality recommendation"}
+  evidence:
+    evidence_id: roundup
+    claim_id: quality
+    source_kind: qualified_guide
+    roundup: true
+    title: "9 best spots"
+    url: https://www.gamberorosso.it/notizie/9-best-spots
+    retrieved_at: "2026-08-26T10:00:00+00:00"
+    evidence_date: "2026-08-20T00:00:00+00:00"
+    text: "Test Place appears in our roundup."
+    quote: "Test Place appears in our roundup."
+  expected_status: wrong_source
+  expected_verdict: unconfirmed
+e_f3:
+  sweep_business_status: CLOSED_PERMANENTLY
+  expected_reason: dead_at_sweep
+e_f4:
+  required: {claim_id: product_inventory, claim_type: product_inventory, text: "A ceramics shop operates at the exit"}
+  evidence:
+    evidence_id: prior_note
+    claim_id: product_inventory
+    source_kind: caller_note
+    url: note://trip-plan
+    retrieved_at: "2026-08-26T10:00:00+00:00"
+    evidence_date: "2026-08-25T00:00:00+00:00"
+    text: "My earlier plan says a ceramics shop is at the exit."
+    quote: "a ceramics shop is at the exit"
+  expected_status: wrong_source
+  expected_verdict: unconfirmed
+e_f5:
+  exclude: Moretti
+  candidate_name: Ceramiche Moretti
+  expected_candidates: 0
+e_f6:
+  required: {claim_id: counter_service, claim_type: counter_service, text: "Cut-to-order counter service is available"}
+  evidence:
+    evidence_id: delivery
+    claim_id: counter_service
+    source_kind: delivery_app
+    url: https://glovoapp.com/it/test-place
+    retrieved_at: "2026-08-26T10:00:00+00:00"
+    evidence_date: "2026-08-25T00:00:00+00:00"
+    text: "Sandwiches and wine delivered."
+    quote: "Sandwiches and wine delivered."
+  expected_status: wrong_source
+  expected_verdict: near_miss
+e_stale:
+  required: {claim_id: product_inventory, claim_type: product_inventory, text: "Mortadella is sold now"}
+  evidence:
+    evidence_id: old_menu
+    claim_id: product_inventory
+    source_kind: official_site
+    url: https://test.example/menu
+    retrieved_at: "2026-08-26T10:00:00+00:00"
+    evidence_date: "2016-06-01T00:00:00+00:00"
+    text: "We sell mortadella."
+    quote: "We sell mortadella."
+  expected_status: stale
+  expected_verdict: unconfirmed
+e_good_1:
+  direct_seconds: 3600
+  first_leg_seconds: 2400
+  second_leg_seconds: 2100
+  budget_minutes: 15
+  expected_detour_minutes: 15
+e_good_2:
+  venue_reply: "Sì, tagliamo i salumi al momento e li prepariamo da asporto."
+  expected_tier: 0
+  expected_verdict: cleared
+e_refusal:
+  sweep: []
+  expected_refusal: true
