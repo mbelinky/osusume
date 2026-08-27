@@ -1,5 +1,6 @@
 import json
 import subprocess
+import sys
 from pathlib import Path
 
 import pytest
@@ -12,7 +13,15 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def replay(name: str) -> dict:
     completed = subprocess.run(
-        ["uv", "run", "osusume", "find", "--replay", f"tests/fixtures/runs/{name}", "--json"],
+        [
+            sys.executable,
+            "-m",
+            "osusume",
+            "find",
+            "--replay",
+            f"tests/fixtures/runs/{name}",
+            "--json",
+        ],
         cwd=ROOT,
         text=True,
         capture_output=True,
