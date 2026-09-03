@@ -146,6 +146,7 @@ ALLOWED_SOURCE_CLASSES: dict[str, set[SourceClass]] = {
     "operational_status": {SourceClass.OFFICIAL, SourceClass.PLACES},
     "hours_at_arrival": {SourceClass.OFFICIAL, SourceClass.PLACES},
     "detour": {SourceClass.PLACES},
+    "proximity": {SourceClass.PLACES},
     "counter_service": {SourceClass.OFFICIAL, SourceClass.PHOTO},
     "layout": {SourceClass.OFFICIAL, SourceClass.PHOTO},
     "product_inventory": {SourceClass.OFFICIAL, SourceClass.PHOTO, SourceClass.PLACES, SourceClass.REVIEW},

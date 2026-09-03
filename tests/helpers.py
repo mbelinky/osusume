@@ -24,6 +24,7 @@ class FakePlaces:
         *,
         start_is_place_id: bool = False,
         end_is_place_id: bool = False,
+        mode: str = "drive",
     ) -> dict:
         return deepcopy(self.fixture.get("directions", {})[f"{start}|{end}"])
 

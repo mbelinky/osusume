@@ -11,9 +11,9 @@ Most recommendation tools can produce a plausible answer from thin evidence. Osu
 
 ## What it does
 
-- Searches near a point or along a driving route through the `goplaces` command-line tool.
+- Searches near a point, along a driving route, or within a travel-time budget of a named place, through the `goplaces` command-line tool.
 - Adds current web evidence through Exa when a category card requires it.
-- Checks operational status, arrival-time hours, distance or detour, and category-specific claims.
+- Checks operational status, arrival-time hours, measured travel time or detour, and category-specific claims.
 - Keeps every reported claim tied to a literal evidence excerpt.
 - Refuses a candidate when a required claim is stale, missing, or weakly supported.
 - Records live adapter responses so a run can be replayed offline.
@@ -47,7 +47,20 @@ uv run osusume find "a quiet ceramics studio with weekend hours" \
   --json
 ```
 
-Use `--depth quick` to skip web evidence mining. Use `--route FROM TO` instead of `--near` for a route search, with `--max-detour-min` to cap the detour.
+Use `--depth quick` to skip web evidence mining.
+
+Two other scopes replace `--near`. A route search takes `--route FROM TO`, with `--max-detour-min` to cap the true detour. An anchored search takes a named place and a travel-time budget:
+
+```sh
+uv run osusume find "upscale or quirky cocktail bar" \
+  --near-place "Anchor Bistro, Barcelona" \
+  --max-min 8 \
+  --mode walk \
+  --when "2026-10-16T20:00:00+02:00" \
+  --json
+```
+
+The anchor is resolved to a real listing and excluded from its own results. Each candidate is then gated on measured travel minutes from the anchor in the requested mode, not on straight-line distance, so a candidate fifteen minutes away cannot pass an eight-minute walk. `--mode` accepts `walk` (the default), `drive`, `bicycle`, or `transit`. A candidate whose travel time cannot be measured is reported unconfirmed rather than cleared.
 
 ## Evidence cards
 

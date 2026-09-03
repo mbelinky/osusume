@@ -26,8 +26,9 @@ class FailingDirectionsPlaces(FakePlaces):
         *,
         start_is_place_id: bool = False,
         end_is_place_id: bool = False,
+        mode: str = "drive",
     ) -> dict:
-        self.direction_calls.append((start, end, start_is_place_id, end_is_place_id))
+        self.direction_calls.append((start, end, start_is_place_id, end_is_place_id, mode))
         if (start, end) in self.failed_routes:
             raise AdapterError("no directions returned")
         return super().directions(
@@ -36,6 +37,7 @@ class FailingDirectionsPlaces(FakePlaces):
             departure_time,
             start_is_place_id=start_is_place_id,
             end_is_place_id=end_is_place_id,
+            mode=mode,
         )
 
 
@@ -201,10 +203,10 @@ def test_failed_candidate_detour_stays_unknown_and_run_continues(tmp_path) -> No
     assert by_id["p1"]["verdict"] == "unconfirmed"
     assert by_id["p2"]["verdict"] == "cleared"
     assert places.direction_calls == [
-        ("A", "B", False, False),
-        ("A", "p1", False, True),
-        ("A", "p2", False, True),
-        ("p2", "B", True, False),
+        ("A", "B", False, False, "drive"),
+        ("A", "p1", False, True, "drive"),
+        ("A", "p2", False, True, "drive"),
+        ("p2", "B", True, False, "drive"),
     ]
     snapshot = json.loads((tmp_path / "run" / "run.json").read_text())
     failed_calls = [call for call in snapshot["calls"] if call.get("error")]
@@ -239,7 +241,7 @@ def test_failed_direct_route_leaves_every_detour_unknown(tmp_path) -> None:
         {"ask": parsed["ask"], "card": "salumeria", "depth": "full"}
     )
 
-    assert places.direction_calls == [("A", "B", False, False)]
+    assert places.direction_calls == [("A", "B", False, False, "drive")]
     for candidate in output["candidates"]:
         detour = next(claim for claim in candidate["claims"] if claim["claim_id"] == "detour")
         assert detour["status"] == "unknown"

@@ -16,6 +16,21 @@ class AdapterError(RuntimeError):
     pass
 
 
+ANCHOR_SPEEDS_M_PER_MIN = {
+    "walk": 80,
+    "bicycle": 250,
+    "drive": 600,
+    "transit": 350,
+}
+
+
+def anchor_radius_m(scope: dict) -> int:
+    mode = str(scope.get("mode", "walk"))
+    if mode not in ANCHOR_SPEEDS_M_PER_MIN:
+        raise ValueError(f"unsupported anchor travel mode: {mode}")
+    return min(30000, int(float(scope.get("max_min", 10)) * ANCHOR_SPEEDS_M_PER_MIN[mode]))
+
+
 def _json_subprocess(command: list[str], *, input_data: dict | None = None) -> Any:
     completed = subprocess.run(
         command,
@@ -100,7 +115,7 @@ class GoplacesAdapter:
         else:
             lat = scope.get("lat")
             lng = scope.get("lng")
-            radius_m = int(scope.get("radius_km", 5) * 1000)
+            radius_m = anchor_radius_m(scope) if scope.get("kind") == "anchor" else int(scope.get("radius_km", 5) * 1000)
             for language, terms in language_rows.items():
                 for term in terms:
                     args = ["search", term, "--language", language, "--lat", str(lat), "--lng", str(lng), "--radius-m", str(radius_m)]
@@ -128,8 +143,9 @@ class GoplacesAdapter:
     def resolve(self, name: str, request: dict) -> dict | None:
         scope = request.get("scope", {})
         args = ["search", name, "--limit", "1"]
-        if scope.get("kind") == "near":
-            args.extend(["--lat", str(scope.get("lat")), "--lng", str(scope.get("lng")), "--radius-m", str(int(scope.get("radius_km", 5) * 1000))])
+        if scope.get("kind") in {"near", "anchor"} and scope.get("lat") is not None and scope.get("lng") is not None:
+            radius_m = anchor_radius_m(scope) if scope.get("kind") == "anchor" else int(scope.get("radius_km", 5) * 1000)
+            args.extend(["--lat", str(scope["lat"]), "--lng", str(scope["lng"]), "--radius-m", str(radius_m)])
         rows = _places_list(self._run(args))
         return rows[0] if rows else None
 
@@ -163,10 +179,11 @@ class GoplacesAdapter:
         *,
         start_is_place_id: bool = False,
         end_is_place_id: bool = False,
+        mode: str = "drive",
     ) -> dict:
         start_flag = "--from-place-id" if start_is_place_id else "--from"
         end_flag = "--to-place-id" if end_is_place_id else "--to"
-        args = ["directions", start_flag, start, end_flag, end, "--mode", "drive"]
+        args = ["directions", start_flag, start, end_flag, end, "--mode", mode]
         if departure_time:
             args.extend(["--departure-time", departure_time])
         return self._run(args)

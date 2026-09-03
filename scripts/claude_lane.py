@@ -56,7 +56,7 @@ def main() -> None:
             "Convert this venue ask into a structured request. Respond with ONLY a JSON "
             f"object shaped like {json.dumps(PARSE_SCHEMA)}. Decompose style analogies into "
             "observable attributes. Use the local language of the destination country. "
-            "Do not invent scope coordinates; leave scope as given. Always include "
+            "Do not invent scope coordinates. Preserve caller-supplied scope. If none is supplied and the ask names an anchor place, emit scope as kind=anchor with place, mode (walk by default), and max_min (10 by default). Always include "
             "ephemeral_card (it is ignored when a reviewed card exists).\n\nInput:\n"
             + json.dumps(payload, ensure_ascii=False)
         )

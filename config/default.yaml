@@ -8,6 +8,7 @@ freshness_days:
   operational_status: 0
   hours_at_arrival: 0
   detour: 0
+  proximity: 0
   event_schedule: 30
   product_inventory: 548
   counter_service: 548

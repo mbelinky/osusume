@@ -142,6 +142,7 @@ def test_directions_uses_place_id_flags_only_for_place_id_endpoints(monkeypatch)
     adapter.directions("Montpellier, France", "ChIJQSHXPwDnuhIRZ_YkVMyGp2Q", end_is_place_id=True)
     adapter.directions("ChIJQSHXPwDnuhIRZ_YkVMyGp2Q", "Barcelona, Spain", start_is_place_id=True)
     adapter.directions("43.611,3.877", "41.388,2.170")
+    adapter.directions("anchor", "candidate", start_is_place_id=True, end_is_place_id=True, mode="walk")
 
     assert commands == [
         [
@@ -163,7 +164,34 @@ def test_directions_uses_place_id_flags_only_for_place_id_endpoints(monkeypatch)
             "drive",
         ],
         ["directions", "--from", "43.611,3.877", "--to", "41.388,2.170", "--mode", "drive"],
+        ["directions", "--from-place-id", "anchor", "--to-place-id", "candidate", "--mode", "walk"],
     ]
+
+
+def test_anchor_sweep_and_resolve_use_budget_radius(monkeypatch) -> None:
+    adapter = GoplacesAdapter()
+    commands = []
+    monkeypatch.setattr(adapter, "_run", lambda args: commands.append(args) or {"places": []})
+    anchor_request = {
+        **request(),
+        "scope": {
+            "kind": "anchor",
+            "place": "Anchor Bistro, Barcelona",
+            "place_id": "anchor-bistro",
+            "lat": 41.393,
+            "lng": 2.155,
+            "mode": "walk",
+            "max_min": 8,
+        },
+    }
+
+    adapter.sweep(anchor_request, {"languages": {"en": ["cocktail bar"]}, "places_types": ["bar"]})
+    adapter.resolve("Injected Bar", anchor_request)
+
+    assert all(command[command.index("--radius-m") + 1] == "640" for command in commands)
+    assert commands[0][:2] == ["search", "cocktail bar"]
+    assert commands[1][:3] == ["nearby", "--type", "bar"]
+    assert commands[2][:4] == ["search", "Injected Bar", "--limit", "1"]
 
 
 def test_stage1_fails_when_every_configured_type_failed() -> None:

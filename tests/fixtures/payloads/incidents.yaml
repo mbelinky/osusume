@@ -78,6 +78,13 @@ e_good_1:
   second_leg_seconds: 2100
   budget_minutes: 15
   expected_detour_minutes: 15
+e_good_3:
+  anchor: "Anchor Bistro, Barcelona"
+  anchor_place_id: anchor-bistro
+  mode: walk
+  budget_minutes: 8
+  clear_minutes: 6
+  reject_minutes: 15
 e_good_2:
   venue_reply: "Sì, tagliamo i salumi al momento e li prepariamo da asporto."
   expected_tier: 0

@@ -1,6 +1,6 @@
 [project]
 name = "osusume"
-version = "0.1.0"
+version = "0.2.0"
 description = "Evidence-gated recommendations for real-world places and events"
 readme = "README.md"
 requires-python = ">=3.12"

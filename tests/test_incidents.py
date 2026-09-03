@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-from osusume.adapters import RecordedAdapters
+from osusume.adapters import AdapterError, RecordedAdapters
 from osusume.cards import CardValidationError, validate_card
 from osusume.config import load_config
 from osusume.funnel import Funnel
@@ -107,6 +107,89 @@ def test_e_good_1_detour_clears_at_budget(tmp_path: Path) -> None:
     assert candidate["verdict"] == "cleared"
 
 
+def test_e_good_3_anchor_travel_gate_and_failed_directions(tmp_path: Path) -> None:
+    case = CASES["e_good_3"]
+    parsed = request()
+    parsed["scope"] = {
+        "kind": "anchor",
+        "place": case["anchor"],
+        "mode": case["mode"],
+        "max_min": case["budget_minutes"],
+    }
+    anchor = operational_place(case["anchor_place_id"], "Anchor Bistro")
+    cleared = operational_place("clear", "Six Minute Bar")
+    rejected = operational_place("reject", "Fifteen Minute Bar")
+    unknown = operational_place("unknown", "Unknown Walk Bar")
+    fixture = {
+        "resolved": {case["anchor"]: anchor},
+        "sweep": [anchor, cleared, rejected, unknown],
+        "registry": {"qualifications": [], "injected": []},
+        "mined": {
+            "clear": {"pages": [], "evidence": []},
+            "reject": {"pages": [], "evidence": []},
+            "unknown": {"pages": [], "evidence": []},
+        },
+        "details": {
+            "clear": operational_details("clear"),
+            "reject": operational_details("reject"),
+            "unknown": operational_details("unknown"),
+        },
+        "directions": {
+            "anchor-bistro|clear": {"duration_seconds": case["clear_minutes"] * 60},
+            "anchor-bistro|reject": {"duration_seconds": case["reject_minutes"] * 60},
+        },
+    }
+
+    class AnchorPlaces(FakePlaces):
+        def directions(self, start, end, departure_time=None, *, start_is_place_id=False, end_is_place_id=False, mode="drive"):
+            if end == "unknown":
+                raise AdapterError("no directions returned")
+            return super().directions(
+                start,
+                end,
+                departure_time,
+                start_is_place_id=start_is_place_id,
+                end_is_place_id=end_is_place_id,
+                mode=mode,
+            )
+
+    config = load_config()
+    config["paths"]["drafts"] = tmp_path
+    output = Funnel(
+        config,
+        RecordedAdapters(AnchorPlaces(fixture), FakeWeb(fixture), FakeModel(parsed)),
+        now=NOW,
+    ).run({"ask": parsed["ask"], "card": "salumeria", "depth": "full"})
+
+    by_id = {candidate["place_id"]: candidate for candidate in output["candidates"]}
+    assert case["anchor_place_id"] not in by_id
+    assert output["exclusions_applied"] == [case["anchor_place_id"]]
+    proximity = next(claim for claim in by_id["clear"]["claims"] if claim["claim_id"] == "proximity")
+    assert proximity["status"] == "supported"
+    assert proximity["qualified_evidence_ids"] == ["anchor_travel"]
+    assert by_id["clear"]["verdict"] == "cleared"
+    assert by_id["reject"]["reason"] == "travel_over_budget"
+    unknown_proximity = next(claim for claim in by_id["unknown"]["claims"] if claim["claim_id"] == "proximity")
+    assert unknown_proximity["status"] == "unknown"
+    assert by_id["unknown"]["verdict"] == "unconfirmed"
+
+
+def test_anchor_unresolved_refuses_before_sweep(tmp_path: Path) -> None:
+    parsed = request()
+    parsed["scope"] = {"kind": "anchor", "place": "Missing Anchor", "mode": "walk", "max_min": 8}
+    fixture = {"resolved": {}}
+    output = run_case(tmp_path, parsed, fixture)
+
+    assert output["refusal"] is True
+    assert output["reason"] == "anchor_unresolved"
+    assert output["candidates"] == []
+    assert output["widen_options"] == [
+        "increase the minutes budget",
+        "allow cousin categories",
+        "ask venues directly",
+    ]
+
+
 def test_e_good_2_contact_then_venue_reply_upgrade(tmp_path: Path) -> None:
     case = CASES["e_good_2"]
     required = {"claim_id": "counter_service", "claim_type": "counter_service", "text": "Cut-to-order counter service is available"}
@@ -144,4 +227,8 @@ def test_e_refusal_has_widen_options_and_no_candidates(tmp_path: Path) -> None:
     output = run_case(tmp_path, parsed, fixture)
     assert output["refusal"] is CASES["e_refusal"]["expected_refusal"]
     assert output["candidates"] == []
-    assert len(output["widen_options"]) == 4
+    assert output["widen_options"] == [
+        "increase the radius",
+        "allow cousin categories",
+        "ask venues directly",
+    ]

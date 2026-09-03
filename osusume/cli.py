@@ -39,7 +39,10 @@ def _parser() -> argparse.ArgumentParser:
     scope = find.add_mutually_exclusive_group()
     scope.add_argument("--near", type=_near, metavar="LAT,LNG")
     scope.add_argument("--route", nargs=2, metavar=("FROM", "TO"))
+    scope.add_argument("--near-place", metavar="NAME_OR_PLACE_ID")
     find.add_argument("--radius-km", type=float, default=5.0)
+    find.add_argument("--max-min", type=float, default=10.0)
+    find.add_argument("--mode", choices=("walk", "drive", "bicycle", "transit"), default="walk")
     find.add_argument("--when")
     find.add_argument("--max-detour-min", type=float)
     find.add_argument("--prefs", action="append", default=[])
@@ -74,6 +77,8 @@ def _raw_input(args: argparse.Namespace) -> dict[str, Any]:
         scope = {"kind": "near", "lat": args.near[0], "lng": args.near[1], "radius_km": args.radius_km}
     elif args.route:
         scope = {"kind": "route", "from": args.route[0], "to": args.route[1], "radius_km": args.radius_km}
+    elif args.near_place:
+        scope = {"kind": "anchor", "place": args.near_place, "mode": args.mode, "max_min": args.max_min}
     return {
         "ask": args.ask or "",
         "scope": scope,
@@ -97,8 +102,8 @@ def _run_find(args: argparse.Namespace, config: dict[str, Any]) -> int:
     else:
         if not args.ask:
             raise ValueError("find requires an ask unless --replay is used")
-        if not args.near and not args.route:
-            raise ValueError("find requires --near or --route unless --replay is used")
+        if not args.near and not args.route and not args.near_place:
+            raise ValueError("find requires --near, --route, or --near-place unless --replay is used")
         raw_input = _raw_input(args)
         run_dir = args.run_dir or config["paths"]["runs"] / datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
         recorder = SnapshotRecorder(run_dir)

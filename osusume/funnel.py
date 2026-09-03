@@ -8,7 +8,7 @@ from enum import Enum
 from typing import Any
 from urllib.parse import urlparse
 
-from .adapters import AdapterError, RecordedAdapters
+from .adapters import AdapterError, RecordedAdapters, anchor_radius_m
 from .cards import find_card, save_ephemeral_card, validate_card
 from .domain import Candidate, StructuredRequest, utc_now
 from .evidence import Claim, ClaimLedger, ClaimStatus, EvidenceRecord, registrable_domain
@@ -27,6 +27,7 @@ ALLOWED_CLAIM_LABELS = {
     "operational_status",
     "hours_at_arrival",
     "detour",
+    "proximity",
     "product_inventory",
     "counter_service",
     "layout",
@@ -90,11 +91,11 @@ def _haversine_km(left: tuple[float, float], right: tuple[float, float]) -> floa
 
 
 def _out_of_scope(candidate: Candidate, scope: dict[str, Any]) -> bool:
-    if scope.get("kind") != "near":
+    if scope.get("kind") not in {"near", "anchor"}:
         return False
     center_lat = scope.get("lat")
     center_lng = scope.get("lng")
-    radius_km = scope.get("radius_km")
+    radius_km = anchor_radius_m(scope) / 1000 if scope.get("kind") == "anchor" else scope.get("radius_km")
     location = _location_tuple({"location": candidate.location})
     if center_lat is None or center_lng is None or radius_km is None or location is None:
         return False
@@ -220,6 +221,7 @@ def _claim_text(claim_type: str) -> str:
         "operational_status": "Operational status at verification",
         "hours_at_arrival": "Opening hours at the arrival window",
         "detour": "Requested detour budget",
+        "proximity": "Within the requested travel budget of the anchor",
         "product_inventory": "Requested product availability",
         "counter_service": "Cut-to-order counter service",
         "layout": "Requested layout",
@@ -295,6 +297,37 @@ class Funnel:
             survivors.setdefault(candidate.place_id, candidate)
         return list(survivors.values())[:20]
 
+    def resolve_anchor(self, request: StructuredRequest) -> StructuredRequest | None:
+        if request.scope.get("kind") != "anchor":
+            return request
+        place = str(request.scope.get("place", ""))
+        if not place:
+            return None
+        resolve_request = {"name": place, "request": request.to_dict()}
+        resolved = self._call(
+            "goplaces",
+            "resolve",
+            resolve_request,
+            lambda: self.adapters.places.resolve(place, request.to_dict()),
+        )
+        if not resolved:
+            return None
+        anchor = Candidate.from_place(resolved)
+        location = _location_tuple({"location": anchor.location})
+        if not anchor.place_id or location is None:
+            return None
+        parsed = request.to_dict()
+        parsed["scope"] = {
+            **request.scope,
+            "mode": request.scope.get("mode", "walk"),
+            "max_min": float(request.scope.get("max_min", 10)),
+            "place_id": anchor.place_id,
+            "lat": location[0],
+            "lng": location[1],
+        }
+        parsed["exclusions"] = list(dict.fromkeys([*request.exclusions, anchor.place_id]))
+        return StructuredRequest.from_dict(parsed)
+
     def stage2_qualify(self, candidates: list[Candidate], request: StructuredRequest, card: dict) -> list[Candidate]:
         candidate_rows = [{"place_id": candidate.place_id, "name": candidate.name} for candidate in candidates]
         payload = {"request": request.to_dict(), "card": card, "candidates": candidate_rows}
@@ -360,6 +393,7 @@ class Funnel:
         *,
         start_is_place_id: bool = False,
         end_is_place_id: bool = False,
+        mode: str = "drive",
     ) -> dict:
         payload = {
             "start": start,
@@ -368,6 +402,8 @@ class Funnel:
             "start_is_place_id": start_is_place_id,
             "end_is_place_id": end_is_place_id,
         }
+        if mode != "drive":
+            payload["mode"] = mode
         return self._call(
             "goplaces",
             "directions",
@@ -378,22 +414,37 @@ class Funnel:
                 departure,
                 start_is_place_id=start_is_place_id,
                 end_is_place_id=end_is_place_id,
+                mode=mode,
             ),
         )
 
-    def _build_ledger(self, candidate: Candidate, request: StructuredRequest, card: dict, mined: dict, details: dict, detour: float | None) -> ClaimLedger:
+    def _build_ledger(
+        self,
+        candidate: Candidate,
+        request: StructuredRequest,
+        card: dict,
+        mined: dict,
+        details: dict,
+        detour: float | None,
+        travel_minutes: float | None,
+    ) -> ClaimLedger:
         ledger = ClaimLedger()
         claim_specs: dict[str, tuple[str, str, bool]] = {
             "operational_status": ("operational_status", _claim_text("operational_status"), True),
             "hours_at_arrival": ("hours_at_arrival", _claim_text("hours_at_arrival"), bool(request.arrival_start)),
         }
         route_scope = request.scope.get("kind") == "route"
+        anchor_scope = request.scope.get("kind") == "anchor"
         if route_scope:
             claim_specs["detour"] = ("detour", _claim_text("detour"), True)
+        if anchor_scope:
+            claim_specs["proximity"] = ("proximity", _claim_text("proximity"), True)
         required_claim_types = set()
         for raw in request.required_attributes:
             claim_type = raw.get("claim_type") or raw.get("claim_id") or "generic"
             if claim_type == "detour" and not route_scope:
+                continue
+            if claim_type == "proximity" and not anchor_scope:
                 continue
             claim_id = raw.get("claim_id") or _slug(raw.get("text", claim_type))
             text = _claim_text(claim_type) if claim_type in ALLOWED_CLAIM_LABELS else (raw.get("text") or _claim_text(claim_type))
@@ -401,6 +452,8 @@ class Funnel:
             required_claim_types.add(claim_type)
         for claim_type in card.get("load_bearing_claims", []):
             if claim_type == "detour" and not route_scope:
+                continue
+            if claim_type == "proximity" and not anchor_scope:
                 continue
             if claim_type in required_claim_types:
                 continue
@@ -421,6 +474,12 @@ class Funnel:
         if detour is not None and request.max_detour_min is not None and detour <= request.max_detour_min:
             detour_text = f"true_detour_minutes={detour:.1f}; budget={request.max_detour_min:.1f}"
             ledger.add_evidence(EvidenceRecord("route_detour", "detour", "computed_route", "goplaces://directions", stamp, stamp, detour_text, detour_text))
+        if travel_minutes is not None and travel_minutes <= float(request.scope.get("max_min", 10)):
+            travel_text = (
+                f"travel_minutes={travel_minutes:.1f}; mode={request.scope.get('mode', 'walk')}; "
+                f"budget={float(request.scope.get('max_min', 10)):.1f}"
+            )
+            ledger.add_evidence(EvidenceRecord("anchor_travel", "proximity", "computed_route", "goplaces://directions", stamp, stamp, travel_text, travel_text))
         if candidate.primary_type:
             venue_text = f"primary_type={candidate.primary_type}"
             ledger.add_evidence(EvidenceRecord("places_type", "venue_type", "places_field", "goplaces://details", stamp, stamp, venue_text, venue_text))
@@ -569,11 +628,35 @@ class Funnel:
                     detour = None
                 if detour is not None and request.max_detour_min is not None and detour > request.max_detour_min:
                     candidate.rejection_reason = "detour_over_budget"
+            travel_minutes = None
+            if request.scope.get("kind") == "anchor":
+                try:
+                    travel = self._directions(
+                        request.scope["place_id"],
+                        candidate.place_id,
+                        request.arrival_start,
+                        start_is_place_id=True,
+                        end_is_place_id=True,
+                        mode=request.scope.get("mode", "walk"),
+                    )
+                    travel_minutes = _duration_minutes(travel)
+                except (AdapterError, ValueError):
+                    travel_minutes = None
+                if travel_minutes is not None and travel_minutes > float(request.scope.get("max_min", 10)):
+                    candidate.rejection_reason = "travel_over_budget"
             if candidate.rejection_reason:
                 candidate.verdict = "rejected"
                 self.rejected.append(candidate)
                 continue
-            candidate.ledger = self._build_ledger(candidate, request, card, mined.get(candidate.place_id, {}), candidate.details, detour)
+            candidate.ledger = self._build_ledger(
+                candidate,
+                request,
+                card,
+                mined.get(candidate.place_id, {}),
+                candidate.details,
+                detour,
+                travel_minutes,
+            )
             survivors.append(candidate)
         return survivors
 
@@ -642,7 +725,13 @@ class Funnel:
             }
         return "unconfirmed"
 
-    def stage6_render(self, candidates: list[Candidate], request: StructuredRequest, contact_drafts: bool) -> dict[str, Any]:
+    def stage6_render(
+        self,
+        candidates: list[Candidate],
+        request: StructuredRequest,
+        contact_drafts: bool,
+        refusal_reason: str | None = None,
+    ) -> dict[str, Any]:
         for candidate in candidates:
             candidate.verdict = self._verdict(candidate, contact_drafts, request.local_language)
         assemble_payload = {
@@ -687,22 +776,37 @@ class Funnel:
             if row["reason"]:
                 human_lines.append(f"  Rejected: {row['reason'].replace('_', ' ')}")
         if refusal:
+            if refusal_reason:
+                human_lines.append(f"Refused: {refusal_reason.replace('_', ' ')}")
             human_lines.append("Nothing clears the evidence bar.")
         for preference in request.preferences:
             human_lines.append(f"Preference: {preference.get('directive', '')} -> {preference['effect']}")
+        widen_options = [
+            {
+                "anchor": "increase the minutes budget",
+                "route": "increase the detour budget",
+            }.get(request.scope.get("kind"), "increase the radius"),
+            "allow cousin categories",
+            "ask venues directly",
+        ]
         packet = {
             "request": request.to_dict(),
             "exclusions_applied": list(request.exclusions),
             "preferences_applied": list(request.preferences),
             "candidates": output_candidates,
             "refusal": refusal,
-            "widen_options": ["increase the radius", "allow cousin categories", "increase the detour budget", "ask venues directly"] if refusal else [],
+            "reason": refusal_reason if refusal else None,
+            "widen_options": widen_options if refusal else [],
             "human": "\n".join(human_lines),
         }
         return packet
 
     def run(self, raw_input: dict[str, Any]) -> dict[str, Any]:
         request, card = self.stage0_parse(raw_input)
+        resolved_request = self.resolve_anchor(request)
+        if resolved_request is None:
+            return self.stage6_render([], request, bool(raw_input.get("contact_drafts")), "anchor_unresolved")
+        request = resolved_request
         candidates = self.stage1_sweep(request, card)
         candidates = self.stage2_qualify(candidates, request, card)
         mined = self.stage3_mine(candidates, request, card, raw_input.get("depth", "full"))
