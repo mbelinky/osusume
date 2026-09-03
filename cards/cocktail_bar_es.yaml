@@ -1,0 +1,34 @@
+category: cocktail_bar
+country: ES
+reviewed: true
+languages:
+  en: [cocktail bar, speakeasy, hotel bar]
+  es: [coctelería, coctelería de autor, bar de cócteles, bar de copas]
+  ca: [cocteleria, bar de còctels, bar de copes]
+places_types: [cocktail_bar, bar, wine_bar]
+query_templates:
+  - "{name} {city} carta de cócteles"
+  - "{name} {city} coctelería reseñas"
+  - "{name} {city} web oficial horario"
+  - "{name} {city} cocktail bar review"
+sources:
+  ES:
+    diffords_guide: 1.0
+    the_pinnacle_guide: 0.9
+    guia_repsol_soletes: 0.9
+    worlds_50_best_bars: 0.8
+    timeout_barcelona: 0.2
+    tripadvisor: 0.1
+load_bearing_claims:
+  - operational_status
+  - hours_at_arrival
+  - detour
+  - proximity
+  - product_inventory
+  - layout
+  - quality
+freshness_overrides:
+  product_inventory: 365
+  layout: 365
+  quality: 730
+event_shaped: false

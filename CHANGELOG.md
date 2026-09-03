@@ -5,6 +5,24 @@ All notable changes to Osusume are recorded here. The format follows
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Osusume is in
 super beta: minor versions can still change commands and output.
 
+## [0.3.0] - 2026-09-03
+
+### Added
+
+- A reviewed category card for cocktail bars in Spain, with Spanish and
+  Catalan search vocabulary and the guides that publish rated or awarded bar
+  entries for that country.
+
+### Fixed
+
+- Subjective taste no longer becomes a hard requirement. A request like
+  "upscale or quirky cocktail bar" was parsed into two required claims that no
+  qualified evidence can settle, so every candidate refused however good it
+  was. Character, mood, style and crowd words are now ranking signals, and an
+  either/or taste phrase is one signal rather than two requirements. A
+  concrete thing named inside a taste phrase, such as a craft cocktail menu,
+  is still a required claim.
+
 ## [0.2.0] - 2026-09-03
 
 ### Added

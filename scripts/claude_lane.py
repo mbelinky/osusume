@@ -16,7 +16,7 @@ PARSE_SCHEMA = {
     "request": {
         "ask": "str", "category": "one lowercase token, e.g. ceramics/restaurant/hotel",
         "country": "ISO2", "local_language": "ISO2",
-        "required_attributes": [{"claim_id": "snake_case", "text": "observable attribute", "claim_type": "one of: product_inventory,counter_service,layout,quality,prices,event_schedule,generic", "required": True, "_rules": "never add an opening-hours attribute (the arrival window covers hours); event_schedule is ONLY for recurring events like markets/fairs"}],
+        "required_attributes": [{"claim_id": "snake_case", "text": "objectively checkable venue fact", "claim_type": "one of: product_inventory,counter_service,layout,quality,prices,event_schedule,generic", "required": True, "_rules": "a required attribute is an objectively checkable fact about the venue: a product or drink it sells, a service it performs, a physical feature, or a schedule; it qualifies if a photo, menu, official page, or Places field could settle it yes or no; subjective character, mood, style, price feel, and crowd words are NEVER required attributes (including upscale, quirky, cosy, romantic, lively, hip, authentic, not touristy, and hidden gem), and instead go into preferences with effect_type ranking_signal; an either/or taste phrase such as upscale or quirky is one ranking signal, never two required attributes, and an OR must never be split into several requirements; a concrete thing named inside a taste phrase still counts, so craft cocktail menu is checkable as product_inventory and stays required; never add an opening-hours attribute (the arrival window covers hours); event_schedule is ONLY for recurring events like markets/fairs"}],
         "scope": {}, "arrival_start": "RFC3339 or null", "arrival_end": "RFC3339 or null",
         "exclusions": [], "preferences": [{"text": "the user preference", "effect_type": "required_attribute|ranking_signal|search_space", "effect": "what it mechanically does"}],
     },
@@ -54,8 +54,19 @@ def main() -> None:
     if slot == "parse":
         prompt = (
             "Convert this venue ask into a structured request. Respond with ONLY a JSON "
-            f"object shaped like {json.dumps(PARSE_SCHEMA)}. Decompose style analogies into "
-            "observable attributes. Use the local language of the destination country. "
+            f"object shaped like {json.dumps(PARSE_SCHEMA)}. Decompose style analogies: put their "
+            "observable, objectively checkable parts in required_attributes, put any purely subjective "
+            "parts in preferences with effect_type ranking_signal, and never make the analogy itself a claim. "
+            "Required attributes must be objectively "
+            "checkable venue facts: products or drinks sold, services performed, physical features, "
+            "or schedules. A photo, menu, official page, or Places field must be able to settle each "
+            "one yes or no. Subjective character, mood, style, price feel, and crowd words (including "
+            "upscale, quirky, cosy, romantic, lively, hip, authentic, not touristy, and hidden gem) "
+            "are NEVER required attributes; put them in preferences with effect_type ranking_signal. "
+            "Treat an either/or taste phrase such as upscale or quirky as one ranking signal, and never "
+            "split an OR into several requirements. A concrete thing inside a taste phrase still counts: "
+            "craft cocktail menu is checkable as product_inventory and stays required. Use the local "
+            "language of the destination country. "
             "Do not invent scope coordinates. Preserve caller-supplied scope. If none is supplied and the ask names an anchor place, emit scope as kind=anchor with place, mode (walk by default), and max_min (10 by default). Always include "
             "ephemeral_card (it is ignored when a reviewed card exists).\n\nInput:\n"
             + json.dumps(payload, ensure_ascii=False)
