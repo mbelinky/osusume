@@ -177,10 +177,16 @@ def test_booking_resolution_uses_lodging_type_and_rejects_non_lodging(tmp_path) 
             return super().resolve(name, request, place_type)
 
     parsed = hotel_request()
+    lodging_by_types = operational_place(name="Hotel Uno", primary_type="hotel")
+    lodging_by_types.pop("primaryType")
+    lodging_by_types["types"] = ["hotel", "lodging", "point_of_interest"]
+    non_lodging_by_types = operational_place("bar", "Hotel Bar", "bar")
+    non_lodging_by_types.pop("primaryType")
+    non_lodging_by_types["types"] = ["bar", "point_of_interest"]
     places = CapturingPlaces({
         "resolved": {
-            "Hotel Bar": operational_place("bar", "Hotel Bar", "bar"),
-            "Hotel Uno": operational_place(name="Hotel Uno", primary_type="hotel"),
+            "Hotel Bar": non_lodging_by_types,
+            "Hotel Uno": lodging_by_types,
         },
         "details": {"p1": operational_details()},
     })

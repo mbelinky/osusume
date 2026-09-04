@@ -18,6 +18,7 @@ class Candidate:
     rating: float | None = None
     review_count: int | None = None
     primary_type: str | None = None
+    types: list[str] = field(default_factory=list)
     source_weight: float = 0.0
     registry: list[dict[str, Any]] = field(default_factory=list)
     raw: dict[str, Any] = field(default_factory=dict)
@@ -44,6 +45,7 @@ class Candidate:
             rating=data.get("rating"),
             review_count=data.get("review_count") or data.get("userRatingCount"),
             primary_type=data.get("primary_type") or data.get("primaryType"),
+            types=list(data.get("types") or []),
             raw=data,
         )
 

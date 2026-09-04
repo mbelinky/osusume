@@ -396,7 +396,7 @@ class Funnel:
                     continue
                 candidate = Candidate.from_place(resolved)
                 candidate.raw["booking"] = booking
-                if candidate.primary_type not in LODGING_TYPES:
+                if candidate.primary_type not in LODGING_TYPES and LODGING_TYPES.isdisjoint(candidate.types):
                     candidate.rejection_reason = "unresolved_listing"
                     candidate.verdict = "rejected"
                     self.rejected.append(candidate)
