@@ -223,13 +223,21 @@ class ClaimLedger:
         for claim in self._claims.values():
             rows = accepted[claim.claim_id]
             allowed = ALLOWED_SOURCE_CLASSES.get(claim.claim_type, ALLOWED_SOURCE_CLASSES["generic"])
-            threshold = freshness_days.get(claim.claim_type, freshness_days["generic"])
             right_source = [
                 (item, relation)
                 for item, relation in rows
                 if item.source_class in allowed and self._kind_allowed(claim.claim_type, item)
             ]
-            fresh_by_age = [(item, relation) for item, relation in right_source if item.age_days(now) <= threshold]
+            fresh_by_age = [
+                (item, relation)
+                for item, relation in right_source
+                if item.age_days(now)
+                <= (
+                    freshness_days.get("official_social", 30)
+                    if item.source_kind == "official_social" and claim.claim_type in {"hours_at_arrival", "product_inventory"}
+                    else freshness_days.get(claim.claim_type, freshness_days["generic"])
+                )
+            ]
             fresh = list(fresh_by_age)
             if claim.claim_type in {"product_inventory", "vegetarian_options"}:
                 review_domains = {item.domain for item, relation in fresh if item.source_class == SourceClass.REVIEW and relation == "supports"}
@@ -258,7 +266,9 @@ class ClaimLedger:
             claim.qualified_evidence_ids = [item.evidence_id for item in qualified]
             if qualified:
                 best = min(qualified, key=lambda item: 99 if item.tier is None else item.tier)
-                claim.evidence_clause = f"{best.source_class.value}, dated {best.evidence_date}"
+                identity = best.metadata.get("identity_label")
+                identity_clause = f", {identity}" if identity else ""
+                claim.evidence_clause = f"{best.source_class.value}{identity_clause}, dated {best.evidence_date}"
             elif rows:
                 claim.evidence_clause = "evidence did not meet the source or freshness rule"
             else:
@@ -266,6 +276,11 @@ class ClaimLedger:
 
     @staticmethod
     def _kind_allowed(claim_type: str, evidence: EvidenceRecord) -> bool:
+        identity_label = evidence.metadata.get("identity_label")
+        if identity_label and identity_label != "exact-venue":
+            return False
+        if evidence.source_kind == "official_social" and identity_label != "exact-venue":
+            return False
         if claim_type in {"importance", "event_schedule"}:
             return evidence.source_kind in {"municipal_calendar", "consortium"}
         if claim_type == "vegetarian_options" and evidence.source_class == SourceClass.PLACES:

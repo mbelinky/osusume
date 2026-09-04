@@ -47,7 +47,7 @@ uv run osusume find "a quiet ceramics studio with weekend hours" \
   --json
 ```
 
-Use `--depth quick` to skip web evidence mining.
+Use `--depth quick` for a fast answer: it still reads the venue's own website and one linked menu page, but skips reviews, guides and press.
 
 Two other scopes replace `--near`. A route search takes `--route FROM TO`, with `--max-detour-min` to cap the true detour. An anchored search takes a named place and a travel-time budget:
 

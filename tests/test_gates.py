@@ -2,14 +2,367 @@ import json
 from copy import deepcopy
 from datetime import datetime, timezone
 
-from osusume.adapters import AdapterError, RecordedAdapters, SnapshotRecorder
+from osusume.adapters import AdapterError, RecordedAdapters, ReplayStore, SnapshotRecorder, WebAdapter
 from osusume.config import load_config
-from osusume.domain import StructuredRequest
+from osusume.domain import Candidate, StructuredRequest
 from osusume.funnel import Funnel, HoursWindowStatus, open_for_window, true_detour_minutes
 from tests.helpers import FakeModel, FakePlaces, FakeWeb, operational_details, operational_place, request
 
 
 NOW = datetime(2026, 8, 26, 10, tzinfo=timezone.utc)
+
+
+class LiteralPageModel(FakeModel):
+    def __init__(self, parsed: dict) -> None:
+        super().__init__(parsed)
+        self.judge_payloads = []
+
+    def run(self, slot: str, payload: dict) -> dict:
+        response = super().run(slot, payload)
+        if slot == "judge":
+            self.judge_payloads.append(deepcopy(payload))
+            evidence_by_id = {row["evidence_id"]: row for row in payload["ledger"]["evidence"]}
+            for judgment in response["judgments"]:
+                judgment["quote"] = evidence_by_id[judgment["evidence_id"]]["text"]
+        return response
+
+
+class QuickWeb(WebAdapter):
+    def registry(self, request: dict, card: dict, candidates: list[dict] | None = None) -> dict:
+        return {"qualifications": [], "injected": []}
+
+
+class TextHeaders(dict):
+    def get_content_charset(self) -> str:
+        return "utf-8"
+
+
+class TextResponse:
+    def __init__(self, url: str, text: str) -> None:
+        self.url = url
+        self.body = text.encode()
+        self.headers = TextHeaders({"Content-Type": "text/html; charset=utf-8"})
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args) -> None:
+        return None
+
+    def read(self, size: int = -1) -> bytes:
+        return self.body[:size]
+
+    def geturl(self) -> str:
+        return self.url
+
+
+def run_quick(tmp_path, monkeypatch, *, website: str | None, fetcher):
+    parsed = request([{"claim_id": "product_inventory", "claim_type": "product_inventory", "text": "Craft cocktails are served"}])
+    details = operational_details()
+    if website:
+        details["en"]["websiteUri"] = website
+    fixture = {
+        "sweep": [operational_place(primary_type="bar")],
+        "details": {"p1": details},
+    }
+    monkeypatch.setattr("osusume.adapters.urlopen", fetcher)
+    config = load_config()
+    config["paths"]["drafts"] = tmp_path
+    model = LiteralPageModel(parsed)
+    raw_input = {"ask": parsed["ask"], "card": "cocktail_bar", "depth": "quick"}
+    output = Funnel(
+        config,
+        RecordedAdapters(FakePlaces(fixture), QuickWeb("https://example.test"), model),
+        now=NOW,
+    ).run(raw_input)
+    return output, model, parsed, fixture, config, raw_input
+
+
+def test_quick_run_supports_product_from_official_site_and_clears(monkeypatch, tmp_path) -> None:
+    fetches = []
+
+    def fetcher(http_request, timeout):
+        fetches.append(http_request.full_url)
+        return TextResponse(http_request.full_url, "<html><body>Our craft cocktail menu includes a house martini.</body></html>")
+
+    output, model, _, _, _, _ = run_quick(
+        tmp_path,
+        monkeypatch,
+        website="https://venue.example/",
+        fetcher=fetcher,
+    )
+
+    candidate = output["candidates"][0]
+    product = next(claim for claim in candidate["claims"] if claim["claim_id"] == "product_inventory")
+    official = next(row for row in model.judge_payloads[0]["ledger"]["evidence"] if row["claim_id"] == "product_inventory")
+    assert fetches == ["https://venue.example/"]
+    assert product["status"] == "supported"
+    assert official["source_kind"] == "official_site"
+    assert official["source_class"] == "official"
+    assert candidate["verdict"] == "cleared"
+
+
+def test_quick_run_without_website_keeps_product_unknown(monkeypatch, tmp_path) -> None:
+    def unexpected_fetch(http_request, timeout):
+        raise AssertionError("no website should mean no fetch")
+
+    output, _, _, _, _, _ = run_quick(tmp_path, monkeypatch, website=None, fetcher=unexpected_fetch)
+
+    product = next(claim for claim in output["candidates"][0]["claims"] if claim["claim_id"] == "product_inventory")
+    assert product["status"] == "unknown"
+    assert output["candidates"][0]["verdict"] == "unconfirmed"
+
+
+def test_quick_run_skips_failed_official_fetch(monkeypatch, tmp_path) -> None:
+    def failed_fetch(http_request, timeout):
+        raise OSError("site unavailable")
+
+    output, _, _, _, _, _ = run_quick(
+        tmp_path,
+        monkeypatch,
+        website="https://venue.example/",
+        fetcher=failed_fetch,
+    )
+
+    product = next(claim for claim in output["candidates"][0]["claims"] if claim["claim_id"] == "product_inventory")
+    assert product["status"] == "unknown"
+    assert output["candidates"][0]["verdict"] == "unconfirmed"
+
+
+def test_recorded_quick_run_replays_without_fetching_network(monkeypatch, tmp_path) -> None:
+    parsed = request([{"claim_id": "product_inventory", "claim_type": "product_inventory", "text": "Craft cocktails are served"}])
+    details = operational_details()
+    details["en"]["websiteUri"] = "https://venue.example/"
+    fixture = {"sweep": [operational_place(primary_type="bar")], "details": {"p1": details}}
+    config = load_config()
+    config["paths"]["drafts"] = tmp_path / "drafts"
+    raw_input = {"ask": parsed["ask"], "card": "cocktail_bar", "depth": "quick"}
+    recorder = SnapshotRecorder(tmp_path / "run")
+    monkeypatch.setattr(
+        "osusume.adapters.urlopen",
+        lambda http_request, timeout: TextResponse(
+            http_request.full_url,
+            "<html><body>Our craft cocktail menu includes a house martini.</body></html>",
+        ),
+    )
+    recorded = Funnel(
+        config,
+        RecordedAdapters(
+            FakePlaces(fixture),
+            QuickWeb("https://example.test"),
+            LiteralPageModel(parsed),
+            recorder=recorder,
+        ),
+        now=recorder.run_at,
+    ).run(raw_input)
+    recorder.finish(raw_input, recorded)
+
+    def unexpected_fetch(http_request, timeout):
+        raise AssertionError("replay touched the network")
+
+    monkeypatch.setattr("osusume.adapters.urlopen", unexpected_fetch)
+    replayed = Funnel(
+        config,
+        RecordedAdapters(None, None, None, replay=ReplayStore(tmp_path / "run")),
+        now=recorder.run_at,
+    ).run(raw_input)
+
+    assert replayed == recorded
+
+
+def test_full_depth_reads_official_pages_first_dedupes_search_and_reuses_details() -> None:
+    parsed = request()
+    details = operational_details()
+    details["en"]["websiteUri"] = "https://venue.example/"
+    fixture = {
+        "details": {"p1": details},
+        "official_pages": {
+            "p1": {
+                "pages": [
+                    {
+                        "claim_id": "product_inventory",
+                        "url": "https://venue.example/",
+                        "text": "Official home page",
+                        "identity_label": "exact-venue",
+                    },
+                    {
+                        "claim_id": "product_inventory",
+                        "url": "https://venue.example/menu",
+                        "text": "Official menu page",
+                        "identity_label": "exact-venue",
+                    },
+                ],
+                "evidence": [],
+            }
+        },
+        "mined": {
+            "p1": {
+                "pages": [
+                    {
+                        "claim_id": "quality",
+                        "url": "https://venue.example/menu",
+                        "text": "Duplicate search page",
+                    },
+                    {
+                        "claim_id": "quality",
+                        "url": "https://press.example/review",
+                        "text": "Unique search page",
+                    },
+                ],
+                "evidence": [],
+            }
+        },
+    }
+
+    class CountingPlaces(FakePlaces):
+        def __init__(self, current_fixture: dict) -> None:
+            super().__init__(current_fixture)
+            self.detail_calls = 0
+
+        def details(self, place_id: str, local_language: str) -> dict:
+            self.detail_calls += 1
+            return super().details(place_id, local_language)
+
+    class CountingWeb(FakeWeb):
+        def __init__(self, current_fixture: dict) -> None:
+            super().__init__(current_fixture)
+            self.official_calls = 0
+
+        def official_pages(self, candidate: dict, current_details: dict) -> dict:
+            self.official_calls += 1
+            return super().official_pages(candidate, current_details)
+
+    places = CountingPlaces(fixture)
+    web = CountingWeb(fixture)
+    candidate = Candidate.from_place(operational_place())
+    engine = Funnel(load_config(), RecordedAdapters(places, web, FakeModel(parsed)), now=NOW)
+    structured = StructuredRequest.from_dict(parsed)
+
+    mined = engine.stage3_mine([candidate], structured, {}, "full")
+
+    assert web.official_calls == 1
+    assert [page["text"] for page in mined["p1"]["pages"]] == [
+        "Official home page",
+        "Official menu page",
+        "Unique search page",
+    ]
+    assert candidate.detail_payload == details
+
+    engine.stage4_verify([candidate], structured, {}, mined)
+
+    assert places.detail_calls == 1
+    assert candidate.detail_payload is None
+
+
+def test_official_product_type_page_supports_custom_and_card_claims() -> None:
+    candidate = Candidate.from_place(operational_place(primary_type="bar"))
+    candidate.details = {"websiteUri": "https://venue.example/"}
+    page = {
+        "claim_id": "product_inventory",
+        "url": "https://venue.example/menu",
+        "text": "Our craft cocktail menu includes a house martini.",
+        "quote": "craft cocktail menu",
+        "retrieved_at": "2026-08-26T10:00:00+00:00",
+        "source_kind": "official",
+        "identity_label": "exact-venue",
+    }
+    card = {"load_bearing_claims": ["product_inventory"]}
+    engine = Funnel(load_config(), RecordedAdapters(None, None, None), now=NOW)
+
+    custom_ledger = engine._build_ledger(
+        candidate,
+        StructuredRequest.from_dict(
+            request(
+                [
+                    {
+                        "claim_id": "craft_cocktail_menu",
+                        "claim_type": "product_inventory",
+                        "text": "A craft cocktail menu is available",
+                    }
+                ]
+            )
+        ),
+        card,
+        {"pages": [page]},
+        operational_details()["en"],
+        None,
+        None,
+    )
+    custom_evidence = next(row for row in custom_ledger.evidence if row.claim_id == "craft_cocktail_menu")
+    custom_ledger.compute(
+        [
+            {
+                "claim_id": "craft_cocktail_menu",
+                "evidence_id": custom_evidence.evidence_id,
+                "quote": "craft cocktail menu",
+                "entails": True,
+            }
+        ],
+        load_config()["freshness_days"],
+        now=NOW,
+    )
+
+    card_ledger = engine._build_ledger(
+        candidate,
+        StructuredRequest.from_dict(request()),
+        card,
+        {"pages": [page]},
+        operational_details()["en"],
+        None,
+        None,
+    )
+    card_evidence = next(row for row in card_ledger.evidence if row.claim_id == "product_inventory")
+    card_ledger.compute(
+        [
+            {
+                "claim_id": "product_inventory",
+                "evidence_id": card_evidence.evidence_id,
+                "quote": "craft cocktail menu",
+                "entails": True,
+            }
+        ],
+        load_config()["freshness_days"],
+        now=NOW,
+    )
+
+    assert next(claim for claim in custom_ledger.claims if claim.claim_id == "craft_cocktail_menu").status.value == "supported"
+    assert next(claim for claim in card_ledger.claims if claim.claim_id == "product_inventory").status.value == "supported"
+
+
+def test_recorded_full_run_replays_without_fetching_network(monkeypatch, tmp_path) -> None:
+    parsed = request()
+    details = operational_details()
+    details["en"]["websiteUri"] = "https://venue.example/"
+    fixture = {
+        "sweep": [operational_place()],
+        "details": {"p1": details},
+        "official_pages": {"p1": {"pages": [], "evidence": []}},
+        "mined": {"p1": {"pages": [], "evidence": []}},
+    }
+    config = load_config()
+    config["paths"]["drafts"] = tmp_path / "drafts"
+    raw_input = {"ask": parsed["ask"], "card": "salumeria", "depth": "full"}
+    recorder = SnapshotRecorder(tmp_path / "run")
+    recorded = Funnel(
+        config,
+        RecordedAdapters(FakePlaces(fixture), FakeWeb(fixture), LiteralPageModel(parsed), recorder=recorder),
+        now=recorder.run_at,
+    ).run(raw_input)
+    recorder.finish(raw_input, recorded)
+    snapshot = json.loads((tmp_path / "run" / "run.json").read_text())
+    assert any(call["adapter"] == "web" and call["operation"] == "official_pages" for call in snapshot["calls"])
+
+    monkeypatch.setattr(
+        "osusume.adapters.urlopen",
+        lambda *args, **kwargs: (_ for _ in ()).throw(AssertionError("replay touched the network")),
+    )
+    replayed = Funnel(
+        config,
+        RecordedAdapters(None, None, None, replay=ReplayStore(tmp_path / "run")),
+        now=recorder.run_at,
+    ).run(raw_input)
+
+    assert replayed == recorded
 
 
 class FailingDirectionsPlaces(FakePlaces):

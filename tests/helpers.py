@@ -42,6 +42,9 @@ class FakeWeb:
     def mine(self, candidate: dict, request: dict, card: dict) -> dict:
         return deepcopy(self.fixture.get("mined", {}).get(candidate["place_id"], {"pages": [], "evidence": []}))
 
+    def official_pages(self, candidate: dict, details: dict) -> dict:
+        return deepcopy(self.fixture.get("official_pages", {}).get(candidate["place_id"], {"pages": [], "evidence": []}))
+
 
 class FakeModel:
     def __init__(self, request: dict) -> None:

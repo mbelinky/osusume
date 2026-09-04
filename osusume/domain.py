@@ -24,6 +24,7 @@ class Candidate:
     rejection_reason: str | None = None
     minutes: float | None = None
     details: dict[str, Any] = field(default_factory=dict)
+    detail_payload: dict[str, Any] | None = field(default=None, repr=False)
     evidence: list[Any] = field(default_factory=list)
     ledger: Any = None
     verdict: str | None = None
@@ -49,6 +50,7 @@ class Candidate:
     def to_dict(self) -> dict[str, Any]:
         result = asdict(self)
         result.pop("ledger", None)
+        result.pop("detail_payload", None)
         result["evidence"] = [item.to_dict() if hasattr(item, "to_dict") else item for item in self.evidence]
         return result
 

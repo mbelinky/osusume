@@ -110,7 +110,7 @@ def _run_find(args: argparse.Namespace, config: dict[str, Any]) -> int:
         run_at = recorder.run_at
         adapters = RecordedAdapters(
             GoplacesAdapter(),
-            WebAdapter(config["web"]["endpoint"]),
+            WebAdapter(config["web"]["endpoint"], retrieval=config["retrieval"]),
             ModelAdapter(config),
             recorder=recorder,
         )

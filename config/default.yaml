@@ -5,6 +5,7 @@ models:
   commands:
     default: [codex, exec, --model, "{model}", --json, -]
 freshness_days:
+  official_social: 30
   operational_status: 0
   hours_at_arrival: 0
   detour: 0
@@ -23,3 +24,7 @@ paths:
   runs: runs
 web:
   endpoint: https://api.exa.ai/search
+retrieval:
+  max_queries_per_candidate: 8
+  max_results_per_query: 5
+  max_pages_per_run: 60

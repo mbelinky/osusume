@@ -5,6 +5,33 @@ All notable changes to Osusume are recorded here. The format follows
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Osusume is in
 super beta: minor versions can still change commands and output.
 
+## [0.5.0] - 2026-09-04
+
+### Added
+
+- The fast pass (`--depth quick`) now reads the venue's own website and one
+  linked menu page, at most two fetches per candidate, as official evidence.
+  A quick answer can settle a drinks list or a product claim from the venue's
+  own pages; it still skips reviews, guides and press. Full depth is
+  unchanged.
+- Identity binding for web evidence, ported from the trip planner's research
+  module: a page supports a venue claim only when it proves it is that venue
+  (Google place id, coordinates within 150 m, the full address, a matching
+  phone number, or the venue's own domain). A page that only shares the name
+  and neighbourhood is area-level and cannot support a claim; a page that
+  contradicts the venue is dropped. The evidence clause shows the label.
+- The venue's own Instagram or Facebook page counts as official
+  (`official_social`), fresh for 30 days on hours and product claims, and
+  only when it passes the identity check.
+- Retrieval caps in `config/default.yaml` (`retrieval.max_queries_per_candidate`,
+  `max_results_per_query`, `max_pages_per_run`); a run that hits a cap says
+  so in the answer.
+
+### Changed
+
+- Evidence queries use the locality from the venue address when the scope
+  has no city, and add the local-language name as an alias.
+
 ## [0.4.0] - 2026-09-04
 
 ### Added

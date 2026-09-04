@@ -1,10 +1,10 @@
 [project]
 name = "osusume"
-version = "0.4.0"
+version = "0.5.0"
 description = "Evidence-gated recommendations for real-world places and events"
 readme = "README.md"
-requires-python = ">=3.12"
 license = "MIT"
+requires-python = ">=3.12"
 dependencies = ["PyYAML>=6.0,<7"]
 
 [project.urls]

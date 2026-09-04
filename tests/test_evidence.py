@@ -7,6 +7,7 @@ from osusume.evidence import Claim, ClaimLedger, ClaimStatus, EvidenceRecord, So
 
 NOW = datetime(2026, 8, 26, 10, tzinfo=timezone.utc)
 FRESHNESS = {
+    "official_social": 30,
     "operational_status": 0,
     "hours_at_arrival": 0,
     "detour": 0,
@@ -104,3 +105,48 @@ def test_frozen_ledger_rejects_new_claims_and_evidence() -> None:
         ledger.add_claim(Claim("late", "Late", "layout"))
     with pytest.raises(RuntimeError, match="frozen"):
         ledger.add_evidence(evidence("late", "photo", "2026-08-20T00:00:00+00:00"))
+
+
+@pytest.mark.parametrize(
+    ("date", "expected"),
+    [
+        ("2026-07-27T00:00:00+00:00", ClaimStatus.SUPPORTED),
+        ("2026-07-26T00:00:00+00:00", ClaimStatus.STALE),
+    ],
+)
+def test_exact_official_social_has_thirty_day_freshness_for_hours(date, expected) -> None:
+    row = EvidenceRecord(
+        "social",
+        "claim",
+        "official_social",
+        "https://instagram.com/casauno",
+        "2026-08-26T10:00:00+00:00",
+        date,
+        "Open every day from 10 to 8",
+        "Open every day",
+        metadata={"identity_label": "exact-venue", "identity_reasons": ["phone"]},
+    )
+    ledger = ledger_for("hours_at_arrival", [row])
+
+    ledger.compute(judgments([row]), FRESHNESS, now=NOW)
+
+    assert ledger.claims[0].status == expected
+
+
+def test_unbound_social_page_cannot_support_a_claim() -> None:
+    row = EvidenceRecord(
+        "social",
+        "claim",
+        "official_social",
+        "https://instagram.com/random",
+        "2026-08-26T10:00:00+00:00",
+        "2026-08-20T00:00:00+00:00",
+        "Open every day",
+        "Open every day",
+        metadata={"identity_label": "area-level"},
+    )
+    ledger = ledger_for("hours_at_arrival", [row])
+
+    ledger.compute(judgments([row]), FRESHNESS, now=NOW)
+
+    assert ledger.claims[0].status == ClaimStatus.WRONG_SOURCE

@@ -8,7 +8,7 @@ from enum import Enum
 from typing import Any
 from urllib.parse import urlparse
 
-from .adapters import AdapterError, RecordedAdapters, anchor_radius_m
+from .adapters import AdapterError, RecordedAdapters, _candidate_details, _identity_label, _is_aggregator_domain, anchor_radius_m
 from .cards import find_card, save_ephemeral_card, validate_card
 from .domain import Candidate, StructuredRequest, utc_now
 from .evidence import Claim, ClaimLedger, ClaimStatus, EvidenceRecord, registrable_domain
@@ -209,14 +209,29 @@ def true_detour_minutes(direct: dict, first_leg: dict, second_leg: dict) -> floa
 
 
 def _page_kind(page: dict, candidate: Candidate, card: dict) -> tuple[str, bool]:
-    explicit = page.get("source_kind")
-    if explicit and explicit != "generic_web":
-        return explicit, bool(page.get("roundup"))
     url = page.get("url", "")
     domain = registrable_domain(url)
-    own_url = candidate.details.get("websiteUri") or candidate.details.get("website") or ""
-    if own_url and domain == registrable_domain(own_url):
+    if domain in {"instagram.com", "facebook.com"}:
+        reasons = set(page.get("identity_reasons", []))
+        if page.get("identity_label") == "exact-venue" and reasons.intersection({"official-link", "address", "phone"}):
+            return "official_social", False
+        return "travel_blog", False
+    own_details = _candidate_details({"details": candidate.details})
+    own_url = own_details.get("websiteUri") or own_details.get("website") or ""
+    own_domain = registrable_domain(own_url)
+    if own_url and domain == own_domain:
+        if _is_aggregator_domain(own_domain):
+            return "generic_web", bool(page.get("roundup"))
         return "official_site", False
+    explicit = page.get("source_kind")
+    if explicit in {"official", "official_site", "official_menu", "official_social"}:
+        if not page.get("_mined_page"):
+            return explicit, bool(page.get("roundup"))
+        if "official-domain" in page.get("identity_reasons", []):
+            return "official_site", False
+        return "travel_blog", False
+    if explicit and explicit != "generic_web":
+        return explicit, bool(page.get("roundup"))
     lowered = f"{url} {page.get('title', '')}".lower()
     if any(term in lowered for term in ("glovo", "deliveroo", "ubereats", "justeat")):
         return "delivery_app", False
@@ -249,6 +264,7 @@ class Funnel:
         self.adapters = adapters
         self.now = now or utc_now()
         self.rejected: list[Candidate] = []
+        self.search_budget_exhausted = False
 
     def _call(self, adapter: str, operation: str, request: dict, fn) -> Any:
         return self.adapters.call(adapter, operation, request, fn)
@@ -339,9 +355,10 @@ class Funnel:
         return StructuredRequest.from_dict(parsed)
 
     def stage2_qualify(self, candidates: list[Candidate], request: StructuredRequest, card: dict) -> list[Candidate]:
-        candidate_rows = [{"place_id": candidate.place_id, "name": candidate.name} for candidate in candidates]
+        candidate_rows = [{**candidate.raw, "place_id": candidate.place_id, "name": candidate.name} for candidate in candidates]
         payload = {"request": request.to_dict(), "card": card, "candidates": candidate_rows}
         response = self._call("web", "registry", payload, lambda: self.adapters.web.registry(request.to_dict(), card, candidate_rows))
+        self.search_budget_exhausted = self.search_budget_exhausted or bool(response.get("budget_exhausted"))
         by_id = {candidate.place_id: candidate for candidate in candidates}
         weights = card.get("sources", {}).get(request.country, {}) or {}
         for row in response.get("qualifications", []):
@@ -383,15 +400,81 @@ class Funnel:
 
     def stage3_mine(self, candidates: list[Candidate], request: StructuredRequest, card: dict, depth: str) -> dict[str, dict]:
         if depth == "quick":
-            return {candidate.place_id: {"pages": [], "evidence": []} for candidate in candidates}
+            mined = {}
+            for candidate in candidates[:5]:
+                detail_request = {"place_id": candidate.place_id, "local_language": request.local_language}
+                details = self._call(
+                    "goplaces",
+                    "details",
+                    detail_request,
+                    lambda current=candidate: self.adapters.places.details(current.place_id, request.local_language),
+                )
+                candidate.detail_payload = details
+                payload = {
+                    "candidate": {"place_id": candidate.place_id, "name": candidate.name, "details": details},
+                    "details": details,
+                }
+                mined[candidate.place_id] = self._call(
+                    "web",
+                    "official_pages",
+                    payload,
+                    lambda current=candidate, current_details=details: self.adapters.web.official_pages(
+                        {"place_id": current.place_id, "name": current.name, "details": current_details}, current_details
+                    ),
+                )
+                self.search_budget_exhausted = self.search_budget_exhausted or bool(
+                    mined[candidate.place_id].get("budget_exhausted")
+                )
+            return mined
         mined = {}
         for candidate in candidates[:5]:
-            payload = {"candidate": {"place_id": candidate.place_id, "name": candidate.name}, "request": request.to_dict(), "card": card}
-            mined[candidate.place_id] = self._call(
+            replay = self.adapters.replay
+            next_call = replay.calls[replay.index] if replay and replay.index < len(replay.calls) else {}
+            legacy_replay = next_call.get("adapter") == "web" and next_call.get("operation") == "mine"
+            details = None
+            if not legacy_replay:
+                detail_request = {"place_id": candidate.place_id, "local_language": request.local_language}
+                details = self._call(
+                    "goplaces",
+                    "details",
+                    detail_request,
+                    lambda current=candidate: self.adapters.places.details(current.place_id, request.local_language),
+                )
+                candidate.detail_payload = details
+            web_candidate = {"place_id": candidate.place_id, "name": candidate.name}
+            if details is not None:
+                web_candidate["details"] = details
+            official = {"pages": [], "evidence": [], "budget_exhausted": False}
+            next_call = replay.calls[replay.index] if replay and replay.index < len(replay.calls) else {}
+            has_recorded_official_call = next_call.get("adapter") == "web" and next_call.get("operation") == "official_pages"
+            if replay is None or has_recorded_official_call:
+                official_payload = {"candidate": web_candidate, "details": details or {}}
+                official = self._call(
+                    "web",
+                    "official_pages",
+                    official_payload,
+                    lambda current_candidate=web_candidate, current_details=details or {}: self.adapters.web.official_pages(
+                        current_candidate, current_details
+                    ),
+                )
+            payload = {"candidate": web_candidate, "request": request.to_dict(), "card": card}
+            searched = self._call(
                 "web",
                 "mine",
                 payload,
-                lambda current=candidate: self.adapters.web.mine({"place_id": current.place_id, "name": current.name}, request.to_dict(), card),
+                lambda current_candidate=web_candidate: self.adapters.web.mine(current_candidate, request.to_dict(), card),
+            )
+            official_pages = list(official.get("pages", []))
+            official_urls = {page.get("url") for page in official_pages if page.get("url")}
+            search_pages = [page for page in searched.get("pages", []) if page.get("url") not in official_urls]
+            mined[candidate.place_id] = {
+                **searched,
+                "pages": [*official_pages, *search_pages],
+                "evidence": [*official.get("evidence", []), *searched.get("evidence", [])],
+                "budget_exhausted": bool(official.get("budget_exhausted") or searched.get("budget_exhausted")),
+            }
+            self.search_budget_exhausted = self.search_budget_exhausted or bool(
+                mined[candidate.place_id].get("budget_exhausted")
             )
         return mined
 
@@ -510,30 +593,59 @@ class Funnel:
         for page in mined.get("pages", []):
             if not page.get("claim_id"):
                 continue
+            page = dict(page)
+            page["_mined_page"] = True
+            if not page.get("identity_label"):
+                identity_candidate = {
+                    "place_id": candidate.place_id,
+                    "name": candidate.name,
+                    "details": candidate.details,
+                }
+                label, reasons = _identity_label(page, identity_candidate)
+                page["identity_label"] = label
+                page["identity_reasons"] = reasons
+            if page["identity_label"] != "exact-venue":
+                continue
             rows.append(page)
         for index, row in enumerate(rows):
-            claim_id = row.get("claim_id")
-            if claim_id not in {claim.claim_id for claim in ledger.claims}:
+            row_claim_id = row.get("claim_id")
+            exact_claim = next((claim for claim in ledger.claims if claim.claim_id == row_claim_id), None)
+            type_claims = [claim for claim in ledger.claims if claim.claim_type == row_claim_id]
+            target_claims = ([exact_claim] if exact_claim else []) + [claim for claim in type_claims if claim is not exact_claim]
+            if not target_claims:
                 continue
             kind, roundup = _page_kind(row, candidate, card)
             text = row.get("text", "")
             fetched = row.get("retrieved_at") or stamp
             dated = row.get("published_date") or row.get("evidence_date") or fetched
-            ledger.add_evidence(
-                EvidenceRecord(
-                    evidence_id=row.get("evidence_id", f"web_{index}"),
-                    claim_id=claim_id,
-                    source_kind=kind,
-                    url=row.get("url", ""),
-                    fetched_at=fetched,
-                    evidence_date=dated,
-                    text=text,
-                    quote=row.get("quote", ""),
-                    polarity=row.get("polarity", "supports"),
-                    roundup=roundup,
-                    metadata={"title": row.get("title", "")},
+            base_evidence_id = row.get("evidence_id", f"web_{index}")
+            for target_index, claim in enumerate(target_claims):
+                evidence_id = base_evidence_id if target_index == 0 else f"{base_evidence_id}_{claim.claim_id}"
+                ledger.add_evidence(
+                    EvidenceRecord(
+                        evidence_id=evidence_id,
+                        claim_id=claim.claim_id,
+                        source_kind=kind,
+                        url=row.get("url", ""),
+                        fetched_at=fetched,
+                        evidence_date=dated,
+                        text=text,
+                        quote=row.get("quote", ""),
+                        polarity=row.get("polarity", "supports"),
+                        roundup=roundup,
+                        metadata={
+                            "title": row.get("title", ""),
+                            **(
+                                {
+                                    "identity_label": row["identity_label"],
+                                    "identity_reasons": row.get("identity_reasons", []),
+                                }
+                                if row.get("_mined_page")
+                                else {}
+                            ),
+                        },
+                    )
                 )
-            )
         for photo_index, row in enumerate(mined.get("photo_responses", [])):
             metadata = row.get("metadata", {}) if isinstance(row, dict) else {}
             if metadata.get("observed_text"):
@@ -576,7 +688,11 @@ class Funnel:
             if _excluded(candidate, request.exclusions):
                 continue
             payload = {"place_id": candidate.place_id, "local_language": request.local_language}
-            detail_payload = self._call("goplaces", "details", payload, lambda current=candidate: self.adapters.places.details(current.place_id, request.local_language))
+            detail_payload = candidate.detail_payload
+            if detail_payload is None:
+                detail_payload = self._call("goplaces", "details", payload, lambda current=candidate: self.adapters.places.details(current.place_id, request.local_language))
+            else:
+                candidate.detail_payload = None
             en = _detail_body(detail_payload.get("en", {}))
             local = _detail_body(detail_payload.get("local", {}))
             candidate.details = dict(en)
@@ -812,6 +928,8 @@ class Funnel:
             human_lines.append("Nothing clears the evidence bar.")
         for preference in request.preferences:
             human_lines.append(f"Preference: {preference.get('directive', '')} -> {preference['effect']}")
+        if self.search_budget_exhausted:
+            human_lines.append("Search budget reached; evidence may be incomplete.")
         widen_options = [
             {
                 "anchor": "increase the minutes budget",
@@ -856,6 +974,7 @@ class Funnel:
             "candidates": output_candidates,
             "refusal": refusal,
             "reason": refusal_reason if refusal else None,
+            "budget_exhausted": self.search_budget_exhausted,
             "widen_options": widen_options if refusal else [],
             "widen_candidates": widen_candidates,
             "human": "\n".join(human_lines),
