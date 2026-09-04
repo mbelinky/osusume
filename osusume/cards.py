@@ -19,6 +19,7 @@ EPHEMERAL_ALLOWED = {
     "event_shaped",
     "reviewed",
     "auto_written",
+    "sweep_source",
 }
 
 
@@ -31,6 +32,9 @@ def validate_card(card: dict[str, Any], defaults: dict[str, int]) -> dict[str, A
     missing = sorted(required - card.keys())
     if missing:
         raise CardValidationError(f"missing card fields: {', '.join(missing)}")
+    sweep_source = card.get("sweep_source", "places")
+    if sweep_source not in {"places", "booking"}:
+        raise CardValidationError("sweep_source must be places or booking")
     reviewed = bool(card.get("reviewed"))
     if not reviewed:
         extra = sorted(set(card) - EPHEMERAL_ALLOWED)

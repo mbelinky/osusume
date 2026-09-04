@@ -68,6 +68,8 @@ class StructuredRequest:
     max_detour_min: float | None = None
     exclusions: tuple[str, ...] = ()
     preferences: tuple[dict[str, str], ...] = ()
+    stay: dict[str, Any] | None = None
+    hotel_filters: dict[str, Any] = field(default_factory=dict)
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "StructuredRequest":
@@ -83,6 +85,8 @@ class StructuredRequest:
             max_detour_min=data.get("max_detour_min"),
             exclusions=tuple(data.get("exclusions", ())),
             preferences=tuple(data.get("preferences", ())),
+            stay=data.get("stay"),
+            hotel_filters=data.get("hotel_filters") or {},
         )
 
     def to_dict(self) -> dict[str, Any]:

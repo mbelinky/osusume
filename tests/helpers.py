@@ -10,7 +10,7 @@ class FakePlaces:
     def sweep(self, request: dict, card: dict) -> dict:
         return {"candidates": deepcopy(self.fixture.get("sweep", []))}
 
-    def resolve(self, name: str, request: dict) -> dict | None:
+    def resolve(self, name: str, request: dict, place_type: str | None = None) -> dict | None:
         return deepcopy(self.fixture.get("resolved", {}).get(name))
 
     def details(self, place_id: str, local_language: str) -> dict:

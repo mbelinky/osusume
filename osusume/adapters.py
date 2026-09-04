@@ -259,6 +259,99 @@ def _dedupe_places(rows: list[dict]) -> list[dict]:
     return unique
 
 
+def _booking_list(payload: Any) -> list[dict]:
+    if isinstance(payload, list):
+        return payload
+    if isinstance(payload, dict):
+        for key in ("hotels", "results", "data"):
+            rows = payload.get(key)
+            if isinstance(rows, list):
+                return rows
+            if isinstance(rows, dict):
+                nested = _booking_list(rows)
+                if nested:
+                    return nested
+    return []
+
+
+class BookingAdapter:
+    """Subprocess adapter for the authenticated Booking.com CLI."""
+
+    def __init__(self, executable: str | None = None) -> None:
+        self.executable = executable or str(Path.home() / ".local/bin/booking-com-pp-cli")
+
+    def _run(self, args: list[str]) -> Any:
+        return _json_subprocess([self.executable, *args, "--json"])
+
+    @staticmethod
+    def _query(request: dict) -> str:
+        scope = request.get("scope", {})
+        if scope.get("kind") == "anchor":
+            return str(scope.get("place", ""))
+        if scope.get("kind") == "route":
+            return str(scope.get("to", ""))
+        return str(scope.get("city", ""))
+
+    @staticmethod
+    def _filter_codes(filters: dict) -> list[str]:
+        codes = []
+        minimum = filters.get("min_stars")
+        maximum = filters.get("max_stars")
+        if minimum is not None or maximum is not None:
+            first = max(1, int(float(minimum or 1)))
+            last = min(5, int(float(maximum or 5)))
+            codes.extend(f"class={stars}" for stars in range(first, last + 1))
+        if filters.get("min_score") is not None:
+            codes.append(f"review_score={int(float(filters['min_score']) * 10)}")
+        if filters.get("pets"):
+            codes.append("hotelfacility=4")
+        if filters.get("breakfast"):
+            codes.append("mealplan=1")
+        if filters.get("free_cancellation"):
+            codes.append("fc=2")
+        return codes
+
+    def sweep(self, request: dict, card: dict) -> dict[str, Any]:
+        stay = request.get("stay") or {}
+        check_in = stay.get("check_in")
+        check_out = stay.get("check_out")
+        if not check_in or not check_out:
+            raise AdapterError("stay_dates_missing")
+        args = [
+            "hotels",
+            "list",
+            "--query",
+            self._query(request),
+            "--checkin",
+            str(check_in),
+            "--checkout",
+            str(check_out),
+            "--adults",
+            str(int(stay.get("adults", 2))),
+            "--currency",
+            "EUR",
+        ]
+        codes = self._filter_codes(request.get("hotel_filters") or {})
+        if codes:
+            args.extend(["--nflt", ";".join(codes)])
+        if request.get("scope", {}).get("kind") == "anchor":
+            args.extend(["--order", "distance_from_search"])
+        payload = self._run(args)
+        return {
+            "candidates": [
+                {"name": row.get("name", ""), "raw": {"booking": row}}
+                for row in _booking_list(payload)
+            ],
+            "raw_calls": [{"command": args, "response": payload}],
+        }
+
+    def details(self, country: str, slug: str) -> dict[str, Any]:
+        payload = self._run(["hotels", "get", country, slug])
+        if not isinstance(payload, dict):
+            raise AdapterError("Booking hotel details must be a JSON object")
+        return payload
+
+
 class GoplacesAdapter:
     """Exact subprocess adapter for the installed goplaces CLI."""
 
@@ -323,9 +416,11 @@ class GoplacesAdapter:
             "type_success_count": type_success_count,
         }
 
-    def resolve(self, name: str, request: dict) -> dict | None:
+    def resolve(self, name: str, request: dict, place_type: str | None = None) -> dict | None:
         scope = request.get("scope", {})
         args = ["search", name, "--limit", "1"]
+        if place_type:
+            args.extend(["--type", place_type])
         if scope.get("kind") in {"near", "anchor"} and scope.get("lat") is not None and scope.get("lng") is not None:
             radius_m = anchor_radius_m(scope) if scope.get("kind") == "anchor" else int(scope.get("radius_km", 5) * 1000)
             args.extend(["--lat", str(scope["lat"]), "--lng", str(scope["lng"]), "--radius-m", str(radius_m)])
@@ -784,10 +879,19 @@ class ReplayStore:
 
 
 class RecordedAdapters:
-    def __init__(self, places: Any, web: Any, model: Any, recorder: SnapshotRecorder | None = None, replay: ReplayStore | None = None) -> None:
+    def __init__(
+        self,
+        places: Any,
+        web: Any,
+        model: Any,
+        recorder: SnapshotRecorder | None = None,
+        replay: ReplayStore | None = None,
+        booking: Any = None,
+    ) -> None:
         self.places = places
         self.web = web
         self.model = model
+        self.booking = booking
         self.recorder = recorder
         self.replay = replay
 

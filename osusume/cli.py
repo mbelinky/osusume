@@ -9,7 +9,7 @@ from typing import Any
 
 import yaml
 
-from .adapters import GoplacesAdapter, ModelAdapter, RecordedAdapters, ReplayStore, SnapshotRecorder, WebAdapter
+from .adapters import BookingAdapter, GoplacesAdapter, ModelAdapter, RecordedAdapters, ReplayStore, SnapshotRecorder, WebAdapter
 from .cards import load_card, promote_card
 from .config import load_config, public_config, set_config_value
 from .funnel import Funnel
@@ -44,6 +44,9 @@ def _parser() -> argparse.ArgumentParser:
     find.add_argument("--max-min", type=float, default=10.0)
     find.add_argument("--mode", choices=("walk", "drive", "bicycle", "transit"), default="walk")
     find.add_argument("--when")
+    find.add_argument("--check-in")
+    find.add_argument("--check-out")
+    find.add_argument("--adults", type=int, help="number of adults (default: 2)")
     find.add_argument("--max-detour-min", type=float)
     find.add_argument("--prefs", action="append", default=[])
     find.add_argument("--exclude", action="append", default=[])
@@ -79,7 +82,7 @@ def _raw_input(args: argparse.Namespace) -> dict[str, Any]:
         scope = {"kind": "route", "from": args.route[0], "to": args.route[1], "radius_km": args.radius_km}
     elif args.near_place:
         scope = {"kind": "anchor", "place": args.near_place, "mode": args.mode, "max_min": args.max_min}
-    return {
+    result = {
         "ask": args.ask or "",
         "scope": scope,
         "when": args.when,
@@ -90,6 +93,17 @@ def _raw_input(args: argparse.Namespace) -> dict[str, Any]:
         "depth": args.depth,
         "contact_drafts": args.contact_drafts,
     }
+    if args.check_in or args.check_out or args.adults is not None:
+        result["stay"] = {}
+        if args.check_in:
+            result["stay"]["check_in"] = args.check_in
+        if args.check_out:
+            result["stay"]["check_out"] = args.check_out
+        if args.adults is not None:
+            result["stay"]["adults"] = args.adults
+        elif args.check_in or args.check_out:
+            result["stay"]["adults"] = 2
+    return result
 
 
 def _run_find(args: argparse.Namespace, config: dict[str, Any]) -> int:
@@ -113,6 +127,7 @@ def _run_find(args: argparse.Namespace, config: dict[str, Any]) -> int:
             WebAdapter(config["web"]["endpoint"], retrieval=config["retrieval"]),
             ModelAdapter(config),
             recorder=recorder,
+            booking=BookingAdapter(),
         )
     result = Funnel(config, adapters, now=run_at).run(raw_input)
     if recorder:

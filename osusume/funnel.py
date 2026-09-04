@@ -15,6 +15,17 @@ from .evidence import Claim, ClaimLedger, ClaimStatus, EvidenceRecord, registrab
 
 
 OPERATIONAL = "OPERATIONAL"
+LODGING_TYPES = {
+    "hotel",
+    "lodging",
+    "resort_hotel",
+    "extended_stay_hotel",
+    "bed_and_breakfast",
+    "guest_house",
+    "hostel",
+    "motel",
+    "inn",
+}
 
 HOURS_CONTACT_QUESTIONS = {
     "it": "Sarete aperti durante il nostro orario di arrivo?",
@@ -255,7 +266,50 @@ def _claim_text(claim_type: str) -> str:
         "event_schedule": "Official event schedule at arrival",
         "venue_type": "Venue type",
         "rating_signal": "Google rating signal",
+        "price": "Total stay price",
     }.get(claim_type, claim_type.replace("_", " ").capitalize())
+
+
+def _room_level_claim(text: str) -> bool:
+    lowered = text.casefold()
+    return any(term in lowered for term in ("room", "suite", "guestroom", "bedroom", "habitación", "habitació"))
+
+
+def _booking_detail_body(payload: dict) -> dict:
+    for key in ("hotel", "property", "result", "data"):
+        if isinstance(payload.get(key), dict):
+            return payload[key]
+    return payload
+
+
+def _booking_facilities(payload: dict) -> list[str]:
+    facilities = _booking_detail_body(payload).get("facilities", [])
+    if isinstance(facilities, list):
+        return [str(item.get("name", "")) if isinstance(item, dict) else str(item) for item in facilities if item]
+    if isinstance(facilities, dict):
+        return [str(name) for name, available in facilities.items() if available]
+    return []
+
+
+def _booking_location(payload: dict) -> tuple[float, float] | None:
+    body = _booking_detail_body(payload)
+    location = body.get("location") if isinstance(body.get("location"), dict) else {}
+    lat = body.get("latitude", body.get("lat", location.get("latitude", location.get("lat"))))
+    lng = body.get("longitude", body.get("lng", location.get("longitude", location.get("lng"))))
+    if lat is None or lng is None:
+        return None
+    return float(lat), float(lng)
+
+
+def _yes_no(value: Any) -> str:
+    if value is None:
+        return "unknown"
+    return "yes" if bool(value) else "no"
+
+
+def _number(value: Any) -> str:
+    number = float(value)
+    return str(int(number)) if number.is_integer() else f"{number:.2f}".rstrip("0").rstrip(".")
 
 
 class Funnel:
@@ -275,12 +329,18 @@ class Funnel:
         parsed.setdefault("ask", raw_input.get("ask", ""))
         cli_scope = raw_input.get("scope")
         if cli_scope:
-            parsed["scope"] = cli_scope
+            parsed["scope"] = {**(parsed.get("scope") or {}), **cli_scope}
         if raw_input.get("when") and not parsed.get("arrival_start"):
             parsed["arrival_start"] = raw_input["when"]
             parsed["arrival_end"] = raw_input["when"]
         if raw_input.get("max_detour_min") is not None:
             parsed["max_detour_min"] = raw_input["max_detour_min"]
+        if raw_input.get("stay"):
+            parsed["stay"] = {**(parsed.get("stay") or {}), **raw_input["stay"]}
+        if parsed.get("stay"):
+            parsed["stay"].setdefault("adults", 2)
+        if raw_input.get("hotel_filters"):
+            parsed["hotel_filters"] = {**(parsed.get("hotel_filters") or {}), **raw_input["hotel_filters"]}
         parsed["exclusions"] = list(dict.fromkeys([*parsed.get("exclusions", []), *raw_input.get("exclude", [])]))
         request = StructuredRequest.from_dict(parsed)
         allowed_effects = {"required_attribute", "ranking_signal", "search_space"}
@@ -302,12 +362,62 @@ class Funnel:
 
     def stage1_sweep(self, request: StructuredRequest, card: dict) -> list[Candidate]:
         payload = {"request": request.to_dict(), "card": card}
-        response = self._call("goplaces", "sweep", payload, lambda: self.adapters.places.sweep(request.to_dict(), card))
+        booking_sweep = card.get("sweep_source", "places") == "booking"
+        if booking_sweep:
+            response = self._call("booking", "sweep", payload, lambda: self.adapters.booking.sweep(request.to_dict(), card))
+        else:
+            response = self._call("goplaces", "sweep", payload, lambda: self.adapters.places.sweep(request.to_dict(), card))
         if response.get("type_attempt_count", 0) and not response.get("type_success_count", 0):
             raise AdapterError("every configured Places type failed")
         survivors: dict[str, Candidate] = {}
         for raw in response.get("candidates", []):
-            candidate = Candidate.from_place(raw)
+            if booking_sweep:
+                booking = raw.get("raw", {}).get("booking", raw.get("booking", raw))
+                name = str(booking.get("name") or raw.get("name") or "")
+                place_type = next(iter(card.get("places_types", [])), None)
+                resolve_request = {"name": name, "request": request.to_dict(), "place_type": place_type}
+                resolved = self._call(
+                    "goplaces",
+                    "resolve",
+                    resolve_request,
+                    lambda current_name=name, current_type=place_type: self.adapters.places.resolve(
+                        current_name, request.to_dict(), current_type
+                    ),
+                )
+                if not resolved:
+                    candidate = Candidate(
+                        place_id=f"booking:{booking.get('slug') or _slug(name)}",
+                        name=name,
+                        raw={"booking": booking},
+                        rejection_reason="unresolved_listing",
+                        verdict="rejected",
+                    )
+                    self.rejected.append(candidate)
+                    continue
+                candidate = Candidate.from_place(resolved)
+                candidate.raw["booking"] = booking
+                if candidate.primary_type not in LODGING_TYPES:
+                    candidate.rejection_reason = "unresolved_listing"
+                    candidate.verdict = "rejected"
+                    self.rejected.append(candidate)
+                    continue
+                filters = request.hotel_filters
+                stars = booking.get("stars")
+                score = booking.get("review_score")
+                filter_mismatch = (
+                    (filters.get("min_stars") is not None and (stars is None or float(stars) < float(filters["min_stars"])))
+                    or (filters.get("max_stars") is not None and (stars is None or float(stars) > float(filters["max_stars"])))
+                    or (filters.get("min_score") is not None and (score is None or float(score) < float(filters["min_score"])))
+                    or (filters.get("breakfast") is True and booking.get("breakfast_included") is not True)
+                    or (filters.get("free_cancellation") is True and booking.get("free_cancellation") is not True)
+                )
+                if filter_mismatch:
+                    candidate.rejection_reason = "hotel_filter_mismatch"
+                    candidate.verdict = "rejected"
+                    self.rejected.append(candidate)
+                    continue
+            else:
+                candidate = Candidate.from_place(raw)
             if _excluded(candidate, request.exclusions):
                 continue
             if candidate.business_status != OPERATIONAL:
@@ -522,10 +632,19 @@ class Funnel:
         travel_minutes: float | None,
     ) -> ClaimLedger:
         ledger = ClaimLedger()
+        booking = candidate.raw.get("booking")
+        booking_candidate = "booking" in candidate.raw
         claim_specs: dict[str, tuple[str, str, bool]] = {
             "operational_status": ("operational_status", _claim_text("operational_status"), True),
-            "hours_at_arrival": ("hours_at_arrival", _claim_text("hours_at_arrival"), bool(request.arrival_start)),
         }
+        if not booking_candidate:
+            claim_specs["hours_at_arrival"] = (
+                "hours_at_arrival",
+                _claim_text("hours_at_arrival"),
+                bool(request.arrival_start),
+            )
+        if request.stay and booking:
+            claim_specs["price"] = ("price", _claim_text("price"), True)
         route_scope = request.scope.get("kind") == "route"
         anchor_scope = request.scope.get("kind") == "anchor"
         if route_scope:
@@ -535,15 +654,19 @@ class Funnel:
         required_claim_types = set()
         for raw in request.required_attributes:
             claim_type = raw.get("claim_type") or raw.get("claim_id") or "generic"
+            if booking_candidate and claim_type == "hours_at_arrival":
+                continue
             if claim_type == "detour" and not route_scope:
                 continue
             if claim_type == "proximity" and not anchor_scope:
                 continue
             claim_id = raw.get("claim_id") or _slug(raw.get("text", claim_type))
-            text = _claim_text(claim_type) if claim_type in ALLOWED_CLAIM_LABELS else (raw.get("text") or _claim_text(claim_type))
+            text = raw.get("text") or _claim_text(claim_type)
             claim_specs[claim_id] = (claim_type, text, True)
             required_claim_types.add(claim_type)
         for claim_type in card.get("load_bearing_claims", []):
+            if booking_candidate and claim_type == "hours_at_arrival":
+                continue
             if claim_type == "detour" and not route_scope:
                 continue
             if claim_type == "proximity" and not anchor_scope:
@@ -555,13 +678,25 @@ class Funnel:
             claim_specs["venue_type"] = ("venue_type", f"Venue type: {candidate.primary_type.replace('_', ' ')}", False)
         if candidate.rating is not None and candidate.review_count is not None:
             claim_specs["rating_signal"] = ("rating_signal", f"Google rating: {candidate.rating} from {candidate.review_count} reviews", False)
+        if booking:
+            signal_parts = [
+                f"stars={booking.get('stars')}",
+                f"review_score={booking.get('review_score')}",
+                f"free_cancellation={_yes_no(booking.get('free_cancellation'))}",
+                f"breakfast_included={_yes_no(booking.get('breakfast_included'))}",
+            ]
+            claim_specs["booking_signal"] = ("rating_signal", "Booking hotel signals: " + "; ".join(signal_parts), False)
         for claim_id, (claim_type, text, required) in claim_specs.items():
             ledger.add_claim(Claim(claim_id=claim_id, text=text, claim_type=claim_type, required=required))
 
         stamp = self.now.isoformat()
         status_text = f"business_status={details.get('businessStatus') or details.get('business_status')}"
         ledger.add_evidence(EvidenceRecord("places_status", "operational_status", "places_field", "goplaces://details", stamp, stamp, status_text, status_text))
-        if request.arrival_start and open_for_window(details, request.arrival_start, request.arrival_end) == HoursWindowStatus.OPEN:
+        if (
+            not booking_candidate
+            and request.arrival_start
+            and open_for_window(details, request.arrival_start, request.arrival_end) == HoursWindowStatus.OPEN
+        ):
             hours_text = f"opening_hours cover {request.arrival_start} to {request.arrival_end or request.arrival_start}"
             ledger.add_evidence(EvidenceRecord("places_hours", "hours_at_arrival", "places_field", "goplaces://details", stamp, stamp, hours_text, hours_text))
         if detour is not None and request.max_detour_min is not None and detour <= request.max_detour_min:
@@ -579,6 +714,58 @@ class Funnel:
         if candidate.rating is not None and candidate.review_count is not None:
             rating_text = f"rating={candidate.rating}; review_count={candidate.review_count}"
             ledger.add_evidence(EvidenceRecord("places_rating", "rating_signal", "places_field", "goplaces://details", stamp, stamp, rating_text, rating_text))
+        if booking:
+            booking_url = str(booking.get("url") or "")
+            for signal_name, signal_value in (
+                ("stars", booking.get("stars")),
+                ("review_score", booking.get("review_score")),
+                ("free_cancellation", _yes_no(booking.get("free_cancellation"))),
+                ("breakfast_included", _yes_no(booking.get("breakfast_included"))),
+            ):
+                text = f"{signal_name}={signal_value}"
+                ledger.add_evidence(
+                    EvidenceRecord(
+                        f"booking_signal_{signal_name}",
+                        "booking_signal",
+                        "booking_signal",
+                        booking_url,
+                        stamp,
+                        stamp,
+                        text,
+                        text,
+                    )
+                )
+            if request.stay and booking.get("price") is not None:
+                check_in = datetime.fromisoformat(str(request.stay["check_in"])).date()
+                check_out = datetime.fromisoformat(str(request.stay["check_out"])).date()
+                nights = (check_out - check_in).days
+                currency = booking.get("currency") or "EUR"
+                price_text = (
+                    f"total {currency} {_number(booking['price'])} for {nights} nights, "
+                    f"{int(request.stay.get('adults', 2))} adults, per Booking.com, read today; "
+                    f"free cancellation: {_yes_no(booking.get('free_cancellation'))}; "
+                    f"breakfast: {_yes_no(booking.get('breakfast_included'))}"
+                )
+                ledger.add_evidence(EvidenceRecord("booking_rate", "price", "booking_rate", booking_url, stamp, stamp, price_text, price_text))
+            facilities = _booking_facilities(candidate.raw.get("booking_details") or {})
+            if facilities:
+                facilities_text = "Property facilities: " + "; ".join(facilities)
+                for claim in ledger.claims:
+                    if claim.claim_type not in {"layout", "product_inventory"} or _room_level_claim(claim.text):
+                        continue
+                    ledger.add_evidence(
+                        EvidenceRecord(
+                            f"booking_facilities_{claim.claim_id}",
+                            claim.claim_id,
+                            "booking_facilities",
+                            booking_url,
+                            stamp,
+                            stamp,
+                            facilities_text,
+                            facilities_text,
+                            metadata={"scope": "property"},
+                        )
+                    )
         for index, row in enumerate(candidate.registry):
             if row.get("entry_type") != "rated_entry" or "quality" not in claim_specs:
                 continue
@@ -688,6 +875,26 @@ class Funnel:
             if _excluded(candidate, request.exclusions):
                 continue
             payload = {"place_id": candidate.place_id, "local_language": request.local_language}
+            booking = candidate.raw.get("booking")
+            if booking and booking.get("country") and booking.get("slug"):
+                booking_request = {"country": booking["country"], "slug": booking["slug"]}
+                candidate.raw["booking_details"] = self._call(
+                    "booking",
+                    "details",
+                    booking_request,
+                    lambda current=booking: self.adapters.booking.details(current["country"], current["slug"]),
+                )
+                booking_location = _booking_location(candidate.raw["booking_details"])
+                places_location = _location_tuple({"location": candidate.location})
+                if (
+                    booking_location is not None
+                    and places_location is not None
+                    and _haversine_km(booking_location, places_location) > 0.3
+                ):
+                    candidate.rejection_reason = "unresolved_listing"
+                    candidate.verdict = "rejected"
+                    self.rejected.append(candidate)
+                    continue
             detail_payload = candidate.detail_payload
             if detail_payload is None:
                 detail_payload = self._call("goplaces", "details", payload, lambda current=candidate: self.adapters.places.details(current.place_id, request.local_language))
@@ -760,6 +967,8 @@ class Funnel:
                 ):
                     candidate.rejection_reason = "detour_over_budget"
                     candidate.minutes = detour
+                elif detour is not None:
+                    candidate.minutes = detour
             travel_minutes = None
             if request.scope.get("kind") == "anchor":
                 try:
@@ -780,6 +989,8 @@ class Funnel:
                     and travel_minutes > float(request.scope.get("max_min", 10))
                 ):
                     candidate.rejection_reason = "travel_over_budget"
+                    candidate.minutes = travel_minutes
+                elif travel_minutes is not None:
                     candidate.minutes = travel_minutes
             if candidate.rejection_reason:
                 candidate.verdict = "rejected"
@@ -913,12 +1124,25 @@ class Funnel:
                     "rendered_claims": rendered,
                     "rendered_claim_ids": rendered_ids,
                     "proposed_contact": candidate.proposed_contact,
+                    "booking_url": (candidate.raw.get("booking") or {}).get("url"),
                 }
             )
         refusal = not any(row["verdict"] == "cleared" for row in output_candidates)
         human_lines = []
+        candidates_by_id = {candidate.place_id: candidate for candidate in [*candidates, *self.rejected]}
         for row in output_candidates:
-            human_lines.append(f"{row['name']}: {row['verdict']}")
+            candidate = candidates_by_id[row["place_id"]]
+            booking = candidate.raw.get("booking")
+            if booking and row["verdict"] == "cleared":
+                stay = request.stay or {}
+                travel = f"{candidate.minutes:.1f} min" if candidate.minutes is not None else f"{float(booking.get('distance_km')):.1f} km" if booking.get("distance_km") is not None else "distance unknown"
+                human_lines.append(
+                    f"{row['name']}: {booking.get('stars')} stars, score {booking.get('review_score')}, "
+                    f"total {booking.get('currency') or 'EUR'} {_number(booking.get('price'))} "
+                    f"for {stay.get('check_in')} to {stay.get('check_out')}, {travel}, {booking.get('url')}"
+                )
+            else:
+                human_lines.append(f"{row['name']}: {row['verdict']}")
             human_lines.extend(f"  {text}" for text in row["rendered_claims"])
             if row["reason"]:
                 human_lines.append(f"  Rejected: {row['reason'].replace('_', ' ')}")
@@ -983,6 +1207,10 @@ class Funnel:
 
     def run(self, raw_input: dict[str, Any]) -> dict[str, Any]:
         request, card = self.stage0_parse(raw_input)
+        if card.get("sweep_source", "places") == "booking" and (
+            not request.stay or not request.stay.get("check_in") or not request.stay.get("check_out")
+        ):
+            return self.stage6_render([], request, card, bool(raw_input.get("contact_drafts")), "stay_dates_missing")
         resolved_request = self.resolve_anchor(request)
         if resolved_request is None:
             return self.stage6_render([], request, card, bool(raw_input.get("contact_drafts")), "anchor_unresolved")

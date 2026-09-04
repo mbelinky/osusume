@@ -5,6 +5,27 @@ All notable changes to Osusume are recorded here. The format follows
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Osusume is in
 super beta: minor versions can still change commands and output.
 
+## [0.6.0] - 2026-09-04
+
+### Added
+
+- Hotel lane. A card can declare `sweep_source: booking`; candidates, live
+  totals and hard filters then come from a locally authenticated Booking.com
+  command-line tool instead of Google Places, and each candidate is resolved
+  to its Places listing so status, location, travel time, website and photos
+  work as before. New request fields `stay` (`--check-in`, `--check-out`,
+  `--adults`) and `hotel_filters` (stars, guest score, pets, breakfast, free
+  cancellation), which the parse step also reads from the ask. Booking's
+  filter codes were verified live (stars, score, pets, `fc=2` free
+  cancellation, `mealplan=1` breakfast).
+- A `price` claim, required when a stay is given, supported by the Booking
+  total as same-run dated evidence, plus Booking stars, score, cancellation
+  and breakfast flags rendered as signals, and the property facilities as
+  listing evidence for property-level claims. Room-level asks ("hot tub in
+  the suite") still need the hotel's own website or photos.
+- `cards/hotel_es.yaml` for hotels in Spain. Every cleared hotel carries its
+  `booking_url`; the engine never books.
+
 ## [0.5.0] - 2026-09-04
 
 ### Added

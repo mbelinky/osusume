@@ -1,0 +1,33 @@
+category: hotel
+country: ES
+reviewed: true
+sweep_source: booking
+languages:
+  en: [hotel, boutique hotel, suite]
+  es: [hotel, hotel boutique, suite]
+  ca: [hotel, hotel boutique, suite]
+places_types: [hotel, lodging]
+query_templates:
+  - "{name} {city} web oficial habitaciones"
+  - "{name} {city} suites"
+  - "{name} {city} hotel review"
+sources:
+  ES:
+    michelin: 1.0
+    guia_repsol: 0.8
+    tripadvisor: 0.1
+source_domains:
+  michelin: [guide.michelin.com]
+  guia_repsol: [guiarepsol.com]
+  tripadvisor: [tripadvisor.com, tripadvisor.es]
+load_bearing_claims:
+  - operational_status
+  - hours_at_arrival
+  - detour
+  - proximity
+  - price
+  - layout
+  - quality
+freshness_overrides:
+  price: 0
+event_shaped: false

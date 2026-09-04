@@ -32,3 +32,18 @@ def test_anchor_scope_cli_defaults() -> None:
         "mode": "walk",
         "max_min": 10.0,
     }
+
+
+def test_hotel_stay_cli_flags() -> None:
+    args = _parser().parse_args([
+        "find", "hotel", "--near-place", "Plaça de Catalunya", "--check-in", "2026-10-01",
+        "--check-out", "2026-10-03",
+    ])
+
+    assert _raw_input(args)["stay"] == {"check_in": "2026-10-01", "check_out": "2026-10-03", "adults": 2}
+
+
+def test_explicit_adults_can_override_dates_parsed_from_the_ask() -> None:
+    args = _parser().parse_args(["find", "hotel for three nights", "--near-place", "Anchor", "--adults", "4"])
+
+    assert _raw_input(args)["stay"] == {"adults": 4}

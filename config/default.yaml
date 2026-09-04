@@ -15,6 +15,7 @@ freshness_days:
   counter_service: 548
   layout: 548
   prices: 548
+  price: 0
   quality: 1095
   rating_signal: 30
   generic: 548

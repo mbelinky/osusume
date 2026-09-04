@@ -65,7 +65,7 @@ def classify_source(kind: str, *, roundup: bool = False) -> SourceClass:
         return SourceClass.MENTION
     if normalized in {"official_site", "official_menu", "official_social", "venue_reply", "municipal_calendar", "consortium"}:
         return SourceClass.OFFICIAL
-    if normalized in {"places", "places_field", "computed_route"}:
+    if normalized in {"places", "places_field", "computed_route", "booking_rate", "booking_signal", "booking_facilities"}:
         return SourceClass.PLACES
     if normalized in {"photo", "menu_photo"}:
         return SourceClass.PHOTO
@@ -148,13 +148,14 @@ ALLOWED_SOURCE_CLASSES: dict[str, set[SourceClass]] = {
     "detour": {SourceClass.PLACES},
     "proximity": {SourceClass.PLACES},
     "counter_service": {SourceClass.OFFICIAL, SourceClass.PHOTO},
-    "layout": {SourceClass.OFFICIAL, SourceClass.PHOTO},
+    "layout": {SourceClass.OFFICIAL, SourceClass.PHOTO, SourceClass.PLACES},
     "product_inventory": {SourceClass.OFFICIAL, SourceClass.PHOTO, SourceClass.PLACES, SourceClass.REVIEW},
     "vegetarian_options": {SourceClass.OFFICIAL, SourceClass.PHOTO, SourceClass.PLACES, SourceClass.REVIEW},
     "quality": {SourceClass.GUIDE_ENTRY, SourceClass.LOCAL_PRESS},
     "importance": {SourceClass.OFFICIAL},
     "event_schedule": {SourceClass.OFFICIAL},
     "rating_signal": {SourceClass.PLACES},
+    "price": {SourceClass.PLACES},
     "venue_type": {SourceClass.OFFICIAL, SourceClass.PLACES},
     "generic": {SourceClass.OFFICIAL, SourceClass.PLACES, SourceClass.PHOTO, SourceClass.GUIDE_ENTRY, SourceClass.LOCAL_PRESS, SourceClass.REVIEW},
 }
@@ -286,7 +287,11 @@ class ClaimLedger:
         if claim_type == "vegetarian_options" and evidence.source_class == SourceClass.PLACES:
             return evidence.metadata.get("field") == "servesVegetarianFood"
         if claim_type == "product_inventory" and evidence.source_class == SourceClass.PLACES:
-            return evidence.metadata.get("field") in {"menuUri", "servesVegetarianFood"}
+            return evidence.source_kind == "booking_facilities" or evidence.metadata.get("field") in {"menuUri", "servesVegetarianFood"}
+        if claim_type == "layout" and evidence.source_class == SourceClass.PLACES:
+            return evidence.source_kind == "booking_facilities"
+        if claim_type == "price" and evidence.source_class == SourceClass.PLACES:
+            return evidence.source_kind == "booking_rate"
         return True
 
     def to_dict(self) -> dict:
