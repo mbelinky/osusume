@@ -1,24 +1,27 @@
 import json
-import subprocess
+from contextlib import redirect_stdout
+from io import StringIO
 from pathlib import Path
 
 import pytest
 
 from osusume.adapters import AdapterError, ReplayStore, SnapshotRecorder
-
-
-ROOT = Path(__file__).resolve().parents[1]
+from osusume.cli import main
 
 
 def replay(name: str) -> dict:
-    completed = subprocess.run(
-        ["uv", "run", "osusume", "find", "--replay", f"tests/fixtures/runs/{name}", "--json"],
-        cwd=ROOT,
-        text=True,
-        capture_output=True,
-        check=True,
-    )
-    return json.loads(completed.stdout)
+    output = StringIO()
+    with redirect_stdout(output), pytest.raises(SystemExit) as exit_info:
+        main(
+            [
+                "find",
+                "--replay",
+                f"tests/fixtures/runs/{name}",
+                "--json",
+            ]
+        )
+    assert exit_info.value.code == 0
+    return json.loads(output.getvalue())
 
 
 def test_e_f3_replay_refuses_dead_shop() -> None:
