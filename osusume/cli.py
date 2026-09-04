@@ -121,8 +121,6 @@ def _run_find(args: argparse.Namespace, config: dict[str, Any]) -> int:
         print(json.dumps(result, ensure_ascii=False, indent=2))
     else:
         print(result["human"])
-        if result["refusal"]:
-            print("Widen options: " + "; ".join(result["widen_options"]))
     return 0
 
 

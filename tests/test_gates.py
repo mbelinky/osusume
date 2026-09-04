@@ -170,6 +170,15 @@ def test_detour_budget_rejects_candidate(tmp_path) -> None:
         {"ask": parsed["ask"], "card": "salumeria", "depth": "full"}
     )
     assert output["candidates"][0]["reason"] == "detour_over_budget"
+    assert output["widen_options"] == [
+        "increase the detour budget",
+        "allow cousin categories",
+        "ask venues directly",
+    ]
+    assert output["widen_candidates"] == [
+        {"name": "Test Place", "place_id": "p1", "minutes": 20.0, "mode": "drive"}
+    ]
+    assert output["human"].splitlines()[-1] == "Just outside the budget: Test Place (20 min drive)"
 
 
 def test_failed_candidate_detour_stays_unknown_and_run_continues(tmp_path) -> None:
@@ -288,6 +297,78 @@ def test_unknown_hours_are_unconfirmed_with_contact_draft(tmp_path) -> None:
     assert candidate["reason"] is None
     assert hours["status"] == "unknown"
     assert candidate["proposed_contact"]["settles_claim"] == "hours_at_arrival"
+
+
+def test_spanish_hours_contact_uses_local_language_and_english_translation(tmp_path) -> None:
+    parsed = request()
+    parsed["local_language"] = "es"
+    details = operational_details()
+    details["en"].pop("regularOpeningHours")
+    details["local"].pop("regularOpeningHours")
+    fixture = {
+        "sweep": [operational_place()],
+        "registry": {"qualifications": [], "injected": []},
+        "mined": {"p1": {"pages": [], "evidence": []}},
+        "details": {"p1": details},
+    }
+    config = load_config()
+    config["paths"]["drafts"] = tmp_path
+
+    output = Funnel(config, RecordedAdapters(FakePlaces(fixture), FakeWeb(fixture), FakeModel(parsed)), now=NOW).run(
+        {"ask": parsed["ask"], "card": "salumeria", "depth": "full", "contact_drafts": True}
+    )
+
+    assert output["candidates"][0]["proposed_contact"] == {
+        "channel": "WhatsApp or phone",
+        "message": "¿Estarán abiertos durante nuestro horario de llegada?",
+        "translation": "Will you be open during our arrival window?",
+        "settles_claim": "hours_at_arrival",
+    }
+
+
+def test_unknown_language_hours_contact_falls_back_to_english(tmp_path) -> None:
+    parsed = request()
+    parsed["local_language"] = "xx"
+    details = operational_details()
+    details["en"].pop("regularOpeningHours")
+    details["local"].pop("regularOpeningHours")
+    fixture = {
+        "sweep": [operational_place()],
+        "registry": {"qualifications": [], "injected": []},
+        "mined": {"p1": {"pages": [], "evidence": []}},
+        "details": {"p1": details},
+    }
+    config = load_config()
+    config["paths"]["drafts"] = tmp_path
+
+    output = Funnel(config, RecordedAdapters(FakePlaces(fixture), FakeWeb(fixture), FakeModel(parsed)), now=NOW).run(
+        {"ask": parsed["ask"], "card": "salumeria", "depth": "full", "contact_drafts": True}
+    )
+
+    contact = output["candidates"][0]["proposed_contact"]
+    assert contact["message"] == "Will you be open during our arrival window?"
+    assert contact["translation"] == "Will you be open during our arrival window?"
+
+
+def test_card_without_contact_question_proposes_no_layout_draft(tmp_path) -> None:
+    required = {"claim_id": "layout", "claim_type": "layout", "text": "Outdoor tables are available"}
+    parsed = request([required])
+    fixture = {
+        "sweep": [operational_place()],
+        "registry": {"qualifications": [], "injected": []},
+        "mined": {"p1": {"pages": [], "evidence": []}},
+        "details": {"p1": operational_details()},
+    }
+    config = load_config()
+    config["paths"]["drafts"] = tmp_path
+
+    output = Funnel(config, RecordedAdapters(FakePlaces(fixture), FakeWeb(fixture), FakeModel(parsed)), now=NOW).run(
+        {"ask": parsed["ask"], "card": "cocktail_bar", "depth": "full", "contact_drafts": True}
+    )
+
+    candidate = output["candidates"][0]
+    assert candidate["verdict"] == "unconfirmed"
+    assert candidate["proposed_contact"] is None
 
 
 def test_required_attributes_do_not_duplicate_card_claim_rows(tmp_path) -> None:

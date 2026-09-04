@@ -11,6 +11,8 @@ from typing import Any, Callable
 from urllib.parse import quote
 from urllib.request import Request, urlopen
 
+from .evidence import registrable_domain
+
 
 class AdapterError(RuntimeError):
     pass
@@ -215,17 +217,33 @@ class WebAdapter:
         rows = []
         qualifications = []
         injected = []
-        for source in (card.get("sources", {}).get(country, {}) or {}):
+        for source, weight in (card.get("sources", {}).get(country, {}) or {}).items():
             query = f"{source.replace('_', ' ')} {request.get('category', '')} {request.get('ask', '')}"
             response = self._search(query)
             rows.append({"source": source, "response": response})
             for result in response.get("results", []):
-                text = f"{result.get('title', '')} {result.get('text', '')}".lower()
-                roundup = any(term in text for term in ("best ", "top ", "migliori", "roundup"))
+                title = str(result.get("title", ""))
+                title_folded = title.strip().casefold()
+                text = f"{title} {result.get('text', '')}".casefold()
+                list_page = bool(title_folded and title_folded[0].isdigit()) or any(
+                    term in title_folded
+                    for term in ("best ", "top ", "migliori", "mejores", "guide to", "guía de", "roundup", "ranking")
+                )
                 explicit_rated = result.get("entry_type") == "rated_entry" and bool(result.get("rating") or result.get("score"))
-                entry_type = "rated_entry" if explicit_rated and not roundup else "mention"
+                declared_domains = {
+                    registrable_domain(f"https://{domain}")
+                    for domain in card.get("source_domains", {}).get(source, [])
+                }
+                domain_matches = registrable_domain(str(result.get("url", ""))) in declared_domains
                 for candidate in candidates or []:
-                    if candidate.get("name", "").casefold() in text.casefold():
+                    candidate_name = candidate.get("name", "").casefold()
+                    if candidate_name in text:
+                        entry_type = "rated_entry" if explicit_rated or (
+                            domain_matches
+                            and candidate_name in title_folded
+                            and not list_page
+                            and weight >= 0.5
+                        ) else "mention"
                         qualifications.append(
                             {
                                 "place_id": candidate["place_id"],
@@ -238,9 +256,16 @@ class WebAdapter:
                             }
                         )
                 if result.get("entity_name"):
+                    entity_name = str(result["entity_name"])
+                    entry_type = "rated_entry" if explicit_rated or (
+                        domain_matches
+                        and entity_name.casefold() in title_folded
+                        and not list_page
+                        and weight >= 0.5
+                    ) else "mention"
                     injected.append(
                         {
-                            "name": result["entity_name"],
+                            "name": entity_name,
                             "source": source,
                             "entry_type": entry_type,
                             "url": result.get("url", ""),

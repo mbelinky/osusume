@@ -5,6 +5,34 @@ All notable changes to Osusume are recorded here. The format follows
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Osusume is in
 super beta: minor versions can still change commands and output.
 
+## [0.4.0] - 2026-09-04
+
+### Added
+
+- Cards can declare `source_domains`, the web domains a guide publishes on,
+  and `contact_questions`, the venue question to draft per claim type and
+  language. The salumeria card carries its counter question in Italian and
+  English.
+- A refusal now names the near misses: `widen_candidates` lists up to three
+  places rejected only for being over the travel or detour budget, with
+  their measured minutes, and the human answer adds "Just outside the
+  budget: X (11 min walk)".
+
+### Fixed
+
+- Guide ratings count in live runs. A live search hit could never become a
+  rated entry because the check required a structured field only test data
+  carries, so the quality claim never cleared and guide weights never ordered
+  candidates. A hit is now a rated entry when it sits on the guide's declared
+  domain, names the venue in its title, is not a list page, and the guide
+  weighs at least 0.5. Only the title is checked for list-page words, not the
+  whole page.
+- Venue contact drafts are written in the venue's language (Italian, Spanish,
+  Catalan, English, French, Portuguese, German, English fallback) instead of
+  always Italian, and the layout question comes from the card, so a bar is
+  no longer asked about cured meats. A card without a question proposes no
+  layout draft.
+
 ## [0.3.0] - 2026-09-03
 
 ### Added

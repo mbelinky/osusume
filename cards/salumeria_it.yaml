@@ -15,6 +15,11 @@ sources:
     slow_food: 0.9
     michelin: 1.0
     tripadvisor: 0.2
+source_domains:
+  gambero_rosso: [gamberorosso.it]
+  michelin: [guide.michelin.com]
+  slow_food: [slowfood.it, fondazioneslowfood.com]
+  tripadvisor: [tripadvisor.com, tripadvisor.it]
 load_bearing_claims:
   - operational_status
   - hours_at_arrival
@@ -25,4 +30,8 @@ load_bearing_claims:
 freshness_overrides:
   product_inventory: 365
   counter_service: 365
+contact_questions:
+  counter_service:
+    it: "Vendete salumi tagliati al momento, da asporto?"
+    en: "Do you sell cured meats cut to order, to take away?"
 event_shaped: false

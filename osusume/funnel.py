@@ -16,6 +16,16 @@ from .evidence import Claim, ClaimLedger, ClaimStatus, EvidenceRecord, registrab
 
 OPERATIONAL = "OPERATIONAL"
 
+HOURS_CONTACT_QUESTIONS = {
+    "it": "Sarete aperti durante il nostro orario di arrivo?",
+    "es": "¿Estarán abiertos durante nuestro horario de llegada?",
+    "ca": "Estareu oberts durant el nostre horari d'arribada?",
+    "en": "Will you be open during our arrival window?",
+    "fr": "Serez-vous ouverts pendant notre créneau d’arrivée ?",
+    "pt": "Estarão abertos durante o nosso horário de chegada?",
+    "de": "Werden Sie während unseres Ankunftszeitfensters geöffnet sein?",
+}
+
 
 class HoursWindowStatus(str, Enum):
     OPEN = "open"
@@ -626,8 +636,14 @@ class Funnel:
                     detour = true_detour_minutes(direct_route, first, second)
                 except AdapterError:
                     detour = None
-                if detour is not None and request.max_detour_min is not None and detour > request.max_detour_min:
+                if (
+                    candidate.rejection_reason is None
+                    and detour is not None
+                    and request.max_detour_min is not None
+                    and detour > request.max_detour_min
+                ):
                     candidate.rejection_reason = "detour_over_budget"
+                    candidate.minutes = detour
             travel_minutes = None
             if request.scope.get("kind") == "anchor":
                 try:
@@ -642,8 +658,13 @@ class Funnel:
                     travel_minutes = _duration_minutes(travel)
                 except (AdapterError, ValueError):
                     travel_minutes = None
-                if travel_minutes is not None and travel_minutes > float(request.scope.get("max_min", 10)):
+                if (
+                    candidate.rejection_reason is None
+                    and travel_minutes is not None
+                    and travel_minutes > float(request.scope.get("max_min", 10))
+                ):
                     candidate.rejection_reason = "travel_over_budget"
+                    candidate.minutes = travel_minutes
             if candidate.rejection_reason:
                 candidate.verdict = "rejected"
                 self.rejected.append(candidate)
@@ -691,7 +712,7 @@ class Funnel:
             response = self._call("model", "judge", payload, lambda current=candidate: self.adapters.model.run("judge", payload))
             candidate.ledger.compute([*response.get("judgments", []), *photo_judgments], freshness, now=self.now)
 
-    def _verdict(self, candidate: Candidate, contact_drafts: bool, language: str) -> str:
+    def _verdict(self, candidate: Candidate, card: dict, contact_drafts: bool, language: str) -> str:
         claims = candidate.ledger.claims
         required = [claim for claim in claims if claim.required]
         if any(claim.status == ClaimStatus.CONFLICT for claim in required):
@@ -711,29 +732,39 @@ class Funnel:
         if hours_missing and contact_drafts:
             candidate.proposed_contact = {
                 "channel": "WhatsApp or phone",
-                "message": "Sarete aperti durante il nostro orario di arrivo?",
-                "translation": "Will you be open during our arrival window?",
+                "message": HOURS_CONTACT_QUESTIONS.get(language, HOURS_CONTACT_QUESTIONS["en"]),
+                "translation": HOURS_CONTACT_QUESTIONS["en"],
                 "settles_claim": hours_missing.claim_id,
             }
             return "unconfirmed"
         if layout_missing and contact_drafts:
-            candidate.proposed_contact = {
-                "channel": "WhatsApp or phone",
-                "message": "Vendete salumi tagliati al momento, da asporto?",
-                "translation": "Do you sell cured meats cut to order, to take away?",
-                "settles_claim": next(claim.claim_id for claim in claims if claim.required and claim.claim_type in {"counter_service", "layout"}),
-            }
+            missing_claim = next(
+                claim
+                for claim in claims
+                if claim.required and claim.claim_type in {"counter_service", "layout"} and claim.status != ClaimStatus.SUPPORTED
+            )
+            questions = card.get("contact_questions", {}).get(missing_claim.claim_type, {})
+            message = questions.get(language) or questions.get("en")
+            translation = questions.get("en")
+            if message and translation:
+                candidate.proposed_contact = {
+                    "channel": "WhatsApp or phone",
+                    "message": message,
+                    "translation": translation,
+                    "settles_claim": missing_claim.claim_id,
+                }
         return "unconfirmed"
 
     def stage6_render(
         self,
         candidates: list[Candidate],
         request: StructuredRequest,
+        card: dict,
         contact_drafts: bool,
         refusal_reason: str | None = None,
     ) -> dict[str, Any]:
         for candidate in candidates:
-            candidate.verdict = self._verdict(candidate, contact_drafts, request.local_language)
+            candidate.verdict = self._verdict(candidate, card, contact_drafts, request.local_language)
         assemble_payload = {
             "candidates": [
                 {
@@ -789,6 +820,35 @@ class Funnel:
             "allow cousin categories",
             "ask venues directly",
         ]
+        scope_kind = request.scope.get("kind")
+        widen_reason = "travel_over_budget" if scope_kind == "anchor" else "detour_over_budget"
+        widen_mode = request.scope.get("mode", "walk") if scope_kind == "anchor" else "drive"
+        widen_candidates = []
+        if refusal and scope_kind in {"anchor", "route"}:
+            widen_candidates = [
+                {
+                    "name": candidate.name,
+                    "place_id": candidate.place_id,
+                    "minutes": candidate.minutes,
+                    "mode": widen_mode,
+                }
+                for candidate in sorted(
+                    (
+                        candidate
+                        for candidate in self.rejected
+                        if candidate.rejection_reason == widen_reason and candidate.minutes is not None
+                    ),
+                    key=lambda candidate: candidate.minutes,
+                )[:3]
+            ]
+        if refusal:
+            human_lines.append("Widen options: " + "; ".join(widen_options))
+            if widen_candidates:
+                outside = ", ".join(
+                    f"{candidate['name']} ({candidate['minutes']:.0f} min {candidate['mode']})"
+                    for candidate in widen_candidates
+                )
+                human_lines.append(f"Just outside the budget: {outside}")
         packet = {
             "request": request.to_dict(),
             "exclusions_applied": list(request.exclusions),
@@ -797,6 +857,7 @@ class Funnel:
             "refusal": refusal,
             "reason": refusal_reason if refusal else None,
             "widen_options": widen_options if refusal else [],
+            "widen_candidates": widen_candidates,
             "human": "\n".join(human_lines),
         }
         return packet
@@ -805,11 +866,11 @@ class Funnel:
         request, card = self.stage0_parse(raw_input)
         resolved_request = self.resolve_anchor(request)
         if resolved_request is None:
-            return self.stage6_render([], request, bool(raw_input.get("contact_drafts")), "anchor_unresolved")
+            return self.stage6_render([], request, card, bool(raw_input.get("contact_drafts")), "anchor_unresolved")
         request = resolved_request
         candidates = self.stage1_sweep(request, card)
         candidates = self.stage2_qualify(candidates, request, card)
         mined = self.stage3_mine(candidates, request, card, raw_input.get("depth", "full"))
         candidates = self.stage4_verify(candidates, request, card, mined)
         self.stage5_judge(candidates, card)
-        return self.stage6_render(candidates, request, bool(raw_input.get("contact_drafts")))
+        return self.stage6_render(candidates, request, card, bool(raw_input.get("contact_drafts")))

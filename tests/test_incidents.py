@@ -169,9 +169,61 @@ def test_e_good_3_anchor_travel_gate_and_failed_directions(tmp_path: Path) -> No
     assert proximity["qualified_evidence_ids"] == ["anchor_travel"]
     assert by_id["clear"]["verdict"] == "cleared"
     assert by_id["reject"]["reason"] == "travel_over_budget"
+    assert output["widen_candidates"] == []
     unknown_proximity = next(claim for claim in by_id["unknown"]["claims"] if claim["claim_id"] == "proximity")
     assert unknown_proximity["status"] == "unknown"
     assert by_id["unknown"]["verdict"] == "unconfirmed"
+
+
+def test_e_good_3_anchor_refusal_names_sorted_near_misses_and_hides_exclusions(tmp_path: Path) -> None:
+    case = CASES["e_good_3"]
+    parsed = request()
+    parsed["scope"] = {
+        "kind": "anchor",
+        "place": case["anchor"],
+        "mode": case["mode"],
+        "max_min": case["budget_minutes"],
+    }
+    parsed["exclusions"] = ["excluded"]
+    anchor = operational_place(case["anchor_place_id"], "Anchor Bistro")
+    farther = operational_place("farther", "Thirteen Minute Bar")
+    nearer = operational_place("nearer", "Eleven Minute Bar")
+    excluded = operational_place("excluded", "Excluded Bar")
+    fixture = {
+        "resolved": {case["anchor"]: anchor},
+        "sweep": [anchor, farther, excluded, nearer],
+        "registry": {"qualifications": [], "injected": []},
+        "mined": {
+            "farther": {"pages": [], "evidence": []},
+            "nearer": {"pages": [], "evidence": []},
+        },
+        "details": {
+            "farther": operational_details("farther"),
+            "nearer": operational_details("nearer"),
+        },
+        "directions": {
+            "anchor-bistro|farther": {"duration_seconds": 13 * 60},
+            "anchor-bistro|nearer": {"duration_seconds": 11 * 60},
+        },
+    }
+    config = load_config()
+    config["paths"]["drafts"] = tmp_path
+
+    output = Funnel(
+        config,
+        RecordedAdapters(FakePlaces(fixture), FakeWeb(fixture), FakeModel(parsed)),
+        now=NOW,
+    ).run({"ask": parsed["ask"], "card": "salumeria", "depth": "full"})
+
+    assert output["refusal"] is True
+    assert output["widen_candidates"] == [
+        {"name": "Eleven Minute Bar", "place_id": "nearer", "minutes": 11.0, "mode": "walk"},
+        {"name": "Thirteen Minute Bar", "place_id": "farther", "minutes": 13.0, "mode": "walk"},
+    ]
+    assert "Excluded Bar" not in output["human"]
+    assert output["human"].splitlines()[-1] == (
+        "Just outside the budget: Eleven Minute Bar (11 min walk), Thirteen Minute Bar (13 min walk)"
+    )
 
 
 def test_anchor_unresolved_refuses_before_sweep(tmp_path: Path) -> None:
@@ -202,7 +254,12 @@ def test_e_good_2_contact_then_venue_reply_upgrade(tmp_path: Path) -> None:
     first = {**base, "mined": {"p1": {"pages": [], "evidence": []}}}
     output = run_case(tmp_path, parsed, first, contact_drafts=True)
     assert output["candidates"][0]["verdict"] == "unconfirmed"
-    assert output["candidates"][0]["proposed_contact"]["settles_claim"] == "counter_service"
+    assert output["candidates"][0]["proposed_contact"] == {
+        "channel": "WhatsApp or phone",
+        "message": "Vendete salumi tagliati al momento, da asporto?",
+        "translation": "Do you sell cured meats cut to order, to take away?",
+        "settles_claim": "counter_service",
+    }
 
     reply = {
         "evidence_id": "venue_reply",

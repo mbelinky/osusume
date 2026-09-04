@@ -19,6 +19,13 @@ sources:
     worlds_50_best_bars: 0.8
     timeout_barcelona: 0.2
     tripadvisor: 0.1
+source_domains:
+  diffords_guide: [diffordsguide.com]
+  the_pinnacle_guide: [thepinnacleguide.com]
+  guia_repsol_soletes: [guiarepsol.com]
+  worlds_50_best_bars: [theworlds50best.com]
+  timeout_barcelona: [timeout.com]
+  tripadvisor: [tripadvisor.com, tripadvisor.es]
 load_bearing_claims:
   - operational_status
   - hours_at_arrival

@@ -204,6 +204,74 @@ def test_stage1_fails_when_every_configured_type_failed() -> None:
         engine.stage1_sweep(request=StructuredRequest.from_dict(request()), card={})
 
 
+@pytest.mark.parametrize(
+    ("source", "weight", "domains", "result", "expected"),
+    [
+        (
+            "diffords_guide",
+            1.0,
+            ["diffordsguide.com"],
+            {
+                "url": "https://www.diffordsguide.com/bars/example-bar",
+                "title": "Example Bar",
+                "text": "One of the best cocktail bars in the city.",
+            },
+            "rated_entry",
+        ),
+        (
+            "timeout_barcelona",
+            1.0,
+            ["timeout.com"],
+            {
+                "url": "https://www.timeout.com/barcelona/bars/best-cocktail-bars",
+                "title": "The 10 best cocktail bars in Barcelona",
+                "text": "Example Bar is one of our picks.",
+            },
+            "mention",
+        ),
+        (
+            "tripadvisor",
+            0.1,
+            ["tripadvisor.com"],
+            {"url": "https://www.tripadvisor.com/Example_Bar", "title": "Example Bar", "text": "Reviews"},
+            "mention",
+        ),
+        (
+            "diffords_guide",
+            1.0,
+            ["diffordsguide.com"],
+            {"url": "https://other.example/venue", "title": "Example Bar", "text": "Review"},
+            "mention",
+        ),
+        (
+            "guide",
+            1.0,
+            [],
+            {
+                "url": "https://other.example/roundup",
+                "title": "10 Best Bars: Example Bar",
+                "text": "Review",
+                "entry_type": "rated_entry",
+                "rating": 9.5,
+            },
+            "rated_entry",
+        ),
+    ],
+)
+def test_registry_classifies_guide_results(monkeypatch, source, weight, domains, result, expected) -> None:
+    adapter = WebAdapter("https://example.test", api_key="test-key")
+    monkeypatch.setattr(adapter, "_search", lambda query: {"results": [result]})
+    card = {"sources": {"ES": {source: weight}}, "source_domains": {source: domains}}
+
+    output = adapter.registry(
+        {"country": "ES", "category": "cocktail_bar", "ask": "Barcelona"},
+        card,
+        [{"place_id": "p1", "name": "Example Bar"}],
+    )
+
+    assert output["qualifications"][0]["entry_type"] == expected
+
+
 def test_mined_pages_keep_claim_target_and_reach_normal_ledger_compute(monkeypatch, tmp_path) -> None:
     class LiteralPageModel(FakeModel):
         def run(self, slot: str, payload: dict) -> dict:

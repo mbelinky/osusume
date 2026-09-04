@@ -53,6 +53,27 @@ def validate_card(card: dict[str, Any], defaults: dict[str, int]) -> dict[str, A
         for source, weight in sources.items():
             if not isinstance(weight, (int, float)) or not 0 <= weight <= 1:
                 raise CardValidationError(f"source weight {country}.{source} must be from 0 to 1")
+    source_domains = card.get("source_domains", {})
+    if not isinstance(source_domains, dict):
+        raise CardValidationError("source_domains must be a mapping")
+    for source, domains in source_domains.items():
+        if not isinstance(source, str):
+            raise CardValidationError("source_domains names must be strings")
+        if not isinstance(domains, list) or any(not isinstance(domain, str) or not domain.strip() for domain in domains):
+            raise CardValidationError(f"source_domains.{source} must be a list of non-empty strings")
+    contact_questions = card.get("contact_questions", {})
+    if not isinstance(contact_questions, dict):
+        raise CardValidationError("contact_questions must be a mapping")
+    for claim_type, questions in contact_questions.items():
+        if not isinstance(claim_type, str) or not claim_type:
+            raise CardValidationError("contact_questions claim types must be non-empty strings")
+        if not isinstance(questions, dict):
+            raise CardValidationError(f"contact_questions.{claim_type} must be a mapping")
+        for language, question in questions.items():
+            if not isinstance(language, str) or not language:
+                raise CardValidationError(f"contact_questions.{claim_type} languages must be non-empty strings")
+            if not isinstance(question, str) or not question.strip():
+                raise CardValidationError(f"contact_questions.{claim_type}.{language} must be a non-empty string")
     return card
 
 
@@ -75,6 +96,8 @@ def save_ephemeral_card(card: dict[str, Any], drafts_dir: Path, defaults: dict[s
     draft["reviewed"] = False
     draft["auto_written"] = True
     draft.pop("sources", None)
+    draft.pop("source_domains", None)
+    draft.pop("contact_questions", None)
     validate_card(draft, defaults)
     drafts_dir.mkdir(parents=True, exist_ok=True)
     path = drafts_dir / f"{draft['category']}.yaml"

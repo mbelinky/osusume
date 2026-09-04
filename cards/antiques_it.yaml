@@ -14,6 +14,8 @@ sources:
     associazione_antiquari_italia: 1.0
     comune_calendar: 1.0
     tripadvisor: 0.1
+source_domains:
+  tripadvisor: [tripadvisor.com, tripadvisor.it]
 load_bearing_claims:
   - operational_status
   - hours_at_arrival

@@ -22,6 +22,7 @@ class Candidate:
     registry: list[dict[str, Any]] = field(default_factory=list)
     raw: dict[str, Any] = field(default_factory=dict)
     rejection_reason: str | None = None
+    minutes: float | None = None
     details: dict[str, Any] = field(default_factory=dict)
     evidence: list[Any] = field(default_factory=list)
     ledger: Any = None
