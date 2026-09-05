@@ -305,23 +305,28 @@ class BookingAdapter:
             codes.append(f"review_score={int(float(filters['min_score']) * 10)}")
         if filters.get("pets"):
             codes.append("hotelfacility=4")
+        if filters.get("hot_tub"):
+            codes.append("hotelfacility=54")
         if filters.get("breakfast"):
             codes.append("mealplan=1")
         if filters.get("free_cancellation"):
             codes.append("fc=2")
         return codes
 
-    def sweep(self, request: dict, card: dict) -> dict[str, Any]:
+    def sweep(self, request: dict, card: dict, offset: int = 0) -> dict[str, Any]:
         stay = request.get("stay") or {}
         check_in = stay.get("check_in")
         check_out = stay.get("check_out")
         if not check_in or not check_out:
             raise AdapterError("stay_dates_missing")
+        query = self._query(request).strip()
+        if not query:
+            raise AdapterError("city_missing")
         args = [
             "hotels",
             "list",
             "--query",
-            self._query(request),
+            query,
             "--checkin",
             str(check_in),
             "--checkout",
@@ -336,6 +341,8 @@ class BookingAdapter:
             args.extend(["--nflt", ";".join(codes)])
         if request.get("scope", {}).get("kind") == "anchor":
             args.extend(["--order", "distance_from_search"])
+        if offset:
+            args.extend(["--offset", str(offset)])
         payload = self._run(args)
         return {
             "candidates": [

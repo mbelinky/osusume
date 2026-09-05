@@ -5,6 +5,16 @@ All notable changes to Osusume are recorded here. The format follows
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Osusume is in
 super beta: minor versions can still change commands and output.
 
+## [0.6.1] - 2026-09-05
+
+### Added
+
+- City-wide hotel searches: `--city "<name>"` names the Booking query for a
+  point scope, and `hotel_filters.hot_tub` (from "hot tub", "jacuzzi",
+  "whirlpool", "hidromasaje" in the ask) maps to Booking's verified hot-tub
+  filter. Booking paging is capped by `retrieval.booking_max_rows` (default
+  25: Booking serves the same first page for every offset today).
+
 ## [0.6.0] - 2026-09-04
 
 ### Added

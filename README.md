@@ -71,7 +71,7 @@ uv run osusume find "4 or 5 star pet-friendly hotel with breakfast and free canc
   --json
 ```
 
-`--check-in` and `--check-out` are required for a Booking hotel sweep. `--adults` defaults to 2. The parse lane reads explicit star, guest-score, pets, breakfast, and free-cancellation filters from the ask. Osusume returns the Booking link and never books a room.
+`--check-in` and `--check-out` are required for a Booking hotel sweep, and `--adults` defaults to 2. Use `--city NAME` to name the city for a city-wide `--near` search; it is optional with other scopes. The parse lane also reads the city and explicit star, guest-score, pets, breakfast, free-cancellation, and hot-tub filters from the ask; the hot-tub filter includes Booking properties marked `Hot tub/Jacuzzi`, while a private in-room hot tub still needs proof from the hotel's own site or photos. Booking fetches up to `retrieval.booking_max_rows` rows, 100 by default. Osusume returns the Booking link and never books a room.
 
 The anchor is resolved to a real listing, excluded from its own results, and
 every candidate is gated on measured travel minutes in the requested mode.

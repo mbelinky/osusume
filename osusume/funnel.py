@@ -26,6 +26,14 @@ LODGING_TYPES = {
     "motel",
     "inn",
 }
+BOOKING_PAGE_SIZE = 25
+HOT_TUB_HINTS = (
+    "hot tub",
+    "jacuzzi",
+    "whirlpool",
+    "spa bath",
+    "bañera de hidromasaje",
+)
 
 HOURS_CONTACT_QUESTIONS = {
     "it": "Sarete aperti durante il nostro orario di arrivo?",
@@ -339,6 +347,9 @@ class Funnel:
             parsed["stay"] = {**(parsed.get("stay") or {}), **raw_input["stay"]}
         if parsed.get("stay"):
             parsed["stay"].setdefault("adults", 2)
+        ask = str(parsed.get("ask") or raw_input.get("ask") or "")
+        if any(hint in ask.casefold() for hint in HOT_TUB_HINTS):
+            parsed["hotel_filters"] = {**(parsed.get("hotel_filters") or {}), "hot_tub": True}
         if raw_input.get("hotel_filters"):
             parsed["hotel_filters"] = {**(parsed.get("hotel_filters") or {}), **raw_input["hotel_filters"]}
         parsed["exclusions"] = list(dict.fromkeys([*parsed.get("exclusions", []), *raw_input.get("exclude", [])]))
@@ -360,11 +371,44 @@ class Funnel:
             save_ephemeral_card(card, self.config["paths"]["drafts"], self.config["freshness_days"])
         return request, card
 
+    def _booking_sweep(self, request: StructuredRequest, card: dict) -> dict[str, Any]:
+        max_rows = max(0, int(self.config["retrieval"].get("booking_max_rows", 100)))
+        candidates: list[dict[str, Any]] = []
+        seen_slugs: set[str] = set()
+        rows_fetched = 0
+        offset = 0
+        while rows_fetched < max_rows:
+            payload = {"request": request.to_dict(), "card": card, "offset": offset}
+            response = self._call(
+                "booking",
+                "sweep",
+                payload,
+                lambda current_offset=offset: self.adapters.booking.sweep(
+                    request.to_dict(), card, current_offset
+                ),
+            )
+            page = list(response.get("candidates", []))
+            rows_fetched += len(page)
+            for row in page:
+                booking = row.get("raw", {}).get("booking", row.get("booking", row))
+                slug = str(booking.get("slug") or "")
+                if slug and slug in seen_slugs:
+                    continue
+                if slug:
+                    seen_slugs.add(slug)
+                candidates.append(row)
+                if len(candidates) >= max_rows:
+                    break
+            if len(page) < BOOKING_PAGE_SIZE or rows_fetched >= max_rows or len(candidates) >= max_rows:
+                break
+            offset += BOOKING_PAGE_SIZE
+        return {"candidates": candidates}
+
     def stage1_sweep(self, request: StructuredRequest, card: dict) -> list[Candidate]:
         payload = {"request": request.to_dict(), "card": card}
         booking_sweep = card.get("sweep_source", "places") == "booking"
         if booking_sweep:
-            response = self._call("booking", "sweep", payload, lambda: self.adapters.booking.sweep(request.to_dict(), card))
+            response = self._booking_sweep(request, card)
         else:
             response = self._call("goplaces", "sweep", payload, lambda: self.adapters.places.sweep(request.to_dict(), card))
         if response.get("type_attempt_count", 0) and not response.get("type_success_count", 0):
@@ -431,7 +475,8 @@ class Funnel:
                 self.rejected.append(candidate)
                 continue
             survivors.setdefault(candidate.place_id, candidate)
-        return list(survivors.values())[:20]
+        rows = list(survivors.values())
+        return rows if booking_sweep else rows[:20]
 
     def resolve_anchor(self, request: StructuredRequest) -> StructuredRequest | None:
         if request.scope.get("kind") != "anchor":
@@ -751,7 +796,7 @@ class Funnel:
             if facilities:
                 facilities_text = "Property facilities: " + "; ".join(facilities)
                 for claim in ledger.claims:
-                    if claim.claim_type not in {"layout", "product_inventory"} or _room_level_claim(claim.text):
+                    if claim.claim_type != "layout" or _room_level_claim(claim.text):
                         continue
                     ledger.add_evidence(
                         EvidenceRecord(
@@ -1207,10 +1252,21 @@ class Funnel:
 
     def run(self, raw_input: dict[str, Any]) -> dict[str, Any]:
         request, card = self.stage0_parse(raw_input)
-        if card.get("sweep_source", "places") == "booking" and (
+        booking_sweep = card.get("sweep_source", "places") == "booking"
+        if booking_sweep and (
             not request.stay or not request.stay.get("check_in") or not request.stay.get("check_out")
         ):
             return self.stage6_render([], request, card, bool(raw_input.get("contact_drafts")), "stay_dates_missing")
+        if booking_sweep:
+            scope = request.scope
+            if scope.get("kind") == "anchor":
+                query = scope.get("place")
+            elif scope.get("kind") == "route":
+                query = scope.get("to")
+            else:
+                query = scope.get("city")
+            if not str(query or "").strip():
+                return self.stage6_render([], request, card, bool(raw_input.get("contact_drafts")), "city_missing")
         resolved_request = self.resolve_anchor(request)
         if resolved_request is None:
             return self.stage6_render([], request, card, bool(raw_input.get("contact_drafts")), "anchor_unresolved")

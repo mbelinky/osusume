@@ -40,6 +40,7 @@ def _parser() -> argparse.ArgumentParser:
     scope.add_argument("--near", type=_near, metavar="LAT,LNG")
     scope.add_argument("--route", nargs=2, metavar=("FROM", "TO"))
     scope.add_argument("--near-place", metavar="NAME_OR_PLACE_ID")
+    find.add_argument("--city", metavar="NAME")
     find.add_argument("--radius-km", type=float, default=5.0)
     find.add_argument("--max-min", type=float, default=10.0)
     find.add_argument("--mode", choices=("walk", "drive", "bicycle", "transit"), default="walk")
@@ -82,6 +83,8 @@ def _raw_input(args: argparse.Namespace) -> dict[str, Any]:
         scope = {"kind": "route", "from": args.route[0], "to": args.route[1], "radius_km": args.radius_km}
     elif args.near_place:
         scope = {"kind": "anchor", "place": args.near_place, "mode": args.mode, "max_min": args.max_min}
+    if scope is not None and args.city:
+        scope["city"] = args.city
     result = {
         "ask": args.ask or "",
         "scope": scope,

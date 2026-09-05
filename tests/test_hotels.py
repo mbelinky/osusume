@@ -3,7 +3,14 @@ from datetime import datetime, timezone
 
 import pytest
 
-from osusume.adapters import AdapterError, BookingAdapter, GoplacesAdapter, RecordedAdapters
+from osusume.adapters import (
+    AdapterError,
+    BookingAdapter,
+    GoplacesAdapter,
+    RecordedAdapters,
+    ReplayStore,
+    SnapshotRecorder,
+)
 from osusume.cards import CardValidationError, load_card, validate_card
 from osusume.config import load_config
 from osusume.domain import Candidate, StructuredRequest
@@ -58,8 +65,8 @@ class FakeBooking:
         self.sweep_calls = []
         self.detail_calls = []
 
-    def sweep(self, request: dict, card: dict) -> dict:
-        self.sweep_calls.append((deepcopy(request), deepcopy(card)))
+    def sweep(self, request: dict, card: dict, offset: int = 0) -> dict:
+        self.sweep_calls.append((deepcopy(request), deepcopy(card), offset))
         return {"candidates": [{"name": row["name"], "raw": {"booking": deepcopy(row)}} for row in self.rows]}
 
     def details(self, country: str, slug: str) -> dict:
@@ -95,6 +102,7 @@ def test_booking_sweep_builds_command_and_maps_rows(monkeypatch) -> None:
         "pets": True,
         "breakfast": True,
         "free_cancellation": True,
+        "hot_tub": True,
     }
 
     result = adapter.sweep(request, {"sweep_source": "booking"})
@@ -102,7 +110,7 @@ def test_booking_sweep_builds_command_and_maps_rows(monkeypatch) -> None:
     assert commands == [[
         "hotels", "list", "--query", "Plaça de Catalunya", "--checkin", "2026-10-01",
         "--checkout", "2026-10-03", "--adults", "2", "--currency", "EUR", "--nflt",
-        "class=4;class=5;review_score=80;hotelfacility=4;mealplan=1;fc=2", "--order",
+        "class=4;class=5;review_score=80;hotelfacility=4;hotelfacility=54;mealplan=1;fc=2", "--order",
         "distance_from_search",
     ]]
     assert result["candidates"][0]["raw"]["booking"]["slug"] == "hotel-uno"
@@ -120,6 +128,128 @@ def test_booking_query_uses_near_city_or_route_destination() -> None:
 def test_booking_adapter_rejects_missing_stay_dates() -> None:
     with pytest.raises(AdapterError, match="stay_dates_missing"):
         BookingAdapter("booking-test").sweep(hotel_request(stay=False), {})
+
+
+def test_booking_adapter_rejects_missing_city() -> None:
+    request = hotel_request()
+    request["scope"].pop("city")
+
+    with pytest.raises(AdapterError, match="city_missing"):
+        BookingAdapter("booking-test").sweep(request, {})
+
+
+def test_booking_adapter_adds_offset_after_first_page(monkeypatch) -> None:
+    adapter = BookingAdapter("booking-test")
+    commands = []
+    monkeypatch.setattr(adapter, "_run", lambda args: commands.append(args) or {"results": []})
+
+    adapter.sweep(hotel_request(), {"sweep_source": "booking"}, 25)
+
+    assert commands[0][-2:] == ["--offset", "25"]
+
+
+def test_booking_pages_merge_dedupe_record_and_replay(tmp_path) -> None:
+    class PagedBooking:
+        def __init__(self) -> None:
+            self.offsets = []
+
+        def sweep(self, request: dict, card: dict, offset: int = 0) -> dict:
+            self.offsets.append(offset)
+            starts = {0: 0, 25: 24, 50: 49}
+            count = 10 if offset == 50 else 25
+            rows = [booking_row(f"Hotel {index}", f"hotel-{index}") for index in range(starts[offset], starts[offset] + count)]
+            return {"candidates": [{"name": row["name"], "raw": {"booking": row}} for row in rows]}
+
+    booking = PagedBooking()
+    config = load_config()
+    config["retrieval"]["booking_max_rows"] = 100
+    recorder = SnapshotRecorder(tmp_path)
+    engine = Funnel(config, RecordedAdapters(None, None, None, booking=booking, recorder=recorder), now=NOW)
+
+    result = engine._booking_sweep(StructuredRequest.from_dict(hotel_request()), {"sweep_source": "booking"})
+
+    assert booking.offsets == [0, 25, 50]
+    assert len(result["candidates"]) == 59
+    assert len({row["raw"]["booking"]["slug"] for row in result["candidates"]}) == 59
+    assert [call["request"]["offset"] for call in recorder.calls] == [0, 25, 50]
+
+    recorder.finish({}, {})
+    replay = ReplayStore(tmp_path)
+    replay_engine = Funnel(config, RecordedAdapters(None, None, None, replay=replay), now=NOW)
+    replayed = replay_engine._booking_sweep(
+        StructuredRequest.from_dict(hotel_request()), {"sweep_source": "booking"}
+    )
+
+    assert replayed == result
+    assert replay.index == 3
+
+
+def test_booking_page_cap_stops_after_second_page() -> None:
+    class FullPages:
+        def __init__(self) -> None:
+            self.offsets = []
+
+        def sweep(self, request: dict, card: dict, offset: int = 0) -> dict:
+            self.offsets.append(offset)
+            rows = [booking_row(f"Hotel {offset + index}", f"hotel-{offset + index}") for index in range(25)]
+            return {"candidates": [{"name": row["name"], "raw": {"booking": row}} for row in rows]}
+
+    booking = FullPages()
+    config = load_config()
+    config["retrieval"]["booking_max_rows"] = 30
+    engine = Funnel(config, RecordedAdapters(None, None, None, booking=booking), now=NOW)
+
+    result = engine._booking_sweep(StructuredRequest.from_dict(hotel_request()), {"sweep_source": "booking"})
+
+    assert booking.offsets == [0, 25]
+    assert len(result["candidates"]) == 30
+
+
+def test_near_booking_sweep_without_city_refuses_closed(tmp_path) -> None:
+    parsed = hotel_request()
+    parsed["scope"].pop("city")
+    booking = FakeBooking([])
+
+    output = run_hotel(tmp_path, parsed, booking, {})
+
+    assert output["refusal"] is True
+    assert output["reason"] == "city_missing"
+    assert booking.sweep_calls == []
+
+
+@pytest.mark.parametrize(
+    "phrase",
+    ["hot tub", "jacuzzi", "whirlpool", "spa bath", "bañera de hidromasaje", "jacuzzi privado"],
+)
+def test_hot_tub_phrases_set_parse_filter(tmp_path, phrase: str) -> None:
+    parsed = hotel_request()
+    parsed["ask"] = f"Hotel in Barcelona with {phrase}"
+    parsed["hotel_filters"] = {}
+    config = load_config()
+    config["paths"]["drafts"] = tmp_path
+    engine = Funnel(config, RecordedAdapters(None, None, FakeModel(parsed)), now=NOW)
+
+    request, _ = engine.stage0_parse({"ask": parsed["ask"], "card": "hotel"})
+
+    assert request.hotel_filters["hot_tub"] is True
+
+
+def test_cli_city_overrides_city_parsed_from_ask(tmp_path) -> None:
+    parsed = hotel_request()
+    parsed["scope"]["city"] = "Madrid"
+    config = load_config()
+    config["paths"]["drafts"] = tmp_path
+    engine = Funnel(config, RecordedAdapters(None, None, FakeModel(parsed)), now=NOW)
+
+    request, _ = engine.stage0_parse(
+        {
+            "ask": parsed["ask"],
+            "card": "hotel",
+            "scope": {"kind": "near", "city": "Barcelona", "lat": 42.0, "lng": 12.0},
+        }
+    )
+
+    assert request.scope["city"] == "Barcelona"
 
 
 def test_places_resolution_adds_optional_hotel_type(monkeypatch) -> None:

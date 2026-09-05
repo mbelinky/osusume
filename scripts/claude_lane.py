@@ -17,9 +17,9 @@ PARSE_SCHEMA = {
         "ask": "str", "category": "one lowercase token, e.g. ceramics/restaurant/hotel",
         "country": "ISO2", "local_language": "ISO2",
         "required_attributes": [{"claim_id": "snake_case", "text": "objectively checkable venue fact", "claim_type": "one of: product_inventory,counter_service,layout,quality,prices,event_schedule,generic", "required": True, "_rules": "a required attribute is an objectively checkable fact about the venue: a product or drink it sells, a service it performs, a physical feature, or a schedule; it qualifies if a photo, menu, official page, or Places field could settle it yes or no; subjective character, mood, style, price feel, and crowd words are NEVER required attributes (including upscale, quirky, cosy, romantic, lively, hip, authentic, not touristy, and hidden gem), and instead go into preferences with effect_type ranking_signal; an either/or taste phrase such as upscale or quirky is one ranking signal, never two required attributes, and an OR must never be split into several requirements; a concrete thing named inside a taste phrase still counts, so craft cocktail menu is checkable as product_inventory and stays required; never add an opening-hours attribute (the arrival window covers hours); event_schedule is ONLY for recurring events like markets/fairs"}],
-        "scope": {}, "arrival_start": "RFC3339 or null", "arrival_end": "RFC3339 or null",
+        "scope": {"city": "named city from the ask, when present"}, "arrival_start": "RFC3339 or null", "arrival_end": "RFC3339 or null",
         "stay": {"check_in": "YYYY-MM-DD", "check_out": "YYYY-MM-DD", "adults": "int, default 2"},
-        "hotel_filters": {"min_stars": "number or null", "max_stars": "number or null", "min_score": "number or null", "pets": "bool or null", "breakfast": "bool or null", "free_cancellation": "bool or null"},
+        "hotel_filters": {"min_stars": "number or null", "max_stars": "number or null", "min_score": "number or null", "pets": "bool or null", "breakfast": "bool or null", "free_cancellation": "bool or null", "hot_tub": "bool or null"},
         "exclusions": [], "preferences": [{"text": "the user preference", "effect_type": "required_attribute|ranking_signal|search_space", "effect": "what it mechanically does"}],
     },
     "ephemeral_card": {
@@ -70,7 +70,9 @@ def main() -> None:
             "craft cocktail menu is checkable as product_inventory and stays required. Use the local "
             "language of the destination country. "
             "For hotel asks, fill stay from dates and guest count in the ask, and fill hotel_filters "
-            "from explicit star range, guest score, pet-friendly, breakfast included, and free cancellation phrases. "
+            "from explicit star range, guest score, pet-friendly, breakfast included, free cancellation, and "
+            "hot tub, jacuzzi, whirlpool, spa bath, bañera de hidromasaje, or jacuzzi privado phrases. "
+            "Put a named destination city in scope.city. "
             "Do not invent scope coordinates. Preserve caller-supplied scope. If none is supplied and the ask names an anchor place, emit scope as kind=anchor with place, mode (walk by default), and max_min (10 by default). Always include "
             "ephemeral_card (it is ignored when a reviewed card exists).\n\nInput:\n"
             + json.dumps(payload, ensure_ascii=False)
