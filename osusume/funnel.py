@@ -835,7 +835,7 @@ class Funnel:
             ledger.add_evidence(
                 EvidenceRecord(
                     f"registry_{index}", "quality", "qualified_guide", row.get("url", ""), stamp,
-                    row.get("date", stamp), text, row.get("quote", text), roundup=False,
+                    row.get("date") or stamp, text, row.get("quote", text), roundup=False,
                 )
             )
         rows = list(mined.get("evidence", []))
@@ -919,7 +919,7 @@ class Funnel:
                         source_kind="photo",
                         url=response.get("url") or response.get("photoUri") or f"goplaces://photo/{photo_name}",
                         fetched_at=stamp,
-                        evidence_date=metadata.get("evidence_date", stamp),
+                        evidence_date=metadata.get("evidence_date") or stamp,
                         text=photo_text,
                         quote=photo_text,
                         metadata={"photo": response, "question": claim.text},

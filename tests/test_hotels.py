@@ -473,16 +473,16 @@ def test_room_level_attribute_needs_official_page_not_property_facilities(tmp_pa
     assert claim["status"] == "supported"
 
 
-def test_abac_official_home_and_rooms_pages_support_private_room_hot_tub(monkeypatch) -> None:
+def test_terrace_official_home_and_rooms_pages_support_private_room_hot_tub(monkeypatch) -> None:
     homepage_sentence = "Todas las habitaciones disponen de bañera de hidromasaje."
     penthouse_sentence = "El Penthouse tiene una espectacular terraza de 90 m² con jacuzzi."
     responses = {
-        "https://abacbarcelona.com/es/": StubTextResponse(
-            "https://abacbarcelona.com/es/",
+        "https://example-terrace-hotel.test/es/": StubTextResponse(
+            "https://example-terrace-hotel.test/es/",
             f'<html><body><p>{homepage_sentence}</p><a href="/es/habitaciones/">Habitaciones</a></body></html>',
         ),
-        "https://abacbarcelona.com/es/habitaciones/": StubTextResponse(
-            "https://abacbarcelona.com/es/habitaciones/",
+        "https://example-terrace-hotel.test/es/habitaciones/": StubTextResponse(
+            "https://example-terrace-hotel.test/es/habitaciones/",
             f"<html><body><p>{penthouse_sentence}</p></body></html>",
         ),
     }
@@ -491,14 +491,14 @@ def test_abac_official_home_and_rooms_pages_support_private_room_hot_tub(monkeyp
     card = load_card(config["paths"]["cards"] / "hotel_es.yaml", config["freshness_days"])
     details_payload = {
         "en": {
-            "id": "abac",
-            "displayName": {"text": "ABaC Hotel Barcelona"},
+            "id": "terrace",
+            "displayName": {"text": "Terrace Suites Hotel"},
             "businessStatus": "OPERATIONAL",
-            "websiteUri": "https://abacbarcelona.com/es/",
+            "websiteUri": "https://example-terrace-hotel.test/es/",
         }
     }
     official = WebAdapter("https://example.test").official_pages(
-        {"place_id": "abac", "name": "ABaC Hotel Barcelona", "details": details_payload},
+        {"place_id": "terrace", "name": "Terrace Suites Hotel", "details": details_payload},
         details_payload,
         card,
     )
@@ -508,11 +508,11 @@ def test_abac_official_home_and_rooms_pages_support_private_room_hot_tub(monkeyp
         "text": "A private hot tub is in the room",
         "synonyms": ["jacuzzi", "whirlpool", "spa bath", "hidromasaje", "bañera de hidromasaje"],
     }
-    candidate = Candidate.from_place(operational_place("abac", "ABaC Hotel Barcelona", "hotel"))
+    candidate = Candidate.from_place(operational_place("terrace", "Terrace Suites Hotel", "hotel"))
     candidate.details = details_payload["en"]
     parsed = StructuredRequest.from_dict(hotel_request([required], stay=False))
 
-    class AbacJudge:
+    class TerraceJudge:
         def __init__(self) -> None:
             self.payload = None
 
@@ -534,7 +534,7 @@ def test_abac_official_home_and_rooms_pages_support_private_room_hot_tub(monkeyp
                 }]
             }
 
-    judge = AbacJudge()
+    judge = TerraceJudge()
     engine = Funnel(config, RecordedAdapters(None, None, judge), now=NOW)
     candidate.ledger = engine._build_ledger(candidate, parsed, card, official, candidate.details, None, None)
     engine.stage5_judge([candidate], card)

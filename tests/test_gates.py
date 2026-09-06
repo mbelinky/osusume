@@ -329,6 +329,32 @@ def test_official_product_type_page_supports_custom_and_card_claims() -> None:
     assert next(claim for claim in card_ledger.claims if claim.claim_id == "product_inventory").status.value == "supported"
 
 
+def test_photo_evidence_without_date_uses_current_time() -> None:
+    candidate = Candidate.from_place(operational_place(primary_type="bar"))
+    engine = Funnel(load_config(), RecordedAdapters(None, None, None), now=NOW)
+
+    ledger = engine._build_ledger(
+        candidate,
+        StructuredRequest.from_dict(request()),
+        {"load_bearing_claims": ["product_inventory"]},
+        {
+            "photo_responses": [
+                {
+                    "metadata": {"name": "menu-photo", "claim_id": "product_inventory", "evidence_date": None},
+                    "response": {"url": "https://venue.example/photo"},
+                }
+            ]
+        },
+        operational_details()["en"],
+        None,
+        None,
+    )
+
+    photo_evidence = next(row for row in ledger.evidence if row.source_kind == "photo")
+    assert photo_evidence.evidence_date == NOW.isoformat()
+    assert photo_evidence.fetched_at == NOW.isoformat()
+
+
 def test_recorded_full_run_replays_without_fetching_network(monkeypatch, tmp_path) -> None:
     parsed = request()
     details = operational_details()
