@@ -5,6 +5,17 @@ All notable changes to Osusume are recorded here. The format follows
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Osusume is in
 super beta: minor versions can still change commands and output.
 
+## [0.7.2] - 2026-09-06
+
+### Fixed
+
+- Booking's facility filters are treated as a lossy pre-filter, not a gate:
+  when the ask carries one (hot tub, pets, breakfast, free cancellation) the
+  sweep runs a second, unfiltered query and merges the rows, because
+  Booking's filtered page can omit the very hotel named in the query. A
+  hot-tub ask never rejects a row on Booking's flag; the claim is settled by
+  evidence. `retrieval.booking_max_rows` now defaults to 50.
+
 ## [0.7.1] - 2026-09-06
 
 ### Fixed

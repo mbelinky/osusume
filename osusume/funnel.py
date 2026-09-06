@@ -9,7 +9,7 @@ from enum import Enum
 from typing import Any
 from urllib.parse import urlparse
 
-from .adapters import AdapterError, RecordedAdapters, _candidate_details, _identity_label, _is_aggregator_domain, anchor_radius_m
+from .adapters import AdapterError, BookingAdapter, RecordedAdapters, _candidate_details, _identity_label, _is_aggregator_domain, anchor_radius_m
 from .cards import find_card, save_ephemeral_card, validate_card
 from .domain import Candidate, StructuredRequest, utc_now
 from .evidence import Claim, ClaimLedger, ClaimStatus, EvidenceRecord, registrable_domain
@@ -27,7 +27,6 @@ LODGING_TYPES = {
     "motel",
     "inn",
 }
-BOOKING_PAGE_SIZE = 25
 HOT_TUB_HINTS = (
     "hot tub",
     "jacuzzi",
@@ -386,24 +385,33 @@ class Funnel:
         return request, card
 
     def _booking_sweep(self, request: StructuredRequest, card: dict) -> dict[str, Any]:
-        max_rows = max(0, int(self.config["retrieval"].get("booking_max_rows", 100)))
+        max_rows = max(0, int(self.config["retrieval"].get("booking_max_rows", 50)))
+        if max_rows == 0:
+            return {"candidates": []}
+
+        full_request = request.to_dict()
+        request_variants = [full_request]
+        filter_codes = BookingAdapter._filter_codes(request.hotel_filters)
+        if any(code.startswith(("hotelfacility=", "mealplan=", "fc=")) for code in filter_codes):
+            broad_request = request.to_dict()
+            broad_request["hotel_filters"] = {
+                key: request.hotel_filters[key]
+                for key in ("min_stars", "max_stars", "min_score")
+                if key in request.hotel_filters
+            }
+            request_variants.append(broad_request)
+
         candidates: list[dict[str, Any]] = []
         seen_slugs: set[str] = set()
-        rows_fetched = 0
-        offset = 0
-        while rows_fetched < max_rows:
-            payload = {"request": request.to_dict(), "card": card, "offset": offset}
+        for request_variant in request_variants:
+            payload = {"request": request_variant, "card": card, "offset": 0}
             response = self._call(
                 "booking",
                 "sweep",
                 payload,
-                lambda current_offset=offset: self.adapters.booking.sweep(
-                    request.to_dict(), card, current_offset
-                ),
+                lambda current_request=request_variant: self.adapters.booking.sweep(current_request, card, 0),
             )
-            page = list(response.get("candidates", []))
-            rows_fetched += len(page)
-            for row in page:
+            for row in response.get("candidates", []):
                 booking = row.get("raw", {}).get("booking", row.get("booking", row))
                 slug = str(booking.get("slug") or "")
                 if slug and slug in seen_slugs:
@@ -411,12 +419,7 @@ class Funnel:
                 if slug:
                     seen_slugs.add(slug)
                 candidates.append(row)
-                if len(candidates) >= max_rows:
-                    break
-            if len(page) < BOOKING_PAGE_SIZE or rows_fetched >= max_rows or len(candidates) >= max_rows:
-                break
-            offset += BOOKING_PAGE_SIZE
-        return {"candidates": candidates}
+        return {"candidates": candidates[:max_rows]}
 
     def stage1_sweep(self, request: StructuredRequest, card: dict) -> list[Candidate]:
         payload = {"request": request.to_dict(), "card": card}

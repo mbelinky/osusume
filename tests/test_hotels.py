@@ -173,61 +173,121 @@ def test_booking_adapter_adds_offset_after_first_page(monkeypatch) -> None:
     assert commands[0][-2:] == ["--offset", "25"]
 
 
-def test_booking_pages_merge_dedupe_record_and_replay(tmp_path) -> None:
-    class PagedBooking:
+@pytest.mark.parametrize(
+    ("filter_name", "filter_code"),
+    [
+        ("hot_tub", "hotelfacility=54"),
+        ("pets", "hotelfacility=4"),
+        ("breakfast", "mealplan=1"),
+        ("free_cancellation", "fc=2"),
+    ],
+)
+def test_booking_facility_filters_run_filtered_and_broad_commands(
+    monkeypatch, filter_name: str, filter_code: str
+) -> None:
+    adapter = BookingAdapter("booking-test")
+    commands = []
+    monkeypatch.setattr(adapter, "_run", lambda args: commands.append(args) or {"results": [booking_row()]})
+    request = hotel_request()
+    request["hotel_filters"] = {"min_stars": 4, "max_stars": 4, "min_score": 8, filter_name: True}
+    engine = Funnel(load_config(), RecordedAdapters(None, None, None, booking=adapter), now=NOW)
+
+    result = engine._booking_sweep(StructuredRequest.from_dict(request), {"sweep_source": "booking"})
+
+    assert len(result["candidates"]) == 1
+    assert len(commands) == 2
+    assert commands[0][commands[0].index("--nflt") + 1] == f"class=4;review_score=80;{filter_code}"
+    assert commands[1][commands[1].index("--nflt") + 1] == "class=4;review_score=80"
+    assert all("--offset" not in command for command in commands)
+
+
+def test_booking_star_filter_runs_one_command_for_a_full_result_page(monkeypatch) -> None:
+    adapter = BookingAdapter("booking-test")
+    commands = []
+    rows = [booking_row(f"Hotel {index}", f"hotel-{index}") for index in range(25)]
+    monkeypatch.setattr(adapter, "_run", lambda args: commands.append(args) or {"results": rows})
+    request = hotel_request()
+    request["hotel_filters"] = {"min_stars": 4}
+    engine = Funnel(load_config(), RecordedAdapters(None, None, None, booking=adapter), now=NOW)
+
+    result = engine._booking_sweep(StructuredRequest.from_dict(request), {"sweep_source": "booking"})
+
+    assert len(result["candidates"]) == 25
+    assert len(commands) == 1
+    assert commands[0][commands[0].index("--nflt") + 1] == "class=4;class=5"
+    assert "--offset" not in commands[0]
+
+
+def test_booking_queries_merge_dedupe_cap_record_and_replay(tmp_path) -> None:
+    class FilterAwareBooking:
         def __init__(self) -> None:
-            self.offsets = []
+            self.calls = []
 
         def sweep(self, request: dict, card: dict, offset: int = 0) -> dict:
-            self.offsets.append(offset)
-            starts = {0: 0, 25: 24, 50: 49}
-            count = 10 if offset == 50 else 25
-            rows = [booking_row(f"Hotel {index}", f"hotel-{index}") for index in range(starts[offset], starts[offset] + count)]
+            self.calls.append((deepcopy(request), offset))
+            if request["hotel_filters"].get("hot_tub"):
+                rows = [booking_row("Filtered", "filtered"), booking_row("Shared", "shared")]
+            else:
+                rows = [
+                    {**booking_row("Shared", "shared"), "price": 999},
+                    booking_row("Broad", "broad"),
+                    booking_row("Capped", "capped"),
+                ]
             return {"candidates": [{"name": row["name"], "raw": {"booking": row}} for row in rows]}
 
-    booking = PagedBooking()
+    request = hotel_request()
+    request["hotel_filters"] = {"min_stars": 4, "hot_tub": True}
+    booking = FilterAwareBooking()
     config = load_config()
-    config["retrieval"]["booking_max_rows"] = 100
+    config["retrieval"]["booking_max_rows"] = 3
     recorder = SnapshotRecorder(tmp_path)
     engine = Funnel(config, RecordedAdapters(None, None, None, booking=booking, recorder=recorder), now=NOW)
 
-    result = engine._booking_sweep(StructuredRequest.from_dict(hotel_request()), {"sweep_source": "booking"})
+    result = engine._booking_sweep(StructuredRequest.from_dict(request), {"sweep_source": "booking"})
 
-    assert booking.offsets == [0, 25, 50]
-    assert len(result["candidates"]) == 59
-    assert len({row["raw"]["booking"]["slug"] for row in result["candidates"]}) == 59
-    assert [call["request"]["offset"] for call in recorder.calls] == [0, 25, 50]
+    assert [row["raw"]["booking"]["slug"] for row in result["candidates"]] == ["filtered", "shared", "broad"]
+    assert result["candidates"][1]["raw"]["booking"]["price"] == 740
+    assert [offset for _, offset in booking.calls] == [0, 0]
+    assert booking.calls[0][0]["hotel_filters"] == {"min_stars": 4, "hot_tub": True}
+    assert booking.calls[1][0]["hotel_filters"] == {"min_stars": 4}
+    assert [call["request"]["offset"] for call in recorder.calls] == [0, 0]
+    assert [call["request"]["request"]["hotel_filters"] for call in recorder.calls] == [
+        {"min_stars": 4, "hot_tub": True},
+        {"min_stars": 4},
+    ]
 
     recorder.finish({}, {})
     replay = ReplayStore(tmp_path)
     replay_engine = Funnel(config, RecordedAdapters(None, None, None, replay=replay), now=NOW)
-    replayed = replay_engine._booking_sweep(
-        StructuredRequest.from_dict(hotel_request()), {"sweep_source": "booking"}
-    )
+    replayed = replay_engine._booking_sweep(StructuredRequest.from_dict(request), {"sweep_source": "booking"})
 
     assert replayed == result
-    assert replay.index == 3
+    assert replay.index == 2
 
 
-def test_booking_page_cap_stops_after_second_page() -> None:
-    class FullPages:
+def test_booking_broad_query_runs_when_filtered_rows_fill_the_cap() -> None:
+    class FullQueries:
         def __init__(self) -> None:
-            self.offsets = []
+            self.filters = []
 
         def sweep(self, request: dict, card: dict, offset: int = 0) -> dict:
-            self.offsets.append(offset)
-            rows = [booking_row(f"Hotel {offset + index}", f"hotel-{offset + index}") for index in range(25)]
+            self.filters.append(deepcopy(request["hotel_filters"]))
+            prefix = "filtered" if request["hotel_filters"].get("hot_tub") else "broad"
+            rows = [booking_row(f"Hotel {prefix} {index}", f"{prefix}-{index}") for index in range(25)]
             return {"candidates": [{"name": row["name"], "raw": {"booking": row}} for row in rows]}
 
-    booking = FullPages()
+    request = hotel_request()
+    request["hotel_filters"] = {"hot_tub": True}
+    booking = FullQueries()
     config = load_config()
-    config["retrieval"]["booking_max_rows"] = 30
+    config["retrieval"]["booking_max_rows"] = 10
     engine = Funnel(config, RecordedAdapters(None, None, None, booking=booking), now=NOW)
 
-    result = engine._booking_sweep(StructuredRequest.from_dict(hotel_request()), {"sweep_source": "booking"})
+    result = engine._booking_sweep(StructuredRequest.from_dict(request), {"sweep_source": "booking"})
 
-    assert booking.offsets == [0, 25]
-    assert len(result["candidates"]) == 30
+    assert booking.filters == [{"hot_tub": True}, {}]
+    assert len(result["candidates"]) == 10
+    assert all(row["raw"]["booking"]["slug"].startswith("filtered-") for row in result["candidates"])
 
 
 def test_near_booking_sweep_without_city_refuses_closed(tmp_path) -> None:
@@ -319,6 +379,82 @@ def test_booking_candidate_resolves_and_price_is_supported_while_unresolved_is_r
     assert price["status"] == "supported"
     assert "total EUR 740 for 2026-10-01 to 2026-10-03" in output["human"]
     assert missing["reason"] == "unresolved_listing"
+
+
+def test_unfiltered_only_hot_tub_hotel_keeps_the_same_mining_and_output(tmp_path) -> None:
+    class PositionedBooking(FakeBooking):
+        def __init__(self, *, appears_in_filtered_query: bool) -> None:
+            super().__init__([booking_row()])
+            self.appears_in_filtered_query = appears_in_filtered_query
+
+        def sweep(self, request: dict, card: dict, offset: int = 0) -> dict:
+            self.sweep_calls.append((deepcopy(request), deepcopy(card), offset))
+            is_filtered_query = request["hotel_filters"].get("hot_tub") is True
+            rows = self.rows if is_filtered_query == self.appears_in_filtered_query else []
+            return {"candidates": [{"name": row["name"], "raw": {"booking": deepcopy(row)}} for row in rows]}
+
+    required = [{"claim_id": "hotel_hot_tub", "claim_type": "layout", "text": "The hotel has a hot tub"}]
+    parsed = hotel_request(required)
+    parsed["ask"] = "hotel in Barcelona with hot tub"
+    parsed["hotel_filters"] = {"hot_tub": True}
+    resolved = operational_place(name="Hotel Uno", primary_type="hotel")
+    details = operational_details()
+    details["en"]["websiteUri"] = "https://hotel.example/"
+    details["local"]["websiteUri"] = "https://hotel.example/"
+    places = {"resolved": {"Hotel Uno": resolved}, "details": {"p1": details}}
+    web = {
+        "official_pages": {
+            "p1": {
+                "pages": [{
+                    "claim_id": "hotel_hot_tub",
+                    "url": "https://hotel.example/spa",
+                    "text": "The hotel spa includes a hot tub.",
+                    "quote": "The hotel spa includes a hot tub.",
+                    "source_kind": "official",
+                    "identity_label": "exact-venue",
+                    "identity_reasons": ["official-domain"],
+                }],
+                "evidence": [],
+            }
+        }
+    }
+    filtered_booking = PositionedBooking(appears_in_filtered_query=True)
+    broad_booking = PositionedBooking(appears_in_filtered_query=False)
+
+    filtered_output = run_hotel(tmp_path / "filtered", parsed, filtered_booking, places, web)
+    broad_output = run_hotel(tmp_path / "broad", parsed, broad_booking, places, web)
+
+    assert [call[0]["hotel_filters"] for call in filtered_booking.sweep_calls] == [{"hot_tub": True}, {}]
+    assert [call[0]["hotel_filters"] for call in broad_booking.sweep_calls] == [{"hot_tub": True}, {}]
+    assert parsed["hotel_filters"] == {"hot_tub": True}
+    assert broad_output["candidates"] == filtered_output["candidates"]
+    candidate = broad_output["candidates"][0]
+    assert candidate["verdict"] == "cleared"
+    assert candidate["reason"] is None
+    assert next(claim for claim in candidate["claims"] if claim["claim_id"] == "hotel_hot_tub")["status"] == "supported"
+
+
+@pytest.mark.parametrize(
+    ("filters", "row_changes"),
+    [
+        ({"min_stars": 5}, {}),
+        ({"max_stars": 3}, {}),
+        ({"min_score": 9.5}, {}),
+        ({"breakfast": True}, {}),
+        ({"free_cancellation": True}, {"free_cancellation": False}),
+    ],
+)
+def test_booking_reported_row_filter_mismatches_still_reject(
+    tmp_path, filters: dict, row_changes: dict
+) -> None:
+    parsed = hotel_request()
+    parsed["hotel_filters"] = filters
+    row = {**booking_row(), **row_changes}
+    places = {"resolved": {"Hotel Uno": operational_place(name="Hotel Uno", primary_type="hotel")}}
+
+    output = run_hotel(tmp_path, parsed, FakeBooking([row]), places)
+
+    assert output["candidates"][0]["reason"] == "hotel_filter_mismatch"
 
 
 def test_booking_resolution_uses_lodging_type_and_rejects_non_lodging(tmp_path) -> None:
