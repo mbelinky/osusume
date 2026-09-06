@@ -20,6 +20,7 @@ EPHEMERAL_ALLOWED = {
     "reviewed",
     "auto_written",
     "sweep_source",
+    "official_link_terms",
 }
 
 
@@ -78,6 +79,12 @@ def validate_card(card: dict[str, Any], defaults: dict[str, int]) -> dict[str, A
                 raise CardValidationError(f"contact_questions.{claim_type} languages must be non-empty strings")
             if not isinstance(question, str) or not question.strip():
                 raise CardValidationError(f"contact_questions.{claim_type}.{language} must be a non-empty string")
+    official_link_terms = card.get("official_link_terms")
+    if official_link_terms is not None and (
+        not isinstance(official_link_terms, list)
+        or any(not isinstance(term, str) or not term.strip() for term in official_link_terms)
+    ):
+        raise CardValidationError("official_link_terms must be a list of non-empty strings")
     return card
 
 

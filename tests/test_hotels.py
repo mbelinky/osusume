@@ -10,6 +10,7 @@ from osusume.adapters import (
     RecordedAdapters,
     ReplayStore,
     SnapshotRecorder,
+    WebAdapter,
 )
 from osusume.cards import CardValidationError, load_card, validate_card
 from osusume.config import load_config
@@ -19,6 +20,30 @@ from tests.helpers import FakeModel, FakePlaces, FakeWeb, operational_details, o
 
 
 NOW = datetime(2026, 9, 4, 10, tzinfo=timezone.utc)
+
+
+class StubHeaders(dict):
+    def get_content_charset(self) -> str:
+        return "utf-8"
+
+
+class StubTextResponse:
+    def __init__(self, url: str, text: str) -> None:
+        self.url = url
+        self.body = text.encode()
+        self.headers = StubHeaders({"Content-Type": "text/html; charset=utf-8"})
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args) -> None:
+        return None
+
+    def read(self, size: int = -1) -> bytes:
+        return self.body[:size]
+
+    def geturl(self) -> str:
+        return self.url
 
 
 def booking_row(name: str = "Hotel Uno", slug: str = "hotel-uno") -> dict:
@@ -446,6 +471,81 @@ def test_room_level_attribute_needs_official_page_not_property_facilities(tmp_pa
     supported = run_hotel(tmp_path, parsed, booking, places, official)
     claim = next(row for row in supported["candidates"][0]["claims"] if row["claim_id"] == "suite_hot_tub")
     assert claim["status"] == "supported"
+
+
+def test_abac_official_home_and_rooms_pages_support_private_room_hot_tub(monkeypatch) -> None:
+    homepage_sentence = "Todas las habitaciones disponen de bañera de hidromasaje."
+    penthouse_sentence = "El Penthouse tiene una espectacular terraza de 90 m² con jacuzzi."
+    responses = {
+        "https://abacbarcelona.com/es/": StubTextResponse(
+            "https://abacbarcelona.com/es/",
+            f'<html><body><p>{homepage_sentence}</p><a href="/es/habitaciones/">Habitaciones</a></body></html>',
+        ),
+        "https://abacbarcelona.com/es/habitaciones/": StubTextResponse(
+            "https://abacbarcelona.com/es/habitaciones/",
+            f"<html><body><p>{penthouse_sentence}</p></body></html>",
+        ),
+    }
+    monkeypatch.setattr("osusume.adapters.urlopen", lambda http_request, timeout: responses[http_request.full_url])
+    config = load_config()
+    card = load_card(config["paths"]["cards"] / "hotel_es.yaml", config["freshness_days"])
+    details_payload = {
+        "en": {
+            "id": "abac",
+            "displayName": {"text": "ABaC Hotel Barcelona"},
+            "businessStatus": "OPERATIONAL",
+            "websiteUri": "https://abacbarcelona.com/es/",
+        }
+    }
+    official = WebAdapter("https://example.test").official_pages(
+        {"place_id": "abac", "name": "ABaC Hotel Barcelona", "details": details_payload},
+        details_payload,
+        card,
+    )
+    required = {
+        "claim_id": "private_hot_tub_in_room",
+        "claim_type": "layout",
+        "text": "A private hot tub is in the room",
+        "synonyms": ["jacuzzi", "whirlpool", "spa bath", "hidromasaje", "bañera de hidromasaje"],
+    }
+    candidate = Candidate.from_place(operational_place("abac", "ABaC Hotel Barcelona", "hotel"))
+    candidate.details = details_payload["en"]
+    parsed = StructuredRequest.from_dict(hotel_request([required], stay=False))
+
+    class AbacJudge:
+        def __init__(self) -> None:
+            self.payload = None
+
+        def run(self, slot: str, payload: dict) -> dict:
+            assert slot == "judge"
+            self.payload = payload
+            evidence = next(
+                row
+                for row in payload["ledger"]["evidence"]
+                if row["claim_id"] == "private_hot_tub_in_room" and penthouse_sentence in row["text"]
+            )
+            return {
+                "judgments": [{
+                    "claim_id": "private_hot_tub_in_room",
+                    "evidence_id": evidence["evidence_id"],
+                    "quote": penthouse_sentence,
+                    "entails": True,
+                    "contradicts": False,
+                }]
+            }
+
+    judge = AbacJudge()
+    engine = Funnel(config, RecordedAdapters(None, None, judge), now=NOW)
+    candidate.ledger = engine._build_ledger(candidate, parsed, card, official, candidate.details, None, None)
+    engine.stage5_judge([candidate], card)
+
+    claim = next(row for row in candidate.ledger.claims if row.claim_id == "private_hot_tub_in_room")
+    claim_evidence = [row for row in judge.payload["ledger"]["evidence"] if row["claim_id"] == claim.claim_id]
+    assert [row["text"] for row in claim_evidence] == [homepage_sentence + " Habitaciones", penthouse_sentence]
+    assert next(row for row in judge.payload["ledger"]["claims"] if row["claim_id"] == claim.claim_id)["synonyms"] == required["synonyms"]
+    assert "shared spa or property-level amenity is insufficient" in judge.payload["instruction"]
+    assert claim.status.value == "supported"
+    assert claim.evidence_clause.startswith("official, exact-venue")
 
 
 def test_hotel_card_validates_and_unknown_sweep_source_fails() -> None:

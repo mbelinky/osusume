@@ -228,9 +228,9 @@ def test_full_depth_reads_official_pages_first_dedupes_search_and_reuses_details
             super().__init__(current_fixture)
             self.official_calls = 0
 
-        def official_pages(self, candidate: dict, current_details: dict) -> dict:
+        def official_pages(self, candidate: dict, current_details: dict, current_card: dict) -> dict:
             self.official_calls += 1
-            return super().official_pages(candidate, current_details)
+            return super().official_pages(candidate, current_details, current_card)
 
     places = CountingPlaces(fixture)
     web = CountingWeb(fixture)

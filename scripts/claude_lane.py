@@ -16,7 +16,7 @@ PARSE_SCHEMA = {
     "request": {
         "ask": "str", "category": "one lowercase token, e.g. ceramics/restaurant/hotel",
         "country": "ISO2", "local_language": "ISO2",
-        "required_attributes": [{"claim_id": "snake_case", "text": "objectively checkable venue fact", "claim_type": "one of: product_inventory,counter_service,layout,quality,prices,event_schedule,generic", "required": True, "_rules": "a required attribute is an objectively checkable fact about the venue: a product or drink it sells, a service it performs, a physical feature, or a schedule; it qualifies if a photo, menu, official page, or Places field could settle it yes or no; subjective character, mood, style, price feel, and crowd words are NEVER required attributes (including upscale, quirky, cosy, romantic, lively, hip, authentic, not touristy, and hidden gem), and instead go into preferences with effect_type ranking_signal; an either/or taste phrase such as upscale or quirky is one ranking signal, never two required attributes, and an OR must never be split into several requirements; a concrete thing named inside a taste phrase still counts, so craft cocktail menu is checkable as product_inventory and stays required; never add an opening-hours attribute (the arrival window covers hours); event_schedule is ONLY for recurring events like markets/fairs"}],
+        "required_attributes": [{"claim_id": "snake_case", "text": "objectively checkable venue fact in English", "claim_type": "one of: product_inventory,counter_service,layout,quality,prices,event_schedule,generic", "required": True, "synonyms": ["English and local-language terms that mean the required attribute"], "_rules": "a required attribute is an objectively checkable fact about the venue: a product or drink it sells, a service it performs, a physical feature, or a schedule; it qualifies if a photo, menu, official page, or Places field could settle it yes or no; subjective character, mood, style, price feel, and crowd words are NEVER required attributes (including upscale, quirky, cosy, romantic, lively, hip, authentic, not touristy, and hidden gem), and instead go into preferences with effect_type ranking_signal; an either/or taste phrase such as upscale or quirky is one ranking signal, never two required attributes, and an OR must never be split into several requirements; a concrete thing named inside a taste phrase still counts, so craft cocktail menu is checkable as product_inventory and stays required; never add an opening-hours attribute (the arrival window covers hours); event_schedule is ONLY for recurring events like markets/fairs"}],
         "scope": {"city": "named city from the ask, when present"}, "arrival_start": "RFC3339 or null", "arrival_end": "RFC3339 or null",
         "stay": {"check_in": "YYYY-MM-DD", "check_out": "YYYY-MM-DD", "adults": "int, default 2"},
         "hotel_filters": {"min_stars": "number or null", "max_stars": "number or null", "min_score": "number or null", "pets": "bool or null", "breakfast": "bool or null", "free_cancellation": "bool or null", "hot_tub": "bool or null"},
@@ -69,6 +69,8 @@ def main() -> None:
             "split an OR into several requirements. A concrete thing inside a taste phrase still counts: "
             "craft cocktail menu is checkable as product_inventory and stays required. Use the local "
             "language of the destination country. "
+            "For every required attribute, include a synonyms list with English and destination-language wording. "
+            "For a private in-room hot tub include jacuzzi, whirlpool, spa bath, hidromasaje, and bañera de hidromasaje. "
             "For hotel asks, fill stay from dates and guest count in the ask, and fill hotel_filters "
             "from explicit star range, guest score, pet-friendly, breakfast included, free cancellation, and "
             "hot tub, jacuzzi, whirlpool, spa bath, bañera de hidromasaje, or jacuzzi privado phrases. "
@@ -82,7 +84,9 @@ def main() -> None:
     if slot == "judge":
         prompt = (
             "You are an adversarial evidence judge. For each claim in the ledger, examine each "
-            "evidence row whose claim_id matches. Try to REFUTE the claim. Respond with ONLY a "
+            "evidence row whose claim_id matches. A claim's listed synonyms can satisfy it when the evidence "
+            "ties the term to the requested subject. For a room-specific claim, a shared spa or property amenity "
+            "does not qualify. Try to REFUTE the claim. Respond with ONLY a "
             'JSON object {"judgments": [{"claim_id": str, "evidence_id": str, "quote": str, '
             '"entails": bool, "contradicts": bool}]}. The quote MUST be copied verbatim from '
             "the evidence text (it is checked mechanically; a paraphrase is discarded). Emit a "

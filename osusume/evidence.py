@@ -135,10 +135,13 @@ class Claim:
     qualified_evidence_ids: list[str] = field(default_factory=list)
     evidence_clause: str = "unverified"
     drop_count: int = 0
+    synonyms: list[str] = field(default_factory=list)
 
     def to_dict(self) -> dict:
         result = asdict(self)
         result["status"] = self.status.value
+        if not result["synonyms"]:
+            result.pop("synonyms")
         return result
 
 

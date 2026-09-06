@@ -484,8 +484,8 @@ class WebAdapter:
         limits = retrieval or {}
         self.max_queries_per_candidate = int(limits.get("max_queries_per_candidate", 8))
         self.max_results_per_query = int(limits.get("max_results_per_query", 5))
-        self.max_pages_per_run = int(limits.get("max_pages_per_run", 60))
-        self._pages_retrieved = 0
+        self.max_pages_per_candidate = int(limits.get("max_pages_per_candidate", 60))
+        self.official_pages_per_venue = int(limits.get("official_pages_per_venue", 4))
 
     def _search(self, query: str) -> dict:
         if not self.api_key:
@@ -506,11 +506,12 @@ class WebAdapter:
         qualifications = []
         injected = []
         searches = 0
+        pages_retrieved = 0
         budget_exhausted = False
         localities = (locality_from_candidate(candidate) for candidate in candidates or [])
         locality = next((value for value in localities if value), "")
         for source, weight in (card.get("sources", {}).get(country, {}) or {}).items():
-            if searches >= self.max_queries_per_candidate or self._pages_retrieved >= self.max_pages_per_run:
+            if searches >= self.max_queries_per_candidate or pages_retrieved >= self.max_pages_per_candidate:
                 budget_exhausted = True
                 break
             query = " ".join(
@@ -520,11 +521,11 @@ class WebAdapter:
             searches += 1
             rows.append({"source": source, "response": response})
             results = list(response.get("results", []))
-            remaining = max(0, self.max_pages_per_run - self._pages_retrieved)
+            remaining = max(0, self.max_pages_per_candidate - pages_retrieved)
             selected = results[: self.max_results_per_query][:remaining]
             if len(results) > len(selected):
                 budget_exhausted = True
-            self._pages_retrieved += len(selected)
+            pages_retrieved += len(selected)
             for result in selected:
                 title = str(result.get("title", ""))
                 title_folded = title.strip().casefold()
@@ -602,21 +603,34 @@ class WebAdapter:
             attribute_text = attribute.get("text") or attribute.get("claim_id") or attribute.get("claim_type", "")
             claim_id = attribute.get("claim_id") or re.sub(r"[^a-z0-9]+", "_", attribute_text.lower()).strip("_") or "claim"
             queries.append((" ".join(part for part in (english_name, attribute_text, alias) if part), claim_id))
+            raw_synonyms = attribute.get("synonyms", [])
+            synonyms = []
+            for synonym in raw_synonyms if isinstance(raw_synonyms, list) else []:
+                normalized = str(synonym).strip()
+                if normalized and normalized.casefold() not in {item.casefold() for item in synonyms}:
+                    synonyms.append(normalized)
+            if synonyms:
+                synonym_query = " OR ".join(synonyms)
+                queries.append((" ".join(part for part in (english_name, synonym_query, alias) if part), claim_id))
         pages = []
         searches = 0
+        pages_retrieved = 0
         budget_exhausted = False
         for query_index, (query, claim_id) in enumerate(queries):
-            if searches >= self.max_queries_per_candidate or self._pages_retrieved >= self.max_pages_per_run:
+            if searches >= self.max_queries_per_candidate or pages_retrieved >= self.max_pages_per_candidate:
                 budget_exhausted = True
                 break
             result = self._search(query)
             searches += 1
             results = list(result.get("results", []))
-            remaining = max(0, self.max_pages_per_run - self._pages_retrieved)
+            remaining = max(0, self.max_pages_per_candidate - pages_retrieved)
             selected = results[: self.max_results_per_query][:remaining]
-            if len(results) > len(selected) or (query_index + 1 < len(queries) and self._pages_retrieved + len(selected) >= self.max_pages_per_run):
+            if len(results) > len(selected) or (
+                query_index + 1 < len(queries)
+                and pages_retrieved + len(selected) >= self.max_pages_per_candidate
+            ):
                 budget_exhausted = True
-            self._pages_retrieved += len(selected)
+            pages_retrieved += len(selected)
             for row in selected:
                 page = {
                     "query": query,
@@ -638,7 +652,7 @@ class WebAdapter:
                 pages.append(page)
         return {"pages": pages, "budget_exhausted": budget_exhausted}
 
-    def official_pages(self, candidate: dict, details: dict) -> dict[str, Any]:
+    def official_pages(self, candidate: dict, details: dict, card: dict) -> dict[str, Any]:
         en = details.get("en", details)
         if isinstance(en, dict) and isinstance(en.get("result"), dict):
             en = en["result"]
@@ -648,10 +662,58 @@ class WebAdapter:
 
         pages = []
         website_source_kind = "generic_web" if _is_aggregator_domain(registrable_domain(str(website))) else "official"
-        menu_url = None
         social_urls: list[str] = []
         budget_exhausted = False
-        for url in (str(website),):
+        homepage_parser = None
+        homepage_url = str(website)
+        try:
+            request = Request(homepage_url, headers={"Accept": "text/html,text/plain", "User-Agent": "osusume/0.1"})
+            with urlopen(request, timeout=15) as response:
+                content_type = response.headers.get("Content-Type", "text/html").split(";", 1)[0].strip().lower()
+                if not (content_type.startswith("text/") or content_type == "application/xhtml+xml"):
+                    return {"pages": [], "evidence": [], "budget_exhausted": False}
+                charset = response.headers.get_content_charset() or "utf-8"
+                body = response.read(512 * 1024).decode(charset, errors="replace")
+                homepage_url = response.geturl() if hasattr(response, "geturl") else homepage_url
+            homepage_parser = _OfficialPageParser()
+            homepage_parser.feed(body)
+            page = {
+                "url": homepage_url,
+                "title": " ".join(" ".join(homepage_parser.title).split()),
+                "text": " ".join(" ".join(homepage_parser.text).split()),
+                "retrieved_at": datetime.now(timezone.utc).isoformat(),
+                "source_kind": website_source_kind,
+                "claim_id": "product_inventory",
+            }
+            label, reasons = _identity_label(page, {**candidate, "details": details})
+            page["identity_label"] = label
+            page["identity_reasons"] = reasons
+            pages.append(page)
+        except Exception:
+            return {"pages": [], "evidence": [], "budget_exhausted": False}
+
+        default_link_terms = (
+            "menu", "carta", "drinks", "cocktails", "cócteles", "còctels", "bebidas", "vinos", "wine list"
+        )
+        custom_link_terms = card.get("official_link_terms") if "official_link_terms" in card else None
+        link_terms = tuple(str(term).casefold() for term in (custom_link_terms if custom_link_terms is not None else default_link_terms))
+        linked_page_limit = self.official_pages_per_venue if custom_link_terms is not None else min(1, self.official_pages_per_venue)
+        linked_urls: list[str] = []
+        for href, link_text in homepage_parser.links:
+            linked_url = urljoin(homepage_url, href)
+            if registrable_domain(linked_url) in SOCIAL_DOMAINS and linked_url not in social_urls:
+                social_urls.append(linked_url)
+            path = unquote(urlparse(linked_url).path).casefold()
+            haystack = f"{re.sub(r'[-_]+', ' ', path)} {link_text.casefold()}"
+            if (
+                len(linked_urls) < linked_page_limit
+                and linked_url != homepage_url
+                and linked_url not in linked_urls
+                and any(term in haystack for term in link_terms)
+            ):
+                linked_urls.append(linked_url)
+
+        for url in linked_urls:
             try:
                 request = Request(url, headers={"Accept": "text/html,text/plain", "User-Agent": "osusume/0.1"})
                 with urlopen(request, timeout=15) as response:
@@ -675,49 +737,13 @@ class WebAdapter:
                 label, reasons = _identity_label(page, {**candidate, "details": details})
                 page["identity_label"] = label
                 page["identity_reasons"] = reasons
-                pages.append(page)
-                menu_terms = ("menu", "carta", "drinks", "cocktails", "cócteles", "còctels", "bebidas", "vinos", "wine list")
-                for href, link_text in parser.links:
-                    linked_url = urljoin(final_url, href)
-                    if registrable_domain(linked_url) in SOCIAL_DOMAINS and linked_url not in social_urls:
-                        social_urls.append(linked_url)
-                    path = unquote(urlparse(linked_url).path).casefold()
-                    haystack = f"{re.sub(r'[-_]+', ' ', path)} {link_text.casefold()}"
-                    if menu_url is None and any(term in haystack for term in menu_terms):
-                        menu_url = linked_url
-            except Exception:
-                continue
-
-        if menu_url and menu_url != pages[0]["url"]:
-            try:
-                request = Request(menu_url, headers={"Accept": "text/html,text/plain", "User-Agent": "osusume/0.1"})
-                with urlopen(request, timeout=15) as response:
-                    content_type = response.headers.get("Content-Type", "text/html").split(";", 1)[0].strip().lower()
-                    if content_type.startswith("text/") or content_type == "application/xhtml+xml":
-                        charset = response.headers.get_content_charset() or "utf-8"
-                        body = response.read(512 * 1024).decode(charset, errors="replace")
-                        final_url = response.geturl() if hasattr(response, "geturl") else menu_url
-                    else:
-                        body = ""
-                if body:
-                    parser = _OfficialPageParser()
-                    parser.feed(body)
-                    page = {
-                        "url": final_url,
-                        "title": " ".join(" ".join(parser.title).split()),
-                        "text": " ".join(" ".join(parser.text).split()),
-                        "retrieved_at": datetime.now(timezone.utc).isoformat(),
-                        "source_kind": website_source_kind,
-                        "claim_id": "product_inventory",
-                    }
-                    label, reasons = _identity_label(page, {**candidate, "details": details})
-                    page["identity_label"] = label
-                    page["identity_reasons"] = reasons
+                if final_url not in {existing["url"] for existing in pages}:
                     pages.append(page)
             except Exception:
-                pass
+                continue
+        social_pages_retrieved = 0
         for social_url in social_urls:
-            if self._pages_retrieved >= self.max_pages_per_run:
+            if social_pages_retrieved >= self.max_pages_per_candidate:
                 budget_exhausted = True
                 break
             try:
@@ -731,7 +757,7 @@ class WebAdapter:
                     final_url = response.geturl() if hasattr(response, "geturl") else social_url
                 parser = _OfficialPageParser()
                 parser.feed(body)
-                self._pages_retrieved += 1
+                social_pages_retrieved += 1
                 base_page = {
                     "url": final_url,
                     "title": " ".join(" ".join(parser.title).split()),
@@ -747,8 +773,7 @@ class WebAdapter:
                 label, reasons = _identity_label(base_page, social_candidate)
                 base_page["identity_label"] = label
                 base_page["identity_reasons"] = reasons
-                for claim_id in ("product_inventory", "hours_at_arrival"):
-                    pages.append({**base_page, "claim_id": claim_id})
+                pages.append(base_page)
             except Exception:
                 continue
         return {"pages": pages, "evidence": [], "budget_exhausted": budget_exhausted}

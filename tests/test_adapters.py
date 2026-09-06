@@ -110,7 +110,7 @@ def test_details_omits_hours_when_supplement_fails(monkeypatch) -> None:
 
 
 def test_official_pages_fetches_home_and_only_first_menu_link(monkeypatch) -> None:
-    adapter = WebAdapter("https://example.test", retrieval={"max_pages_per_run": 0})
+    adapter = WebAdapter("https://example.test", retrieval={"max_pages_per_candidate": 0})
     calls = []
     responses = {
         "https://venue.example/": StubTextResponse(
@@ -130,7 +130,11 @@ def test_official_pages_fetches_home_and_only_first_menu_link(monkeypatch) -> No
         return responses[http_request.full_url]
 
     monkeypatch.setattr("osusume.adapters.urlopen", fake_urlopen)
-    result = adapter.official_pages({"place_id": "p1", "name": "Venue"}, {"en": {"websiteUri": "https://venue.example/"}})
+    result = adapter.official_pages(
+        {"place_id": "p1", "name": "Venue"},
+        {"en": {"websiteUri": "https://venue.example/"}},
+        {},
+    )
 
     assert calls == [("https://venue.example/", 15), ("https://venue.example/carta", 15)]
     assert [page["title"] for page in result["pages"]] == ["Venue", "Carta"]
@@ -139,7 +143,6 @@ def test_official_pages_fetches_home_and_only_first_menu_link(monkeypatch) -> No
     assert all(response.read_sizes == [512 * 1024] for response in responses.values())
     assert result["evidence"] == []
     assert result["budget_exhausted"] is False
-    assert adapter._pages_retrieved == 0
 
 
 def test_official_pages_marks_linked_instagram_as_exact_official_social(monkeypatch) -> None:
@@ -159,12 +162,72 @@ def test_official_pages_marks_linked_instagram_as_exact_official_social(monkeypa
     result = adapter.official_pages(
         {"place_id": "p1", "name": "Venue"},
         {"en": {"websiteUri": "https://venue.example/"}},
+        {},
     )
 
     social = [page for page in result["pages"] if page["source_kind"] == "official_social"]
-    assert [page["claim_id"] for page in social] == ["product_inventory", "hours_at_arrival"]
+    assert len(social) == 1
+    assert "claim_id" not in social[0]
     assert all(page["identity_label"] == "exact-venue" for page in social)
     assert all(page["identity_reasons"] == ["official-link"] for page in social)
+
+
+def test_official_pages_uses_card_terms_cap_and_only_homepage_links(monkeypatch) -> None:
+    adapter = WebAdapter("https://example.test", retrieval={"official_pages_per_venue": 2})
+    calls = []
+    responses = {
+        "https://hotel.example/": StubTextResponse(
+            "https://hotel.example/",
+            """<html><body>
+            <a href="/rooms">Rooms</a><a href="/suites">Suites</a><a href="/penthouse">Penthouse</a>
+            </body></html>""",
+        ),
+        "https://hotel.example/rooms": StubTextResponse(
+            "https://hotel.example/rooms",
+            '<html><body>Rooms<a href="/rooms/deep">More rooms</a></body></html>',
+        ),
+        "https://hotel.example/suites": StubTextResponse(
+            "https://hotel.example/suites",
+            "<html><body>Suites</body></html>",
+        ),
+    }
+
+    def fake_urlopen(http_request, timeout):
+        calls.append(http_request.full_url)
+        return responses[http_request.full_url]
+
+    monkeypatch.setattr("osusume.adapters.urlopen", fake_urlopen)
+    result = adapter.official_pages(
+        {"place_id": "p1", "name": "Hotel"},
+        {"en": {"websiteUri": "https://hotel.example/"}},
+        {"official_link_terms": ["rooms", "suites", "penthouse"]},
+    )
+
+    assert calls == ["https://hotel.example/", "https://hotel.example/rooms", "https://hotel.example/suites"]
+    assert [page["url"] for page in result["pages"]] == calls
+
+
+def test_explicit_empty_official_link_terms_replaces_menu_defaults(monkeypatch) -> None:
+    adapter = WebAdapter("https://example.test")
+    calls = []
+    response = StubTextResponse(
+        "https://venue.example/",
+        '<html><body><a href="/carta">Carta</a></body></html>',
+    )
+
+    def fake_urlopen(http_request, timeout):
+        calls.append(http_request.full_url)
+        return response
+
+    monkeypatch.setattr("osusume.adapters.urlopen", fake_urlopen)
+    result = adapter.official_pages(
+        {"place_id": "p1", "name": "Venue"},
+        {"en": {"websiteUri": "https://venue.example/"}},
+        {"official_link_terms": []},
+    )
+
+    assert calls == ["https://venue.example/"]
+    assert len(result["pages"]) == 1
 
 
 def test_sweep_records_bad_type_and_keeps_good_type_candidates(monkeypatch, tmp_path) -> None:
@@ -623,11 +686,116 @@ def test_aggregator_website_is_not_official_but_phone_can_bind_listing(monkeypat
     assert page.source_kind == "generic_web"
 
 
+def test_mine_runs_one_english_and_one_synonym_query_per_attribute(monkeypatch) -> None:
+    adapter = WebAdapter("https://example.test", api_key="test-key")
+    searches = []
+    monkeypatch.setattr(adapter, "_search", lambda query: searches.append(query) or {"results": []})
+    parsed = request([
+        {
+            "claim_id": "private_hot_tub_in_room",
+            "claim_type": "layout",
+            "text": "private hot tub in the room",
+            "synonyms": ["jacuzzi", "whirlpool", "spa bath", "hidromasaje", "bañera de hidromasaje"],
+        }
+    ])
+
+    adapter.mine({"place_id": "p1", "name": "ABaC Hotel"}, parsed, {"query_templates": []})
+
+    assert searches == [
+        "ABaC Hotel private hot tub in the room",
+        "ABaC Hotel jacuzzi OR whirlpool OR spa bath OR hidromasaje OR bañera de hidromasaje",
+    ]
+
+
+def test_official_social_without_claim_hint_reaches_all_claims_but_generic_page_does_not() -> None:
+    parsed = request([
+        {"claim_id": "requested_layout", "claim_type": "layout", "text": "Private room hot tub"},
+        {"claim_id": "requested_product", "claim_type": "product_inventory", "text": "Craft cocktails"},
+    ])
+    candidate = Candidate.from_place(operational_place(name="Venue"))
+    candidate.details = {"websiteUri": "https://venue.example/"}
+    stamp = "2026-08-26T10:00:00+00:00"
+    mined = {
+        "pages": [
+            {
+                "url": "https://instagram.com/venue",
+                "text": "Private room hot tub and craft cocktails",
+                "retrieved_at": stamp,
+                "source_kind": "official_social",
+                "identity_label": "exact-venue",
+                "identity_reasons": ["official-link"],
+            },
+            {
+                "claim_id": "product_inventory",
+                "url": "https://venue.example/search-result",
+                "text": "Craft cocktails",
+                "retrieved_at": stamp,
+                "source_kind": "generic_web",
+                "identity_label": "exact-venue",
+                "identity_reasons": ["official-domain"],
+            },
+        ]
+    }
+    ledger = Funnel(load_config(), RecordedAdapters(None, None, None))._build_ledger(
+        candidate,
+        StructuredRequest.from_dict(parsed),
+        {"load_bearing_claims": []},
+        mined,
+        {},
+        None,
+        None,
+    )
+
+    social_claims = {row.claim_id for row in ledger.evidence if row.url == "https://instagram.com/venue"}
+    generic_claims = {row.claim_id for row in ledger.evidence if row.url == "https://venue.example/search-result"}
+    assert social_claims == {claim.claim_id for claim in ledger.claims}
+    assert generic_claims == {"requested_product"}
+
+
+def test_page_budget_resets_for_each_candidate_after_registry(monkeypatch) -> None:
+    adapter = WebAdapter(
+        "https://example.test",
+        api_key="test-key",
+        retrieval={"max_queries_per_candidate": 2, "max_results_per_query": 100, "max_pages_per_candidate": 60},
+    )
+    call_count = 0
+
+    def fake_search(query):
+        nonlocal call_count
+        call_count += 1
+        return {
+            "results": [
+                {"url": f"https://result.example/{call_count}/{index}", "title": "Result", "text": "Evidence"}
+                for index in range(100)
+            ]
+        }
+
+    monkeypatch.setattr(adapter, "_search", fake_search)
+    adapter.registry(
+        {"country": "IT", "category": "salumeria", "ask": "test"},
+        {"sources": {"IT": {"guide": 1.0}}},
+        [],
+    )
+    candidates = [Candidate.from_place(operational_place(f"p{index}", f"Place {index}")) for index in range(3)]
+    fixture = {"details": {candidate.place_id: operational_details(candidate.place_id) for candidate in candidates}}
+    engine = Funnel(load_config(), RecordedAdapters(FakePlaces(fixture), adapter, FakeModel(request())))
+
+    mined = engine.stage3_mine(
+        candidates,
+        StructuredRequest.from_dict(request()),
+        {"query_templates": ["{name} evidence"]},
+        "full",
+    )
+
+    assert [len(mined[candidate.place_id]["pages"]) for candidate in candidates] == [60, 60, 60]
+    assert all(mined[candidate.place_id]["budget_exhausted"] for candidate in candidates)
+
+
 def test_mine_stops_at_query_budget(monkeypatch) -> None:
     adapter = WebAdapter(
         "https://example.test",
         api_key="test-key",
-        retrieval={"max_queries_per_candidate": 2, "max_results_per_query": 5, "max_pages_per_run": 60},
+        retrieval={"max_queries_per_candidate": 2, "max_results_per_query": 5, "max_pages_per_candidate": 60},
     )
     searches = []
     monkeypatch.setattr(adapter, "_search", lambda query: searches.append(query) or {"results": []})

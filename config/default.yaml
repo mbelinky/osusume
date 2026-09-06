@@ -30,4 +30,5 @@ retrieval:
   booking_max_rows: 25
   max_queries_per_candidate: 8
   max_results_per_query: 5
-  max_pages_per_run: 60
+  max_pages_per_candidate: 60
+  official_pages_per_venue: 4

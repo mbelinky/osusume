@@ -5,6 +5,22 @@ All notable changes to Osusume are recorded here. The format follows
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Osusume is in
 super beta: minor versions can still change commands and output.
 
+## [0.7.1] - 2026-09-06
+
+### Fixed
+
+- Four gaps found on a real case (a hotel whose own site states a terrace
+  jacuzzi on its top suite and whirlpool baths in every room, yet the claim
+  came back unknown):
+  the venue-site fetch now follows room and suite links for hotels
+  (card `official_link_terms`, up to `retrieval.official_pages_per_venue`
+  pages) instead of only menu links; the venue's own pages now feed every
+  claim rather than only product claims; the web-mining page budget is per
+  candidate (`retrieval.max_pages_per_candidate`), so a deep dive no longer
+  starves candidates after the third; and required attributes carry
+  local-language synonyms (hot tub, jacuzzi, hidromasaje...) used in
+  searches and shown to the judge.
+
 ## [0.7.0] - 2026-09-06
 
 ### Added

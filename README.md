@@ -11,7 +11,7 @@ uv sync
 uv run osusume --help
 ```
 
-Live runs need `GOOGLE_PLACES_API_KEY` for `goplaces` and `EXA_API_KEY` for web retrieval. The model lanes use local vendor CLIs, not direct paid API calls.
+Live runs need `GOOGLE_PLACES_API_KEY` for `goplaces` and `EXA_API_KEY` for web retrieval. The model lanes use local vendor CLIs, not direct paid API calls. Web retrieval is capped per candidate by `retrieval.max_pages_per_candidate` (60 by default), so one candidate cannot use another candidate's allowance. A card can set `official_link_terms`; matching homepage links are followed one level deep, up to `retrieval.official_pages_per_venue` (4 by default).
 
 ## Configure
 
@@ -83,7 +83,7 @@ Each live run stores the input and every raw adapter response under `runs/`. Rep
 uv run osusume find --replay tests/fixtures/runs/e_f3 --json
 ```
 
-Use `--depth quick` for a fast answer: it still reads the venue own website and one linked menu page, but skips reviews, guides and press. Use `osusume card list`, `osusume card show NAME`, and `osusume card promote NAME` to inspect reviewed cards and promote an automatic draft after review.
+Use `--depth quick` for a fast answer: it still reads the venue's own website and the official pages selected by the card, or the first linked menu page when the card has no `official_link_terms`, but skips reviews, guides and press. Use `osusume card list`, `osusume card show NAME`, and `osusume card promote NAME` to inspect reviewed cards and promote an automatic draft after review.
 
 ## Test
 

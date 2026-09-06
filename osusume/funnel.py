@@ -588,7 +588,7 @@ class Funnel:
                     "official_pages",
                     payload,
                     lambda current=candidate, current_details=details: self.adapters.web.official_pages(
-                        {"place_id": current.place_id, "name": current.name, "details": current_details}, current_details
+                        {"place_id": current.place_id, "name": current.name, "details": current_details}, current_details, card
                     ),
                 )
                 self.search_budget_exhausted = self.search_budget_exhausted or bool(
@@ -623,7 +623,7 @@ class Funnel:
                     "official_pages",
                     official_payload,
                     lambda current_candidate=web_candidate, current_details=details or {}: self.adapters.web.official_pages(
-                        current_candidate, current_details
+                        current_candidate, current_details, card
                     ),
                 )
             payload = {"candidate": web_candidate, "request": request.to_dict(), "card": card}
@@ -693,23 +693,24 @@ class Funnel:
         ledger = ClaimLedger()
         booking = candidate.raw.get("booking")
         booking_candidate = "booking" in candidate.raw
-        claim_specs: dict[str, tuple[str, str, bool]] = {
-            "operational_status": ("operational_status", _claim_text("operational_status"), True),
+        claim_specs: dict[str, tuple[str, str, bool, list[str]]] = {
+            "operational_status": ("operational_status", _claim_text("operational_status"), True, []),
         }
         if not booking_candidate:
             claim_specs["hours_at_arrival"] = (
                 "hours_at_arrival",
                 _claim_text("hours_at_arrival"),
                 bool(request.arrival_start),
+                [],
             )
         if request.stay and booking:
-            claim_specs["price"] = ("price", _claim_text("price"), True)
+            claim_specs["price"] = ("price", _claim_text("price"), True, [])
         route_scope = request.scope.get("kind") == "route"
         anchor_scope = request.scope.get("kind") == "anchor"
         if route_scope:
-            claim_specs["detour"] = ("detour", _claim_text("detour"), True)
+            claim_specs["detour"] = ("detour", _claim_text("detour"), True, [])
         if anchor_scope:
-            claim_specs["proximity"] = ("proximity", _claim_text("proximity"), True)
+            claim_specs["proximity"] = ("proximity", _claim_text("proximity"), True, [])
         required_claim_types = set()
         for raw in request.required_attributes:
             claim_type = raw.get("claim_type") or raw.get("claim_id") or "generic"
@@ -721,7 +722,9 @@ class Funnel:
                 continue
             claim_id = raw.get("claim_id") or _slug(raw.get("text", claim_type))
             text = raw.get("text") or _claim_text(claim_type)
-            claim_specs[claim_id] = (claim_type, text, True)
+            synonyms = raw.get("synonyms", [])
+            synonyms = [str(synonym).strip() for synonym in synonyms if str(synonym).strip()] if isinstance(synonyms, list) else []
+            claim_specs[claim_id] = (claim_type, text, True, synonyms)
             required_claim_types.add(claim_type)
         for claim_type in card.get("load_bearing_claims", []):
             if booking_candidate and claim_type == "hours_at_arrival":
@@ -732,11 +735,11 @@ class Funnel:
                 continue
             if claim_type in required_claim_types:
                 continue
-            claim_specs.setdefault(claim_type, (claim_type, _claim_text(claim_type), False))
+            claim_specs.setdefault(claim_type, (claim_type, _claim_text(claim_type), False, []))
         if candidate.primary_type:
-            claim_specs["venue_type"] = ("venue_type", f"Venue type: {candidate.primary_type.replace('_', ' ')}", False)
+            claim_specs["venue_type"] = ("venue_type", f"Venue type: {candidate.primary_type.replace('_', ' ')}", False, [])
         if candidate.rating is not None and candidate.review_count is not None:
-            claim_specs["rating_signal"] = ("rating_signal", f"Google rating: {candidate.rating} from {candidate.review_count} reviews", False)
+            claim_specs["rating_signal"] = ("rating_signal", f"Google rating: {candidate.rating} from {candidate.review_count} reviews", False, [])
         if booking:
             signal_parts = [
                 f"stars={booking.get('stars')}",
@@ -744,9 +747,9 @@ class Funnel:
                 f"free_cancellation={_yes_no(booking.get('free_cancellation'))}",
                 f"breakfast_included={_yes_no(booking.get('breakfast_included'))}",
             ]
-            claim_specs["booking_signal"] = ("rating_signal", "Booking hotel signals: " + "; ".join(signal_parts), False)
-        for claim_id, (claim_type, text, required) in claim_specs.items():
-            ledger.add_claim(Claim(claim_id=claim_id, text=text, claim_type=claim_type, required=required))
+            claim_specs["booking_signal"] = ("rating_signal", "Booking hotel signals: " + "; ".join(signal_parts), False, [])
+        for claim_id, (claim_type, text, required, synonyms) in claim_specs.items():
+            ledger.add_claim(Claim(claim_id=claim_id, text=text, claim_type=claim_type, required=required, synonyms=synonyms))
 
         stamp = self.now.isoformat()
         status_text = f"business_status={details.get('businessStatus') or details.get('business_status')}"
@@ -837,7 +840,7 @@ class Funnel:
             )
         rows = list(mined.get("evidence", []))
         for page in mined.get("pages", []):
-            if not page.get("claim_id"):
+            if not page.get("claim_id") and page.get("source_kind") not in {"official", "official_social"}:
                 continue
             page = dict(page)
             page["_mined_page"] = True
@@ -855,9 +858,12 @@ class Funnel:
             rows.append(page)
         for index, row in enumerate(rows):
             row_claim_id = row.get("claim_id")
-            exact_claim = next((claim for claim in ledger.claims if claim.claim_id == row_claim_id), None)
-            type_claims = [claim for claim in ledger.claims if claim.claim_type == row_claim_id]
-            target_claims = ([exact_claim] if exact_claim else []) + [claim for claim in type_claims if claim is not exact_claim]
+            if row.get("source_kind") in {"official", "official_social"}:
+                target_claims = list(ledger.claims)
+            else:
+                exact_claim = next((claim for claim in ledger.claims if claim.claim_id == row_claim_id), None)
+                type_claims = [claim for claim in ledger.claims if claim.claim_type == row_claim_id]
+                target_claims = ([exact_claim] if exact_claim else []) + [claim for claim in type_claims if claim is not exact_claim]
             if not target_claims:
                 continue
             kind, roundup = _page_kind(row, candidate, card)
@@ -1094,7 +1100,14 @@ class Funnel:
                     lambda: self.adapters.model.run("photo_read", read_payload),
                 )
                 photo_judgments = photo_read.get("judgments", [])
-            payload = {"place_id": candidate.place_id, "ledger": candidate.ledger.to_dict(), "instruction": "Refute each claim. Return literal quotes only."}
+            payload = {
+                "place_id": candidate.place_id,
+                "ledger": candidate.ledger.to_dict(),
+                "instruction": (
+                    "Refute each claim. Return literal quotes only. Any listed synonym satisfies its claim when the excerpt "
+                    "ties it to the requested subject. For room-specific claims, a shared spa or property-level amenity is insufficient."
+                ),
+            }
             response = self._call("model", "judge", payload, lambda current=candidate: self.adapters.model.run("judge", payload))
             candidate.ledger.compute([*response.get("judgments", []), *photo_judgments], freshness, now=self.now)
 

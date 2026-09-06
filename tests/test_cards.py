@@ -37,6 +37,21 @@ def test_source_domains_are_accepted_on_reviewed_cards() -> None:
     assert validate_card(card, DEFAULTS) == card
 
 
+def test_official_link_terms_accepts_an_empty_or_non_empty_list() -> None:
+    for terms in ([], ["rooms", "habitaciones"]):
+        card = draft()
+        card["official_link_terms"] = terms
+        assert validate_card(card, DEFAULTS) == card
+
+
+@pytest.mark.parametrize("terms", ["rooms", ["rooms", ""]])
+def test_official_link_terms_must_be_a_list_of_non_empty_strings(terms) -> None:
+    card = draft()
+    card["official_link_terms"] = terms
+    with pytest.raises(CardValidationError, match="official_link_terms"):
+        validate_card(card, DEFAULTS)
+
+
 def test_ephemeral_card_cannot_add_source_domains() -> None:
     card = draft()
     card["source_domains"] = {"guide": ["guide.example"]}

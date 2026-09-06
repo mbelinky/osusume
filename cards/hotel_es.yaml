@@ -11,6 +11,7 @@ query_templates:
   - "{name} {city} web oficial habitaciones"
   - "{name} {city} suites"
   - "{name} {city} hotel review"
+official_link_terms: [rooms, room, suites, suite, penthouse, habitaciones, habitacions, accommodation, alojamiento]
 sources:
   ES:
     michelin: 1.0
