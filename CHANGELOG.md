@@ -5,6 +5,20 @@ All notable changes to Osusume are recorded here. The format follows
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Osusume is in
 super beta: minor versions can still change commands and output.
 
+## [0.7.0] - 2026-09-06
+
+### Added
+
+- Deep dive mode. `--top N` sets how many surviving candidates get the full
+  verification (default 5, as before) and `--deep-dive` verifies every one
+  of them in batches (`retrieval.deep_dive_batch`, default 5). When the
+  model lane runs out of allowance mid-way the run renders what it has as
+  `partial: true`, writes a checkpoint in the run directory, and
+  `osusume find --resume <run-dir>` continues from there without repeating
+  finished candidates. Every packet now carries a `coverage` block
+  (candidates seen, verified, pending) and the human answer says
+  "Checked N of M".
+
 ## [0.6.1] - 2026-09-05
 
 ### Added

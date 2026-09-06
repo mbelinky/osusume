@@ -15,6 +15,13 @@ from .config import load_config, public_config, set_config_value
 from .funnel import Funnel
 
 
+def _positive_int(value: str) -> int:
+    number = int(value)
+    if number < 1:
+        raise argparse.ArgumentTypeError("must be a positive integer")
+    return number
+
+
 def _near(value: str) -> tuple[float, float]:
     try:
         lat, lng = value.split(",", 1)
@@ -53,6 +60,9 @@ def _parser() -> argparse.ArgumentParser:
     find.add_argument("--exclude", action="append", default=[])
     find.add_argument("--card")
     find.add_argument("--depth", choices=("quick", "full"), default="full")
+    find.add_argument("--top", type=_positive_int, default=5)
+    find.add_argument("--deep-dive", action="store_true")
+    find.add_argument("--resume", type=Path)
     find.add_argument("--contact-drafts", action="store_true")
     find.add_argument("--replay", type=Path)
     find.add_argument("--json", action="store_true", dest="as_json")
@@ -93,7 +103,9 @@ def _raw_input(args: argparse.Namespace) -> dict[str, Any]:
         "prefs": _split_values(args.prefs),
         "exclude": _split_values(args.exclude, separator=","),
         "card": args.card,
-        "depth": args.depth,
+        "depth": "full" if args.deep_dive else args.depth,
+        "top": args.top,
+        "deep_dive": args.deep_dive,
         "contact_drafts": args.contact_drafts,
     }
     if args.check_in or args.check_out or args.adults is not None:
@@ -110,26 +122,44 @@ def _raw_input(args: argparse.Namespace) -> dict[str, Any]:
 
 
 def _run_find(args: argparse.Namespace, config: dict[str, Any]) -> int:
+    if args.resume and args.replay:
+        raise ValueError("--resume and --replay cannot be combined")
     replay = ReplayStore(args.replay) if args.replay else None
     if replay:
+        checkpoint_path = args.replay / "checkpoint.json"
+        if checkpoint_path.exists():
+            config["retrieval"]["deep_dive_batch"] = json.loads(checkpoint_path.read_text(encoding="utf-8"))["batch_size"]
         raw_input = replay.input
         adapters = RecordedAdapters(None, None, None, replay=replay)
         recorder = None
         run_at = replay.run_at
     else:
-        if not args.ask:
+        if args.resume:
+            replay = ReplayStore(args.resume)
+            checkpoint = json.loads((args.resume / "checkpoint.json").read_text(encoding="utf-8"))
+            replay.calls = replay.calls[:checkpoint["call_count"]]
+            raw_input = replay.input
+            config["retrieval"]["deep_dive_batch"] = checkpoint["batch_size"]
+        elif not args.ask:
             raise ValueError("find requires an ask unless --replay is used")
-        if not args.near and not args.route and not args.near_place:
+        if not args.resume and not args.near and not args.route and not args.near_place:
             raise ValueError("find requires --near, --route, or --near-place unless --replay is used")
-        raw_input = _raw_input(args)
-        run_dir = args.run_dir or config["paths"]["runs"] / datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+        if not args.resume:
+            raw_input = _raw_input(args)
+        run_dir = args.resume or args.run_dir or config["paths"]["runs"] / datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
         recorder = SnapshotRecorder(run_dir)
+        if args.resume:
+            recorder.run_at = replay.run_at
+            recorder.calls = list(replay.calls)
         run_at = recorder.run_at
+        recorder.finish(raw_input, {})
         adapters = RecordedAdapters(
             GoplacesAdapter(),
             WebAdapter(config["web"]["endpoint"], retrieval=config["retrieval"]),
             ModelAdapter(config),
             recorder=recorder,
+            replay=replay if args.resume and replay.calls else None,
+            resume=bool(args.resume),
             booking=BookingAdapter(),
         )
     result = Funnel(config, adapters, now=run_at).run(raw_input)
@@ -139,6 +169,10 @@ def _run_find(args: argparse.Namespace, config: dict[str, Any]) -> int:
         print(json.dumps(result, ensure_ascii=False, indent=2))
     else:
         print(result["human"])
+    if result.get("partial"):
+        coverage = result["coverage"]
+        directory = recorder.run_dir if recorder else args.replay
+        print(f"Deep dive paused after {coverage['verified']} of {coverage['candidates']}; resume with --resume {directory}", file=sys.stderr if args.as_json else sys.stdout)
     return 0
 
 

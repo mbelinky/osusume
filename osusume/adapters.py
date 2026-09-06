@@ -825,6 +825,7 @@ class SnapshotRecorder:
         self.raw_dir = run_dir / "raw"
         self.raw_dir.mkdir(parents=True, exist_ok=True)
         self.calls: list[dict[str, Any]] = []
+        self.raw_index = max((int(path.name.split("_", 1)[0]) for path in self.raw_dir.glob("*.json")), default=0)
 
     def wrap(self, adapter_name: str, operation: str, request: dict, call: Callable[[], Any]) -> Any:
         try:
@@ -839,7 +840,8 @@ class SnapshotRecorder:
 
     def _save_call(self, record: dict[str, Any]) -> None:
         self.calls.append(record)
-        path = self.raw_dir / f"{len(self.calls):04d}_{record['adapter']}_{record['operation']}.json"
+        self.raw_index += 1
+        path = self.raw_dir / f"{self.raw_index:04d}_{record['adapter']}_{record['operation']}.json"
         path.write_text(json.dumps(record, ensure_ascii=False, indent=2, default=str) + "\n", encoding="utf-8")
 
     def finish(self, input_data: dict, output: dict) -> None:
@@ -894,6 +896,7 @@ class RecordedAdapters:
         recorder: SnapshotRecorder | None = None,
         replay: ReplayStore | None = None,
         booking: Any = None,
+        resume: bool = False,
     ) -> None:
         self.places = places
         self.web = web
@@ -901,10 +904,14 @@ class RecordedAdapters:
         self.booking = booking
         self.recorder = recorder
         self.replay = replay
+        self.resume = resume
 
     def call(self, adapter: str, operation: str, request: dict, fn: Callable[[], Any]) -> Any:
         if self.replay:
-            return self.replay.take(adapter, operation, request)
+            response = self.replay.take(adapter, operation, request)
+            if self.resume and self.replay.index == len(self.replay.calls):
+                self.replay = None
+            return response
         if self.recorder:
             return self.recorder.wrap(adapter, operation, request, fn)
         return fn()

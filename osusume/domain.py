@@ -72,6 +72,8 @@ class StructuredRequest:
     preferences: tuple[dict[str, str], ...] = ()
     stay: dict[str, Any] | None = None
     hotel_filters: dict[str, Any] = field(default_factory=dict)
+    top: int | None = None
+    deep_dive: bool | None = None
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "StructuredRequest":
@@ -89,7 +91,14 @@ class StructuredRequest:
             preferences=tuple(data.get("preferences", ())),
             stay=data.get("stay"),
             hotel_filters=data.get("hotel_filters") or {},
+            top=data.get("top"),
+            deep_dive=data.get("deep_dive"),
         )
 
     def to_dict(self) -> dict[str, Any]:
-        return asdict(self)
+        result = asdict(self)
+        # Keep requests from older snapshots byte-for-byte compatible with replay.
+        for key in ("top", "deep_dive"):
+            if result[key] is None:
+                result.pop(key)
+        return result

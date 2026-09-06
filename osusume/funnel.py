@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import math
 import re
 from dataclasses import asdict
@@ -327,14 +328,27 @@ class Funnel:
         self.now = now or utc_now()
         self.rejected: list[Candidate] = []
         self.search_budget_exhausted = False
+        self.coverage = {"candidates": 0, "verified": 0, "pending": []}
+        self.partial = False
+        self.top = 5
+        self.deep_dive = False
+        self.model_failed = False
 
     def _call(self, adapter: str, operation: str, request: dict, fn) -> Any:
-        return self.adapters.call(adapter, operation, request, fn)
+        self.model_failed = False
+        try:
+            return self.adapters.call(adapter, operation, request, fn)
+        except AdapterError:
+            self.model_failed = adapter == "model"
+            raise
 
     def stage0_parse(self, raw_input: dict[str, Any]) -> tuple[StructuredRequest, dict]:
         response = self._call("model", "parse", raw_input, lambda: self.adapters.model.run("parse", raw_input))
         parsed = dict(response.get("request", response))
         parsed.setdefault("ask", raw_input.get("ask", ""))
+        for key in ("top", "deep_dive"):
+            if key in raw_input:
+                parsed[key] = raw_input[key]
         cli_scope = raw_input.get("scope")
         if cli_scope:
             parsed["scope"] = {**(parsed.get("scope") or {}), **cli_scope}
@@ -556,7 +570,7 @@ class Funnel:
     def stage3_mine(self, candidates: list[Candidate], request: StructuredRequest, card: dict, depth: str) -> dict[str, dict]:
         if depth == "quick":
             mined = {}
-            for candidate in candidates[:5]:
+            for candidate in candidates:
                 detail_request = {"place_id": candidate.place_id, "local_language": request.local_language}
                 details = self._call(
                     "goplaces",
@@ -582,7 +596,7 @@ class Funnel:
                 )
             return mined
         mined = {}
-        for candidate in candidates[:5]:
+        for candidate in candidates:
             replay = self.adapters.replay
             next_call = replay.calls[replay.index] if replay and replay.index < len(replay.calls) else {}
             legacy_replay = next_call.get("adapter") == "web" and next_call.get("operation") == "mine"
@@ -916,7 +930,7 @@ class Funnel:
                 direct_route = self._directions(request.scope["from"], request.scope["to"], request.arrival_start)
             except AdapterError:
                 direct_route = None
-        for candidate in candidates[:5]:
+        for candidate in candidates:
             if _excluded(candidate, request.exclusions):
                 continue
             payload = {"place_id": candidate.place_id, "local_language": request.local_language}
@@ -1148,7 +1162,13 @@ class Funnel:
             ],
             "instruction": "Phrase only these frozen rows. Do not add claims or appeal language.",
         }
-        self._call("model", "assemble", assemble_payload, lambda: self.adapters.model.run("assemble", assemble_payload))
+        if not self.partial:
+            try:
+                self._call("model", "assemble", assemble_payload, lambda: self.adapters.model.run("assemble", assemble_payload))
+            except AdapterError as exc:
+                if not self._can_pause(exc):
+                    raise
+                self.partial = True
         output_candidates = []
         for candidate in [*candidates, *self.rejected]:
             if candidate.ledger:
@@ -1173,7 +1193,10 @@ class Funnel:
                 }
             )
         refusal = not any(row["verdict"] == "cleared" for row in output_candidates)
-        human_lines = []
+        checked = f"Checked {self.coverage['verified']} of {self.coverage['candidates']} candidates"
+        if not self.deep_dive and self.coverage["candidates"] > self.top:
+            checked += f" (top {self.top}); use --deep-dive for all"
+        human_lines = [checked]
         candidates_by_id = {candidate.place_id: candidate for candidate in [*candidates, *self.rejected]}
         for row in output_candidates:
             candidate = candidates_by_id[row["place_id"]]
@@ -1237,7 +1260,9 @@ class Funnel:
                 )
                 human_lines.append(f"Just outside the budget: {outside}")
         packet = {
-            "request": request.to_dict(),
+            "request": {**request.to_dict(), "top": self.top, "deep_dive": self.deep_dive},
+            "partial": self.partial,
+            "coverage": self.coverage,
             "exclusions_applied": list(request.exclusions),
             "preferences_applied": list(request.preferences),
             "candidates": output_candidates,
@@ -1250,8 +1275,47 @@ class Funnel:
         }
         return packet
 
+    def _can_pause(self, error: AdapterError) -> bool:
+        return self.model_failed and (
+            self.coverage["verified"] > 0
+            or any(term in str(error).lower() for term in ("session limit", "rate limit"))
+        )
+
+    def _checkpoint(self, raw_input: dict, completed: list[Candidate], pending: list[Candidate], batch_size: int) -> None:
+        recorder = self.adapters.recorder
+        if recorder is None or (self.adapters.resume and self.adapters.replay):
+            return
+        payload = {
+            "done": [candidate.place_id for candidate in completed],
+            "pending": [candidate.place_id for candidate in pending],
+            "candidates": [
+                {**candidate.to_dict(), "ledger": candidate.ledger.to_dict() if candidate.ledger else None}
+                for candidate in completed
+            ],
+            "call_count": len(recorder.calls),
+            "batch_size": batch_size,
+        }
+        path = recorder.run_dir / "checkpoint.json"
+        temporary = path.with_suffix(".tmp")
+        temporary.write_text(json.dumps(payload, ensure_ascii=False, indent=2, default=str) + "\n", encoding="utf-8")
+        recorder.finish(raw_input, {})
+        temporary.replace(path)
+
     def run(self, raw_input: dict[str, Any]) -> dict[str, Any]:
-        request, card = self.stage0_parse(raw_input)
+        self.top = int(raw_input.get("top", 5))
+        self.deep_dive = bool(raw_input.get("deep_dive", False))
+        batch_size = int(self.config["retrieval"].get("deep_dive_batch", 5))
+        if self.top < 1 or batch_size < 1:
+            raise ValueError("top and retrieval.deep_dive_batch must be positive")
+        self._checkpoint(raw_input, [], [], batch_size)
+        try:
+            request, card = self.stage0_parse(raw_input)
+        except AdapterError as exc:
+            if not self._can_pause(exc):
+                raise
+            self.partial = True
+            request = StructuredRequest.from_dict({**raw_input, "scope": raw_input.get("scope") or {}})
+            return self.stage6_render([], request, {}, bool(raw_input.get("contact_drafts")))
         booking_sweep = card.get("sweep_source", "places") == "booking"
         if booking_sweep and (
             not request.stay or not request.stay.get("check_in") or not request.stay.get("check_out")
@@ -1273,7 +1337,29 @@ class Funnel:
         request = resolved_request
         candidates = self.stage1_sweep(request, card)
         candidates = self.stage2_qualify(candidates, request, card)
-        mined = self.stage3_mine(candidates, request, card, raw_input.get("depth", "full"))
-        candidates = self.stage4_verify(candidates, request, card, mined)
-        self.stage5_judge(candidates, card)
-        return self.stage6_render(candidates, request, card, bool(raw_input.get("contact_drafts")))
+        self.coverage["candidates"] = len(candidates)
+        selected = candidates if self.deep_dive else candidates[:self.top]
+        completed = []
+        verified = []
+        self._checkpoint(raw_input, completed, selected, batch_size)
+        for start in range(0, len(selected), batch_size):
+            batch = selected[start:start + batch_size]
+            rejected_count = len(self.rejected)
+            try:
+                mined = self.stage3_mine(batch, request, card, "full" if self.deep_dive else raw_input.get("depth", "full"))
+                survivors = self.stage4_verify(batch, request, card, mined)
+                self.stage5_judge(survivors, card)
+            except AdapterError as exc:
+                if not self._can_pause(exc):
+                    raise
+                self.partial = True
+                self.rejected = self.rejected[:rejected_count]
+                self.coverage["pending"] = [candidate.place_id for candidate in selected[start:]]
+                break
+            completed.extend(batch)
+            verified.extend(survivors)
+            self.coverage["verified"] = len(completed)
+            for candidate in survivors:
+                candidate.verdict = self._verdict(candidate, card, bool(raw_input.get("contact_drafts")), request.local_language)
+            self._checkpoint(raw_input, completed, selected[start + batch_size:], batch_size)
+        return self.stage6_render(verified, request, card, bool(raw_input.get("contact_drafts")))
