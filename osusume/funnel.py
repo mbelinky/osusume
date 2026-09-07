@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import math
 import re
+import unicodedata
 from dataclasses import asdict
 from datetime import datetime, time, timedelta, timezone
 from enum import Enum
@@ -33,6 +34,37 @@ HOT_TUB_HINTS = (
     "whirlpool",
     "spa bath",
     "bañera de hidromasaje",
+)
+GENERIC_CHIP_TERMS = {
+    "a",
+    "an",
+    "hotel",
+    "habitacio",
+    "habitacion",
+    "habitacions",
+    "habitaciones",
+    "in",
+    "private",
+    "privada",
+    "privado",
+    "privat",
+    "propiedad",
+    "propietat",
+    "property",
+    "room",
+    "rooms",
+    "suite",
+    "the",
+    "with",
+}
+CHIP_PHRASES_WITHOUT_ARTICLES = (
+    "air conditioning",
+    "breakfast",
+    "free cancellation",
+    "parking",
+    "pets",
+    "room service",
+    "wifi",
 )
 
 HOURS_CONTACT_QUESTIONS = {
@@ -320,6 +352,95 @@ def _number(value: Any) -> str:
     return str(int(number)) if number.is_integer() else f"{number:.2f}".rstrip("0").rstrip(".")
 
 
+def _chip_text(value: Any) -> str:
+    normalized = unicodedata.normalize("NFKD", str(value or "").casefold())
+    without_accents = "".join(character for character in normalized if not unicodedata.combining(character))
+    return " ".join(re.sub(r"[^a-z0-9]+", " ", without_accents).split())
+
+
+def _contains_phrase(text: str, phrase: str) -> bool:
+    return bool(phrase) and f" {phrase} " in f" {text} "
+
+
+def _chip_matches_term(chip_name: str, term: str) -> bool:
+    chip = _chip_text(chip_name)
+    wanted = _chip_text(term)
+    if not chip or not wanted or wanted in GENERIC_CHIP_TERMS:
+        return False
+    if chip == wanted or _contains_phrase(wanted, chip):
+        return True
+    return _contains_phrase(chip, wanted)
+
+
+def _human_chip_phrase(name: str) -> str:
+    phrase = " ".join(name.casefold().split())
+    if not phrase or phrase[0].isdigit() or phrase.startswith(CHIP_PHRASES_WITHOUT_ARTICLES):
+        return phrase
+    article = "an" if phrase[0] in "aeiou" else "a"
+    return f"{article} {phrase}"
+
+
+def _booking_chip_rows(payload: Any) -> list[dict[str, Any]]:
+    if isinstance(payload, list):
+        return [row for row in payload if isinstance(row, dict)]
+    if isinstance(payload, dict):
+        for key in ("chips", "filters", "results", "data"):
+            rows = payload.get(key)
+            if isinstance(rows, list):
+                return [row for row in rows if isinstance(row, dict)]
+            if isinstance(rows, dict):
+                nested = _booking_chip_rows(rows)
+                if nested:
+                    return nested
+    return []
+
+
+def _matched_booking_chips(request: StructuredRequest, card: dict, rows: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    terms: list[str] = []
+    for attribute in request.required_attributes:
+        terms.append(str(attribute.get("text") or ""))
+        synonyms = attribute.get("synonyms") or []
+        if isinstance(synonyms, str):
+            synonyms = [synonyms]
+        terms.extend(str(synonym) for synonym in synonyms)
+    terms.extend(
+        str(key).replace("_", " ")
+        for key, value in request.hotel_filters.items()
+        if value not in (None, False, "")
+    )
+
+    alias_names: list[str] = []
+    for alias, names in (card.get("chip_aliases") or {}).items():
+        alias_text = _chip_text(alias)
+        if not any(_contains_phrase(_chip_text(term), alias_text) for term in terms):
+            continue
+        if isinstance(names, str):
+            names = [names]
+        alias_names.extend(str(name) for name in names)
+
+    matches = []
+    seen = set()
+    for row in rows:
+        name = str(row.get("name") or "").strip()
+        url_id = str(row.get("url_id") or "").strip()
+        if not name or not url_id:
+            continue
+        if not (
+            any(_chip_matches_term(name, term) for term in terms)
+            or any(_chip_text(name) == _chip_text(alias_name) for alias_name in alias_names)
+        ):
+            continue
+        if url_id in seen:
+            continue
+        seen.add(url_id)
+        try:
+            count = max(0, int(row.get("count") or 0))
+        except (TypeError, ValueError):
+            count = 0
+        matches.append({"name": name, "url_id": url_id, "count": count})
+    return matches
+
+
 class Funnel:
     def __init__(self, config: dict[str, Any], adapters: RecordedAdapters, *, now: datetime | None = None) -> None:
         self.config = config
@@ -385,21 +506,47 @@ class Funnel:
         return request, card
 
     def _booking_sweep(self, request: StructuredRequest, card: dict) -> dict[str, Any]:
-        max_rows = max(0, int(self.config["retrieval"].get("booking_max_rows", 50)))
+        full_request = request.to_dict()
+        self.coverage.update({"chips": [], "booking_total": 0})
+        filters_payload = {"request": full_request, "card": card}
+        filters_response = self._call(
+            "booking",
+            "filters",
+            filters_payload,
+            lambda: self.adapters.booking.filters(full_request, card),
+        )
+        matched_chips = _matched_booking_chips(request, card, _booking_chip_rows(filters_response))
+        self.coverage["chips"] = matched_chips
+        self.coverage["booking_total"] = max((chip["count"] for chip in matched_chips), default=0)
+
+        max_rows = max(0, int(self.config["retrieval"].get("booking_max_rows", 120)))
         if max_rows == 0:
+            self.coverage["candidates"] = 0
             return {"candidates": []}
 
-        full_request = request.to_dict()
-        request_variants = [full_request]
-        filter_codes = BookingAdapter._filter_codes(request.hotel_filters)
-        if any(code.startswith(("hotelfacility=", "mealplan=", "fc=")) for code in filter_codes):
+        request_variants = []
+        ranking_filters = {
+            key: request.hotel_filters[key]
+            for key in ("min_stars", "max_stars", "min_score")
+            if key in request.hotel_filters
+        }
+        if matched_chips:
+            chip_sweep_cap = max(0, int(self.config["retrieval"].get("booking_chip_sweeps", 6)))
+            for chip in matched_chips[:chip_sweep_cap]:
+                chip_request = request.to_dict()
+                chip_request["hotel_filters"] = ranking_filters
+                chip_request["booking_nflt"] = chip["url_id"]
+                request_variants.append(chip_request)
             broad_request = request.to_dict()
-            broad_request["hotel_filters"] = {
-                key: request.hotel_filters[key]
-                for key in ("min_stars", "max_stars", "min_score")
-                if key in request.hotel_filters
-            }
+            broad_request["hotel_filters"] = ranking_filters
             request_variants.append(broad_request)
+        else:
+            request_variants.append(full_request)
+            filter_codes = BookingAdapter._filter_codes(request.hotel_filters)
+            if any(code.startswith(("hotelfacility=", "mealplan=", "fc=")) for code in filter_codes):
+                broad_request = request.to_dict()
+                broad_request["hotel_filters"] = ranking_filters
+                request_variants.append(broad_request)
 
         candidates: list[dict[str, Any]] = []
         seen_slugs: set[str] = set()
@@ -419,7 +566,9 @@ class Funnel:
                 if slug:
                     seen_slugs.add(slug)
                 candidates.append(row)
-        return {"candidates": candidates[:max_rows]}
+        candidates = candidates[:max_rows]
+        self.coverage["candidates"] = len(candidates)
+        return {"candidates": candidates}
 
     def stage1_sweep(self, request: StructuredRequest, card: dict) -> list[Candidate]:
         payload = {"request": request.to_dict(), "card": card}
@@ -1209,7 +1358,20 @@ class Funnel:
                 }
             )
         refusal = not any(row["verdict"] == "cleared" for row in output_candidates)
-        checked = f"Checked {self.coverage['verified']} of {self.coverage['candidates']} candidates"
+        chips = self.coverage.get("chips") or []
+        if len(chips) == 1:
+            checked = (
+                f"Booking lists {self.coverage['booking_total']} hotels with {_human_chip_phrase(chips[0]['name'])}; "
+                f"checked {self.coverage['verified']} of them"
+            )
+        elif chips:
+            names = ", ".join(chip["name"] for chip in chips)
+            checked = (
+                f"Booking lists up to {self.coverage['booking_total']} hotels per matched filter "
+                f"({names}); checked {self.coverage['verified']} of {self.coverage['candidates']} candidates"
+            )
+        else:
+            checked = f"Checked {self.coverage['verified']} of {self.coverage['candidates']} candidates"
         if not self.deep_dive and self.coverage["candidates"] > self.top:
             checked += f" (top {self.top}); use --deep-dive for all"
         human_lines = [checked]
@@ -1333,6 +1495,8 @@ class Funnel:
             request = StructuredRequest.from_dict({**raw_input, "scope": raw_input.get("scope") or {}})
             return self.stage6_render([], request, {}, bool(raw_input.get("contact_drafts")))
         booking_sweep = card.get("sweep_source", "places") == "booking"
+        if booking_sweep:
+            self.coverage.update({"chips": [], "booking_total": 0})
         if booking_sweep and (
             not request.stay or not request.stay.get("check_in") or not request.stay.get("check_out")
         ):
@@ -1353,7 +1517,8 @@ class Funnel:
         request = resolved_request
         candidates = self.stage1_sweep(request, card)
         candidates = self.stage2_qualify(candidates, request, card)
-        self.coverage["candidates"] = len(candidates)
+        if not booking_sweep:
+            self.coverage["candidates"] = len(candidates)
         selected = candidates if self.deep_dive else candidates[:self.top]
         completed = []
         verified = []

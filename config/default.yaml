@@ -27,7 +27,8 @@ web:
   endpoint: https://api.exa.ai/search
 retrieval:
   deep_dive_batch: 5
-  booking_max_rows: 50
+  booking_max_rows: 120
+  booking_chip_sweeps: 6
   max_queries_per_candidate: 8
   max_results_per_query: 5
   max_pages_per_candidate: 60

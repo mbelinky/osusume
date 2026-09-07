@@ -84,11 +84,17 @@ def hotel_request(required: list[dict] | None = None, *, stay: bool = True) -> d
 
 
 class FakeBooking:
-    def __init__(self, rows: list[dict], details: dict | None = None) -> None:
+    def __init__(self, rows: list[dict], details: dict | None = None, chips: list[dict] | None = None) -> None:
         self.rows = rows
         self.detail_payload = details or {"facilities": []}
+        self.chips = chips or []
+        self.filter_calls = []
         self.sweep_calls = []
         self.detail_calls = []
+
+    def filters(self, request: dict, card: dict) -> dict:
+        self.filter_calls.append((deepcopy(request), deepcopy(card)))
+        return {"chips": deepcopy(self.chips)}
 
     def sweep(self, request: dict, card: dict, offset: int = 0) -> dict:
         self.sweep_calls.append((deepcopy(request), deepcopy(card), offset))
@@ -135,10 +141,32 @@ def test_booking_sweep_builds_command_and_maps_rows(monkeypatch) -> None:
     assert commands == [[
         "hotels", "list", "--query", "Plaça de Catalunya", "--checkin", "2026-10-01",
         "--checkout", "2026-10-03", "--adults", "2", "--currency", "EUR", "--nflt",
-        "class=4;class=5;review_score=80;hotelfacility=4;hotelfacility=54;mealplan=1;fc=2", "--order",
+        "class=4;class=5;review_score=80;hotelfacility=4;hotelfacility=63;mealplan=1;fc=2", "--order",
         "distance_from_search",
     ]]
     assert result["candidates"][0]["raw"]["booking"]["slug"] == "hotel-uno"
+
+
+@pytest.mark.parametrize(
+    "payload",
+    [
+        [{"name": "Plunge pool", "url_id": "roomfacility=999", "count": 5, "default_visible": True}],
+        {"results": [{"name": "Plunge pool", "url_id": "roomfacility=999", "count": 5, "default_visible": False}]},
+    ],
+)
+def test_booking_filters_accepts_list_or_results_rows_and_ignores_default_visible(monkeypatch, payload) -> None:
+    adapter = BookingAdapter("booking-test")
+    commands = []
+    chip = {"name": "Plunge pool", "url_id": "roomfacility=999", "count": 5}
+    monkeypatch.setattr(adapter, "_run", lambda args: commands.append(args) or payload)
+
+    result = adapter.filters(hotel_request(), {"sweep_source": "booking"})
+
+    assert commands == [[
+        "hotels", "filters", "--query", "Barcelona", "--checkin", "2026-10-01",
+        "--checkout", "2026-10-03", "--adults", "2", "--currency", "EUR",
+    ]]
+    assert [{key: row[key] for key in chip} for row in result["chips"]] == [chip]
 
 
 def test_booking_query_uses_near_city_or_route_destination() -> None:
@@ -176,7 +204,7 @@ def test_booking_adapter_adds_offset_after_first_page(monkeypatch) -> None:
 @pytest.mark.parametrize(
     ("filter_name", "filter_code"),
     [
-        ("hot_tub", "hotelfacility=54"),
+        ("hot_tub", "hotelfacility=63"),
         ("pets", "hotelfacility=4"),
         ("breakfast", "mealplan=1"),
         ("free_cancellation", "fc=2"),
@@ -195,10 +223,11 @@ def test_booking_facility_filters_run_filtered_and_broad_commands(
     result = engine._booking_sweep(StructuredRequest.from_dict(request), {"sweep_source": "booking"})
 
     assert len(result["candidates"]) == 1
-    assert len(commands) == 2
-    assert commands[0][commands[0].index("--nflt") + 1] == f"class=4;review_score=80;{filter_code}"
-    assert commands[1][commands[1].index("--nflt") + 1] == "class=4;review_score=80"
-    assert all("--offset" not in command for command in commands)
+    assert len(commands) == 3
+    assert commands[0][1] == "filters"
+    assert commands[1][commands[1].index("--nflt") + 1] == f"class=4;review_score=80;{filter_code}"
+    assert commands[2][commands[2].index("--nflt") + 1] == "class=4;review_score=80"
+    assert all("--offset" not in command for command in commands[1:])
 
 
 def test_booking_star_filter_runs_one_command_for_a_full_result_page(monkeypatch) -> None:
@@ -213,15 +242,19 @@ def test_booking_star_filter_runs_one_command_for_a_full_result_page(monkeypatch
     result = engine._booking_sweep(StructuredRequest.from_dict(request), {"sweep_source": "booking"})
 
     assert len(result["candidates"]) == 25
-    assert len(commands) == 1
-    assert commands[0][commands[0].index("--nflt") + 1] == "class=4;class=5"
-    assert "--offset" not in commands[0]
+    assert len(commands) == 2
+    assert commands[0][1] == "filters"
+    assert commands[1][commands[1].index("--nflt") + 1] == "class=4;class=5"
+    assert "--offset" not in commands[1]
 
 
 def test_booking_queries_merge_dedupe_cap_record_and_replay(tmp_path) -> None:
     class FilterAwareBooking:
         def __init__(self) -> None:
             self.calls = []
+
+        def filters(self, request: dict, card: dict) -> dict:
+            return {"chips": []}
 
         def sweep(self, request: dict, card: dict, offset: int = 0) -> dict:
             self.calls.append((deepcopy(request), offset))
@@ -250,8 +283,13 @@ def test_booking_queries_merge_dedupe_cap_record_and_replay(tmp_path) -> None:
     assert [offset for _, offset in booking.calls] == [0, 0]
     assert booking.calls[0][0]["hotel_filters"] == {"min_stars": 4, "hot_tub": True}
     assert booking.calls[1][0]["hotel_filters"] == {"min_stars": 4}
-    assert [call["request"]["offset"] for call in recorder.calls] == [0, 0]
-    assert [call["request"]["request"]["hotel_filters"] for call in recorder.calls] == [
+    assert [(call["adapter"], call["operation"]) for call in recorder.calls] == [
+        ("booking", "filters"),
+        ("booking", "sweep"),
+        ("booking", "sweep"),
+    ]
+    assert [call["request"]["offset"] for call in recorder.calls[1:]] == [0, 0]
+    assert [call["request"]["request"]["hotel_filters"] for call in recorder.calls[1:]] == [
         {"min_stars": 4, "hot_tub": True},
         {"min_stars": 4},
     ]
@@ -262,16 +300,19 @@ def test_booking_queries_merge_dedupe_cap_record_and_replay(tmp_path) -> None:
     replayed = replay_engine._booking_sweep(StructuredRequest.from_dict(request), {"sweep_source": "booking"})
 
     assert replayed == result
-    assert replay.index == 2
+    assert replay.index == 3
 
 
 def test_booking_broad_query_runs_when_filtered_rows_fill_the_cap() -> None:
     class FullQueries:
         def __init__(self) -> None:
-            self.filters = []
+            self.sweep_filters = []
+
+        def filters(self, request: dict, card: dict) -> dict:
+            return {"chips": []}
 
         def sweep(self, request: dict, card: dict, offset: int = 0) -> dict:
-            self.filters.append(deepcopy(request["hotel_filters"]))
+            self.sweep_filters.append(deepcopy(request["hotel_filters"]))
             prefix = "filtered" if request["hotel_filters"].get("hot_tub") else "broad"
             rows = [booking_row(f"Hotel {prefix} {index}", f"{prefix}-{index}") for index in range(25)]
             return {"candidates": [{"name": row["name"], "raw": {"booking": row}} for row in rows]}
@@ -285,9 +326,138 @@ def test_booking_broad_query_runs_when_filtered_rows_fill_the_cap() -> None:
 
     result = engine._booking_sweep(StructuredRequest.from_dict(request), {"sweep_source": "booking"})
 
-    assert booking.filters == [{"hot_tub": True}, {}]
+    assert booking.sweep_filters == [{"hot_tub": True}, {}]
     assert len(result["candidates"]) == 10
     assert all(row["raw"]["booking"]["slug"].startswith("filtered-") for row in result["candidates"])
+
+
+def test_booking_chips_match_synonyms_aliases_and_run_before_broad_with_caps() -> None:
+    class ChipBooking:
+        def __init__(self) -> None:
+            self.filter_calls = []
+            self.sweep_calls = []
+
+        def filters(self, request: dict, card: dict) -> dict:
+            self.filter_calls.append((deepcopy(request), deepcopy(card)))
+            return {
+                "results": [
+                    {"name": "Hot tub/Jacuzzi", "url_id": "hotelfacility=63", "count": 8},
+                    {"name": "Private pool", "url_id": "roomfacility=10", "count": 7},
+                    {"name": "Bañera de hidromasaje", "url_id": "roomfacility=11", "count": 5},
+                    {"name": "Plunge pool", "url_id": "roomfacility=12", "count": 3},
+                    {"name": "Spa bath", "url_id": "roomfacility=13", "count": 4},
+                    {"name": "Private bathroom", "url_id": "roomfacility=14", "count": 99},
+                ]
+            }
+
+        def sweep(self, request: dict, card: dict, offset: int = 0) -> dict:
+            self.sweep_calls.append(deepcopy(request))
+            rows_by_chip = {
+                "hotelfacility=63": [booking_row("First", "first"), booking_row("Shared", "shared")],
+                "roomfacility=10": [
+                    {**booking_row("Shared", "shared"), "price": 999},
+                    booking_row("Second", "second"),
+                ],
+                None: [
+                    {**booking_row("Shared", "shared"), "price": 555},
+                    booking_row("Broad", "broad"),
+                    booking_row("Capped", "capped"),
+                ],
+            }
+            rows = rows_by_chip[request.get("booking_nflt")]
+            return {"candidates": [{"name": row["name"], "raw": {"booking": row}} for row in rows]}
+
+    request = hotel_request([
+        {
+            "claim_id": "suite_spa",
+            "claim_type": "layout",
+            "text": "A private hot tub is in the suite",
+            "synonyms": ["banera de hidromasaje", "private"],
+        }
+    ])
+    request["hotel_filters"] = {"min_stars": 4, "hot_tub": True}
+    booking = ChipBooking()
+    config = load_config()
+    config["retrieval"]["booking_chip_sweeps"] = 2
+    config["retrieval"]["booking_max_rows"] = 4
+    card = load_card(config["paths"]["cards"] / "hotel_es.yaml", config["freshness_days"])
+    engine = Funnel(config, RecordedAdapters(None, None, None, booking=booking), now=NOW)
+
+    result = engine._booking_sweep(StructuredRequest.from_dict(request), card)
+
+    assert len(booking.filter_calls) == 1
+    assert [row["raw"]["booking"]["slug"] for row in result["candidates"]] == [
+        "first", "shared", "second", "broad",
+    ]
+    assert result["candidates"][1]["raw"]["booking"]["price"] == 740
+    assert [call.get("booking_nflt") for call in booking.sweep_calls] == [
+        "hotelfacility=63", "roomfacility=10", None,
+    ]
+    assert [call["hotel_filters"] for call in booking.sweep_calls] == [
+        {"min_stars": 4}, {"min_stars": 4}, {"min_stars": 4},
+    ]
+    assert [chip["name"] for chip in engine.coverage["chips"]] == [
+        "Hot tub/Jacuzzi", "Private pool", "Bañera de hidromasaje", "Plunge pool", "Spa bath",
+    ]
+    assert engine.coverage["booking_total"] == 8
+    assert engine.coverage["candidates"] == 4
+
+
+def test_hotel_card_hot_tub_chip_aliases_include_pool_variants_not_spa() -> None:
+    config = load_config()
+    card = load_card(config["paths"]["cards"] / "hotel_es.yaml", config["freshness_days"])
+
+    assert card["chip_aliases"]["hot_tub"] == [
+        "Hot tub/Jacuzzi", "Private pool", "Plunge pool", "Spa bath", "Bañera de hidromasaje",
+    ]
+    assert "Spa and wellness center" not in card["chip_aliases"]["hot_tub"]
+
+
+def test_booking_chip_command_puts_chip_before_star_and_score_codes(monkeypatch) -> None:
+    adapter = BookingAdapter("booking-test")
+    commands = []
+    responses = iter([
+        {"results": [{"name": "Plunge pool", "url_id": "roomfacility=12", "count": 5}]},
+        {"results": []},
+        {"results": []},
+    ])
+    monkeypatch.setattr(adapter, "_run", lambda args: commands.append(args) or next(responses))
+    request = hotel_request([{"claim_id": "pool", "claim_type": "layout", "text": "A plunge pool in the room"}])
+    request["hotel_filters"] = {"min_stars": 4, "max_stars": 4, "min_score": 8, "hot_tub": True}
+    config = load_config()
+    card = load_card(config["paths"]["cards"] / "hotel_es.yaml", config["freshness_days"])
+    engine = Funnel(config, RecordedAdapters(None, None, None, booking=adapter), now=NOW)
+
+    engine._booking_sweep(StructuredRequest.from_dict(request), card)
+
+    assert commands[0][1] == "filters"
+    assert commands[1][commands[1].index("--nflt") + 1] == "roomfacility=12;class=4;review_score=80"
+    assert commands[2][commands[2].index("--nflt") + 1] == "class=4;review_score=80"
+
+
+def test_booking_single_chip_coverage_renders_human_line(tmp_path) -> None:
+    required = [{"claim_id": "plunge_pool", "claim_type": "layout", "text": "A plunge pool is in the room"}]
+    parsed = hotel_request(required)
+    booking = FakeBooking(
+        [booking_row()],
+        chips=[{"name": "Plunge pool", "url_id": "roomfacility=12", "count": 5}],
+    )
+    places = {
+        "resolved": {"Hotel Uno": operational_place(name="Hotel Uno", primary_type="hotel")},
+        "details": {"p1": operational_details()},
+    }
+
+    output = run_hotel(tmp_path, parsed, booking, places)
+
+    assert len(booking.filter_calls) == 1
+    assert [call[0].get("booking_nflt") for call in booking.sweep_calls] == ["roomfacility=12", None]
+    assert output["coverage"]["chips"] == [
+        {"name": "Plunge pool", "url_id": "roomfacility=12", "count": 5}
+    ]
+    assert output["coverage"]["booking_total"] == 5
+    assert output["human"].startswith("Booking lists 5 hotels with a plunge pool; checked 1 of them")
+    claim = next(claim for claim in output["candidates"][0]["claims"] if claim["claim_id"] == "plunge_pool")
+    assert claim["status"] == "unknown"
 
 
 def test_near_booking_sweep_without_city_refuses_closed(tmp_path) -> None:
@@ -300,6 +470,7 @@ def test_near_booking_sweep_without_city_refuses_closed(tmp_path) -> None:
     assert output["refusal"] is True
     assert output["reason"] == "city_missing"
     assert booking.sweep_calls == []
+    assert booking.filter_calls == []
 
 
 @pytest.mark.parametrize(
@@ -379,6 +550,9 @@ def test_booking_candidate_resolves_and_price_is_supported_while_unresolved_is_r
     assert price["status"] == "supported"
     assert "total EUR 740 for 2026-10-01 to 2026-10-03" in output["human"]
     assert missing["reason"] == "unresolved_listing"
+    assert output["coverage"]["chips"] == []
+    assert output["coverage"]["booking_total"] == 0
+    assert output["human"].startswith("Checked 1 of 2 candidates")
 
 
 def test_unfiltered_only_hot_tub_hotel_keeps_the_same_mining_and_output(tmp_path) -> None:
@@ -426,6 +600,8 @@ def test_unfiltered_only_hot_tub_hotel_keeps_the_same_mining_and_output(tmp_path
 
     assert [call[0]["hotel_filters"] for call in filtered_booking.sweep_calls] == [{"hot_tub": True}, {}]
     assert [call[0]["hotel_filters"] for call in broad_booking.sweep_calls] == [{"hot_tub": True}, {}]
+    assert len(filtered_booking.filter_calls) == 1
+    assert len(broad_booking.filter_calls) == 1
     assert parsed["hotel_filters"] == {"hot_tub": True}
     assert broad_output["candidates"] == filtered_output["candidates"]
     candidate = broad_output["candidates"][0]
@@ -572,6 +748,7 @@ def test_missing_stay_refuses_without_calling_booking(tmp_path) -> None:
     assert output["refusal"] is True
     assert output["reason"] == "stay_dates_missing"
     assert booking.sweep_calls == []
+    assert booking.filter_calls == []
 
 
 def test_room_level_attribute_needs_official_page_not_property_facilities(tmp_path) -> None:

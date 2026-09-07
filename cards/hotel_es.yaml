@@ -2,6 +2,11 @@ category: hotel
 country: ES
 reviewed: true
 sweep_source: booking
+chip_aliases:
+  hot_tub: [Hot tub/Jacuzzi, Private pool, Plunge pool, Spa bath, Bañera de hidromasaje]
+  pets: [Pets allowed]
+  breakfast: [Breakfast included]
+  free_cancellation: [Free cancellation]
 languages:
   en: [hotel, boutique hotel, suite]
   es: [hotel, hotel boutique, suite]

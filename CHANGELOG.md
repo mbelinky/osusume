@@ -5,6 +5,24 @@ All notable changes to Osusume are recorded here. The format follows
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Osusume is in
 super beta: minor versions can still change commands and output.
 
+## [0.7.3] - 2026-09-06
+
+### Added
+
+- Chip-based hotel discovery. Before a hotel sweep the engine reads
+  Booking's filter sidebar (every chip with its code and live count), matches
+  the ask's attributes and synonyms to chips through the card's
+  `chip_aliases`, runs one sweep per matched chip plus the broad sweep, and
+  merges the rows. The packet's `coverage` now carries the matched chips and
+  `booking_total`, so the answer can say how many hotels Booking lists for
+  that feature and how many were checked. Chips choose candidates only;
+  room-level claims are still proved from the hotel's own pages.
+
+### Fixed
+
+- Booking's hot-tub filter code is `hotelfacility=63` (Hot tub/Jacuzzi);
+  `54` is the spa chip and is no longer used for hot-tub asks.
+
 ## [0.7.2] - 2026-09-06
 
 ### Fixed

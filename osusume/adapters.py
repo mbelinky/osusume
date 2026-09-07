@@ -261,12 +261,12 @@ def _dedupe_places(rows: list[dict]) -> list[dict]:
 
 def _booking_list(payload: Any) -> list[dict]:
     if isinstance(payload, list):
-        return payload
+        return [row for row in payload if isinstance(row, dict)]
     if isinstance(payload, dict):
         for key in ("hotels", "results", "data"):
             rows = payload.get(key)
             if isinstance(rows, list):
-                return rows
+                return _booking_list(rows)
             if isinstance(rows, dict):
                 nested = _booking_list(rows)
                 if nested:
@@ -293,7 +293,7 @@ class BookingAdapter:
         return str(scope.get("city", ""))
 
     @staticmethod
-    def _filter_codes(filters: dict) -> list[str]:
+    def _ranking_filter_codes(filters: dict) -> list[str]:
         codes = []
         minimum = filters.get("min_stars")
         maximum = filters.get("max_stars")
@@ -303,17 +303,22 @@ class BookingAdapter:
             codes.extend(f"class={stars}" for stars in range(first, last + 1))
         if filters.get("min_score") is not None:
             codes.append(f"review_score={int(float(filters['min_score']) * 10)}")
+        return codes
+
+    @classmethod
+    def _filter_codes(cls, filters: dict) -> list[str]:
+        codes = cls._ranking_filter_codes(filters)
         if filters.get("pets"):
             codes.append("hotelfacility=4")
         if filters.get("hot_tub"):
-            codes.append("hotelfacility=54")
+            codes.append("hotelfacility=63")
         if filters.get("breakfast"):
             codes.append("mealplan=1")
         if filters.get("free_cancellation"):
             codes.append("fc=2")
         return codes
 
-    def sweep(self, request: dict, card: dict, offset: int = 0) -> dict[str, Any]:
+    def _search_args(self, operation: str, request: dict) -> list[str]:
         stay = request.get("stay") or {}
         check_in = stay.get("check_in")
         check_out = stay.get("check_out")
@@ -322,9 +327,9 @@ class BookingAdapter:
         query = self._query(request).strip()
         if not query:
             raise AdapterError("city_missing")
-        args = [
+        return [
             "hotels",
-            "list",
+            operation,
             "--query",
             query,
             "--checkin",
@@ -336,7 +341,22 @@ class BookingAdapter:
             "--currency",
             "EUR",
         ]
-        codes = self._filter_codes(request.get("hotel_filters") or {})
+
+    def filters(self, request: dict, card: dict) -> dict[str, Any]:
+        args = self._search_args("filters", request)
+        payload = self._run(args)
+        return {
+            "chips": _booking_list(payload),
+            "raw_calls": [{"command": args, "response": payload}],
+        }
+
+    def sweep(self, request: dict, card: dict, offset: int = 0) -> dict[str, Any]:
+        args = self._search_args("list", request)
+        chip_code = str(request.get("booking_nflt") or "").strip()
+        if chip_code:
+            codes = [chip_code, *self._ranking_filter_codes(request.get("hotel_filters") or {})]
+        else:
+            codes = self._filter_codes(request.get("hotel_filters") or {})
         if codes:
             args.extend(["--nflt", ";".join(codes)])
         if request.get("scope", {}).get("kind") == "anchor":
