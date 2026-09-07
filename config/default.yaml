@@ -23,10 +23,14 @@ paths:
   cards: cards
   drafts: cards/drafts
   runs: runs
+  index: index/rooms.sqlite
 web:
   endpoint: https://api.exa.ai/search
 retrieval:
   deep_dive_batch: 5
+  fetch_workers: 6
+  index_max_age_days: 30
+  index_failure_ttl_hours: 12
   booking_max_rows: 120
   booking_chip_sweeps: 6
   max_queries_per_candidate: 8

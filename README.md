@@ -13,6 +13,8 @@ uv run osusume --help
 
 Live runs need `GOOGLE_PLACES_API_KEY` for `goplaces` and `EXA_API_KEY` for web retrieval. The model lanes use local vendor CLIs, not direct paid API calls. Web retrieval is capped per candidate by `retrieval.max_pages_per_candidate` (60 by default), so one candidate cannot use another candidate's allowance. A card can set `official_link_terms`; matching homepage links are followed one level deep, up to `retrieval.official_pages_per_venue` (4 by default).
 
+Fetched official pages and named-room passages are cached in `index/rooms.sqlite` for 30 days by default. Room-level hotel claims use that cache first and only fall back to web mining when the official site yields no room passage.
+
 ## Configure
 
 The defaults are in `config/default.yaml`. Local changes go to `config/local.yaml`:

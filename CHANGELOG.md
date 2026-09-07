@@ -5,6 +5,26 @@ All notable changes to Osusume are recorded here. The format follows
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Osusume is in
 super beta: minor versions can still change commands and output.
 
+## [0.8.0] - 2026-09-06
+
+### Added
+
+- Room-evidence index. Every venue's own pages (homepage plus followed room
+  and suite links) are stored once with a content fingerprint, and room
+  passages are extracted per named room; a venue younger than
+  `retrieval.index_max_age_days` is served from the index with no fetch,
+  failed fetches are remembered for `retrieval.index_failure_ttl_hours`.
+- Cheap proof first. A required attribute is settled by code when one
+  indexed passage ties it to a named room with no negation or exception,
+  recorded as official exact-venue evidence with the verbatim quote; only
+  ambiguous passages go to the judge, batched once per venue; venues with no
+  mention stay unknown without a model call.
+- For room-level hotel claims, web search and photo reading run only when
+  the index holds nothing for a venue that has a website. Official pages
+  are fetched concurrently across venues (`retrieval.fetch_workers`) with
+  one request at a time per host. Coverage reports how many venues came
+  from the index.
+
 ## [0.7.3] - 2026-09-06
 
 ### Added

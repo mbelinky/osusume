@@ -29,7 +29,7 @@ def load_config(path: Path | None = None) -> dict[str, Any]:
     if local.exists():
         with local.open(encoding="utf-8") as handle:
             config = _merge(config, yaml.safe_load(handle) or {})
-    for key in ("cards", "drafts", "runs"):
+    for key in ("cards", "drafts", "runs", "index"):
         raw = Path(config["paths"][key])
         config["paths"][key] = raw if raw.is_absolute() else ROOT / raw
     return config

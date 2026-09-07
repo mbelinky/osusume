@@ -4,16 +4,20 @@ import json
 import math
 import re
 import unicodedata
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from dataclasses import asdict
 from datetime import datetime, time, timedelta, timezone
 from enum import Enum
 from typing import Any
 from urllib.parse import urlparse
+from threading import Lock
 
 from .adapters import AdapterError, BookingAdapter, RecordedAdapters, _candidate_details, _identity_label, _is_aggregator_domain, anchor_radius_m
 from .cards import find_card, save_ephemeral_card, validate_card
 from .domain import Candidate, StructuredRequest, utc_now
 from .evidence import Claim, ClaimLedger, ClaimStatus, EvidenceRecord, registrable_domain
+from .room_index import RoomIndex, passages_from_pages
+from .room_proof import attribute_terms, evaluate_room_proof
 
 
 OPERATIONAL = "OPERATIONAL"
@@ -315,6 +319,22 @@ def _room_level_claim(text: str) -> bool:
     return any(term in lowered for term in ("room", "suite", "guestroom", "bedroom", "habitación", "habitació"))
 
 
+def _details_website(details: dict) -> str:
+    body = _detail_body(details.get("en", details)) if isinstance(details, dict) else {}
+    return str(body.get("websiteUri") or body.get("website") or "") if isinstance(body, dict) else ""
+
+
+def _room_attributes(request: StructuredRequest, card: dict) -> tuple[dict[str, Any], ...]:
+    if request.category != "hotel" and card.get("sweep_source") != "booking":
+        return ()
+    return tuple(dict(row) for row in request.required_attributes if _room_level_claim(str(row.get("text") or "")))
+
+
+def _mentions_attribute(text: str, attribute: dict[str, Any]) -> bool:
+    haystack = _chip_text(text)
+    return any(_contains_phrase(haystack, term) for term in attribute_terms(attribute))
+
+
 def _booking_detail_body(payload: dict) -> dict:
     for key in ("hotel", "property", "result", "data"):
         if isinstance(payload.get(key), dict):
@@ -442,7 +462,14 @@ def _matched_booking_chips(request: StructuredRequest, card: dict, rows: list[di
 
 
 class Funnel:
-    def __init__(self, config: dict[str, Any], adapters: RecordedAdapters, *, now: datetime | None = None) -> None:
+    def __init__(
+        self,
+        config: dict[str, Any],
+        adapters: RecordedAdapters,
+        *,
+        now: datetime | None = None,
+        room_index: RoomIndex | None = None,
+    ) -> None:
         self.config = config
         self.adapters = adapters
         self.now = now or utc_now()
@@ -453,6 +480,9 @@ class Funnel:
         self.top = 5
         self.deep_dive = False
         self.model_failed = False
+        self.room_index = room_index
+        self._host_locks: dict[str, Lock] = {}
+        self._host_locks_guard = Lock()
 
     def _call(self, adapter: str, operation: str, request: dict, fn) -> Any:
         self.model_failed = False
@@ -720,45 +750,146 @@ class Funnel:
         return sorted(by_id.values(), key=lambda item: (item.source_weight, item.rating or 0), reverse=True)
 
     def stage3_mine(self, candidates: list[Candidate], request: StructuredRequest, card: dict, depth: str) -> dict[str, dict]:
-        if depth == "quick":
-            mined = {}
-            for candidate in candidates:
-                detail_request = {"place_id": candidate.place_id, "local_language": request.local_language}
-                details = self._call(
-                    "goplaces",
-                    "details",
-                    detail_request,
-                    lambda current=candidate: self.adapters.places.details(current.place_id, request.local_language),
+        if self.adapters.replay:
+            return self._stage3_replay(candidates, request, card, depth)
+
+        room_lane = bool(_room_attributes(request, card))
+        if room_lane and self.room_index:
+            self.coverage.setdefault("from_index", 0)
+            self.coverage.setdefault("fetched", 0)
+
+        details_by_id: dict[str, dict] = {}
+        for candidate in candidates:
+            details_by_id[candidate.place_id] = self.adapters.places.details(candidate.place_id, request.local_language)
+
+        official_by_id: dict[str, dict] = {}
+        fetch_rows: list[tuple[Candidate, dict]] = []
+        for candidate in candidates:
+            details = details_by_id[candidate.place_id]
+            lookup = (
+                self.room_index.lookup(
+                    candidate.place_id,
+                    now=self.now,
+                    max_age_days=float(self.config["retrieval"].get("index_max_age_days", 30)),
+                    failure_ttl_hours=float(self.config["retrieval"].get("index_failure_ttl_hours", 12)),
                 )
-                candidate.detail_payload = details
-                payload = {
-                    "candidate": {"place_id": candidate.place_id, "name": candidate.name, "details": details},
-                    "details": details,
+                if self.room_index
+                else None
+            )
+            if lookup and lookup.from_index:
+                official_by_id[candidate.place_id] = {
+                    "pages": list(lookup.pages),
+                    "room_passages": list(lookup.room_passages),
+                    "evidence": [],
+                    "budget_exhausted": False,
+                    "fetch_failed": lookup.status == "failure",
+                    "from_index": True,
                 }
-                mined[candidate.place_id] = self._call(
+                if room_lane:
+                    self.coverage["from_index"] += 1
+            else:
+                fetch_rows.append((candidate, details))
+
+        workers = max(1, int(self.config["retrieval"].get("fetch_workers", 6)))
+        with ThreadPoolExecutor(max_workers=workers) as pool:
+            futures = {
+                pool.submit(self._fetch_official_pages, candidate, details, card): (candidate, details)
+                for candidate, details in fetch_rows
+            }
+            for future in as_completed(futures):
+                candidate, details = futures[future]
+                result = future.result()
+                result = dict(result)
+                if self.room_index:
+                    result["from_index"] = False
+                pages = list(result.get("pages", []))
+                passages = passages_from_pages(pages, request.local_language)
+                result["room_passages"] = passages
+                official_by_id[candidate.place_id] = result
+                if _details_website(details):
+                    if room_lane and self.room_index:
+                        self.coverage["fetched"] += 1
+                    if self.room_index:
+                        if result.get("fetch_failed"):
+                            self.room_index.record_failure(candidate.place_id, now=self.now)
+                        elif pages:
+                            self.room_index.replace(
+                                candidate.place_id,
+                                pages,
+                                now=self.now,
+                                language=request.local_language,
+                            )
+
+        mined: dict[str, dict] = {}
+        for candidate in candidates:
+            details = details_by_id[candidate.place_id]
+            detail_request = {"place_id": candidate.place_id, "local_language": request.local_language}
+            details = self._call("goplaces", "details", detail_request, lambda value=details: value)
+            candidate.detail_payload = details
+            web_candidate = {"place_id": candidate.place_id, "name": candidate.name, "details": details}
+            official_payload = {"candidate": web_candidate, "details": details}
+            official = official_by_id[candidate.place_id]
+            official = self._call("web", "official_pages", official_payload, lambda value=official: value)
+            searched: dict[str, Any] = {"pages": [], "evidence": [], "budget_exhausted": False}
+            should_search = depth != "quick" and (
+                not room_lane
+                or (not official.get("room_passages") and bool(_details_website(details)))
+            )
+            if should_search:
+                payload = {"candidate": web_candidate, "request": request.to_dict(), "card": card}
+                searched = self._call(
                     "web",
-                    "official_pages",
+                    "mine",
                     payload,
-                    lambda current=candidate, current_details=details: self.adapters.web.official_pages(
-                        {"place_id": current.place_id, "name": current.name, "details": current_details}, current_details, card
-                    ),
+                    lambda current_candidate=web_candidate: self.adapters.web.mine(current_candidate, request.to_dict(), card),
                 )
-                self.search_budget_exhausted = self.search_budget_exhausted or bool(
-                    mined[candidate.place_id].get("budget_exhausted")
-                )
-            return mined
+            official_pages = list(official.get("pages", []))
+            official_urls = {page.get("url") for page in official_pages if page.get("url")}
+            search_pages = [page for page in searched.get("pages", []) if page.get("url") not in official_urls]
+            mined[candidate.place_id] = {
+                **searched,
+                "pages": [*official_pages, *search_pages],
+                "evidence": [*official.get("evidence", []), *searched.get("evidence", [])],
+                "room_passages": list(official.get("room_passages", [])),
+                "budget_exhausted": bool(official.get("budget_exhausted") or searched.get("budget_exhausted")),
+                "_room_indexed": room_lane,
+                "from_index": bool(official.get("from_index")),
+            }
+            self.search_budget_exhausted = self.search_budget_exhausted or bool(
+                mined[candidate.place_id].get("budget_exhausted")
+            )
+        return mined
+
+    def _fetch_official_pages(self, candidate: Candidate, details: dict, card: dict) -> dict[str, Any]:
+        website = _details_website(details)
+        host = (urlparse(website).hostname or "").casefold()
+        with self._host_locks_guard:
+            lock = self._host_locks.setdefault(host, Lock())
+        with lock:
+            return self.adapters.web.official_pages(
+                {"place_id": candidate.place_id, "name": candidate.name, "details": details},
+                details,
+                card,
+            )
+
+    def _stage3_replay(
+        self,
+        candidates: list[Candidate],
+        request: StructuredRequest,
+        card: dict,
+        depth: str,
+    ) -> dict[str, dict]:
         mined = {}
+        room_lane = bool(_room_attributes(request, card))
         for candidate in candidates:
             replay = self.adapters.replay
             next_call = replay.calls[replay.index] if replay and replay.index < len(replay.calls) else {}
-            legacy_replay = next_call.get("adapter") == "web" and next_call.get("operation") == "mine"
+            legacy_replay = depth != "quick" and next_call.get("adapter") == "web" and next_call.get("operation") == "mine"
             details = None
             if not legacy_replay:
                 detail_request = {"place_id": candidate.place_id, "local_language": request.local_language}
                 details = self._call(
-                    "goplaces",
-                    "details",
-                    detail_request,
+                    "goplaces", "details", detail_request,
                     lambda current=candidate: self.adapters.places.details(current.place_id, request.local_language),
                 )
                 candidate.detail_payload = details
@@ -767,24 +898,38 @@ class Funnel:
                 web_candidate["details"] = details
             official = {"pages": [], "evidence": [], "budget_exhausted": False}
             next_call = replay.calls[replay.index] if replay and replay.index < len(replay.calls) else {}
-            has_recorded_official_call = next_call.get("adapter") == "web" and next_call.get("operation") == "official_pages"
-            if replay is None or has_recorded_official_call:
-                official_payload = {"candidate": web_candidate, "details": details or {}}
+            has_official = next_call.get("adapter") == "web" and next_call.get("operation") == "official_pages"
+            if has_official:
                 official = self._call(
-                    "web",
-                    "official_pages",
-                    official_payload,
-                    lambda current_candidate=web_candidate, current_details=details or {}: self.adapters.web.official_pages(
-                        current_candidate, current_details, card
-                    ),
+                    "web", "official_pages", {"candidate": web_candidate, "details": details or {}},
+                    lambda: {},
                 )
-            payload = {"candidate": web_candidate, "request": request.to_dict(), "card": card}
-            searched = self._call(
-                "web",
-                "mine",
-                payload,
-                lambda current_candidate=web_candidate: self.adapters.web.mine(current_candidate, request.to_dict(), card),
-            )
+            if room_lane and "from_index" in official:
+                self.coverage.setdefault("from_index", 0)
+                self.coverage.setdefault("fetched", 0)
+                if official.get("from_index"):
+                    self.coverage["from_index"] += 1
+                elif details is not None and _details_website(details):
+                    self.coverage["fetched"] += 1
+            if depth == "quick":
+                mined[candidate.place_id] = {
+                    **official,
+                    "room_passages": list(official.get("room_passages", [])),
+                    "_room_indexed": room_lane,
+                    "from_index": bool(official.get("from_index")),
+                }
+                self.search_budget_exhausted = self.search_budget_exhausted or bool(
+                    official.get("budget_exhausted")
+                )
+                continue
+            next_call = replay.calls[replay.index] if replay and replay.index < len(replay.calls) else {}
+            if next_call.get("adapter") == "web" and next_call.get("operation") == "mine":
+                searched = self._call(
+                    "web", "mine", {"candidate": web_candidate, "request": request.to_dict(), "card": card},
+                    lambda: {},
+                )
+            else:
+                searched = {"pages": [], "evidence": [], "budget_exhausted": False}
             official_pages = list(official.get("pages", []))
             official_urls = {page.get("url") for page in official_pages if page.get("url")}
             search_pages = [page for page in searched.get("pages", []) if page.get("url") not in official_urls]
@@ -792,11 +937,11 @@ class Funnel:
                 **searched,
                 "pages": [*official_pages, *search_pages],
                 "evidence": [*official.get("evidence", []), *searched.get("evidence", [])],
+                "room_passages": list(official.get("room_passages", [])),
                 "budget_exhausted": bool(official.get("budget_exhausted") or searched.get("budget_exhausted")),
+                "_room_indexed": room_lane,
+                "from_index": bool(official.get("from_index")),
             }
-            self.search_budget_exhausted = self.search_budget_exhausted or bool(
-                mined[candidate.place_id].get("budget_exhausted")
-            )
         return mined
 
     def _directions(
@@ -991,6 +1136,41 @@ class Funnel:
                 )
             )
         rows = list(mined.get("evidence", []))
+        indexed_room_claims = {
+            claim.claim_id
+            for claim in ledger.claims
+            if mined.get("_room_indexed") and claim.required and _room_level_claim(claim.text)
+        }
+        if indexed_room_claims:
+            for passage_index, passage in enumerate(mined.get("room_passages", [])):
+                if not isinstance(passage, dict) or not passage.get("text"):
+                    continue
+                identity_label = str(passage.get("identity_label") or "")
+                source_kind = str(passage.get("source_kind") or "official")
+                if identity_label and identity_label != "exact-venue":
+                    continue
+                if source_kind not in {"official", "official_site"}:
+                    continue
+                for claim_id in sorted(indexed_room_claims):
+                    text = str(passage["text"])
+                    ledger.add_evidence(
+                        EvidenceRecord(
+                            evidence_id=f"room_{passage_index}_{claim_id}",
+                            claim_id=claim_id,
+                            source_kind="official_site",
+                            url=str(passage.get("page_url") or ""),
+                            fetched_at=str(passage.get("retrieved_at") or stamp),
+                            evidence_date=str(passage.get("retrieved_at") or stamp),
+                            text=text,
+                            quote=text,
+                            metadata={
+                                "identity_label": "exact-venue",
+                                "room_passage": True,
+                                "room_name": str(passage.get("room_name") or ""),
+                                "language": str(passage.get("language") or ""),
+                            },
+                        )
+                    )
         for page in mined.get("pages", []):
             if not page.get("claim_id") and page.get("source_kind") not in {"official", "official_social"}:
                 continue
@@ -1016,6 +1196,8 @@ class Funnel:
                 exact_claim = next((claim for claim in ledger.claims if claim.claim_id == row_claim_id), None)
                 type_claims = [claim for claim in ledger.claims if claim.claim_type == row_claim_id]
                 target_claims = ([exact_claim] if exact_claim else []) + [claim for claim in type_claims if claim is not exact_claim]
+            if indexed_room_claims and mined.get("room_passages"):
+                target_claims = [claim for claim in target_claims if claim.claim_id not in indexed_room_claims]
             if not target_claims:
                 continue
             kind, roundup = _page_kind(row, candidate, card)
@@ -1122,8 +1304,12 @@ class Funnel:
             candidate.details = dict(en)
             if isinstance(detail_payload.get("hours_supplement"), dict):
                 candidate.details["hours_supplement"] = detail_payload["hours_supplement"]
+            indexed_room_attributes = _room_attributes(request, card) if mined.get(candidate.place_id, {}).get("_room_indexed") else ()
+            if indexed_room_attributes:
+                candidate.raw["_room_indexed"] = True
+                candidate.raw["_room_attributes"] = [dict(attribute) for attribute in indexed_room_attributes]
             photo_rows = []
-            for photo in en.get("photos", [])[:10]:
+            for photo in ([] if indexed_room_attributes else en.get("photos", [])[:10]):
                 photo_name = photo.get("name") if isinstance(photo, dict) else str(photo)
                 if not photo_name:
                     continue
@@ -1229,6 +1415,9 @@ class Funnel:
         freshness = dict(self.config["freshness_days"])
         freshness.update(card.get("freshness_overrides", {}))
         for candidate in candidates:
+            if candidate.raw.get("_room_indexed"):
+                self._judge_indexed_room_candidate(candidate, freshness)
+                continue
             photo_evidence = [row.to_dict() for row in candidate.ledger.evidence if row.source_kind == "photo"]
             photo_judgments = []
             if photo_evidence:
@@ -1262,6 +1451,158 @@ class Funnel:
             }
             response = self._call("model", "judge", payload, lambda current=candidate: self.adapters.model.run("judge", payload))
             candidate.ledger.compute([*response.get("judgments", []), *photo_judgments], freshness, now=self.now)
+
+    @staticmethod
+    def _literal_judgment(evidence: EvidenceRecord) -> dict[str, Any]:
+        return {
+            "claim_id": evidence.claim_id,
+            "evidence_id": evidence.evidence_id,
+            "quote": evidence.quote,
+            "entails": True,
+            "contradicts": False,
+        }
+
+    def _judge_indexed_room_candidate(self, candidate: Candidate, freshness: dict[str, int]) -> None:
+        attributes = {
+            str(attribute.get("claim_id") or _slug(str(attribute.get("text") or attribute.get("claim_type") or "claim"))): attribute
+            for attribute in candidate.raw.get("_room_attributes", [])
+        }
+        evidence_by_id = {row.evidence_id: row for row in candidate.ledger.evidence}
+        deterministic_kinds = {"places_field", "computed_route", "booking_rate", "booking_signal"}
+        judgments = [
+            self._literal_judgment(row)
+            for row in candidate.ledger.evidence
+            if row.source_kind in deterministic_kinds
+        ]
+        judge_ids: set[str] = set()
+
+        for claim in candidate.ledger.claims:
+            attribute = attributes.get(claim.claim_id)
+            if attribute is None:
+                if claim.required:
+                    judge_ids.update(
+                        evidence_id
+                        for evidence_id in claim.evidence_ids
+                        if evidence_id in evidence_by_id
+                        and evidence_by_id[evidence_id].source_kind not in deterministic_kinds
+                        and evidence_by_id[evidence_id].source_kind != "photo"
+                    )
+                continue
+            passage_evidence = [
+                evidence_by_id[evidence_id]
+                for evidence_id in claim.evidence_ids
+                if evidence_id in evidence_by_id and evidence_by_id[evidence_id].metadata.get("room_passage")
+            ]
+            passages = [
+                {
+                    "_evidence_id": row.evidence_id,
+                    "room_name": row.metadata.get("room_name", ""),
+                    "text": row.text,
+                    "language": row.metadata.get("language", ""),
+                    "page_url": row.url,
+                }
+                for row in passage_evidence
+            ]
+            proof = evaluate_room_proof(attribute, passages)
+            if proof.proved and proof.passage:
+                judgments.append(self._literal_judgment(evidence_by_id[str(proof.passage["_evidence_id"])]))
+                continue
+            if proof.status == "judge":
+                judge_ids.update(str(passage["_evidence_id"]) for passage in proof.candidate_passages)
+            for evidence_id in claim.evidence_ids:
+                row = evidence_by_id.get(evidence_id)
+                if row is None or row.metadata.get("room_passage") or row.source_kind == "photo":
+                    continue
+                if row.source_kind not in deterministic_kinds and _mentions_attribute(row.text, attribute):
+                    judge_ids.add(evidence_id)
+
+        if judge_ids:
+            ledger_payload = candidate.ledger.to_dict()
+            ledger_payload["evidence"] = [
+                row for row in ledger_payload["evidence"] if row["evidence_id"] in judge_ids
+            ]
+            for claim_row in ledger_payload["claims"]:
+                claim_row["evidence_ids"] = [
+                    evidence_id for evidence_id in claim_row["evidence_ids"] if evidence_id in judge_ids
+                ]
+            payload = {
+                "place_id": candidate.place_id,
+                "ledger": ledger_payload,
+                "instruction": (
+                    "Refute each claim. Return literal quotes only. Any listed synonym satisfies its claim when the excerpt "
+                    "ties it to the requested subject. For room-specific claims, a shared spa or property-level amenity is insufficient."
+                ),
+            }
+            response = self._call("model", "judge", payload, lambda: self.adapters.model.run("judge", payload))
+            judgments.extend(response.get("judgments", []))
+
+        candidate.ledger.compute(judgments, freshness, now=self.now)
+        visual_claims = [
+            claim
+            for claim in candidate.ledger.claims
+            if claim.claim_id in attributes
+            and claim.status == ClaimStatus.UNKNOWN
+            and claim.claim_type in {"counter_service", "layout", "product_inventory", "vegetarian_options"}
+        ]
+        if not visual_claims:
+            return
+
+        photo_evidence: list[EvidenceRecord] = []
+        for photo_index, photo in enumerate(candidate.details.get("photos", [])[:10]):
+            photo_name = photo.get("name") if isinstance(photo, dict) else str(photo)
+            if not photo_name:
+                continue
+            bound_claim_id = str(photo.get("claim_id") or "") if isinstance(photo, dict) else ""
+            eligible_claims = [
+                claim for claim in visual_claims if not bound_claim_id or claim.claim_id == bound_claim_id
+            ]
+            if not eligible_claims:
+                continue
+            photo_request = {"photo_name": photo_name}
+            response = self._call(
+                "goplaces", "photo", photo_request,
+                lambda name=photo_name: self.adapters.places.photo(name),
+            )
+            for claim in eligible_claims:
+                observed_text = str(photo.get("observed_text") or "") if isinstance(photo, dict) else ""
+                text = observed_text or f"photo_resource={photo_name}"
+                row = EvidenceRecord(
+                    evidence_id=(
+                        str(photo.get("evidence_id") or f"photo_{photo_index + 1}")
+                        if observed_text and bound_claim_id
+                        else f"photo_{photo_index + 1}_{claim.claim_id}"
+                    ),
+                    claim_id=claim.claim_id,
+                    source_kind="photo",
+                    url=response.get("url") or response.get("photoUri") or f"goplaces://photo/{photo_name}",
+                    fetched_at=self.now.isoformat(),
+                    evidence_date=(photo.get("evidence_date") if isinstance(photo, dict) else None) or self.now.isoformat(),
+                    text=text,
+                    quote=text,
+                    polarity=(str(photo.get("polarity") or "supports") if isinstance(photo, dict) else "supports"),
+                    metadata={"photo": response, "question": claim.text},
+                )
+                candidate.ledger.add_late_evidence(row)
+                photo_evidence.append(row)
+        if not photo_evidence:
+            return
+        photo_payload = [row.to_dict() for row in photo_evidence]
+        triage_payload = {"place_id": candidate.place_id, "photos": photo_payload}
+        triage = self._call(
+            "model", "photo_triage", triage_payload,
+            lambda: self.adapters.model.run("photo_triage", triage_payload),
+        )
+        read_payload = {
+            "place_id": candidate.place_id,
+            "photos": photo_payload,
+            "triage": triage,
+            "instruction": "Answer only the listed claim questions for inspected photos.",
+        }
+        photo_read = self._call(
+            "model", "photo_read", read_payload,
+            lambda: self.adapters.model.run("photo_read", read_payload),
+        )
+        candidate.ledger.compute([*judgments, *photo_read.get("judgments", [])], freshness, now=self.now)
 
     def _verdict(self, candidate: Candidate, card: dict, contact_drafts: bool, language: str) -> str:
         claims = candidate.ledger.claims
@@ -1359,7 +1700,12 @@ class Funnel:
             )
         refusal = not any(row["verdict"] == "cleared" for row in output_candidates)
         chips = self.coverage.get("chips") or []
-        if len(chips) == 1:
+        if "from_index" in self.coverage:
+            checked = (
+                f"Checked {self.coverage['verified']} of {self.coverage['candidates']} "
+                f"({self.coverage['from_index']} from the index)"
+            )
+        elif len(chips) == 1:
             checked = (
                 f"Booking lists {self.coverage['booking_total']} hotels with {_human_chip_phrase(chips[0]['name'])}; "
                 f"checked {self.coverage['verified']} of them"

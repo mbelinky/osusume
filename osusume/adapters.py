@@ -9,11 +9,13 @@ from datetime import datetime, timezone
 from html.parser import HTMLParser
 from math import asin, cos, radians, sin, sqrt
 from pathlib import Path
+from threading import Lock
 from typing import Any, Callable
 from urllib.parse import quote, unquote, urljoin, urlparse
 from urllib.request import Request, urlopen
 
 from .evidence import registrable_domain
+from .room_index import _room_name_from_text
 
 
 class AdapterError(RuntimeError):
@@ -506,6 +508,35 @@ class WebAdapter:
         self.max_results_per_query = int(limits.get("max_results_per_query", 5))
         self.max_pages_per_candidate = int(limits.get("max_pages_per_candidate", 60))
         self.official_pages_per_venue = int(limits.get("official_pages_per_venue", 4))
+        self._host_locks: dict[str, Lock] = {}
+        self._host_locks_guard = Lock()
+
+    def _open_official(self, request: Request, timeout: int):
+        host = (urlparse(request.full_url).hostname or "").casefold()
+        with self._host_locks_guard:
+            lock = self._host_locks.setdefault(host, Lock())
+        lock.acquire()
+        try:
+            response = urlopen(request, timeout=timeout)
+        except Exception:
+            lock.release()
+            raise
+
+        class LockedResponse:
+            def __enter__(self):
+                try:
+                    return response.__enter__()
+                except Exception:
+                    lock.release()
+                    raise
+
+            def __exit__(self, *args):
+                try:
+                    return response.__exit__(*args)
+                finally:
+                    lock.release()
+
+        return LockedResponse()
 
     def _search(self, query: str) -> dict:
         if not self.api_key:
@@ -678,7 +709,7 @@ class WebAdapter:
             en = en["result"]
         website = en.get("websiteUri") or en.get("website") if isinstance(en, dict) else None
         if not website:
-            return {"pages": [], "evidence": [], "budget_exhausted": False}
+            return {"pages": [], "evidence": [], "budget_exhausted": False, "fetch_failed": False}
 
         pages = []
         website_source_kind = "generic_web" if _is_aggregator_domain(registrable_domain(str(website))) else "official"
@@ -688,10 +719,10 @@ class WebAdapter:
         homepage_url = str(website)
         try:
             request = Request(homepage_url, headers={"Accept": "text/html,text/plain", "User-Agent": "osusume/0.1"})
-            with urlopen(request, timeout=15) as response:
+            with self._open_official(request, timeout=15) as response:
                 content_type = response.headers.get("Content-Type", "text/html").split(";", 1)[0].strip().lower()
                 if not (content_type.startswith("text/") or content_type == "application/xhtml+xml"):
-                    return {"pages": [], "evidence": [], "budget_exhausted": False}
+                    return {"pages": [], "evidence": [], "budget_exhausted": False, "fetch_failed": True}
                 charset = response.headers.get_content_charset() or "utf-8"
                 body = response.read(512 * 1024).decode(charset, errors="replace")
                 homepage_url = response.geturl() if hasattr(response, "geturl") else homepage_url
@@ -704,13 +735,15 @@ class WebAdapter:
                 "retrieved_at": datetime.now(timezone.utc).isoformat(),
                 "source_kind": website_source_kind,
                 "claim_id": "product_inventory",
+                "language": homepage_parser.language,
+                "room_passages": homepage_parser.room_passages,
             }
             label, reasons = _identity_label(page, {**candidate, "details": details})
             page["identity_label"] = label
             page["identity_reasons"] = reasons
             pages.append(page)
         except Exception:
-            return {"pages": [], "evidence": [], "budget_exhausted": False}
+            return {"pages": [], "evidence": [], "budget_exhausted": False, "fetch_failed": True}
 
         default_link_terms = (
             "menu", "carta", "drinks", "cocktails", "cócteles", "còctels", "bebidas", "vinos", "wine list"
@@ -736,7 +769,7 @@ class WebAdapter:
         for url in linked_urls:
             try:
                 request = Request(url, headers={"Accept": "text/html,text/plain", "User-Agent": "osusume/0.1"})
-                with urlopen(request, timeout=15) as response:
+                with self._open_official(request, timeout=15) as response:
                     content_type = response.headers.get("Content-Type", "text/html").split(";", 1)[0].strip().lower()
                     if not (content_type.startswith("text/") or content_type == "application/xhtml+xml"):
                         continue
@@ -753,6 +786,8 @@ class WebAdapter:
                     "retrieved_at": datetime.now(timezone.utc).isoformat(),
                     "source_kind": website_source_kind,
                     "claim_id": "product_inventory",
+                    "language": parser.language or homepage_parser.language,
+                    "room_passages": parser.room_passages,
                 }
                 label, reasons = _identity_label(page, {**candidate, "details": details})
                 page["identity_label"] = label
@@ -768,7 +803,7 @@ class WebAdapter:
                 break
             try:
                 request = Request(social_url, headers={"Accept": "text/html,text/plain", "User-Agent": "osusume/0.1"})
-                with urlopen(request, timeout=15) as response:
+                with self._open_official(request, timeout=15) as response:
                     content_type = response.headers.get("Content-Type", "text/html").split(";", 1)[0].strip().lower()
                     if not (content_type.startswith("text/") or content_type == "application/xhtml+xml"):
                         continue
@@ -796,7 +831,12 @@ class WebAdapter:
                 pages.append(base_page)
             except Exception:
                 continue
-        return {"pages": pages, "evidence": [], "budget_exhausted": budget_exhausted}
+        return {
+            "pages": pages,
+            "evidence": [],
+            "budget_exhausted": budget_exhausted,
+            "fetch_failed": False,
+        }
 
 
 class _OfficialPageParser(HTMLParser):
@@ -805,12 +845,19 @@ class _OfficialPageParser(HTMLParser):
         self.text: list[str] = []
         self.title: list[str] = []
         self.links: list[tuple[str, str]] = []
+        self.room_passages: list[dict[str, str]] = []
+        self.language = ""
         self._hidden_depth = 0
         self._in_title = False
         self._link_href: str | None = None
         self._link_text: list[str] = []
+        self._capture_tag: str | None = None
+        self._capture_text: list[str] = []
+        self._current_heading = ""
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        if tag == "html":
+            self.language = str(dict(attrs).get("lang") or "").split("-", 1)[0].casefold()
         if tag in {"script", "style", "noscript"}:
             self._hidden_depth += 1
         elif tag == "title":
@@ -818,8 +865,28 @@ class _OfficialPageParser(HTMLParser):
         elif tag == "a" and self._hidden_depth == 0:
             self._link_href = dict(attrs).get("href")
             self._link_text = []
+        if self._hidden_depth == 0 and self._capture_tag is None and (tag in {"p", "li"} or re.fullmatch(r"h[1-6]", tag)):
+            self._capture_tag = tag
+            self._capture_text = []
 
     def handle_endtag(self, tag: str) -> None:
+        if tag == self._capture_tag:
+            value = " ".join(" ".join(self._capture_text).split())
+            if re.fullmatch(r"h[1-6]", tag):
+                self._current_heading = value
+                room_name = _room_name_from_text(value)
+                if room_name:
+                    self.room_passages.append(
+                        {"room_name": room_name, "text": value, "language": self.language}
+                    )
+            elif value:
+                room_name = _room_name_from_text(value) or self._current_heading
+                if room_name:
+                    self.room_passages.append(
+                        {"room_name": room_name, "text": value, "language": self.language}
+                    )
+            self._capture_tag = None
+            self._capture_text = []
         if tag in {"script", "style", "noscript"}:
             self._hidden_depth = max(0, self._hidden_depth - 1)
         elif tag == "title":
@@ -837,6 +904,8 @@ class _OfficialPageParser(HTMLParser):
             self.title.append(data)
         if self._link_href is not None:
             self._link_text.append(data)
+        if self._capture_tag is not None:
+            self._capture_text.append(data)
 
 
 class ModelAdapter:
@@ -879,7 +948,12 @@ class SnapshotRecorder:
             record = {"adapter": adapter_name, "operation": operation, "request": request, "error": str(exc)}
             self._save_call(record)
             raise
-        record = {"adapter": adapter_name, "operation": operation, "request": request, "response": response}
+        record = {
+            "adapter": adapter_name,
+            "operation": operation,
+            "request": deepcopy(request),
+            "response": deepcopy(response),
+        }
         self._save_call(record)
         return response
 

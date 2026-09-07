@@ -201,6 +201,15 @@ class ClaimLedger:
     def freeze(self) -> None:
         self._frozen = True
 
+    def add_late_evidence(self, evidence: EvidenceRecord) -> None:
+        """Add evidence discovered by a gated second stage, such as photo reading."""
+        if not self._frozen:
+            raise RuntimeError("late evidence requires a frozen claim ledger")
+        if evidence.claim_id not in self._claims:
+            raise KeyError(f"unknown claim {evidence.claim_id}")
+        self._evidence[evidence.evidence_id] = evidence
+        self._claims[evidence.claim_id].evidence_ids.append(evidence.evidence_id)
+
     def compute(
         self,
         judgments: list[dict],

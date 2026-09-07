@@ -13,6 +13,7 @@ from .adapters import BookingAdapter, GoplacesAdapter, ModelAdapter, RecordedAda
 from .cards import load_card, promote_card
 from .config import load_config, public_config, set_config_value
 from .funnel import Funnel
+from .room_index import RoomIndex
 
 
 def _positive_int(value: str) -> int:
@@ -162,7 +163,8 @@ def _run_find(args: argparse.Namespace, config: dict[str, Any]) -> int:
             resume=bool(args.resume),
             booking=BookingAdapter(),
         )
-    result = Funnel(config, adapters, now=run_at).run(raw_input)
+    room_index = None if args.replay else RoomIndex(config["paths"]["index"])
+    result = Funnel(config, adapters, now=run_at, room_index=room_index).run(raw_input)
     if recorder:
         recorder.finish(raw_input, result)
     if args.as_json:
