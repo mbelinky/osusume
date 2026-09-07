@@ -178,7 +178,14 @@ class RoomIndex:
         language: str = "",
     ) -> None:
         fetched_at = _utc(now).isoformat()
-        page_rows = [dict(page) for page in pages if page.get("url")]
+        page_rows = []
+        page_urls = set()
+        for page in pages:
+            url = str(page.get("url") or "")
+            if not url or url in page_urls:
+                continue
+            page_urls.add(url)
+            page_rows.append(dict(page))
         with self._connect() as connection:
             connection.execute("DELETE FROM room_passages WHERE place_id = ?", (place_id,))
             connection.execute("DELETE FROM official_pages WHERE place_id = ?", (place_id,))
@@ -187,7 +194,7 @@ class RoomIndex:
                 page["retrieved_at"] = page_time
                 page_passages = passages_from_pages([page], language)
                 connection.execute(
-                    "INSERT INTO official_pages(place_id, url, fingerprint, fetched_at, page_json) VALUES (?, ?, ?, ?, ?)",
+                    "INSERT OR REPLACE INTO official_pages(place_id, url, fingerprint, fetched_at, page_json) VALUES (?, ?, ?, ?, ?)",
                     (
                         place_id,
                         str(page["url"]),

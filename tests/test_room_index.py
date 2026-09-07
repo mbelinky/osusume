@@ -54,6 +54,19 @@ def test_index_stores_pages_passages_fingerprint_freshness_and_failure_ttl(tmp_p
     assert index.lookup("p1", now=NOW + timedelta(hours=13), failure_ttl_hours=12).status == "miss"
 
 
+def test_index_replace_deduplicates_pages_with_the_same_url(tmp_path) -> None:
+    path = tmp_path / "rooms.sqlite"
+    index = RoomIndex(path)
+    index.replace("p1", [page("Penthouse: first"), page("Penthouse: second")], now=NOW)
+
+    with sqlite3.connect(path) as connection:
+        rows = connection.execute(
+            "SELECT page_json FROM official_pages WHERE place_id = ?", ("p1",)
+        ).fetchall()
+    assert len(rows) == 1
+    assert 'Penthouse: first' in rows[0][0]
+
+
 class Places:
     def __init__(self, rows: dict[str, dict]) -> None:
         self.rows = rows
