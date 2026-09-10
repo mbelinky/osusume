@@ -5,6 +5,25 @@ All notable changes to Osusume are recorded here. The format follows
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Osusume is in
 super beta: minor versions can still change commands and output.
 
+## [0.8.1] - 2026-09-10
+
+### Fixed
+
+- The cheap room proof accepted rooftop, spa and plain-bathtub passages as
+  in-room hot tubs: a live Barcelona run cleared ten hotels and seven were
+  wrong. Code now accepts a passage only when its room name or its text
+  names a room category (room, suite, penthouse, apartment, habitación,
+  chambre, zimmer, camera and their plurals) together with the attribute;
+  a passage or room name carrying shared-facility words (rooftop, azotea,
+  solarium, pool, piscina, spa, gym, wellness, "en nuestra terraza",
+  "top floor", "de la última planta", or opening hours) is never
+  code-accepted unless the same sentence says private terrace, in-room,
+  en la habitación or en la suite; it goes to the judge marked
+  "shared-context words present". For hot-tub attributes a bare bañera,
+  bathtub or baño no longer counts, only hidromasaje, jacuzzi, hot tub,
+  whirlpool, spa bath or jetted tub. The judge instruction carries the same
+  three rules.
+
 ## [0.8.0] - 2026-09-06
 
 ### Added

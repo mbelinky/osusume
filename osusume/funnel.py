@@ -1475,6 +1475,7 @@ class Funnel:
             if row.source_kind in deterministic_kinds
         ]
         judge_ids: set[str] = set()
+        judge_notes: set[str] = set()
 
         for claim in candidate.ledger.claims:
             attribute = attributes.get(claim.claim_id)
@@ -1509,6 +1510,7 @@ class Funnel:
                 continue
             if proof.status == "judge":
                 judge_ids.update(str(passage["_evidence_id"]) for passage in proof.candidate_passages)
+                judge_notes.update(str(passage["note"]) for passage in proof.candidate_passages if passage.get("note"))
             for evidence_id in claim.evidence_ids:
                 row = evidence_by_id.get(evidence_id)
                 if row is None or row.metadata.get("room_passage") or row.source_kind == "photo":
@@ -1530,7 +1532,12 @@ class Funnel:
                 "ledger": ledger_payload,
                 "instruction": (
                     "Refute each claim. Return literal quotes only. Any listed synonym satisfies its claim when the excerpt "
-                    "ties it to the requested subject. For room-specific claims, a shared spa or property-level amenity is insufficient."
+                    "ties it to the requested subject. For room-specific claims: the excerpt must tie the feature to a named "
+                    "room or room category; a rooftop, terrace, pool, spa, gym or wellness facility, or anything with opening "
+                    "hours, is property-level and insufficient unless the same sentence says it is private to the room "
+                    "(private terrace, in-room, en la habitación, en la suite); a plain bathtub (bañera, bathtub, baño) is "
+                    "not a hot tub, only hidromasaje, jacuzzi, hot tub, whirlpool, spa bath or jetted tub is."
+                    + (" Note: " + "; ".join(sorted(judge_notes)) + "." if judge_notes else "")
                 ),
             }
             response = self._call("model", "judge", payload, lambda: self.adapters.model.run("judge", payload))
