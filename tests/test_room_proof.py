@@ -1,10 +1,97 @@
+import pytest
+
 from osusume.room_proof import evaluate_room_proof, prove_room_attribute
 
 
 ATTRIBUTE = {
     "text": "A private hot tub is in the room",
-    "synonyms": ["jacuzzi", "whirlpool", "bañera de hidromasaje"],
+    "synonyms": ["jacuzzi", "whirlpool", "bañera de hidromasaje", "bañera", "bathtub", "baño"],
 }
+
+WRONG_PASSAGES = (
+    (
+        "barcelona-center-shared-outdoor",
+        {"room_name": "Jacuzzi exterior (de 10", "text": "Jacuzzi exterior (de 10:00 h a 21:00 h)"},
+        "judge",
+    ),
+    (
+        "barcelona-center-bathtub",
+        {"room_name": "Habitaciones", "text": "Bañera con ducha"},
+        "unknown",
+    ),
+    (
+        "ciutat-vella-top-floor",
+        {
+            "room_name": "Boutique Hotel de Barcelona en zona Ramblas",
+            "text": (
+                "El Hotel Ciutat Vella ofrece habitaciones modernas con todas las comodidades, Wi-Fi gratuita y "
+                "una terraza con bañera de hidromasaje en la terraza de la última planta."
+            ),
+        },
+        "judge",
+    ),
+    (
+        "ciutat-vella-our-terrace",
+        {"room_name": "Jacuzzi en terraza", "text": "Disponemos en Jacuzzi en nuestra Terraza"},
+        "judge",
+    ),
+    (
+        "petit-palace-eixample",
+        {
+            "room_name": "OUTDOOR POOL WITH SOLARIUM TERRACE AND JACUZZI",
+            "text": "outdoor pool and a Jacuzzi",
+        },
+        "judge",
+    ),
+    (
+        "petit-palace-aston",
+        {
+            "room_name": "ROOFTOP TERRACE WITH POOL AND JACUZZI",
+            "text": "rooftop terrace, pool and jacuzzi",
+        },
+        "judge",
+    ),
+    (
+        "petit-palace-junior",
+        {
+            "room_name": "ROOFTOP TERRACE WITH POOL AND JACUZZI",
+            "text": "rooftop terrace, pool and jacuzzi",
+        },
+        "judge",
+    ),
+)
+
+RIGHT_PASSAGES = (
+    (
+        "abac-all-rooms",
+        {
+            "room_name": "El auténtico lujo es sentirte como en casa",
+            "text": "Todas las habitaciones tienen bañera de hidromasaje.",
+        },
+    ),
+    (
+        "abac-penthouse",
+        {"room_name": "Penthouse", "text": "terraza con jacuzzi"},
+    ),
+    (
+        "barcelona-princess-master-suite",
+        {
+            "room_name": "Master Suite con Jacuzzi en la Terraza",
+            "text": (
+                "Esta elegante suite dispone de una terraza privada con jacuzzi, perfecta para relajarte mientras "
+                "disfrutas de vistas exclusivas a la ciudad y al mar."
+            ),
+        },
+    ),
+    (
+        "sb-diagonal-zero-jacuzzi-suite",
+        {"room_name": "Jacuzzi Suite", "text": "Jacuzzi Suite"},
+    ),
+    (
+        "sb-diagonal-zero-hydromassage-suite",
+        {"room_name": "Cada habitación tiene su personalidad", "text": "Suite Bañera Hidromasaje"},
+    ),
+)
 
 
 def test_named_room_passage_proves_verbatim_without_judge() -> None:
@@ -26,14 +113,15 @@ def test_shared_spa_passages_go_to_one_batched_judge_call() -> None:
     calls = []
     passages = [
         {"room_name": "Wellness", "text": "spa with jacuzzi (shared)"},
-        {"room_name": "Terrace Suite", "text": "Terrace Suite: shared whirlpool"},
+        {"room_name": "Terrace Suite", "text": "Terrace Suite: shared rooftop whirlpool"},
     ]
 
     result = prove_room_attribute(ATTRIBUTE, passages, lambda rows: calls.append(rows) or {"entails": False})
 
     assert result.status == "judged"
-    assert [{k: v for k, v in row.items() if k != "note"} for row in calls[0]] == passages
-    assert calls[0][0]["note"] == "shared-context words present"
+    assert len(calls) == 1
+    assert [row["text"] for row in calls[0]] == [row["text"] for row in passages]
+    assert all(row["room_proof_note"] == "shared-context words present" for row in calls[0])
 
 
 def test_no_attribute_mention_stays_unknown_without_judge() -> None:
@@ -64,85 +152,69 @@ def test_standalone_negation_and_generic_heading_cannot_auto_prove() -> None:
     assert generic.status == "judge"
 
 
-# Passages from the 2026-09-07 Barcelona cold run. The first three are real
-# in-room tubs on the hotel's own pages; the rest are rooftop, spa or plain
-# bathtubs that the proof used to accept.
-MUST_ACCEPT = [
-    {
-        "room_name": "El auténtico lujo es sentirte",
-        "text": (
-            "Todas las habitaciones son exteriores, amplias y muy luminosas. Con camas premium, tecnología, "
-            "bañera de hidromasaje, mobiliario de diseño y amenities personalizados."
-        ),
-    },
-    {
-        "room_name": "Master Suite",
-        "text": "Master Suite con Jacuzzi en la Terraza. Disfruta de una terraza privada con jacuzzi y vistas al mar.",
-    },
-    {"room_name": "Jacuzzi Suite", "text": "Jacuzzi Suite con bañera de hidromasaje en la habitación"},
-    {"room_name": "Suite Bañera Hidromasaje", "text": "Suite Bañera Hidromasaje: amplia suite con bañera de hidromasaje"},
-]
-MUST_NOT_ACCEPT = [
-    {"room_name": "Jacuzzi exterior (de 10", "text": "Jacuzzi exterior (de 10:00 h a 21:00 h)"},
-    {"room_name": "Habitaciones", "text": "Bañera con ducha"},
-    {
-        "room_name": "Terraza",
-        "text": "una terraza con bañera de hidromasaje en la terraza de la última planta",
-    },
-    {"room_name": "Servicios", "text": "Disponemos en Jacuzzi en nuestra Terraza"},
-    {"room_name": "Facilities", "text": "The hotel has an outdoor pool and a Jacuzzi"},
-    {"room_name": "ROOFTOP TERRACE WITH POOL", "text": "rooftop terrace, pool and jacuzzi"},
-    {"room_name": "Suites", "text": "Our suites enjoy access to the rooftop terrace, pool and jacuzzi"},
-]
-LIVE_ATTRIBUTE = {
-    "text": "A private hot tub is in the room",
-    "synonyms": ["jacuzzi", "whirlpool", "bañera de hidromasaje", "bañera", "bathtub"],
-}
-
-
-def test_own_site_room_passages_are_code_accepted_with_verbatim_quote() -> None:
-    for passage in MUST_ACCEPT:
-        result = evaluate_room_proof(LIVE_ATTRIBUTE, [passage])
-        assert result.status == "proved", passage
-        assert result.passage["text"] == passage["text"]
-
-
-def test_rooftop_spa_and_bathtub_passages_are_never_code_accepted() -> None:
-    for passage in MUST_NOT_ACCEPT:
-        result = evaluate_room_proof(LIVE_ATTRIBUTE, [passage])
-        assert result.status != "proved", passage
-        assert result.status in {"judge", "unknown"}
-
-
-def test_shared_context_passages_reach_the_judge_with_a_note() -> None:
-    calls = []
-    passages = [
-        {"room_name": "Junior Suite", "text": "Junior Suite: rooftop pool and jacuzzi for all guests"},
-        {"room_name": "Servicios", "text": "Jacuzzi exterior (de 10:00 h a 21:00 h)"},
-    ]
-
-    result = prove_room_attribute(LIVE_ATTRIBUTE, passages, lambda rows: calls.append(rows) or {"entails": False})
-
-    assert result.status == "judged"
-    assert [row["note"] for row in calls[0]] == ["shared-context words present"] * 2
-
-
-def test_plain_bathtub_stays_unknown_without_judge() -> None:
-    calls = []
-
-    result = prove_room_attribute(
-        LIVE_ATTRIBUTE,
-        [{"room_name": "Habitaciones", "text": "Bañera con ducha"}],
-        lambda rows: calls.append(rows),
+def test_room_word_and_attribute_in_different_sentences_cannot_auto_prove() -> None:
+    result = evaluate_room_proof(
+        ATTRIBUTE,
+        [{"room_name": "Amenities", "text": "Our rooms are bright. A jacuzzi is available."}],
     )
 
-    assert result.status == "unknown"
-    assert calls == []
+    assert result.status == "judge"
+    assert not result.proved
 
 
-def test_room_word_in_sentence_ties_a_heading_passage() -> None:
-    tied = evaluate_room_proof(LIVE_ATTRIBUTE, [{"room_name": "", "text": "All rooms have a private jacuzzi."}])
-    untied = evaluate_room_proof(LIVE_ATTRIBUTE, [{"room_name": "", "text": "A jacuzzi is available."}])
+@pytest.mark.parametrize(("_venue", "passage", "expected_status"), WRONG_PASSAGES, ids=lambda value: value if isinstance(value, str) else None)
+def test_live_false_positive_passages_are_not_code_accepted(
+    _venue: str,
+    passage: dict,
+    expected_status: str,
+) -> None:
+    result = evaluate_room_proof(ATTRIBUTE, [passage])
+
+    assert result.status == expected_status
+    assert not result.proved
+    if expected_status == "judge":
+        assert result.candidate_passages[0]["room_proof_note"] == "shared-context words present"
+    else:
+        assert result.candidate_passages == ()
+
+
+@pytest.mark.parametrize(("_venue", "passage"), RIGHT_PASSAGES, ids=lambda value: value if isinstance(value, str) else None)
+def test_live_room_passages_are_code_accepted_with_verbatim_quote(_venue: str, passage: dict) -> None:
+    result = evaluate_room_proof(ATTRIBUTE, [passage])
+
+    assert result.status == "proved"
+    assert result.passage is not None
+    assert result.passage["text"] == passage["text"]
+
+
+def test_private_context_in_another_sentence_does_not_override_shared_context() -> None:
+    passage = {
+        "room_name": "Penthouse",
+        "text": "The rooftop pool has a jacuzzi. This room also has a private terrace.",
+    }
+
+    result = evaluate_room_proof(ATTRIBUTE, [passage])
+
+    assert result.status == "judge"
+    assert result.candidate_passages[0]["room_proof_note"] == "shared-context words present"
+
+
+def test_private_context_with_attribute_in_same_sentence_overrides_shared_heading() -> None:
+    passage = {
+        "room_name": "Rooftop Suite",
+        "text": "This suite has an in-room jacuzzi.",
+    }
+
+    result = evaluate_room_proof(ATTRIBUTE, [passage])
+
+    assert result.status == "proved"
+    assert result.passage is not None
+    assert result.passage["text"] == passage["text"]
+
+
+def test_room_word_in_the_attribute_sentence_ties_a_heading_passage() -> None:
+    tied = evaluate_room_proof(ATTRIBUTE, [{"room_name": "", "text": "All rooms have a private jacuzzi."}])
+    untied = evaluate_room_proof(ATTRIBUTE, [{"room_name": "", "text": "A jacuzzi is available."}])
 
     assert tied.status == "proved"
     assert untied.status == "judge"

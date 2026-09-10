@@ -11,9 +11,10 @@ super beta: minor versions can still change commands and output.
 
 - The cheap room proof accepted rooftop, spa and plain-bathtub passages as
   in-room hot tubs: a live Barcelona run cleared ten hotels and seven were
-  wrong. Code now accepts a passage only when its room name or its text
-  names a room category (room, suite, penthouse, apartment, habitación,
-  chambre, zimmer, camera and their plurals) together with the attribute;
+  wrong. Code now accepts a passage only when its room name names a room
+  category (room, suite, penthouse, apartment, habitación, chambre, zimmer,
+  camera and their plurals) or one sentence carries both a room word and
+  the attribute;
   a passage or room name carrying shared-facility words (rooftop, azotea,
   solarium, pool, piscina, spa, gym, wellness, "en nuestra terraza",
   "top floor", "de la última planta", or opening hours) is never

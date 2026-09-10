@@ -95,7 +95,7 @@ def test_ambiguous_passages_are_batched_into_one_judge_then_photos_run_if_unknow
         },
         {
             "room_name": "Terrace Suite",
-            "text": "Terrace Suite: shared whirlpool",
+            "text": "Terrace Suite: shared rooftop whirlpool",
             "page_url": "https://hotel.example/rooms",
             "source_kind": "official",
             "identity_label": "exact-venue",
@@ -107,9 +107,18 @@ def test_ambiguous_passages_are_batched_into_one_judge_then_photos_run_if_unknow
 
     judge_calls = [payload for slot, payload in model.calls if slot == "judge"]
     assert len(judge_calls) == 1
-    assert [row["text"] for row in judge_calls[0]["ledger"]["evidence"]] == [
+    judge_evidence = judge_calls[0]["ledger"]["evidence"]
+    assert [row["text"] for row in judge_evidence] == [
         passage["text"] for passage in passages
     ]
+    assert all(
+        row["metadata"]["room_proof_note"] == "shared-context words present"
+        for row in judge_evidence
+    )
+    instruction = judge_calls[0]["instruction"]
+    assert "require either a room_name containing" in instruction
+    assert "Evidence marked 'shared-context words present'" in instruction
+    assert "bañera, bathtub, or baño alone is insufficient" in instruction
     assert places.photo_calls == ["one"]
     assert [slot for slot, _ in model.calls] == ["judge", "photo_triage", "photo_read"]
 

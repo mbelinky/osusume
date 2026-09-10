@@ -39,6 +39,18 @@ HOT_TUB_HINTS = (
     "spa bath",
     "bañera de hidromasaje",
 )
+ROOM_JUDGE_INSTRUCTION = (
+    "Refute each claim. Return literal quotes only. Any listed synonym satisfies its claim when the excerpt ties it "
+    "to the requested subject. For room-specific claims, a shared spa or property-level amenity is insufficient. "
+    "For a room-specific claim, require either a room_name containing room, rooms, suite, "
+    "junior, penthouse, apartment, studio, habitación, habitaciones, habitació, habitacions, chambre, zimmer, or "
+    "camera, or one sentence containing both one of those room words and the attribute. Reject rooftop, azotea, "
+    "solarium, piscina, pool, spa, gimnasio, gym, wellness, en nuestra terraza, on our terrace, de la última planta, "
+    "top floor, the phrase exterior (de, and explicit opening-hours passages unless the attribute appears in the same "
+    "sentence as one of: terraza privada, private terrace, in-room, en la habitación, or en la suite. Evidence marked 'shared-context words "
+    "present' must follow that rule. For a hot-tub claim, bañera, bathtub, or baño alone is insufficient; require "
+    "bañera de hidromasaje, hidromasaje, jacuzzi, hot tub, whirlpool, spa bath, or jetted tub."
+)
 GENERIC_CHIP_TERMS = {
     "a",
     "an",
@@ -1444,10 +1456,7 @@ class Funnel:
             payload = {
                 "place_id": candidate.place_id,
                 "ledger": candidate.ledger.to_dict(),
-                "instruction": (
-                    "Refute each claim. Return literal quotes only. Any listed synonym satisfies its claim when the excerpt "
-                    "ties it to the requested subject. For room-specific claims, a shared spa or property-level amenity is insufficient."
-                ),
+                "instruction": ROOM_JUDGE_INSTRUCTION,
             }
             response = self._call("model", "judge", payload, lambda current=candidate: self.adapters.model.run("judge", payload))
             candidate.ledger.compute([*response.get("judgments", []), *photo_judgments], freshness, now=self.now)
@@ -1475,7 +1484,7 @@ class Funnel:
             if row.source_kind in deterministic_kinds
         ]
         judge_ids: set[str] = set()
-        judge_notes: set[str] = set()
+        judge_notes: dict[str, str] = {}
 
         for claim in candidate.ledger.claims:
             attribute = attributes.get(claim.claim_id)
@@ -1509,8 +1518,11 @@ class Funnel:
                 judgments.append(self._literal_judgment(evidence_by_id[str(proof.passage["_evidence_id"])]))
                 continue
             if proof.status == "judge":
-                judge_ids.update(str(passage["_evidence_id"]) for passage in proof.candidate_passages)
-                judge_notes.update(str(passage["note"]) for passage in proof.candidate_passages if passage.get("note"))
+                for passage in proof.candidate_passages:
+                    evidence_id = str(passage["_evidence_id"])
+                    judge_ids.add(evidence_id)
+                    if passage.get("room_proof_note"):
+                        judge_notes[evidence_id] = str(passage["room_proof_note"])
             for evidence_id in claim.evidence_ids:
                 row = evidence_by_id.get(evidence_id)
                 if row is None or row.metadata.get("room_passage") or row.source_kind == "photo":
@@ -1523,6 +1535,9 @@ class Funnel:
             ledger_payload["evidence"] = [
                 row for row in ledger_payload["evidence"] if row["evidence_id"] in judge_ids
             ]
+            for row in ledger_payload["evidence"]:
+                if row["evidence_id"] in judge_notes:
+                    row.setdefault("metadata", {})["room_proof_note"] = judge_notes[row["evidence_id"]]
             for claim_row in ledger_payload["claims"]:
                 claim_row["evidence_ids"] = [
                     evidence_id for evidence_id in claim_row["evidence_ids"] if evidence_id in judge_ids
@@ -1530,15 +1545,7 @@ class Funnel:
             payload = {
                 "place_id": candidate.place_id,
                 "ledger": ledger_payload,
-                "instruction": (
-                    "Refute each claim. Return literal quotes only. Any listed synonym satisfies its claim when the excerpt "
-                    "ties it to the requested subject. For room-specific claims: the excerpt must tie the feature to a named "
-                    "room or room category; a rooftop, terrace, pool, spa, gym or wellness facility, or anything with opening "
-                    "hours, is property-level and insufficient unless the same sentence says it is private to the room "
-                    "(private terrace, in-room, en la habitación, en la suite); a plain bathtub (bañera, bathtub, baño) is "
-                    "not a hot tub, only hidromasaje, jacuzzi, hot tub, whirlpool, spa bath or jetted tub is."
-                    + (" Note: " + "; ".join(sorted(judge_notes)) + "." if judge_notes else "")
-                ),
+                "instruction": ROOM_JUDGE_INSTRUCTION,
             }
             response = self._call("model", "judge", payload, lambda: self.adapters.model.run("judge", payload))
             judgments.extend(response.get("judgments", []))

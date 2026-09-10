@@ -16,18 +16,8 @@ TUB_TERMS = (
     "banyera d'hidromassatge",
     "hidromasaje",
 )
-# A plain bathtub never satisfies a hot-tub attribute, whatever the request lists.
-WEAK_TUB_TERMS = (
-    "bañera",
-    "banyera",
-    "bathtub",
-    "bath tub",
-    "bath",
-    "tub",
-    "baño",
-    "bany",
-)
-ROOM_WORDS = (
+BARE_TUB_TERMS = {"banera", "banyera", "bathtub", "bath tub", "bath", "tub", "bano", "bany"}
+ROOM_CATEGORY_TERMS = (
     "room",
     "rooms",
     "suite",
@@ -47,8 +37,7 @@ ROOM_WORDS = (
     "camera",
     "camere",
 )
-# Words that mark a property-level or shared facility rather than a room.
-SHARED_CONTEXT = (
+SHARED_CONTEXT_TERMS = (
     "rooftop",
     "azotea",
     "solarium",
@@ -64,9 +53,7 @@ SHARED_CONTEXT = (
     "top floor",
     "exterior (de",
 )
-OPENING_HOURS = re.compile(r"\d{1,2}:\d{2}\s*h?\s*(?:a|to|-)\s*\d{1,2}:\d{2}", re.IGNORECASE)
-# Phrases that make a tub private to the room even next to shared-context words.
-PRIVATE_CONTEXT = (
+PRIVATE_CONTEXT_TERMS = (
     "terraza privada",
     "private terrace",
     "in-room",
@@ -74,6 +61,7 @@ PRIVATE_CONTEXT = (
     "en la suite",
 )
 SHARED_CONTEXT_NOTE = "shared-context words present"
+OPENING_HOURS = re.compile(r"\d{1,2}:\d{2}\s*h?\s*(?:a|to|-)\s*\d{1,2}:\d{2}", re.IGNORECASE)
 EXCEPTIONS = (
     "except",
     "not",
@@ -89,6 +77,7 @@ EXCEPTIONS = (
     "compartido",
 )
 
+
 def _normalized(value: str) -> str:
     folded = unicodedata.normalize("NFKD", str(value).casefold())
     return " ".join(re.sub(r"[^a-z0-9]+", " ", "".join(c for c in folded if not unicodedata.combining(c))).split())
@@ -102,39 +91,36 @@ def attribute_terms(attribute: Any) -> tuple[str, ...]:
     text = str(attribute.get("text") or "") if isinstance(attribute, dict) else str(getattr(attribute, "text", ""))
     synonyms = attribute.get("synonyms", []) if isinstance(attribute, dict) else getattr(attribute, "synonyms", [])
     rows = [str(item).strip() for item in synonyms if str(item).strip()] if isinstance(synonyms, (list, tuple)) else []
-    tub_attribute = any(_contains(text, term) for term in TUB_TERMS) or any(
-        _contains(synonym, term) or _contains(term, synonym) for synonym in rows for term in TUB_TERMS
-    )
-    if tub_attribute:
-        weak = {_normalized(term) for term in WEAK_TUB_TERMS}
-        rows = [row for row in rows if _normalized(row) not in weak]
-        rows.extend(TUB_TERMS)
     if text.strip():
         rows.append(text.strip())
+    tub_attribute = any(_contains(row, term) for row in rows for term in TUB_TERMS)
+    if tub_attribute:
+        rows = [row for row in rows if _normalized(row) not in BARE_TUB_TERMS]
+        rows.extend(TUB_TERMS)
     return tuple(dict.fromkeys(_normalized(row) for row in rows if _normalized(row)))
 
 
-def _sentences(text: str) -> list[str]:
-    return [part for part in re.split(r"(?<=[.!?;])\s+|\n+", text) if part.strip()]
+def _has_room_category(value: str) -> bool:
+    return any(_contains(value, term) for term in ROOM_CATEGORY_TERMS)
 
 
-def _room_tied(room_name: str, text: str, terms: tuple[str, ...]) -> bool:
-    if any(_contains(room_name, word) for word in ROOM_WORDS):
-        return True
-    return any(_contains(text, word) for word in ROOM_WORDS) and any(_contains(text, term) for term in terms)
+def _sentence_has_room_tie(text: str, terms: tuple[str, ...]) -> bool:
+    return any(
+        _has_room_category(sentence) and any(_contains(sentence, term) for term in terms)
+        for sentence in re.split(r"[.!?;\n]+", text)
+    )
 
 
-def _shared_context(value: str) -> bool:
-    return any(_contains(value, word) for word in SHARED_CONTEXT) or bool(OPENING_HOURS.search(value))
+def _has_shared_context(value: str) -> bool:
+    return any(_contains(value, term) for term in SHARED_CONTEXT_TERMS) or bool(OPENING_HOURS.search(value))
 
 
-def _privately_tied(text: str, terms: tuple[str, ...]) -> bool:
-    for sentence in _sentences(text):
-        if any(_contains(sentence, term) for term in terms) and any(
-            _contains(sentence, phrase) for phrase in PRIVATE_CONTEXT
-        ):
-            return True
-    return False
+def _sentence_has_private_attribute_context(text: str, terms: tuple[str, ...]) -> bool:
+    return any(
+        any(_contains(sentence, private_term) for private_term in PRIVATE_CONTEXT_TERMS)
+        and any(_contains(sentence, attribute_term) for attribute_term in terms)
+        for sentence in re.split(r"[.!?;\n]+", text)
+    )
 
 
 @dataclass(frozen=True)
@@ -160,13 +146,16 @@ def evaluate_room_proof(attribute: Any, passages: Iterable[dict[str, Any]]) -> R
         if not any(_contains(text, term) for term in terms):
             continue
         room_name = str(passage.get("room_name") or "")
-        context = f"{room_name} {text}"
-        shared = _shared_context(context) and not _privately_tied(text, terms)
-        if shared:
-            passage["note"] = SHARED_CONTEXT_NOTE
+        shared_context = _has_shared_context(f"{room_name} {text}") and not _sentence_has_private_attribute_context(
+            text, terms
+        )
+        if shared_context:
+            passage["room_proof_note"] = SHARED_CONTEXT_NOTE
         candidates.append(passage)
-        blocked = shared or any(_contains(context, term) for term in EXCEPTIONS)
-        if _room_tied(room_name, text, terms) and not blocked:
+        context = f"{room_name} {text}"
+        blocked = any(_contains(context, term) for term in EXCEPTIONS)
+        room_tied = _has_room_category(room_name) or _sentence_has_room_tie(text, terms)
+        if room_tied and not blocked and not shared_context:
             return RoomProofResult("proved", passage, tuple(candidates))
     return RoomProofResult("judge" if candidates else "unknown", candidate_passages=tuple(candidates))
 
