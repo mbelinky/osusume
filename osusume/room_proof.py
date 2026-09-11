@@ -61,6 +61,27 @@ PRIVATE_CONTEXT_TERMS = (
     "en la suite",
 )
 SHARED_CONTEXT_NOTE = "shared-context words present"
+# A sentence that opens with one of these continues the sentence before it
+# ("Todas las habitaciones son amplias. Con bañera de hidromasaje ..."), so
+# the room word of the previous sentence still ties the attribute.
+CONTINUATION_STARTS = (
+    "con",
+    "with",
+    "avec",
+    "mit",
+    "amb",
+    "including",
+    "incluye",
+    "incluyen",
+    "featuring",
+    "equipped",
+    "equipada",
+    "equipadas",
+    "equipado",
+    "equipados",
+    "dotada",
+    "dotadas",
+)
 OPENING_HOURS = re.compile(r"\d{1,2}:\d{2}\s*h?\s*(?:a|to|-)\s*\d{1,2}:\d{2}", re.IGNORECASE)
 EXCEPTIONS = (
     "except",
@@ -104,11 +125,21 @@ def _has_room_category(value: str) -> bool:
     return any(_contains(value, term) for term in ROOM_CATEGORY_TERMS)
 
 
+def _continues_previous(sentence: str) -> bool:
+    words = _normalized(sentence).split()
+    return bool(words) and words[0] in CONTINUATION_STARTS
+
+
 def _sentence_has_room_tie(text: str, terms: tuple[str, ...]) -> bool:
-    return any(
-        _has_room_category(sentence) and any(_contains(sentence, term) for term in terms)
-        for sentence in re.split(r"[.!?;\n]+", text)
-    )
+    sentences = [part for part in re.split(r"[.!?;\n]+", text) if part.strip()]
+    for index, sentence in enumerate(sentences):
+        if not any(_contains(sentence, term) for term in terms):
+            continue
+        if _has_room_category(sentence):
+            return True
+        if index and _continues_previous(sentence) and _has_room_category(sentences[index - 1]):
+            return True
+    return False
 
 
 def _has_shared_context(value: str) -> bool:

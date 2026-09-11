@@ -1426,9 +1426,18 @@ class Funnel:
     def stage5_judge(self, candidates: list[Candidate], card: dict) -> None:
         freshness = dict(self.config["freshness_days"])
         freshness.update(card.get("freshness_overrides", {}))
+        plans = {
+            id(candidate): self._indexed_room_judge_plan(candidate)
+            for candidate in candidates
+            if candidate.raw.get("_room_indexed")
+        }
+        outcomes = self._run_judges([(key, payload) for key, (_, payload) in plans.items() if payload is not None])
         for candidate in candidates:
             if candidate.raw.get("_room_indexed"):
-                self._judge_indexed_room_candidate(candidate, freshness)
+                judgments, payload = plans[id(candidate)]
+                self._judge_indexed_room_candidate(
+                    candidate, freshness, judgments, payload, outcomes.get(id(candidate))
+                )
                 continue
             photo_evidence = [row.to_dict() for row in candidate.ledger.evidence if row.source_kind == "photo"]
             photo_judgments = []
@@ -1461,6 +1470,42 @@ class Funnel:
             response = self._call("model", "judge", payload, lambda current=candidate: self.adapters.model.run("judge", payload))
             candidate.ledger.compute([*response.get("judgments", []), *photo_judgments], freshness, now=self.now)
 
+    def _run_judges(self, payloads: list[tuple[int, dict[str, Any]]]) -> dict[int, tuple[str, Any]]:
+        """Run the judge model for several venues at once.
+
+        Only the model call runs in parallel; each response is then recorded
+        through ``_call`` in candidate order, so snapshots stay replayable.
+        During replay nothing runs here and ``_call`` reads the snapshot.
+        """
+        workers = max(1, int(self.config["retrieval"].get("judge_workers", 4)))
+        if getattr(self.adapters, "replay", None) or workers == 1 or len(payloads) < 2:
+            return {}
+
+        def run(payload: dict[str, Any]) -> tuple[str, Any]:
+            try:
+                return "ok", self.adapters.model.run("judge", payload)
+            except AdapterError as exc:
+                return "error", exc
+
+        outcomes: dict[int, tuple[str, Any]] = {}
+        with ThreadPoolExecutor(max_workers=workers) as pool:
+            futures = {pool.submit(run, payload): key for key, payload in payloads}
+            for future in as_completed(futures):
+                outcomes[futures[future]] = future.result()
+        return outcomes
+
+    def _judge_runner(self, payload: dict[str, Any], outcome: tuple[str, Any] | None):
+        if outcome is None:
+            return lambda: self.adapters.model.run("judge", payload)
+        status, value = outcome
+        if status == "error":
+
+            def raise_error() -> Any:
+                raise value
+
+            return raise_error
+        return lambda: value
+
     @staticmethod
     def _literal_judgment(evidence: EvidenceRecord) -> dict[str, Any]:
         return {
@@ -1471,11 +1516,15 @@ class Funnel:
             "contradicts": False,
         }
 
-    def _judge_indexed_room_candidate(self, candidate: Candidate, freshness: dict[str, int]) -> None:
-        attributes = {
+    @staticmethod
+    def _room_attributes(candidate: Candidate) -> dict[str, Any]:
+        return {
             str(attribute.get("claim_id") or _slug(str(attribute.get("text") or attribute.get("claim_type") or "claim"))): attribute
             for attribute in candidate.raw.get("_room_attributes", [])
         }
+
+    def _indexed_room_judge_plan(self, candidate: Candidate) -> tuple[list[dict[str, Any]], dict[str, Any] | None]:
+        attributes = self._room_attributes(candidate)
         evidence_by_id = {row.evidence_id: row for row in candidate.ledger.evidence}
         deterministic_kinds = {"places_field", "computed_route", "booking_rate", "booking_signal"}
         judgments = [
@@ -1547,10 +1596,23 @@ class Funnel:
                 "ledger": ledger_payload,
                 "instruction": ROOM_JUDGE_INSTRUCTION,
             }
-            response = self._call("model", "judge", payload, lambda: self.adapters.model.run("judge", payload))
-            judgments.extend(response.get("judgments", []))
+            return judgments, payload
+        return judgments, None
+
+    def _judge_indexed_room_candidate(
+        self,
+        candidate: Candidate,
+        freshness: dict[str, int],
+        judgments: list[dict[str, Any]],
+        payload: dict[str, Any] | None,
+        outcome: tuple[str, Any] | None = None,
+    ) -> None:
+        if payload is not None:
+            response = self._call("model", "judge", payload, self._judge_runner(payload, outcome))
+            judgments = [*judgments, *response.get("judgments", [])]
 
         candidate.ledger.compute(judgments, freshness, now=self.now)
+        attributes = self._room_attributes(candidate)
         visual_claims = [
             claim
             for claim in candidate.ledger.claims

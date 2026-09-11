@@ -218,3 +218,20 @@ def test_room_word_in_the_attribute_sentence_ties_a_heading_passage() -> None:
 
     assert tied.status == "proved"
     assert untied.status == "judge"
+
+
+def test_continuation_sentence_keeps_the_room_tie_of_the_sentence_before() -> None:
+    passage = {
+        "room_name": "El auténtico lujo es sentirte como en casa",
+        "text": (
+            "Todas las habitaciones son exteriores, amplias y muy luminosas. Con camas premium, tecnología, "
+            "bañera de hidromasaje, mobiliario de diseño y amenities personalizados."
+        ),
+    }
+    independent = {
+        "room_name": "Amenities",
+        "text": "Our rooms are bright. The hotel has a jacuzzi.",
+    }
+
+    assert evaluate_room_proof(ATTRIBUTE, [passage]).status == "proved"
+    assert evaluate_room_proof(ATTRIBUTE, [independent]).status == "judge"

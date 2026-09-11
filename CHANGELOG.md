@@ -5,6 +5,24 @@ All notable changes to Osusume are recorded here. The format follows
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Osusume is in
 super beta: minor versions can still change commands and output.
 
+## [0.8.2] - 2026-09-11
+
+### Added
+
+- Judge calls run in parallel. In the room lane the per-venue judge model
+  calls of a batch run concurrently (`retrieval.judge_workers`, default 4);
+  responses are still recorded one by one in candidate order, so run
+  snapshots replay unchanged. The warm Barcelona run was no faster than the
+  cold one because these calls ran one after another.
+
+### Fixed
+
+- A sentence that continues the one before it ("Todas las habitaciones son
+  amplias. Con bañera de hidromasaje ...") keeps the room tie of the previous
+  sentence, so a hotel whose own page describes every room that way is
+  code-accepted again; an independent hotel-level sentence after a rooms
+  sentence still goes to the judge.
+
 ## [0.8.1] - 2026-09-10
 
 ### Fixed

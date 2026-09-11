@@ -1,7 +1,8 @@
+import threading
 from copy import deepcopy
 from datetime import datetime, timezone
 
-from osusume.adapters import RecordedAdapters
+from osusume.adapters import RecordedAdapters, ReplayStore, SnapshotRecorder
 from osusume.config import load_config
 from osusume.domain import Candidate, StructuredRequest
 from osusume.funnel import Funnel
@@ -191,3 +192,87 @@ def test_delayed_observed_photo_keeps_claim_binding_date_and_polarity() -> None:
     assert photo.polarity == "supports"
     claim = next(row for row in candidate.ledger.claims if row.claim_id == "suite_hot_tub")
     assert claim.status.value == "supported"
+
+
+AMBIGUOUS = [
+    {
+        "room_name": "Wellness Suite",
+        "text": "Wellness Suite: spa with jacuzzi (shared)",
+        "page_url": "https://hotel.example/rooms",
+        "source_kind": "official",
+        "identity_label": "exact-venue",
+    }
+]
+
+
+def indexed_candidates(funnel: Funnel, place_ids: list[str]) -> list[Candidate]:
+    parsed = StructuredRequest.from_dict(hotel_request([ATTRIBUTE]))
+    rows = []
+    for place_id in place_ids:
+        candidate = Candidate.from_place(operational_place(place_id, f"Hotel {place_id}", "hotel"))
+        candidate.raw["booking"] = booking_row()
+        candidate.raw["_room_indexed"] = True
+        candidate.raw["_room_attributes"] = [ATTRIBUTE]
+        details = operational_details(place_id)["en"]
+        details["photos"] = []
+        candidate.details = details
+        candidate.ledger = funnel._build_ledger(
+            candidate,
+            parsed,
+            {"sweep_source": "booking"},
+            {"_room_indexed": True, "room_passages": deepcopy(AMBIGUOUS)},
+            details,
+            None,
+            None,
+        )
+        rows.append(candidate)
+    return rows
+
+
+def test_indexed_judge_calls_run_in_parallel_and_are_recorded_in_candidate_order(tmp_path) -> None:
+    barrier = threading.Barrier(2, timeout=5)
+
+    class ParallelModel(Model):
+        def run(self, slot: str, payload: dict) -> dict:
+            if slot == "judge":
+                barrier.wait()  # raises BrokenBarrierError if the two calls do not overlap
+            return super().run(slot, payload)
+
+    model = ParallelModel()
+    recorder = SnapshotRecorder(tmp_path)
+    funnel = Funnel(load_config(), RecordedAdapters(Places(), None, model, recorder=recorder), now=NOW)
+    candidates = indexed_candidates(funnel, ["p2", "p1"])
+
+    funnel.stage5_judge(candidates, {})
+
+    assert sorted(payload["place_id"] for slot, payload in model.calls if slot == "judge") == ["p1", "p2"]
+    assert [call["request"]["place_id"] for call in recorder.calls] == ["p2", "p1"]
+    for candidate in candidates:
+        statuses = {claim.claim_id: claim.status.value for claim in candidate.ledger.claims}
+        assert statuses["suite_hot_tub"] == "unknown"
+
+    recorder.finish({}, {})
+    replay_model = Model()
+    replay_funnel = Funnel(
+        load_config(), RecordedAdapters(Places(), None, replay_model, replay=ReplayStore(tmp_path)), now=NOW
+    )
+    replay_funnel.stage5_judge(indexed_candidates(replay_funnel, ["p2", "p1"]), {})
+    assert replay_model.calls == []
+
+
+def test_single_judge_worker_keeps_calls_on_the_main_thread() -> None:
+    threads = []
+
+    class ThreadModel(Model):
+        def run(self, slot: str, payload: dict) -> dict:
+            threads.append(threading.current_thread() is threading.main_thread())
+            return super().run(slot, payload)
+
+    config = load_config()
+    config["retrieval"]["judge_workers"] = 1
+    model = ThreadModel()
+    funnel = Funnel(config, RecordedAdapters(Places(), None, model), now=NOW)
+
+    funnel.stage5_judge(indexed_candidates(funnel, ["p1", "p2"]), {})
+
+    assert threads == [True, True]

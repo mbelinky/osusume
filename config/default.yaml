@@ -29,6 +29,7 @@ web:
 retrieval:
   deep_dive_batch: 5
   fetch_workers: 6
+  judge_workers: 4
   index_max_age_days: 30
   index_failure_ttl_hours: 12
   booking_max_rows: 120
