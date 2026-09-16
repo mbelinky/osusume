@@ -403,3 +403,27 @@ def test_registry_loader_reads_each_country_from_its_own_file(tmp_path: Path) ->
     )
     with pytest.raises(GuideRegistryError, match="country must be FR"):
         load_guide_registry("FR", tmp_path)
+
+
+def test_proximity_alone_never_transfers_a_guide_award() -> None:
+    """A live London run gave Dave's Hot Chicken two Michelin stars: it sits
+    299 m from Humble Chicken and both names contain "chicken". Coordinates
+    may waive the locality check, never the name test."""
+    from osusume.guide_registry import registry_entry_matches_candidate
+
+    starred = {
+        "name": "Humble Chicken",
+        "locality": "London",
+        "province": "Greater London",
+        "guide": "michelin",
+        "level": 2,
+        "url": "https://guide.michelin.com/en/london/restaurant/humble-chicken",
+        "verified_at": "2026-09-16",
+        "latitude": 51.5138258,
+        "longitude": -0.1317621,
+    }
+    chain_nearby = {"name": "Dave's Hot Chicken", "location": {"lat": 51.5112598, "lng": -0.1330634}}
+    same_venue = {"name": "Humble Chicken Soho", "location": {"lat": 51.5138258, "lng": -0.1317621}}
+
+    assert not registry_entry_matches_candidate(starred, chain_nearby)
+    assert registry_entry_matches_candidate(starred, same_venue)

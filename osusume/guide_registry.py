@@ -209,12 +209,12 @@ def registry_entry_matches_candidate(entry: dict[str, Any], candidate: dict[str,
     if entry_coordinates and candidate_coordinates:
         if distance_km(entry_coordinates, candidate_coordinates) > 0.3:
             return False
-        # The same address already proves the venue; one telling word confirms it.
-        return any(
-            _tokens_identify_same_name(left, right)
-            or any(token in right for token in left if len(token) >= 3)
-            for left, right in pairs
-        )
+        # Proximity is not identity. Three hundred metres of a dense city holds
+        # dozens of unrelated restaurants, and accepting one shared word once
+        # handed a fried-chicken chain 299 m away another venue's two Michelin
+        # stars. Coordinates only waive the locality check below; the names must
+        # still identify a single venue.
+        return any(_tokens_identify_same_name(left, right) for left, right in pairs)
 
     if not any(_tokens_identify_same_name(left, right) for left, right in pairs):
         return False
