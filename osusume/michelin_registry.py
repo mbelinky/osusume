@@ -1,4 +1,4 @@
-"""Read an official Michelin star-filter listing and restaurant JSON-LD."""
+"""Read an official Michelin distinction listing and restaurant JSON-LD."""
 from __future__ import annotations
 
 import json
@@ -9,17 +9,54 @@ from urllib.parse import urljoin
 
 BASE = "https://guide.michelin.com"
 STAR_FILTER = "restaurants/3-stars-michelin/2-stars-michelin/1-star-michelin"
+BIB_FILTER = "restaurants/bib-gourmand"
+
+
+def _star_listing_level(distinction):
+    level = re.fullmatch(r"([123]) star", distinction)
+    return int(level[1]) if level else None
+
+
+def _star_detail_level(detail):
+    stars = {"One Star": 1, "Two Stars": 2, "Three Stars": 3}
+    rating = str(detail.get("starRating", ""))
+    return next((level for text, level in stars.items() if rating.startswith(text)), None)
+
+
+def _bib_listing_level(distinction):
+    return 1 if distinction == "bib" else None
+
+
+def _bib_detail_level(detail):
+    award = detail.get("award")
+    award_for = award.get("awardFor") if isinstance(award, dict) else award
+    return 1 if str(award_for or "").startswith("Bib Gourmand") else None
+
+
+# One entry per distinction the crawler reads: its listing filter, the guide the
+# rows are stored under, and the two award readings that must agree. Bib Gourmand
+# is its own guide at level 1 because it is a separate distinction, not a lesser
+# star, and Stage 2 orders injections by card weight and level.
+DISTINCTIONS = {
+    "stars": {"filter": STAR_FILTER, "guide": "michelin", "label": "starred",
+              "listing_level": _star_listing_level, "detail_level": _star_detail_level},
+    "bib": {"filter": BIB_FILTER, "guide": "michelin_bib", "label": "Bib Gourmand",
+            "listing_level": _bib_listing_level, "detail_level": _bib_detail_level},
+}
 # Every country the crawler reads, with the scope label its listing counts under.
 # ``region`` restricts a country listing to one guide region; ``postcode_province``
 # keeps Spain's postcode rule while other countries report their own region.
 COUNTRIES = {
-    "ES": {"code": "es", "label": "Spain", "path": f"/en/es/{STAR_FILTER}", "region": None,
+    "ES": {"code": "es", "label": "Spain", "prefix": "/en/es/", "region": None,
            "address_country": None, "postcode_province": True},
-    "GB": {"code": "gb", "label": "United Kingdom", "path": f"/en/gb/{STAR_FILTER}", "region": None,
+    "GB": {"code": "gb", "label": "United Kingdom", "prefix": "/en/gb/", "region": None,
            "address_country": "GBR", "postcode_province": False},
-    "FR": {"code": "fr", "label": "Ile-de-France", "path": f"/en/fr/ile-de-france/{STAR_FILTER}",
+    "FR": {"code": "fr", "label": "Ile-de-France", "prefix": "/en/fr/ile-de-france/",
            "region": "Ile-de-France", "address_country": "FRA", "postcode_province": False},
 }
+for _scope in COUNTRIES.values():
+    # The starred listing every caller of ``path`` means.
+    _scope["path"] = _scope["prefix"] + STAR_FILTER
 LISTING = BASE + COUNTRIES["ES"]["path"]
 PROVINCES = dict(enumerate([
     "Álava", "Albacete", "Alicante", "Almería", "Ávila", "Badajoz", "Illes Balears", "Barcelona",
@@ -32,10 +69,15 @@ PROVINCES = dict(enumerate([
 ], 1))
 
 
+def listing_url(country="ES", distinction="stars"):
+    return BASE + COUNTRIES[country]["prefix"] + DISTINCTIONS[distinction]["filter"]
+
+
 class ListingParser(HTMLParser):
-    def __init__(self, code="es"):
+    def __init__(self, code="es", distinction="stars"):
         super().__init__()
         self.code = code
+        self.level_of = DISTINCTIONS[distinction]["listing_level"]
         self.rows = []
         self.current = None
         self.pages = set()
@@ -51,10 +93,10 @@ class ListingParser(HTMLParser):
                 }
                 self.rows.append(self.current)
         if self.current is not None and attrs.get("data-restaurant-country") == self.code:
-            level = re.fullmatch(r"([123]) star", attrs.get("data-dtm-distinction", ""))
+            level = self.level_of(attrs.get("data-dtm-distinction", ""))
             if level:
                 self.current.update(name=attrs["data-restaurant-name"], locality=attrs["data-dtm-city"],
-                                    region=attrs["data-dtm-region"], level=int(level[1]))
+                                    region=attrs["data-dtm-region"], level=level)
         href = attrs.get("href", "")
         if tag == "a" and "/restaurant/" in href and self.current is not None and "{{" not in href:
             self.current.setdefault("url", urljoin(BASE, href))
@@ -62,9 +104,10 @@ class ListingParser(HTMLParser):
             self.pages.add(urljoin(BASE, href))
 
 
-def parse_listing(html, country="ES"):
+def parse_listing(html, country="ES", distinction="stars"):
     scope = COUNTRIES[country]
-    parser = ListingParser(scope["code"])
+    spec = DISTINCTIONS[distinction]
+    parser = ListingParser(scope["code"], distinction)
     parser.feed(html)
     rows = [row for row in parser.rows if "name" in row and "url" in row]
     if scope["region"]:
@@ -73,7 +116,9 @@ def parse_listing(html, country="ES"):
         re.escape(scope["label"]) + r"\s*:\s*[\d,]+-[\d,]+\s+of\s+([\d,]+)\s+restaurants", html
     )
     if not rows or not total:
-        raise ValueError(f"Michelin listing has no starred {scope['label']} rows or total; refusing refresh")
+        raise ValueError(
+            f"Michelin listing has no {spec['label']} {scope['label']} rows or total; refusing refresh"
+        )
     return rows, parser.pages, int(total[1].replace(",", ""))
 
 
@@ -86,9 +131,10 @@ def parse_detail(html):
     raise ValueError("Michelin detail has no Restaurant JSON-LD; refusing refresh")
 
 
-def crawl_michelin(fetch, verified_at, country="ES"):
+def crawl_michelin(fetch, verified_at, country="ES", distinction="stars"):
     scope = COUNTRIES[country]
-    pending = [BASE + scope["path"]]
+    spec = DISTINCTIONS[distinction]
+    pending = [listing_url(country, distinction)]
     visited = set()
     entries = {}
     expected = None
@@ -97,7 +143,7 @@ def crawl_michelin(fetch, verified_at, country="ES"):
         if url in visited:
             continue
         visited.add(url)
-        rows, pages, total = parse_listing(fetch(url), country)
+        rows, pages, total = parse_listing(fetch(url), country, distinction)
         if expected is not None and expected != total:
             raise ValueError("Michelin total changed during pagination; retry refresh")
         expected = total
@@ -135,10 +181,13 @@ def crawl_michelin(fetch, verified_at, country="ES"):
             province = str(row.get("region") or "")
             if not province:
                 raise ValueError(f"Missing Michelin region for {row['name']}")
-        stars = {"One Star": 1, "Two Stars": 2, "Three Stars": 3}
-        detail_level = next((level for text, level in stars.items() if str(detail.get("starRating", "")).startswith(text)), None)
-        if detail_level != row["level"]:
+        if spec["detail_level"](detail) != row["level"]:
             raise ValueError(f"Michelin listing/detail award mismatch for {row['name']}")
-        row.update(guide="michelin", province=province, verified_at=verified_at,
+        row.update(guide=spec["guide"], province=province, verified_at=verified_at,
                    address=address.get("streetAddress", ""), postal_code=postcode)
     return list(entries.values())
+
+
+def crawl_michelin_bib(fetch, verified_at, country="GB"):
+    """The Bib Gourmand listing of the same country scope, every row at level 1."""
+    return crawl_michelin(fetch, verified_at, country, "bib")

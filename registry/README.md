@@ -14,13 +14,15 @@ restaurant rated by two guides has one entry per guide.
 | es | Macarfi | 26 / 103 / 988 | 1,117 | Barcelona | 14 / 52 / 382 | 448 |
 | es | Macarfi | | | Madrid | 10 / 42 / 409 | 461 |
 | gb | Michelin | 10 / 23 / 165 | 198 | London | 6 / 15 / 63 | 84 |
+| gb | Michelin Bib | 0 / 0 / 146 | 146 | London | 0 / 0 / 48 | 48 |
 | gb | 50 Best | 0 / 2 / 2 | 4 | London | 0 / 2 / 2 | 4 |
 | gb | Harden's | 20 / 30 / 50 | 100 | London | 6 / 14 / 18 | 38 |
 | fr | Michelin | 9 / 21 / 108 | 138 | Paris | 9 / 20 / 94 | 123 |
+| fr | Michelin Bib | 0 / 0 / 46 | 46 | Paris | 0 / 0 / 39 | 39 |
 | fr | 50 Best | 1 / 3 / 1 | 5 | Paris | 1 / 3 / 0 | 4 |
 | fr | Le Fooding | 0 / 0 / 288 | 288 | Paris | 0 / 0 / 288 | 288 |
 
-The files hold 2,230 entries for Spain, 302 for the United Kingdom and 431 for
+The files hold 2,230 entries for Spain, 448 for the United Kingdom and 477 for
 France. Macarfi's city counts read the Barcelona (08001-08042) and Madrid
 (28001-28055) postcodes in each row's address, because Macarfi's own
 `locality` is a district such as `L'Eixample Esquerre`, not the city.
@@ -29,13 +31,14 @@ Level 3, 2 and 1 mean three, two and one Michelin stars; three, two and one
 Repsol Soles; rank 1-10, 11-50 and 51-100 of The World's 50 Best Restaurants;
 a Macarfi rating of 9 or better, 8 to 8.9 and 7 to 7.9 out of 10; and rank
 1-20, 21-50 and 51-100 of Harden's Top 100 UK Restaurants. Le Fooding
-publishes a selection rather than a rating, so every Le Fooding row is level 1.
+publishes a selection rather than a rating, so every Le Fooding row is level 1,
+and every Michelin Bib Gourmand row is level 1 under its own guide.
 These are current listing coverage, not a claim that every restaurant remains
 operational.
 
 Each row keeps its official name, locality, province, guide, award level, URL
-and `verified_at`. Michelin rows also carry coordinates, street address and
-postcode; 50 Best and Harden's rows carry the published `rank`; Macarfi rows
+and `verified_at`. Michelin star and Bib Gourmand rows also carry coordinates,
+street address and postcode; 50 Best and Harden's rows carry the published `rank`; Macarfi rows
 carry the published `rating`, address and coordinates; Le Fooding rows carry
 the address, postcode and the guide's own editorial category. Where a Repsol or 50 Best
 restaurant uniquely matches a Michelin name in the same town, its coordinates
@@ -64,6 +67,24 @@ cached in local, ignored `registry/raw/`; `--dry-run`, `--offline` and
   (138 restaurants), because the whole-country listing holds 646. The listing
   reports the region as `Ile-de-France`, which is what `province` stores; the
   detail page must confirm the award and an address in `FRA`.
+- **Michelin Bib Gourmand** is a second distinction of the same guide and is
+  crawled by the same code, parameterised by distinction: `DISTINCTIONS` in
+  `osusume/michelin_registry.py` binds a listing filter, the guide the rows are
+  stored under and the two award readings that must agree. The listing is the
+  Bib filter of the same country scope the stars use, so the United Kingdom
+  reads [/en/gb/restaurants/bib-gourmand](https://guide.michelin.com/en/gb/restaurants/bib-gourmand)
+  (146 restaurants, 48 per page, 4 pages) and France is restricted to the same
+  Île-de-France region listing,
+  [/en/fr/ile-de-france/restaurants/bib-gourmand](https://guide.michelin.com/en/fr/ile-de-france/restaurants/bib-gourmand)
+  (46 restaurants on one page), so Paris coverage matches the star scope. A row
+  is taken from the listing's `data-dtm-distinction="bib"`, and its detail page
+  must carry an `award.awardFor` beginning `Bib Gourmand` and an address in the
+  right country; a Bib detail page has no `starRating` at all. Bib Gourmand is
+  stored as its own guide, `michelin_bib`, with every entry at level 1: it is
+  Michelin's distinction for good cooking at moderate prices, not a lesser star,
+  and Stage 2 orders injections by card weight and then level, so folding it
+  into `michelin` or giving it level 2 or 3 would let a Bib outrank a one-star.
+  The cards weight it 0.6, below Michelin stars, 50 Best and Harden's.
 - **The World's 50 Best Restaurants** reads the current edition's official list
   page, [/list/1-50](https://www.theworlds50best.com/list/1-50), which serves
   both halves of the ranking in its HTML; the crawl refuses a page that does not
@@ -109,11 +130,40 @@ cached in local, ignored `registry/raw/`; `--dry-run`, `--offline` and
   `/fr/ile-de-france/paris/restaurants`, likewise stops at 20 cards, all in the
   1st arrondissement. Paging would need the page's JavaScript search client, so
   the guide was skipped rather than scraped from a mirror or executed.
+- **A wider London directory is identified but not seeded.** Harden's publishes
+  every London restaurant it reviews as its own page, about 8,366 of them,
+  enumerable from [its sitemap](https://www.hardens.com/sitemap.xml) rather than
+  through any paginated search. Each page carries JSON-LD with the restaurant's
+  address and coordinates and separate food, service and ambience ratings out of
+  5, and the area pages carry the same rating markup for part of their listings.
+  This is the one source that would take London from 174 rated restaurants to a
+  count comparable with Barcelona, and it is the next step for this registry. It
+  is not seeded yet only because a crawl that size needs its own polite run.
+- **No comparable Paris directory is reachable, and two London ones are not
+  either.** SquareMeal answers a plain fetch with a Cloudflare challenge. Gault &
+  Millau's and the legacy Pudlo domain refuse the connection outright. Le
+  Figaro's robots file states that automated use, including monitoring and model
+  training, requires a licence from the publisher, so Figaroscope was left
+  unfetched on that basis rather than on a technical one. The Good Food Guide
+  renders its search through a client-side widget whose backend rejects an
+  unauthenticated post, and no restaurant profile appears in its sitemap. La
+  Liste's own sitemap exposes only 56 Paris pages, matching its JavaScript
+  pagination. Time Out publishes ranked editorial lists for both cities but no
+  numeric score, so it would seed rank without a rating.
 - France is seeded for Île-de-France only. Starred restaurants in other French
   regions are not in the registry, so a request outside Paris falls back to the
   live lanes.
 - Le Fooding also covers Belgium and the French regions; only its Paris rows are
   seeded. Of 1,391 addresses in the guide, 288 are in Paris.
+- Michelin's United Kingdom Bib listing covers the whole country, so 98 of its
+  146 rows are outside London; they are kept, because the registry is per
+  country. The French Bib listing does offer the same region restriction the
+  stars use, so France is seeded with the 46 Île-de-France Bibs rather than the
+  425 the whole-country Bib listing holds.
+- Adding Bib Gourmand re-derived both files from the same listings: the United
+  Kingdom 302 → 448 and France 431 → 477, with no row lost and no existing row
+  changed, including the 249 United Kingdom and 155 France rows that carry
+  resolved position fields.
 - Harden's ranks the whole United Kingdom, so 62 of its 100 rows are outside
   London; they are kept, because the registry is per country.
 - Macarfi's listing covers the Barcelona and Madrid provinces, not only the two
@@ -173,5 +223,6 @@ notes and explicit comparison correspondences. No note supplies rating evidence.
 
 Repsol confirms Suto and Sato i Tanaka at one Sol. Sensato and Os-kuro appear
 under category R, now labeled “Restaurante Guía Repsol” (the former Recommended
-category), and are excluded from the Soles seed. Bib Gourmand and Recommended
-restaurants are not represented as star/Sol entries.
+category), and are excluded from the Soles seed. Spain seeds no Bib Gourmand or
+Recommended entries: the `michelin_bib` guide covers the United Kingdom and
+Île-de-France only, and neither is represented as a star or Sol row anywhere.

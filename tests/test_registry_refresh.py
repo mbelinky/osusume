@@ -54,6 +54,35 @@ def test_cached_refresh_does_not_advance_verified_at(monkeypatch, tmp_path):
     assert yaml.safe_load(output.read_text())['entries'][0]['verified_at'] == '2026-09-10'
 
 
+def test_failed_bib_crawl_leaves_the_country_registry_untouched(monkeypatch, tmp_path):
+    output = tmp_path / 'gb_restaurants.yaml'
+    before = yaml.safe_dump({'format_version': 1, 'country': 'GB', 'entries': [
+        {'guide': 'michelin', 'url': 'https://guide.michelin.com/en/gb/a', 'name': 'A',
+         'locality': 'London', 'province': 'Greater London', 'level': 1, 'verified_at': '2026-09-16'},
+    ]}, sort_keys=False)
+    output.write_text(before)
+    monkeypatch.setattr(refresh, 'ROOT', tmp_path)
+    monkeypatch.setattr(refresh.sys, 'argv', ['refresh', '--country', 'GB', '--output', str(output)])
+
+    class Fetch:
+        def __init__(self, *args):
+            self.dates = ['2026-09-16']
+
+    def bib(fetch, stamp, country='GB'):
+        raise ValueError('Michelin listing has no Bib Gourmand United Kingdom rows or total; refusing refresh')
+
+    monkeypatch.setattr(refresh, 'Fetcher', Fetch)
+    monkeypatch.setattr(refresh, 'crawl_michelin', lambda fetch, stamp, country='GB': [])
+    monkeypatch.setattr(refresh, 'crawl_michelin_bib', bib)
+    monkeypatch.setattr('osusume.fifty_best_registry.crawl_fifty_best',
+                        lambda fetch, stamp, country='GB', unresolved=None: [])
+    monkeypatch.setattr('osusume.hardens_registry.crawl_hardens', lambda fetch, stamp: [])
+
+    with pytest.raises(ValueError, match='no Bib Gourmand'):
+        refresh.main()
+    assert output.read_text() == before
+
+
 def test_notes_report_missing_added_level_and_name_changes():
     notes = {'michelin': {1: {'Barcelona': ['Old name', 'Missing']}},
              'name_correspondences': {'Old name': 'Official name'}}

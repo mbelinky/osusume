@@ -9,9 +9,10 @@ query_templates:
   - "{name} {city} official website opening hours reservations"
   - "{name} {city} tasting menu wine list"
 sources:
-  GB: {michelin: 1.0, fifty_best: 1.0, hardens: 0.8}
+  GB: {michelin: 1.0, fifty_best: 1.0, hardens: 0.8, michelin_bib: 0.6}
 source_domains:
   michelin: [guide.michelin.com]
+  michelin_bib: [guide.michelin.com]
   fifty_best: [theworlds50best.com]
   hardens: [hardens.com]
 load_bearing_claims:

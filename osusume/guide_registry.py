@@ -57,6 +57,7 @@ GUIDES = {
     "macarfi": "macarfi.com",
     "hardens": "hardens.com",
     "le_fooding": "lefooding.com",
+    "michelin_bib": "guide.michelin.com",
 }
 
 

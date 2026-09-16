@@ -20,6 +20,10 @@ entries:
   rank: 14
   url: https://www.theworlds50best.com/restaurants/best-in-the-world/the-list/plenitude.html
   verified_at: '2026-09-16'
+  latitude: 48.8588971
+  longitude: 2.3420459
+  place_id: ChIJ1YFmqNZv5kcRBAVR2JH8pEo
+  location_source: places
 - name: Septime
   locality: Paris
   province: Paris
@@ -39,6 +43,10 @@ entries:
   rank: 8
   url: https://www.theworlds50best.com/restaurants/best-in-the-world/the-list/table-by-bruno-verjus.html
   verified_at: '2026-09-16'
+  latitude: 48.848801599999994
+  longitude: 2.3758486999999997
+  place_id: ChIJoSONvAVy5kcRiFFvBHOUYv8
+  location_source: places
 - name: Le Doyenné
   locality: Saint-Vrain
   province: Saint-Vrain
@@ -47,6 +55,10 @@ entries:
   rank: 77
   url: https://www.theworlds50best.com/discovery/Establishments/France/Saint-Vrain/Le-Doyenné.html
   verified_at: '2026-09-16'
+  latitude: 48.5375511
+  longitude: 2.3261406
+  place_id: ChIJFddyE7rb5UcRaA53AIRo_gw
+  location_source: places
 - name: 19 Saint Roch
   locality: Paris
   province: Île-de-France
@@ -57,6 +69,10 @@ entries:
   address: 19 Rue Saint-Roch
   postal_code: '75001'
   guide_category: Cuisine d'auteur
+  latitude: 48.86540060000001
+  longitude: 2.3321869
+  place_id: ChIJ6QNjzqBv5kcRdxkLUD7wcuA
+  location_source: places
 - name: 4M2
   locality: Paris
   province: Île-de-France
@@ -67,6 +83,10 @@ entries:
   address: 4 Rue Charles-François Dupuis
   postal_code: '75003'
   guide_category: Japonais
+  latitude: 48.865006
+  longitude: 2.3628335
+  place_id: ChIJZfV1991v5kcRfVqTnbWQugQ
+  location_source: places
 - name: Abri Soba
   locality: Paris
   province: Île-de-France
@@ -77,6 +97,10 @@ entries:
   address: 10 Rue Saulnier
   postal_code: '75009'
   guide_category: Japonais
+  latitude: 48.875074
+  longitude: 2.3444734
+  place_id: ChIJl2szvj9u5kcRztUQCxoG-Ew
+  location_source: places
 - name: Acid Lactic
   locality: Paris
   province: Île-de-France
@@ -87,6 +111,10 @@ entries:
   address: 15 Rue de la Folie Méricourt
   postal_code: '75011'
   guide_category: Bar à vins / Cave à manger
+  latitude: 48.8620567
+  longitude: 2.373828
+  place_id: ChIJ_eClZgBt5kcRLsMV_UVWiYI
+  location_source: places
 - name: Agrology
   locality: Paris
   province: Île-de-France
@@ -97,6 +125,10 @@ entries:
   address: 15 Rue de Prague
   postal_code: '75012'
   guide_category: Bar à vins / Cave à manger
+  latitude: 48.8497467
+  longitude: 2.3757248
+  place_id: ChIJWUL5xAVy5kcRVKPC4gMY0OI
+  location_source: places
 - name: Altro Frenchie
   locality: Paris
   province: Île-de-France
@@ -107,6 +139,10 @@ entries:
   address: 9 Rue du Nil
   postal_code: '75002'
   guide_category: Cuisine d'auteur
+  latitude: 48.867663799999995
+  longitude: 2.3477563999999997
+  place_id: ChIJvWmj4TZv5kcRjWXoyQlKnUw
+  location_source: places
 - name: Ama Siam
   locality: Paris
   province: Île-de-France
@@ -117,6 +153,10 @@ entries:
   address: 49 Rue de Belleville
   postal_code: '75019'
   guide_category: Laotien
+  latitude: 48.8731332
+  longitude: 2.3808398
+  place_id: ChIJvSVx4BVt5kcRHneLX9CN_rA
+  location_source: places
 - name: Amarante
   locality: Paris
   province: Île-de-France
@@ -127,6 +167,10 @@ entries:
   address: 4 Rue Biscornet
   postal_code: '75012'
   guide_category: Bistrot
+  latitude: 48.84963380000001
+  longitude: 2.3700566
+  place_id: ChIJiWbPxwNy5kcRYr0ZXPbpXdY
+  location_source: places
 - name: Anima
   locality: Paris
   province: Île-de-France
@@ -137,6 +181,10 @@ entries:
   address: 78 Rue du Cherche-Midi
   postal_code: '75006'
   guide_category: Pizza
+  latitude: 48.848048899999995
+  longitude: 2.323452
+  place_id: ChIJozVh8tJx5kcRJeJGiwBx5-E
+  location_source: places
 - name: Argile
   locality: Paris
   province: Île-de-France
@@ -147,6 +195,10 @@ entries:
   address: 4 Rue de Milan
   postal_code: '75009'
   guide_category: Bistrot
+  latitude: 48.879004599999995
+  longitude: 2.3290637
+  place_id: ChIJI1msWs1v5kcRGGgBz0v1GAU
+  location_source: places
 - name: Astrance
   locality: Paris
   province: Île-de-France
@@ -180,6 +232,10 @@ entries:
   address: 35 Rue de Montreuil
   postal_code: '75011'
   guide_category: Bar à vins / Cave à manger
+  latitude: 48.8505542
+  longitude: 2.3866997
+  place_id: ChIJT7bvfAty5kcR-Sls7rcwHJg
+  location_source: places
 - name: Aux Deux Amis
   locality: Paris
   province: Île-de-France
@@ -190,6 +246,10 @@ entries:
   address: 45 Rue Oberkampf
   postal_code: '75011'
   guide_category: Bar à vins / Cave à manger
+  latitude: 48.864616399999996
+  longitude: 2.3718483
+  place_id: ChIJFTliNe5t5kcRUdt432VIHE8
+  location_source: places
 - name: Ave Pizza Romana
   locality: Paris
   province: Île-de-France
@@ -200,6 +260,10 @@ entries:
   address: 90 Rue de la Folie Méricourt
   postal_code: '75011'
   guide_category: Pizza
+  latitude: 48.8669478
+  longitude: 2.3696267
+  place_id: ChIJp5lAwuJt5kcR4IXZ-PKxOlI
+  location_source: places
 - name: Bang Bang
   locality: Paris
   province: Île-de-France
@@ -220,6 +284,10 @@ entries:
   address: 81 Rue de Turbigo
   postal_code: '75003'
   guide_category: Lèche-doigts
+  latitude: 48.866667199999995
+  longitude: 2.3606803999999997
+  place_id: ChIJGTlqaA9u5kcR6U_Ya-aVpnQ
+  location_source: places
 - name: Banh mi 88
   locality: Paris
   province: Île-de-France
@@ -230,6 +298,10 @@ entries:
   address: 88 Av. d'Ivry
   postal_code: '75013'
   guide_category: Vietnamien
+  latitude: 48.8252072
+  longitude: 2.3622548
+  place_id: ChIJ47mpQodx5kcRWy_HMpLIKRs
+  location_source: places
 - name: Bar des Prés Saint-Germain
   locality: Paris
   province: Île-de-France
@@ -240,6 +312,10 @@ entries:
   address: 25 Rue du Dragon
   postal_code: '75006'
   guide_category: Japonais
+  latitude: 48.8527998
+  longitude: 2.3305682
+  place_id: ChIJTWB9GNdx5kcRP1N-auVI0QQ
+  location_source: places
 - name: Becquetance
   locality: Paris
   province: Île-de-France
@@ -250,6 +326,10 @@ entries:
   address: 67 Rue de Ménilmontant
   postal_code: '75020'
   guide_category: Bistrot
+  latitude: 48.868279099999995
+  longitude: 2.387711
+  place_id: ChIJW3lz7RZt5kcR1fxpr9IiDps
+  location_source: places
 - name: Benchy
   locality: Paris
   province: Île-de-France
@@ -260,6 +340,10 @@ entries:
   address: 50 Rue du Cherche-Midi
   postal_code: '75006'
   guide_category: Japonais
+  latitude: 48.849221
+  longitude: 2.3256750000000004
+  place_id: ChIJCaTO3Mtx5kcRftP7RbMGVyI
+  location_source: places
 - name: Billili
   locality: Paris
   province: Île-de-France
@@ -270,6 +354,10 @@ entries:
   address: 136 Rue du Faubourg Poissonnière
   postal_code: '75010'
   guide_category: Bar à vins / Cave à manger
+  latitude: 48.880666899999994
+  longitude: 2.3499621
+  place_id: ChIJsXTpwFVv5kcRF3fX9d7Sy4g
+  location_source: places
 - name: Bistrot Flaubert
   locality: Paris
   province: Île-de-France
@@ -280,6 +368,10 @@ entries:
   address: 10 Rue Gustave Flaubert
   postal_code: '75017'
   guide_category: Cuisine d'auteur
+  latitude: 48.8814832
+  longitude: 2.298731
+  place_id: ChIJNVJhNJRv5kcR6uFVj1qSGSM
+  location_source: places
 - name: Bistrot des Tournelles
   locality: Paris
   province: Île-de-France
@@ -290,6 +382,10 @@ entries:
   address: 6 Rue des Tournelles
   postal_code: '75004'
   guide_category: Bistrot
+  latitude: 48.8541221
+  longitude: 2.3675819
+  place_id: ChIJjwaAPtBz5kcR_T40W9rYhjc
+  location_source: places
 - name: Bistrotters
   locality: Paris
   province: Île-de-France
@@ -300,6 +396,10 @@ entries:
   address: 9 Rue Decrès
   postal_code: '75014'
   guide_category: Cuisine d'auteur
+  latitude: 48.8327769
+  longitude: 2.3148769
+  place_id: ChIJUWpN50tw5kcRxFHi8fOzbi4
+  location_source: places
 - name: Bittikesu
   locality: Paris
   province: Île-de-France
@@ -310,6 +410,10 @@ entries:
   address: 5 Rue Crillon
   postal_code: '75004'
   guide_category: Cuisine d'auteur
+  latitude: 48.848757199999994
+  longitude: 2.3651896
+  place_id: ChIJ4bgIErNx5kcRpHIO8G2rX9M
+  location_source: places
 - name: Brigade du Tigre
   locality: Paris
   province: Île-de-France
@@ -320,6 +424,10 @@ entries:
   address: 38 Rue du Faubourg Poissonnière
   postal_code: '75010'
   guide_category: Asiatique
+  latitude: 48.8734359
+  longitude: 2.3481191999999997
+  place_id: ChIJqyMQ-41v5kcR9u8DjdALXgs
+  location_source: places
 - name: Brion
   locality: Paris
   province: Île-de-France
@@ -330,6 +438,10 @@ entries:
   address: 17 Rue Lamartine
   postal_code: '75009'
   guide_category: Cuisine d'auteur
+  latitude: 48.87640880000001
+  longitude: 2.341863
+  place_id: ChIJAZdKRQBv5kcRYra1a9IvCL4
+  location_source: places
 - name: Briquet
   locality: Paris
   province: Île-de-France
@@ -340,6 +452,10 @@ entries:
   address: 7 Rue Riquet
   postal_code: '75019'
   guide_category: Bar à vins / Cave à manger
+  latitude: 48.8881063
+  longitude: 2.3761589
+  place_id: ChIJ16sl_9Nt5kcR2bWjpruErks
+  location_source: places
 - name: Broche
   locality: Paris
   province: Île-de-France
@@ -350,6 +466,10 @@ entries:
   address: 49 Pass. des Panoramas
   postal_code: '75002'
   guide_category: Viandes / Grillades
+  latitude: 48.8709859
+  longitude: 2.3416327
+  place_id: ChIJB7WNMS5v5kcR-OdABan0Tpw
+  location_source: places
 - name: Bru
   locality: Paris
   province: Île-de-France
@@ -360,6 +480,10 @@ entries:
   address: 28 Rue Jean-Baptiste Pigalle
   postal_code: '75009'
   guide_category: Bistrot
+  latitude: 48.879375700000004
+  longitude: 2.3338498000000003
+  place_id: ChIJ_9CTsKxv5kcRS_4OZuACC40
+  location_source: places
 - name: Brutos
   locality: Paris
   province: Île-de-France
@@ -370,6 +494,10 @@ entries:
   address: 5 Rue du Général Renault
   postal_code: '75011'
   guide_category: Bistrot
+  latitude: 48.861502099999996
+  longitude: 2.3781765
+  place_id: ChIJq6qeDvpt5kcRPPxnMCpRZdQ
+  location_source: places
 - name: Buck Fried Chicken & More
   locality: Paris
   province: Île-de-France
@@ -380,6 +508,10 @@ entries:
   address: 25 Rue de la Forge Royale
   postal_code: '75011'
   guide_category: Lèche-doigts
+  latitude: 48.852247999999996
+  longitude: 2.380826
+  place_id: ChIJQ023JUFz5kcRAFV4OpOuvk4
+  location_source: places
 - name: Buttes Snack Bar
   locality: Paris
   province: Île-de-France
@@ -390,6 +522,10 @@ entries:
   address: 10 Rue Pradier
   postal_code: '75019'
   guide_category: Bar à vins / Cave à manger
+  latitude: 48.875159599999996
+  longitude: 2.3816991
+  place_id: ChIJEev0Q45t5kcRcBRoWZNuleg
+  location_source: places
 - name: Buzkashi
   locality: Paris
   province: Île-de-France
@@ -400,6 +536,10 @@ entries:
   address: 7 Rue des Dames
   postal_code: '75017'
   guide_category: Afghan
+  latitude: 48.885295299999996
+  longitude: 2.3256534
+  place_id: ChIJjfZdPk1u5kcRqfJsyU_jrgw
+  location_source: places
 - name: Cadoret
   locality: Paris
   province: Île-de-France
@@ -410,6 +550,10 @@ entries:
   address: 1 Rue Pradier
   postal_code: '75019'
   guide_category: Bistrot
+  latitude: 48.8747781
+  longitude: 2.3810074
+  place_id: ChIJgV0tFuht5kcRbpN7ju0-Vho
+  location_source: places
 - name: Café Les Deux Gares
   locality: Paris
   province: Île-de-France
@@ -420,6 +564,10 @@ entries:
   address: 1 Rue des Deux Gares
   postal_code: '75010'
   guide_category: Cuisine d'auteur
+  latitude: 48.8783302
+  longitude: 2.3582834999999998
+  place_id: ChIJ9Rc2j3Ju5kcRQyqSw-rNPT0
+  location_source: places
 - name: Café Mirette
   locality: Paris
   province: Île-de-France
@@ -430,6 +578,10 @@ entries:
   address: 1 Cr Paul Ricard
   postal_code: '75008'
   guide_category: Coffee shop
+  latitude: 48.87740360000001
+  longitude: 2.3262422
+  place_id: ChIJMZFLxJdv5kcRXjbXWNqqQ9c
+  location_source: places
 - name: Café Singuliers
   locality: Paris
   province: Île-de-France
@@ -440,6 +592,10 @@ entries:
   address: 2 Rue Titon
   postal_code: '75011'
   guide_category: Coffee shop
+  latitude: 48.850661099999996
+  longitude: 2.3867108999999997
+  place_id: ChIJI9IqMyJz5kcRjsi39AuhAsg
+  location_source: places
 - name: Café de Mars
   locality: Paris
   province: Île-de-France
@@ -450,6 +606,10 @@ entries:
   address: 11 Rue Augereau
   postal_code: '75007'
   guide_category: Néobistrot
+  latitude: 48.8573806
+  longitude: 2.3021249999999998
+  place_id: ChIJvZmnht9v5kcRjsZS2q-nAAE
+  location_source: places
 - name: Café des Ministères
   locality: Paris
   province: Île-de-France
@@ -460,6 +620,10 @@ entries:
   address: 83 Rue de l'Université
   postal_code: '75007'
   guide_category: Cuisine d'auteur
+  latitude: 48.8606173
+  longitude: 2.3192166
+  place_id: ChIJ7ei1YNRv5kcRRf7j0QY-e2g
+  location_source: places
 - name: Café du Coin
   locality: Paris
   province: Île-de-France
@@ -470,6 +634,10 @@ entries:
   address: 9 Rue Camille Desmoulins
   postal_code: '75011'
   guide_category: Bar à vins / Cave à manger
+  latitude: 48.8590628
+  longitude: 2.3810385999999997
+  place_id: ChIJofW_Hvdt5kcR0i4nA42Cw8Q
+  location_source: places
 - name: Caillebotte
   locality: Paris
   province: Île-de-France
@@ -480,6 +648,10 @@ entries:
   address: 8 Rue Hippolyte Lebas
   postal_code: '75009'
   guide_category: Bistrot
+  latitude: 48.8771649
+  longitude: 2.3407727
+  place_id: ChIJUSqtskBu5kcR_JyyYW56_lM
+  location_source: places
 - name: Calice
   locality: Paris
   province: Île-de-France
@@ -490,6 +662,10 @@ entries:
   address: 5 Rue de Bazeilles
   postal_code: '75005'
   guide_category: Néobistrot
+  latitude: 48.8390955
+  longitude: 2.3504720999999997
+  place_id: ChIJO10I8fNx5kcR7yeytWDHa_o
+  location_source: places
 - name: Camino
   locality: Paris
   province: Île-de-France
@@ -500,6 +676,10 @@ entries:
   address: 43 R. des Petites Écuries
   postal_code: '75010'
   guide_category: Bistrot
+  latitude: 48.8737615
+  longitude: 2.3497524999999997
+  place_id: ChIJKRtXTLpv5kcREU_jiCl2ez8
+  location_source: places
 - name: Caractère de Cochon
   locality: Paris
   province: Île-de-France
@@ -510,6 +690,10 @@ entries:
   address: 42 Rue Charlot
   postal_code: '75003'
   guide_category: Lèche-doigts
+  latitude: 48.862674299999995
+  longitude: 2.3624647999999997
+  place_id: ChIJH8vcmgZu5kcRYRWuLlvYujk
+  location_source: places
 - name: Casa Pregonda
   locality: Paris
   province: Île-de-France
@@ -520,6 +704,10 @@ entries:
   address: 6 Rue Marie Stuart
   postal_code: '75002'
   guide_category: Nourritures mondaines
+  latitude: 48.865092
+  longitude: 2.3482403
+  place_id: ChIJVz3pRgBv5kcRPI0QcbPF3Ps
+  location_source: places
 - name: Cendrillon
   locality: Paris
   province: Île-de-France
@@ -530,6 +718,10 @@ entries:
   address: 50 Rue Piat
   postal_code: '75020'
   guide_category: Cuisine d'auteur
+  latitude: 48.8729927
+  longitude: 2.3838564
+  place_id: ChIJa4-n065t5kcRgxwR9_dH1xQ
+  location_source: places
 - name: Chakaiseki Akiyoshi
   locality: Paris
   province: Île-de-France
@@ -553,6 +745,10 @@ entries:
   address: 63 Rue Galande
   postal_code: '75005'
   guide_category: Lèche-doigts
+  latitude: 48.851765799999995
+  longitude: 2.3467849
+  place_id: ChIJZddIWN1x5kcRM7DB8vNDQow
+  location_source: places
 - name: Chantira
   locality: Paris
   province: Île-de-France
@@ -563,6 +759,10 @@ entries:
   address: 46 Rue Daubenton
   postal_code: '75005'
   guide_category: Thaïlandais
+  latitude: 48.8402198
+  longitude: 2.35033
+  place_id: ChIJV5f2M15x5kcRsdkgiX0HaZQ
+  location_source: places
 - name: Chantoiseau
   locality: Paris
   province: Île-de-France
@@ -573,6 +773,10 @@ entries:
   address: 63 Rue Lepic
   postal_code: '75018'
   guide_category: Bistrot
+  latitude: 48.8877673
+  longitude: 2.3347259
+  place_id: ChIJF_F9KShv5kcRK4C7yvLdvxY
+  location_source: places
 - name: Charbon Kunitoraya
   locality: Paris
   province: Île-de-France
@@ -583,6 +787,10 @@ entries:
   address: 5 Rue Villédo
   postal_code: '75001'
   guide_category: Cuisine d'auteur
+  latitude: 48.866209
+  longitude: 2.3362659999999997
+  place_id: ChIJHUT1gkBv5kcRZ95ZsUdWzoc
+  location_source: places
 - name: Chez Babo
   locality: Paris
   province: Île-de-France
@@ -593,6 +801,10 @@ entries:
   address: 8 Rue Marie et Louise
   postal_code: '75010'
   guide_category: Bar à vins / Cave à manger
+  latitude: 48.871965900000006
+  longitude: 2.3669441
+  place_id: ChIJFfyVFQpu5kcRoIRVV3ihbII
+  location_source: places
 - name: Chez Carrie
   locality: Paris
   province: Île-de-France
@@ -603,6 +815,10 @@ entries:
   address: 14 Rue Léopold Bellan
   postal_code: '75002'
   guide_category: Bistrot
+  latitude: 48.8666409
+  longitude: 2.3460472
+  place_id: ChIJIV1aKcJv5kcRbcT9zmwH3ck
+  location_source: places
 - name: Chez Mamane
   locality: Paris
   province: Île-de-France
@@ -623,6 +839,10 @@ entries:
   address: 10 Rue de Belzunce
   postal_code: '75010'
   guide_category: Bistrot
+  latitude: 48.879569800000006
+  longitude: 2.3522211
+  place_id: ChIJHZoYd2xu5kcRqkM2ee0VvLw
+  location_source: places
 - name: Chez Taeko
   locality: Paris
   province: Île-de-France
@@ -633,6 +853,10 @@ entries:
   address: 39 Rue de Bretagne
   postal_code: '75003'
   guide_category: Japonais
+  latitude: 48.8626783
+  longitude: 2.3620848999999997
+  place_id: ChIJj07sQIlv5kcRILhJI22NHiw
+  location_source: places
 - name: Chi’s Vietfood
   locality: Paris
   province: Île-de-France
@@ -653,6 +877,10 @@ entries:
   address: 54 Rue de Paradis
   postal_code: '75010'
   guide_category: Cuisine d'auteur
+  latitude: 48.8757409
+  longitude: 2.349255
+  place_id: ChIJe63P-hlv5kcRpDwlTeLaarY
+  location_source: places
 - name: Clamato
   locality: Paris
   province: Île-de-France
@@ -663,6 +891,10 @@ entries:
   address: 80 Rue de Charonne
   postal_code: '75011'
   guide_category: Poissons et fruits de mer
+  latitude: 48.853553899999994
+  longitude: 2.3808208
+  place_id: ChIJCfaiUghy5kcRKzJORkFX-sk
+  location_source: places
 - name: Clos d'Astorg
   locality: Paris
   province: Île-de-France
@@ -673,6 +905,10 @@ entries:
   address: 22 Rue d'Astorg
   postal_code: '75008'
   guide_category: Bistrot
+  latitude: 48.873745
+  longitude: 2.3196711
+  place_id: ChIJM9liEmZv5kcRmfpjGj7ETCQ
+  location_source: places
 - name: Clown Bar
   locality: Paris
   province: Île-de-France
@@ -683,6 +919,10 @@ entries:
   address: 114 Rue Amelot
   postal_code: '75011'
   guide_category: Bistrot
+  latitude: 48.8636036
+  longitude: 2.3672314
+  place_id: ChIJ_aCXeQBy5kcR4ZxoRALxHhY
+  location_source: places
 - name: Comer
   locality: Paris
   province: Île-de-France
@@ -693,6 +933,10 @@ entries:
   address: 96 Rue d'Hauteville
   postal_code: '75010'
   guide_category: Lèche-doigts
+  latitude: 48.8773422
+  longitude: 2.3516751
+  place_id: ChIJa1SnrDNbbaMR1VZpHq9W8aU
+  location_source: places
 - name: Comice
   locality: Paris
   province: Île-de-France
@@ -716,6 +960,10 @@ entries:
   address: 53 Rue de Lancry
   postal_code: '75010'
   guide_category: Poissons et fruits de mer
+  latitude: 48.87171
+  longitude: 2.362222
+  place_id: ChIJQ1qtDwxu5kcRDIJDFcKebiY
+  location_source: places
 - name: Coupi Bar
   locality: Paris
   province: Île-de-France
@@ -726,6 +974,10 @@ entries:
   address: 48 Av. de la Prte d'Ivry
   postal_code: '75013'
   guide_category: Lèche-doigts
+  latitude: 48.8213805
+  longitude: 2.3700988
+  place_id: ChIJK-ofsi5y5kcRA8Q6uWtfoa0
+  location_source: places
 - name: Cravan
   locality: Paris
   province: Île-de-France
@@ -746,6 +998,10 @@ entries:
   address: 107 Rue de Ménilmontant
   postal_code: '75020'
   guide_category: Bar à vins / Cave à manger
+  latitude: 48.8693143
+  longitude: 2.392056
+  place_id: ChIJKZqtVTdt5kcRF3A673YVlFU
+  location_source: places
 - name: Cuisine
   locality: Paris
   province: Île-de-France
@@ -766,6 +1022,10 @@ entries:
   address: 11 Rue des Deux Ponts
   postal_code: '75004'
   guide_category: Cuisine d'auteur
+  latitude: 48.851595499999995
+  longitude: 2.3561628
+  place_id: ChIJ6epZeABx5kcRlifKVaDncYs
+  location_source: places
 - name: Da Paride
   locality: Paris
   province: Île-de-France
@@ -776,6 +1036,10 @@ entries:
   address: 41 Av. Secrétan
   postal_code: '75019'
   guide_category: Pizza
+  latitude: 48.8808137
+  longitude: 2.3745686
+  place_id: ChIJH6llttRt5kcRBYgfJjfwOZc
+  location_source: places
 - name: Dandelion
   locality: Paris
   province: Île-de-France
@@ -786,6 +1050,10 @@ entries:
   address: 46 Rue des Vignoles
   postal_code: '75020'
   guide_category: Cuisine d'auteur
+  latitude: 48.8544957
+  longitude: 2.4006969
+  place_id: ChIJ9_cKy7Zz5kcRNYRZ7LWNJvM
+  location_source: places
 - name: Dante
   locality: Paris
   province: Île-de-France
@@ -796,6 +1064,10 @@ entries:
   address: 14 Rue de Paradis
   postal_code: '75010'
   guide_category: Cuisine d'auteur
+  latitude: 48.874718099999996
+  longitude: 2.3540221999999997
+  place_id: ChIJewApsjtv5kcRhX25uxAbxiE
+  location_source: places
 - name: Dao
   locality: Paris
   province: Île-de-France
@@ -806,6 +1078,10 @@ entries:
   address: 55 Bd Saint-Marcel
   postal_code: '75013'
   guide_category: Chinois
+  latitude: 48.8376939
+  longitude: 2.3555034
+  place_id: ChIJ0fnszglx5kcRA6C2GxFzR3Y
+  location_source: places
 - name: Datil
   locality: Paris
   province: Île-de-France
@@ -849,6 +1125,10 @@ entries:
   address: 82 Rue Alexandre Dumas
   postal_code: '75020'
   guide_category: Bistrot
+  latitude: 48.854593099999995
+  longitude: 2.3973698999999997
+  place_id: ChIJEyUuGcpz5kcRUTU9FiqBmTU
+  location_source: places
 - name: Deux Gares Express
   locality: Paris
   province: Île-de-France
@@ -859,6 +1139,10 @@ entries:
   address: 2 Rue des Deux Gares
   postal_code: '75010'
   guide_category: Café
+  latitude: 48.8784449
+  longitude: 2.3582579
+  place_id: ChIJXUNDJopv5kcR3K5XUEV4DXE
+  location_source: places
 - name: Dilia
   locality: Paris
   province: Île-de-France
@@ -869,6 +1153,10 @@ entries:
   address: 1 Rue d'Eupatoria
   postal_code: '75020'
   guide_category: Cuisine d'auteur
+  latitude: 48.868643899999995
+  longitude: 2.3862278999999997
+  place_id: ChIJ2xMOOOxt5kcRmDNZv-pydrg
+  location_source: places
 - name: Dogma
   locality: Paris
   province: Île-de-France
@@ -879,6 +1167,10 @@ entries:
   address: 10 R. des Petites Écuries
   postal_code: '75010'
   guide_category: Lèche-doigts
+  latitude: 48.8732575
+  longitude: 2.3532786999999997
+  place_id: ChIJGVp74oRv5kcRrhYJ5S-mg9M
+  location_source: places
 - name: Double Dragon
   locality: Paris
   province: Île-de-France
@@ -889,6 +1181,10 @@ entries:
   address: 52 Rue Saint-Maur
   postal_code: '75011'
   guide_category: Bistrot
+  latitude: 48.8626015
+  longitude: 2.3798916
+  place_id: ChIJ53_L_qpt5kcRxyLNzsOYfg0
+  location_source: places
 - name: Dumbo Petites-Écuries
   locality: Paris
   province: Île-de-France
@@ -899,6 +1195,10 @@ entries:
   address: 14 Rue des Petites Écuries
   postal_code: '75010'
   guide_category: Lèche-doigts
+  latitude: 48.8734287
+  longitude: 2.3528596
+  place_id: ChIJDzkWO4Bv5kcR5XsF93Uxy2Y
+  location_source: places
 - name: Délit.
   locality: Paris
   province: Île-de-France
@@ -909,6 +1209,10 @@ entries:
   address: 55 Av. Marceau
   postal_code: '75116'
   guide_category: Lèche-doigts
+  latitude: 48.869707899999995
+  longitude: 2.2979284
+  place_id: ChIJSylwvh5v5kcRVn4SkjX1K44
+  location_source: places
 - name: Déviant
   locality: Paris
   province: Île-de-France
@@ -919,6 +1223,10 @@ entries:
   address: 39 R. des Petites Écuries
   postal_code: '75010'
   guide_category: Cuisine d'auteur
+  latitude: 48.8737882
+  longitude: 2.3501233
+  place_id: ChIJ8ZYS9RRu5kcRQ7Mn0l0gLIU
+  location_source: places
 - name: Dìdi
   locality: Paris
   province: Île-de-France
@@ -929,6 +1237,10 @@ entries:
   address: 88 Rue Jean-Pierre Timbaud
   postal_code: '75011'
   guide_category: Lèche-doigts
+  latitude: 48.8674612
+  longitude: 2.3769586
+  place_id: ChIJQ8YWL4tt5kcRM7SewkAZiB0
+  location_source: places
 - name: ED’S
   locality: Paris
   province: Île-de-France
@@ -949,6 +1261,10 @@ entries:
   address: 19 Rue Jean Poulmarch
   postal_code: '75010'
   guide_category: Bar à vins / Cave à manger
+  latitude: 48.872964700000004
+  longitude: 2.3632777
+  place_id: ChIJpRggbu9v5kcRG8MgUOLA89U
+  location_source: places
 - name: Echizen Soba Togo
   locality: Paris
   province: Île-de-France
@@ -969,6 +1285,10 @@ entries:
   address: 95 Rue d'Aboukir
   postal_code: '75002'
   guide_category: Lèche-doigts
+  latitude: 48.8683367
+  longitude: 2.3485047
+  place_id: ChIJ4c2fLhFu5kcR7G3ee168g6Q
+  location_source: places
 - name: Eels
   locality: Paris
   province: Île-de-France
@@ -979,6 +1299,10 @@ entries:
   address: 27 Rue d'Hauteville
   postal_code: '75010'
   guide_category: Cuisine d'auteur
+  latitude: 48.87321
+  longitude: 2.3502669
+  place_id: ChIJxax0XRRu5kcRltIfk0EGhdU
+  location_source: places
 - name: Eme
   locality: Paris
   province: Île-de-France
@@ -989,6 +1313,10 @@ entries:
   address: 4 Imp. Guéménée
   postal_code: '75004'
   guide_category: Cuisine d'auteur
+  latitude: 48.854040399999995
+  longitude: 2.365977
+  place_id: ChIJE-we4bhx5kcRWbvB8m3tM4k
+  location_source: places
 - name: Facette
   locality: Paris
   province: Île-de-France
@@ -999,6 +1327,10 @@ entries:
   address: 69 Port de la Rapée
   postal_code: '75012'
   guide_category: À partager
+  latitude: 48.843316699999995
+  longitude: 2.3693157
+  place_id: ChIJeWcyLxpz5kcRd-rVQ-xAJNo
+  location_source: places
 - name: Fantine
   locality: Paris
   province: Île-de-France
@@ -1009,6 +1341,10 @@ entries:
   address: 6 Rue de la Bourse
   postal_code: '75002'
   guide_category: Sandwichs
+  latitude: 48.869602
+  longitude: 2.3397492
+  place_id: ChIJpystrAVv5kcRrX8ojGRaqNw
+  location_source: places
 - name: Fitzcaraldo
   locality: Paris
   province: Île-de-France
@@ -1029,6 +1365,10 @@ entries:
   address: 41 Rue Saint-Roch
   postal_code: '75001'
   guide_category: Japonais
+  latitude: 48.8663902
+  longitude: 2.3328129
+  place_id: ChIJZYQe4S9u5kcRKcPdvxzz9KM
+  location_source: places
 - name: Frenchie
   locality: Paris
   province: Île-de-France
@@ -1052,6 +1392,10 @@ entries:
   address: 6 Rue du Nil
   postal_code: '75002'
   guide_category: Bistrot
+  latitude: 48.8678076
+  longitude: 2.3479026999999997
+  place_id: ChIJ-XV6kWJv5kcRPqLpy2ahu8g
+  location_source: places
 - name: Fugazi
   locality: Paris
   province: Île-de-France
@@ -1062,6 +1406,10 @@ entries:
   address: 18 Rue Lacharrière
   postal_code: '75011'
   guide_category: Bar à vins / Cave à manger
+  latitude: 48.861780599999996
+  longitude: 2.3778899
+  place_id: ChIJswlnfvlt5kcRdpunEFN0sYc
+  location_source: places
 - name: Fugue
   locality: Paris
   province: Île-de-France
@@ -1072,6 +1420,10 @@ entries:
   address: 128 Rue du Faubourg Saint-Martin
   postal_code: '75010'
   guide_category: Bistrot
+  latitude: 48.8743883
+  longitude: 2.3589067999999997
+  place_id: ChIJidCvhZlv5kcRVK6-52FX9g4
+  location_source: places
 - name: Furia
   locality: Paris
   province: Île-de-France
@@ -1082,6 +1434,10 @@ entries:
   address: 2 Rue Lacharrière
   postal_code: '75011'
   guide_category: Bar à vins / Cave à manger
+  latitude: 48.860842899999994
+  longitude: 2.3758836999999997
+  place_id: ChIJhUJ1385t5kcRdJpDpXAUuKk
+  location_source: places
 - name: Gaya
   locality: Paris
   province: Île-de-France
@@ -1092,6 +1448,10 @@ entries:
   address: 6 Rue de Saint-Simon
   postal_code: '75007'
   guide_category: Cuisine d'auteur
+  latitude: 48.856578
+  longitude: 2.323987
+  place_id: ChIJHxHFCSpu5kcRJCFKQQug9Fg
+  location_source: places
 - name: Giclette
   locality: Paris
   province: Île-de-France
@@ -1102,6 +1462,10 @@ entries:
   address: 13 Rue Keller
   postal_code: '75011'
   guide_category: Bar à vins / Cave à manger
+  latitude: 48.8542825
+  longitude: 2.3760746000000004
+  place_id: ChIJl5ewFaOsHqwRaZEZEPn6kuA
+  location_source: places
 - name: Gilou
   locality: Paris
   province: Île-de-France
@@ -1112,6 +1476,10 @@ entries:
   address: 9 Rue du Tunnel
   postal_code: '75019'
   guide_category: Cuisine d'auteur
+  latitude: 48.8788431
+  longitude: 2.3851483000000004
+  place_id: ChIJo-d3RABt5kcR5GXCAMMbAcg
+  location_source: places
 - name: Grain[s]
   locality: Paris
   province: Île-de-France
@@ -1122,6 +1490,10 @@ entries:
   address: 6 Rue Mabillon
   postal_code: '75006'
   guide_category: Bar à vins / Cave à manger
+  latitude: 48.8524951
+  longitude: 2.3349481
+  place_id: ChIJqU2hlr1x5kcReiWdQSCxg08
+  location_source: places
 - name: Gyoza Hohei
   locality: Paris
   province: Île-de-France
@@ -1132,6 +1504,10 @@ entries:
   address: 11 Rue Sainte-Anne
   postal_code: '75001'
   guide_category: Japonais
+  latitude: 48.8662079
+  longitude: 2.3353916999999997
+  place_id: ChIJ9zvV85pv5kcR-NAVXROueZw
+  location_source: places
 - name: Habesha
   locality: Paris
   province: Île-de-France
@@ -1142,6 +1518,10 @@ entries:
   address: 19 Rue Copreaux
   postal_code: '75015'
   guide_category: Viandes / Grillades
+  latitude: 48.841773599999996
+  longitude: 2.3069471
+  place_id: ChIJT3-ogTlw5kcRFX7OhEWMn9c
+  location_source: places
 - name: Haikara Deep Fried
   locality: Paris
   province: Île-de-France
@@ -1152,6 +1532,10 @@ entries:
   address: 60 Bd Voltaire
   postal_code: '75011'
   guide_category: Japonais
+  latitude: 48.8618141
+  longitude: 2.3730746
+  place_id: ChIJc1zTKttt5kcRqUHL2-77MvQ
+  location_source: places
 - name: Hanada
   locality: Paris
   province: Île-de-France
@@ -1175,6 +1559,10 @@ entries:
   address: 5 Rue Lucien Sampaix
   postal_code: '75010'
   guide_category: Coffee shop
+  latitude: 48.871038299999995
+  longitude: 2.3596596
+  place_id: ChIJoUBj1Q1u5kcR2Jr5HrzpkYQ
+  location_source: places
 - name: Iné
   locality: Paris
   province: Île-de-France
@@ -1185,6 +1573,10 @@ entries:
   address: 29 Rue d'Enghien
   postal_code: '75010'
   guide_category: Japonais
+  latitude: 48.872000299999996
+  longitude: 2.350517
+  place_id: ChIJp2ZqLCdv5kcR70dUoy8XLOA
+  location_source: places
 - name: Jamat
   locality: Paris
   province: Île-de-France
@@ -1195,6 +1587,10 @@ entries:
   address: 33 Rue de Navarin
   postal_code: '75009'
   guide_category: Bistrot
+  latitude: 48.879909
+  longitude: 2.3374712
+  place_id: ChIJDXcB4g9v5kcRgbzi95AdJd8
+  location_source: places
 - name: Jin Saint-Honoré
   locality: Paris
   province: Île-de-France
@@ -1205,6 +1601,10 @@ entries:
   address: 6 Rue de la Sourdière
   postal_code: '75001'
   guide_category: Japonais
+  latitude: 48.865367799999994
+  longitude: 2.3318548999999997
+  place_id: ChIJSxJyyC9u5kcROOLgDin8wz0
+  location_source: places
 - name: Jium
   locality: Paris
   province: Île-de-France
@@ -1215,6 +1615,10 @@ entries:
   address: 26 Rue Tiphaine
   postal_code: '75015'
   guide_category: Coréen
+  latitude: 48.848839399999996
+  longitude: 2.2966481
+  place_id: ChIJVVXJSBhw5kcRb3b2z-3_wtE
+  location_source: places
 - name: Jones
   locality: Paris
   province: Île-de-France
@@ -1225,6 +1629,10 @@ entries:
   address: 43 Rue Godefroy Cavaignac
   postal_code: '75011'
   guide_category: Cuisine d'auteur
+  latitude: 48.856584
+  longitude: 2.380064
+  place_id: ChIJDXxdvwly5kcRIKCw1301aTc
+  location_source: places
 - name: Jong-no Samgyetang
   locality: Paris
   province: Île-de-France
@@ -1245,6 +1653,10 @@ entries:
   address: 47 Rue de Richelieu
   postal_code: '75001'
   guide_category: Bistrot
+  latitude: 48.866245
+  longitude: 2.3370653999999997
+  place_id: ChIJhVSG1CRu5kcRkarKHX8UtCM
+  location_source: places
 - name: Kamo
   locality: Paris
   province: Île-de-France
@@ -1255,6 +1667,10 @@ entries:
   address: 17 Rue Martel
   postal_code: '75010'
   guide_category: Bistrot
+  latitude: 48.874384
+  longitude: 2.3531307
+  place_id: ChIJYf1pxgdv5kcRB7k4LRgzXnk
+  location_source: places
 - name: Kapé
   locality: Paris
   province: Île-de-France
@@ -1275,6 +1691,10 @@ entries:
   address: 66 Rue du Cherche-Midi
   postal_code: '75006'
   guide_category: Japonais
+  latitude: 48.8485489
+  longitude: 2.324404
+  place_id: ChIJXxeXbXFx5kcRyRHVnA_mTKg
+  location_source: places
 - name: Kisin
   locality: Paris
   province: Île-de-France
@@ -1285,6 +1705,10 @@ entries:
   address: 7 Rue de Ponthieu
   postal_code: '75008'
   guide_category: Japonais
+  latitude: 48.8702727
+  longitude: 2.3105043
+  place_id: ChIJ--uVl8Vv5kcRWL-x09zJ_6k
+  location_source: places
 - name: Kitchen 32
   locality: Paris
   province: Île-de-France
@@ -1295,6 +1719,10 @@ entries:
   address: 32 Rue Tiquetonne
   postal_code: '75002'
   guide_category: Japonais
+  latitude: 48.864810899999995
+  longitude: 2.3480456
+  place_id: ChIJ3R3099Bv5kcRLL5vrd630s8
+  location_source: places
 - name: Kitchen Ter(re)
   locality: Paris
   province: Île-de-France
@@ -1305,6 +1733,10 @@ entries:
   address: 26 Boulevard Saint-Germain
   postal_code: '75005'
   guide_category: Cuisine d'auteur
+  latitude: 48.849692399999995
+  longitude: 2.352696
+  place_id: ChIJLVEL7eRx5kcRWZr62yRPktY
+  location_source: places
 - name: Komatsubaki
   locality: Paris
   province: Île-de-France
@@ -1315,6 +1747,10 @@ entries:
   address: 3 Rue d'Artois
   postal_code: '75008'
   guide_category: Cuisine d'auteur
+  latitude: 48.872240999999995
+  longitude: 2.3086949999999997
+  place_id: ChIJ3V68g8Zv5kcRviazXz56y2g
+  location_source: places
 - name: Kubri
   locality: Paris
   province: Île-de-France
@@ -1325,6 +1761,10 @@ entries:
   address: 108 Rue Amelot
   postal_code: '75011'
   guide_category: Cuisine d'auteur
+  latitude: 48.86305
+  longitude: 2.3673333999999997
+  place_id: ChIJE3_8yTBv5kcRNtfiFlNQ8s8
+  location_source: places
 - name: Kuma
   locality: Paris
   province: Île-de-France
@@ -1335,6 +1775,10 @@ entries:
   address: 5 Rue des Écouffes
   postal_code: '75004'
   guide_category: Japonais
+  latitude: 48.8566317
+  longitude: 2.3583876
+  place_id: ChIJoZGnsQhv5kcRuU-gAvV-dyA
+  location_source: places
 - name: Kunitoraya
   locality: Paris
   province: Île-de-France
@@ -1345,6 +1789,10 @@ entries:
   address: 1 Rue Villédo
   postal_code: '75001'
   guide_category: Japonais
+  latitude: 48.865923800000004
+  longitude: 2.3368028
+  place_id: ChIJAUlHNSVu5kcRtZXD2FCM4gY
+  location_source: places
 - name: L'Avant-Comptoir du Marché
   locality: Paris
   province: Île-de-France
@@ -1355,6 +1803,10 @@ entries:
   address: 14 Rue Lobineau
   postal_code: '75006'
   guide_category: Bar à vins / Cave à manger
+  latitude: 48.8517684
+  longitude: 2.3354537
+  place_id: ChIJQZrietlx5kcRuJV3PWGPG14
+  location_source: places
 - name: L'Escale
   locality: Paris
   province: Île-de-France
@@ -1365,6 +1817,10 @@ entries:
   address: 1 Rue des Deux Ponts
   postal_code: '75004'
   guide_category: Bistrot
+  latitude: 48.8512256
+  longitude: 2.3559186
+  place_id: ChIJFertqPxx5kcRLN6cSVU3ZeY
+  location_source: places
 - name: L'Orillon
   locality: Paris
   province: Île-de-France
@@ -1375,6 +1831,10 @@ entries:
   address: 35 Rue de l'Orillon
   postal_code: '75011'
   guide_category: Bar à vins / Cave à manger
+  latitude: 48.8702919
+  longitude: 2.3764121
+  place_id: ChIJ-VnxLORt5kcRe72j1-JVvyY
+  location_source: places
 - name: La Boule Rouge
   locality: Paris
   province: Île-de-France
@@ -1395,6 +1855,10 @@ entries:
   address: 12 Rue Vivienne
   postal_code: '75002'
   guide_category: Bistrot
+  latitude: 48.8675961
+  longitude: 2.3394775
+  place_id: ChIJ2-nvXTtu5kcRzvMrLHhpJOI
+  location_source: places
 - name: La Cave à Michel
   locality: Paris
   province: Île-de-France
@@ -1405,6 +1869,10 @@ entries:
   address: 34 Rue Sainte-Marthe
   postal_code: '75010'
   guide_category: Bar à vins / Cave à manger
+  latitude: 48.8743571
+  longitude: 2.3729006
+  place_id: ChIJx9j1wOBt5kcRJjc_3BBZ4Tk
+  location_source: places
 - name: La Fontaine de Mars
   locality: Paris
   province: Île-de-France
@@ -1415,6 +1883,10 @@ entries:
   address: 129 Rue Saint-Dominique
   postal_code: '75007'
   guide_category: Bistrot
+  latitude: 48.858398199999996
+  longitude: 2.3025519
+  place_id: ChIJ_dBPoN9v5kcRt2CYxV1xzrM
+  location_source: places
 - name: La Joie
   locality: Paris
   province: Île-de-France
@@ -1425,6 +1897,10 @@ entries:
   address: 117 Rue du Chemin Vert
   postal_code: '75011'
   guide_category: À partager
+  latitude: 48.861757399999995
+  longitude: 2.3826776
+  place_id: ChIJLYIUz2pt5kcRehXlmbe0mq8
+  location_source: places
 - name: Lao Siam
   locality: Paris
   province: Île-de-France
@@ -1435,6 +1911,10 @@ entries:
   address: 49 Rue de Belleville
   postal_code: '75019'
   guide_category: Laotien
+  latitude: 48.8731472
+  longitude: 2.3809389
+  place_id: ChIJbzglYOht5kcR3kcbx_uOXX0
+  location_source: places
 - name: Le Baratin
   locality: Paris
   province: Île-de-France
@@ -1445,6 +1925,10 @@ entries:
   address: 3 Rue Jouye-Rouve
   postal_code: '75020'
   guide_category: Bistrot
+  latitude: 48.873071200000005
+  longitude: 2.3828351
+  place_id: ChIJCwHgqelt5kcRLOl2lR9_tVE
+  location_source: places
 - name: Le Bon Saint Pourçain
   locality: Paris
   province: Île-de-France
@@ -1455,6 +1939,10 @@ entries:
   address: 10B Rue Servandoni
   postal_code: '75006'
   guide_category: Bistrot
+  latitude: 48.8500729
+  longitude: 2.3346529
+  place_id: ChIJh_fyR9px5kcR7n63bBInsnI
+  location_source: places
 - name: Le Café de l’Usine
   locality: Paris
   province: Île-de-France
@@ -1475,6 +1963,10 @@ entries:
   address: 4 Rue Lemon
   postal_code: '75020'
   guide_category: Café
+  latitude: 48.871561
+  longitude: 2.3784465999999997
+  place_id: ChIJayZ7E-Zt5kcRMzLQKXypNrs
+  location_source: places
 - name: Le Canard Sauvage
   locality: Paris
   province: Île-de-France
@@ -1495,6 +1987,10 @@ entries:
   address: 129 Avenue Parmentier
   postal_code: '75011'
   guide_category: Cuisine d'auteur
+  latitude: 48.8693317
+  longitude: 2.3713093
+  place_id: ChIJIfiOtuNt5kcRuMiQz0CoNA4
+  location_source: places
 - name: Le Cheval d’Or
   locality: Paris
   province: Île-de-France
@@ -1515,6 +2011,10 @@ entries:
   address: 86 Rue des Archives
   postal_code: '75003'
   guide_category: Bar à vins / Cave à manger
+  latitude: 48.8630956
+  longitude: 2.3607294
+  place_id: ChIJB1tBr81v5kcR6wBV30yYp4s
+  location_source: places
 - name: Le Dauphin
   locality: Paris
   province: Île-de-France
@@ -1525,6 +2025,10 @@ entries:
   address: 131 Avenue Parmentier
   postal_code: '75011'
   guide_category: Bar à vins / Cave à manger
+  latitude: 48.8694795
+  longitude: 2.3711865
+  place_id: ChIJjcveyeNt5kcR5xm7bVyEib0
+  location_source: places
 - name: Le Favori
   locality: Paris
   province: Île-de-France
@@ -1535,6 +2039,10 @@ entries:
   address: 112 Rue Saint-Maur
   postal_code: '75011'
   guide_category: Lèche-doigts
+  latitude: 48.866899700000005
+  longitude: 2.3763921999999997
+  place_id: ChIJPfpHB-Ft5kcR9ikgxMduPi4
+  location_source: places
 - name: Le Grand Bain
   locality: Paris
   province: Île-de-France
@@ -1545,6 +2053,10 @@ entries:
   address: 14 Rue Denoyez
   postal_code: '75020'
   guide_category: Bistrot
+  latitude: 48.871620199999995
+  longitude: 2.3786318
+  place_id: ChIJyzvdFuZt5kcRO_Gb84ElkbI
+  location_source: places
 - name: Le Grand Bol
   locality: Paris
   province: Île-de-France
@@ -1555,6 +2067,10 @@ entries:
   address: 7 Rue de la Présentation
   postal_code: '75011'
   guide_category: Chinois
+  latitude: 48.8709509
+  longitude: 2.3768640999999997
+  place_id: ChIJKcmifuZt5kcRs8As1J4gDBA
+  location_source: places
 - name: Le Grand Pan
   locality: Paris
   province: Île-de-France
@@ -1565,6 +2081,10 @@ entries:
   address: 20 Rue Rosenwald
   postal_code: '75015'
   guide_category: Bistrot
+  latitude: 48.8330814
+  longitude: 2.3057029
+  place_id: ChIJBecyi0Zw5kcR_tvz4xAL8_4
+  location_source: places
 - name: Le Maquis
   locality: Paris
   province: Île-de-France
@@ -1575,6 +2095,10 @@ entries:
   address: 53 Rue des Cloys
   postal_code: '75018'
   guide_category: Cuisine d'auteur
+  latitude: 48.8932077
+  longitude: 2.3373085
+  place_id: ChIJzfIaxFlu5kcRvu1q5E3sCjs
+  location_source: places
 - name: Le Pantruche
   locality: Paris
   province: Île-de-France
@@ -1585,6 +2109,10 @@ entries:
   address: 3 Rue Victor Massé
   postal_code: '75009'
   guide_category: Bistrot
+  latitude: 48.8804923
+  longitude: 2.3396386
+  place_id: ChIJNQoJuUZu5kcRFmtyuQGSgi8
+  location_source: places
 - name: Le Petit Cambodge
   locality: Paris
   province: Île-de-France
@@ -1595,6 +2123,10 @@ entries:
   address: 20 Rue Alibert
   postal_code: '75010'
   guide_category: Cambodgien
+  latitude: 48.8716612
+  longitude: 2.3681014
+  place_id: ChIJbTfkCQpu5kcRwFlvOmGo7D4
+  location_source: places
 - name: Le Saint Sébastien
   locality: Paris
   province: Île-de-France
@@ -1605,6 +2137,10 @@ entries:
   address: 42 Rue Saint-Sébastien
   postal_code: '75011'
   guide_category: Cuisine d'auteur
+  latitude: 48.8615061
+  longitude: 2.3710351999999997
+  place_id: ChIJfeigXs9t5kcRtpeq9DfcWXk
+  location_source: places
 - name: Le Savarin
   locality: Paris
   province: Île-de-France
@@ -1615,6 +2151,10 @@ entries:
   address: 4 Rue de Navarin
   postal_code: '75009'
   guide_category: Bistrot
+  latitude: 48.8795839
+  longitude: 2.339559
+  place_id: ChIJ6RjR3EZu5kcR9KkHdeYEqbk
+  location_source: places
 - name: Le Servan
   locality: Paris
   province: Île-de-France
@@ -1625,6 +2165,10 @@ entries:
   address: 32 Rue Saint-Maur
   postal_code: '75011'
   guide_category: Cuisine d'auteur
+  latitude: 48.861015599999995
+  longitude: 2.3814506
+  place_id: ChIJDxNp1_Bt5kcRfBQ1nlGxQoQ
+  location_source: places
 - name: Le Severo
   locality: Paris
   province: Île-de-France
@@ -1635,6 +2179,10 @@ entries:
   address: 8 Rue des Plantes
   postal_code: '75014'
   guide_category: Bistrot
+  latitude: 48.8319919
+  longitude: 2.3245706
+  place_id: ChIJE0DvDbRx5kcROcHfBaPw1CE
+  location_source: places
 - name: Le Tagine
   locality: Paris
   province: Île-de-France
@@ -1645,6 +2193,10 @@ entries:
   address: 13 Rue de Crussol
   postal_code: '75011'
   guide_category: Marocain
+  latitude: 48.864249
+  longitude: 2.3679603
+  place_id: ChIJfWDeZf1t5kcRSjBizd_qWng
+  location_source: places
 - name: Le Verre Volé
   locality: Paris
   province: Île-de-France
@@ -1655,6 +2207,10 @@ entries:
   address: 67 Rue de Lancry
   postal_code: '75010'
   guide_category: Bistrot
+  latitude: 48.8728531
+  longitude: 2.3635186999999998
+  place_id: ChIJa-ILkAtu5kcRiVfpDYzyG6A
+  location_source: places
 - name: Les Arlots
   locality: Paris
   province: Île-de-France
@@ -1665,6 +2221,10 @@ entries:
   address: 136 Rue du Faubourg Poissonnière
   postal_code: '75010'
   guide_category: Bistrot
+  latitude: 48.8806222
+  longitude: 2.3500034
+  place_id: ChIJFS3VxGtu5kcRAPBU4W_HJLQ
+  location_source: places
 - name: Les Collonges
   locality: Paris
   province: Île-de-France
@@ -1685,6 +2245,10 @@ entries:
   address: 9 Rue de Beauce
   postal_code: '75003'
   guide_category: Cuisine d'auteur
+  latitude: 48.863082999999996
+  longitude: 2.3612283
+  place_id: ChIJ32nhLwRu5kcR6FEtBPVddL4
+  location_source: places
 - name: Les Marches
   locality: Paris
   province: Île-de-France
@@ -1695,6 +2259,10 @@ entries:
   address: 5 Rue de la Manutention
   postal_code: '75116'
   guide_category: Bistrot
+  latitude: 48.863896399999994
+  longitude: 2.2959123
+  place_id: ChIJgWdK7eZv5kcRV7K408t5-Ec
+  location_source: places
 - name: Les Pères Populaires
   locality: Paris
   province: Île-de-France
@@ -1705,6 +2273,10 @@ entries:
   address: 46 Rue de Buzenval
   postal_code: '75020'
   guide_category: Bistrot
+  latitude: 48.8511248
+  longitude: 2.4018614
+  place_id: ChIJ9aR5k3ly5kcR0FIDY_ePasg
+  location_source: places
 - name: Les Œillets
   locality: Paris
   province: Île-de-France
@@ -1725,6 +2297,10 @@ entries:
   address: 48 Rue de la Folie Méricourt
   postal_code: '75011'
   guide_category: Bistrot
+  latitude: 48.863862499999996
+  longitude: 2.3722195999999998
+  place_id: ChIJR_eEDABt5kcRRXQdrbSdxus
+  location_source: places
 - name: Localino
   locality: Paris
   province: Île-de-France
@@ -1735,6 +2311,10 @@ entries:
   address: 10 Rue de l'Odéon
   postal_code: '75006'
   guide_category: Italien
+  latitude: 48.8510442
+  longitude: 2.3385414
+  place_id: ChIJS72j9xlx5kcRN6Lgmkb_wZ8
+  location_source: places
 - name: Locomal
   locality: Paris
   province: Île-de-France
@@ -1745,6 +2325,10 @@ entries:
   address: 74 Rue de Charonne
   postal_code: '75011'
   guide_category: Mexicain
+  latitude: 48.8534122
+  longitude: 2.3799023
+  place_id: ChIJseadIG1z5kcR0GvBsNWHgd8
+  location_source: places
 - name: Lolo cave à manger
   locality: Paris
   province: Île-de-France
@@ -1755,6 +2339,10 @@ entries:
   address: 12 Rue de Châteaudun
   postal_code: '75009'
   guide_category: Bar à vins / Cave à manger
+  latitude: 48.8759836
+  longitude: 2.340584
+  place_id: ChIJr-5ksVtv5kcRVTMJGkAl0kg
+  location_source: places
 - name: L’Arlequin
   locality: Paris
   province: Île-de-France
@@ -1795,6 +2383,10 @@ entries:
   address: 9 Rue Poirier de Narçay
   postal_code: '75014'
   guide_category: Coréen
+  latitude: 48.824118899999995
+  longitude: 2.3246526999999997
+  place_id: ChIJYTAeY6Bx5kcReWyHJOHToR8
+  location_source: places
 - name: Magma
   locality: Paris
   province: Île-de-France
@@ -1805,6 +2397,10 @@ entries:
   address: 9 Rue Jean-Pierre Timbaud
   postal_code: '75011'
   guide_category: Cuisine d'auteur
+  latitude: 48.865111399999996
+  longitude: 2.3672331
+  place_id: ChIJjx3AVi1v5kcRegkMkjuBFa8
+  location_source: places
 - name: Magnolia
   locality: Paris
   province: Île-de-France
@@ -1815,6 +2411,10 @@ entries:
   address: 5 Rue Henry Monnier
   postal_code: '75009'
   guide_category: Bistrot
+  latitude: 48.8795238
+  longitude: 2.3369937
+  place_id: ChIJ5U4GPz9v5kcRStPGOYpHOGs
+  location_source: places
 - name: Maison
   locality: Paris
   province: Île-de-France
@@ -1835,6 +2435,10 @@ entries:
   address: 23 Rue de Sambre-et-Meuse
   postal_code: '75010'
   guide_category: Bistrot
+  latitude: 48.874783900000004
+  longitude: 2.3721063
+  place_id: ChIJBesUNQBt5kcRcVzB1pjoJ8A
+  location_source: places
 - name: Mala Boom
   locality: Paris
   province: Île-de-France
@@ -1845,6 +2449,10 @@ entries:
   address: 42 Rue Jean-Pierre Timbaud
   postal_code: '75011'
   guide_category: Chinois
+  latitude: 48.8661493
+  longitude: 2.3718822
+  place_id: ChIJcY4RWHNt5kcRzHRGd14zivQ
+  location_source: places
 - name: Mandoobar
   locality: Paris
   province: Île-de-France
@@ -1855,6 +2463,10 @@ entries:
   address: 7 Rue d'Édimbourg
   postal_code: '75008'
   guide_category: Coréen
+  latitude: 48.8793158
+  longitude: 2.3211478
+  place_id: ChIJhZWV_7Rv5kcRxjdDwBCZ4Z8
+  location_source: places
 - name: Mantra
   locality: Paris
   province: Île-de-France
@@ -1865,6 +2477,10 @@ entries:
   address: 17 Rue Claude Rodier
   postal_code: '75009'
   guide_category: Cuisine d'auteur
+  latitude: 48.878566
+  longitude: 2.3427292
+  place_id: ChIJ9ZZjGABv5kcRlLM_ZGcLdhM
+  location_source: places
 - name: Marzo
   locality: Paris
   province: Île-de-France
@@ -1875,6 +2491,10 @@ entries:
   address: 5 Rue Paul-Louis Courier
   postal_code: '75007'
   guide_category: Pizza
+  latitude: 48.8560066
+  longitude: 2.3249473
+  place_id: ChIJSdrTgtVx5kcRn-mktViy18E
+  location_source: places
 - name: Masaikuta
   locality: Paris
   province: Île-de-France
@@ -1885,6 +2505,10 @@ entries:
   address: 26 bis Rue de la Fontaine au Roi
   postal_code: '75011'
   guide_category: Cuisine d'auteur
+  latitude: 48.868251699999995
+  longitude: 2.3712067
+  place_id: ChIJu5WzfwBt5kcR59pglaMThqE
+  location_source: places
 - name: Mazali
   locality: Paris
   province: Île-de-France
@@ -1895,6 +2519,10 @@ entries:
   address: 4 Rue Crozatier
   postal_code: '75012'
   guide_category: Bistrot
+  latitude: 48.8453879
+  longitude: 2.3830605000000005
+  place_id: ChIJG_fgM8Vz5kcRyof2L5hfXLA
+  location_source: places
 - name: Mehmet
   locality: Paris
   province: Île-de-France
@@ -1905,6 +2533,10 @@ entries:
   address: 43 Rue Ramey
   postal_code: '75018'
   guide_category: Viandes / Grillades
+  latitude: 48.889580099999996
+  longitude: 2.3458756999999997
+  place_id: ChIJ0xni1Ltv5kcRYW_mCKvXjjk
+  location_source: places
 - name: Menkicchi
   locality: Paris
   province: Île-de-France
@@ -1915,6 +2547,10 @@ entries:
   address: 41 Rue Sainte-Anne
   postal_code: '75001'
   guide_category: Japonais
+  latitude: 48.866521299999995
+  longitude: 2.3355639999999998
+  place_id: ChIJq99pfklv5kcRm0NDwGCXyjo
+  location_source: places
 - name: Mensch
   locality: Paris
   province: Île-de-France
@@ -1925,6 +2561,10 @@ entries:
   address: 31 Rue Saint-Lazare
   postal_code: '75009'
   guide_category: Lèche-doigts
+  latitude: 48.8767265
+  longitude: 2.3360466
+  place_id: ChIJBwx2awBv5kcRkV7_dItXE0c
+  location_source: places
 - name: Minibar
   locality: Paris
   province: Île-de-France
@@ -1935,6 +2575,10 @@ entries:
   address: 23 Rue de Lancry
   postal_code: '75010'
   guide_category: Bar à vins / Cave à manger
+  latitude: 48.8701138
+  longitude: 2.3607867000000002
+  place_id: ChIJZWRb8Fpv5kcRJoZ4u_tOVZ8
+  location_source: places
 - name: Mischief
   locality: Paris
   province: Île-de-France
@@ -1945,6 +2589,10 @@ entries:
   address: 25 Rue des Gravilliers
   postal_code: '75003'
   guide_category: Cuisine d'auteur
+  latitude: 48.863831
+  longitude: 2.3565948999999997
+  place_id: ChIJOfSDLwBv5kcRitKufiTctkM
+  location_source: places
 - name: Misu
   locality: Paris
   province: Île-de-France
@@ -1955,6 +2603,10 @@ entries:
   address: 8 Rue Falguière
   postal_code: '75015'
   guide_category: Coréen
+  latitude: 48.8438106
+  longitude: 2.3171654
+  place_id: ChIJY1H6RkFx5kcRhq8G3Rso-rE
+  location_source: places
 - name: Moderno
   locality: Paris
   province: Île-de-France
@@ -1965,6 +2617,10 @@ entries:
   address: 12 Rue Vitruve
   postal_code: '75020'
   guide_category: Italien
+  latitude: 48.856499
+  longitude: 2.4022801
+  place_id: ChIJ1QLz4odt5kcR77F-5ZAcFtA
+  location_source: places
 - name: Mokochaya
   locality: Paris
   province: Île-de-France
@@ -1985,6 +2641,10 @@ entries:
   address: 5 Rue Saint-Bernard
   postal_code: '75011'
   guide_category: Cuisine d'auteur
+  latitude: 48.850790599999996
+  longitude: 2.3813834
+  place_id: ChIJlSThMQly5kcR1fXHGctIH88
+  location_source: places
 - name: Monaco
   locality: Paris
   province: Île-de-France
@@ -1995,6 +2655,10 @@ entries:
   address: 2 Rue Vulpian
   postal_code: '75013'
   guide_category: Café
+  latitude: 48.8325058
+  longitude: 2.3466723
+  place_id: ChIJd73dQZRx5kcRo-tqU4u-vBc
+  location_source: places
 - name: Montezuma Café
   locality: Paris
   province: Île-de-France
@@ -2005,6 +2669,10 @@ entries:
   address: 15 Rue Notre Dame des Victoires
   postal_code: '75002'
   guide_category: Bar à vins / Cave à manger
+  latitude: 48.868251099999995
+  longitude: 2.3417011
+  place_id: ChIJ9XNTM8pv5kcRq77-YRxBIHE
+  location_source: places
 - name: Mosuke
   locality: Paris
   province: Île-de-France
@@ -2028,6 +2696,10 @@ entries:
   address: 39 Rue de Cléry
   postal_code: '75002'
   guide_category: Vietnamien
+  latitude: 48.8686761
+  longitude: 2.3483649
+  place_id: ChIJfecnzi9v5kcRGrNiqAWlNNQ
+  location_source: places
 - name: New Hoa Khoan
   locality: Paris
   province: Île-de-France
@@ -2038,6 +2710,10 @@ entries:
   address: 15 Av. de Choisy
   postal_code: '75013'
   guide_category: Chinois
+  latitude: 48.8208458
+  longitude: 2.3634778
+  place_id: ChIJU3f8_Sly5kcRBUBcvUGmeh4
+  location_source: places
 - name: Ngoc Xuyen Saigon
   locality: Paris
   province: Île-de-France
@@ -2048,6 +2724,10 @@ entries:
   address: 4 Rue Caillaux
   postal_code: '75013'
   guide_category: Vietnamien
+  latitude: 48.8229203
+  longitude: 2.3617349
+  place_id: ChIJA0_NBodx5kcROe2nE0DePAw
+  location_source: places
 - name: Occasion
   locality: Paris
   province: Île-de-France
@@ -2058,6 +2738,10 @@ entries:
   address: 13 Rue Jacques Louvel-Tessier
   postal_code: '75010'
   guide_category: Cuisine d'auteur
+  latitude: 48.8712258
+  longitude: 2.3696761000000004
+  place_id: ChIJgcppQgBt5kcR5Gdzys0F86A
+  location_source: places
 - name: Ogata
   locality: Paris
   province: Île-de-France
@@ -2068,6 +2752,10 @@ entries:
   address: 16 Rue Debelleyme
   postal_code: '75003'
   guide_category: Japonais
+  latitude: 48.8610097
+  longitude: 2.3635511000000005
+  place_id: ChIJexUJUzFv5kcRcynXsmuxF5o
+  location_source: places
 - name: Olive Chicken
   locality: Paris
   province: Île-de-France
@@ -2078,6 +2766,10 @@ entries:
   address: 46 Rue de Richelieu
   postal_code: '75001'
   guide_category: Lèche-doigts
+  latitude: 48.8660806
+  longitude: 2.337217
+  place_id: ChIJ--1uestx5kcRHCqFlcfBMuw
+  location_source: places
 - name: Oobatz
   locality: Paris
   province: Île-de-France
@@ -2088,6 +2780,10 @@ entries:
   address: 4 Av. Jean Aicard
   postal_code: '75011'
   guide_category: Pizza
+  latitude: 48.8647346
+  longitude: 2.3818384
+  place_id: ChIJr9u4KKtt5kcRNwiGaAm9JYw
+  location_source: places
 - name: Opla
   locality: Paris
   province: Île-de-France
@@ -2098,6 +2794,10 @@ entries:
   address: 59 Rue Daguerre
   postal_code: '75014'
   guide_category: Thaïlandais
+  latitude: 48.8350444
+  longitude: 2.3265392
+  place_id: ChIJH_8AMstx5kcRDS3W59alP0M
+  location_source: places
 - name: Osteria Ferrara
   locality: Paris
   province: Île-de-France
@@ -2108,6 +2808,10 @@ entries:
   address: 7 Rue du Dahomey
   postal_code: '75011'
   guide_category: Cuisine d'auteur
+  latitude: 48.851248299999995
+  longitude: 2.3832944
+  place_id: ChIJP4_7zAhy5kcRbb5uWi2ie1M
+  location_source: places
 - name: Osteria Gòto
   locality: Paris
   province: Île-de-France
@@ -2118,6 +2822,10 @@ entries:
   address: 151 Bd Voltaire
   postal_code: '75011'
   guide_category: Bistrot
+  latitude: 48.855391999999995
+  longitude: 2.3846531
+  place_id: ChIJUUjg7q5z5kcRIiuD4O2IZJg
+  location_source: places
 - name: Osteria Paradiso
   locality: Paris
   province: Île-de-France
@@ -2128,6 +2836,10 @@ entries:
   address: 35 Rue de Sambre-et-Meuse
   postal_code: '75010'
   guide_category: Italien
+  latitude: 48.8745305
+  longitude: 2.3737304
+  place_id: ChIJ1UYZO19t5kcRpOoiNrbPzwY
+  location_source: places
 - name: Our House
   locality: Paris
   province: Île-de-France
@@ -2138,6 +2850,10 @@ entries:
   address: 35 Rue Coquillière
   postal_code: '75001'
   guide_category: Japonais
+  latitude: 48.8644025
+  longitude: 2.3410639
+  place_id: ChIJX7gyBABv5kcRLLKsUAaqo4E
+  location_source: places
 - name: Pages
   locality: Paris
   province: Île-de-France
@@ -2148,6 +2864,10 @@ entries:
   address: 4 Rue Auguste Vacquerie
   postal_code: '75116'
   guide_category: Cuisine d'auteur
+  latitude: 48.870918599999996
+  longitude: 2.2961518
+  place_id: ChIJQ6gX3jFv5kcRoGqtiEhHaWE
+  location_source: places
 - name: Paloma
   locality: Paris
   province: Île-de-France
@@ -2158,6 +2878,10 @@ entries:
   address: 93 Rue Julien Lacroix
   postal_code: '75020'
   guide_category: Bistrot
+  latitude: 48.8722886
+  longitude: 2.3822722
+  place_id: ChIJZeVlRy5t5kcRFurzaFKdSr4
+  location_source: places
 - name: Pantobaguette
   locality: Paris
   province: Île-de-France
@@ -2168,6 +2892,10 @@ entries:
   address: 16 Rue Eugène Sue
   postal_code: '75018'
   guide_category: Bar à vins / Cave à manger
+  latitude: 48.891093999999995
+  longitude: 2.3468323
+  place_id: ChIJ7d54995v5kcR9py3YclSxSY
+  location_source: places
 - name: Parcelles
   locality: Paris
   province: Île-de-France
@@ -2178,6 +2906,10 @@ entries:
   address: 13 Rue Chapon
   postal_code: '75003'
   guide_category: Bistrot
+  latitude: 48.8632026
+  longitude: 2.356599
+  place_id: ChIJ03vIR11v5kcRk5QReT9ivac
+  location_source: places
 - name: Passerina
   locality: Paris
   province: Île-de-France
@@ -2188,6 +2920,10 @@ entries:
   address: 44 Rue Traversière
   postal_code: '75012'
   guide_category: Cuisine d'auteur
+  latitude: 48.8493254
+  longitude: 2.3749658
+  place_id: ChIJ40d9Nadz5kcR5zO3T7E6YbA
+  location_source: places
 - name: Passerini
   locality: Paris
   province: Île-de-France
@@ -2198,6 +2934,10 @@ entries:
   address: 65 Rue Traversière
   postal_code: '75012'
   guide_category: Cuisine d'auteur
+  latitude: 48.8494046
+  longitude: 2.3747944
+  place_id: ChIJG_fMygVy5kcRCLfpTD8eflk
+  location_source: places
 - name: Patine
   locality: Paris
   province: Île-de-France
@@ -2208,6 +2948,10 @@ entries:
   address: 16 Rue la Vacquerie
   postal_code: '75011'
   guide_category: Bistrot
+  latitude: 48.858415799999996
+  longitude: 2.3850474999999998
+  place_id: ChIJ6x5a9v5t5kcRMudAAmhW-js
+  location_source: places
 - name: Paulownia
   locality: Paris
   province: Île-de-France
@@ -2218,6 +2962,10 @@ entries:
   address: 15 Rue des Vignoles
   postal_code: '75020'
   guide_category: Cuisine d'auteur
+  latitude: 48.8536406
+  longitude: 2.3988299
+  place_id: ChIJM8iUPY5z5kcR2eZYsD3CKtU
+  location_source: places
 - name: Petit Vatel
   locality: Paris
   province: Île-de-France
@@ -2228,6 +2976,10 @@ entries:
   address: 5 Rue Lobineau
   postal_code: '75006'
   guide_category: Cuisine d'auteur
+  latitude: 48.851648700000005
+  longitude: 2.3365828
+  place_id: ChIJ_df8AwBx5kcRj_RBvwPrD4U
+  location_source: places
 - name: Pho bom
   locality: Paris
   province: Île-de-France
@@ -2238,6 +2990,10 @@ entries:
   address: 71 Av. de Choisy
   postal_code: '75013'
   guide_category: Vietnamien
+  latitude: 48.8234627
+  longitude: 2.3618123
+  place_id: ChIJPyXIrodx5kcRiycWcdqlJQo
+  location_source: places
 - name: Pistil
   locality: Paris
   province: Île-de-France
@@ -2248,6 +3004,10 @@ entries:
   address: 12 Rue Lechevin
   postal_code: '75011'
   guide_category: Café
+  latitude: 48.863233
+  longitude: 2.3767110000000002
+  place_id: ChIJDRje86Rt5kcRxvzD_aMEJMY
+  location_source: places
 - name: Pizza Chic
   locality: Paris
   province: Île-de-France
@@ -2258,6 +3018,10 @@ entries:
   address: 13 Rue de Mézières
   postal_code: '75006'
   guide_category: Pizza
+  latitude: 48.8501944
+  longitude: 2.3307222999999997
+  place_id: ChIJwTVc3dBx5kcRWgAu9Ociy_w
+  location_source: places
 - name: Pluto
   locality: Paris
   province: Île-de-France
@@ -2268,6 +3032,10 @@ entries:
   address: 44 Rue Sainte-Croix de la Bretonnerie
   postal_code: '75004'
   guide_category: Cuisine d'auteur
+  latitude: 48.858792
+  longitude: 2.3546009999999997
+  place_id: ChIJS8LaSgBv5kcRDVPXLZXCTN0
+  location_source: places
 - name: Pochana
   locality: Paris
   province: Île-de-France
@@ -2288,6 +3056,10 @@ entries:
   address: 18 Rue du Pont aux Choux
   postal_code: '75003'
   guide_category: Japonais
+  latitude: 48.8613145
+  longitude: 2.3650911999999997
+  place_id: ChIJ_-6qLwdu5kcRK8hZ9LeW2ko
+  location_source: places
 - name: Pristine
   locality: Paris
   province: Île-de-France
@@ -2298,6 +3070,10 @@ entries:
   address: 8 Rue de Maubeuge
   postal_code: '75009'
   guide_category: Cuisine d'auteur
+  latitude: 48.8763061
+  longitude: 2.3411926
+  place_id: ChIJn3-5-_Nv5kcRH3uWxAu5_oI
+  location_source: places
 - name: Prévelle
   locality: Paris
   province: Île-de-France
@@ -2321,6 +3097,10 @@ entries:
   address: 34 Rue Petrelle
   postal_code: '75009'
   guide_category: Cuisine d'auteur
+  latitude: 48.8809526
+  longitude: 2.346664
+  place_id: ChIJS4XkBmpu5kcRVhmXQ22MB_E
+  location_source: places
 - name: Quinsou
   locality: Paris
   province: Île-de-France
@@ -2344,6 +3124,10 @@ entries:
   address: 8 Passage des Panoramas
   postal_code: '75002'
   guide_category: Bistrot
+  latitude: 48.8712364
+  longitude: 2.3418864000000004
+  place_id: ChIJdxltnj5u5kcR8TXA9auIRmg
+  location_source: places
 - name: Ramen Wagaya
   locality: Paris
   province: Île-de-France
@@ -2354,6 +3138,10 @@ entries:
   address: 25 Rue Jean-Pierre Timbaud
   postal_code: '75011'
   guide_category: Japonais
+  latitude: 48.8655056
+  longitude: 2.3685792
+  place_id: ChIJXemIbbJt5kcRgqzR6xSKJvk
+  location_source: places
 - name: Rencontres
   locality: Paris
   province: Île-de-France
@@ -2364,6 +3152,10 @@ entries:
   address: 67 Rue de Charenton
   postal_code: '75012'
   guide_category: Bistrot
+  latitude: 48.850283399999995
+  longitude: 2.3737171999999997
+  place_id: ChIJCWCfNBBz5kcR--Desz_lvVM
+  location_source: places
 - name: Rond
   locality: Paris
   province: Île-de-France
@@ -2374,6 +3166,10 @@ entries:
   address: 21 Rue du Transvaal
   postal_code: '75020'
   guide_category: Crêperie
+  latitude: 48.8717744
+  longitude: 2.3877451
+  place_id: ChIJ1eEi-n1t5kcRk2y0GgYIy0U
+  location_source: places
 - name: Rooster
   locality: Paris
   province: Île-de-France
@@ -2384,6 +3180,10 @@ entries:
   address: 137 Rue Cardinet
   postal_code: '75017'
   guide_category: Cuisine d'auteur
+  latitude: 48.8867428
+  longitude: 2.3130886999999998
+  place_id: ChIJsz8Sqrpv5kcRm1B61Dpq_t8
+  location_source: places
 - name: Rori
   locality: Paris
   province: Île-de-France
@@ -2394,6 +3194,10 @@ entries:
   address: 96 Rue Jean-Pierre Timbaud
   postal_code: '75011'
   guide_category: Pizza
+  latitude: 48.8678254
+  longitude: 2.3780696
+  place_id: ChIJN5JqcwBt5kcR1R6pwYrQwxo
+  location_source: places
 - name: Round Egg Buns
   locality: Paris
   province: Île-de-France
@@ -2404,6 +3208,10 @@ entries:
   address: 25 Rue Louis Blanc
   postal_code: '75010'
   guide_category: Lèche-doigts
+  latitude: 48.8801863
+  longitude: 2.3666679
+  place_id: ChIJ9zg_z-Vv5kcRCQkM44RGtgY
+  location_source: places
 - name: Ryô
   locality: Paris
   province: Île-de-France
@@ -2414,6 +3222,10 @@ entries:
   address: 7 Rue des Moulins
   postal_code: '75001'
   guide_category: Japonais
+  latitude: 48.8670353
+  longitude: 2.3350532
+  place_id: ChIJM0QUsTpu5kcRwE2UjGgyDZg
+  location_source: places
 - name: SENsation
   locality: Paris
   province: Île-de-France
@@ -2424,6 +3236,10 @@ entries:
   address: 32 Rue Saint-Maur
   postal_code: '75011'
   guide_category: Chinois
+  latitude: 48.8609316
+  longitude: 2.3814284
+  place_id: ChIJAekELgBt5kcRXVxG2aE-O_o
+  location_source: places
 - name: Sama Bistro
   locality: Paris
   province: Île-de-France
@@ -2434,6 +3250,10 @@ entries:
   address: 5 Rue Guillaume Bertrand
   postal_code: '75011'
   guide_category: Libanais
+  latitude: 48.8633905
+  longitude: 2.379782
+  place_id: ChIJT44azFdt5kcRW9SkR88ibk0
+  location_source: places
 - name: Sanjo
   locality: Paris
   province: Île-de-France
@@ -2444,6 +3264,10 @@ entries:
   address: 29 Rue d'Argenteuil
   postal_code: '75001'
   guide_category: Japonais
+  latitude: 48.8663375
+  longitude: 2.3331630999999997
+  place_id: ChIJq6yp4y9u5kcRzBU3b4_YuH4
+  location_source: places
 - name: Sant Ambroeus
   locality: Paris
   province: Île-de-France
@@ -2454,6 +3278,10 @@ entries:
   address: 11 Rue Saint-Benoît
   postal_code: '75006'
   guide_category: Nourritures mondaines
+  latitude: 48.854715999999996
+  longitude: 2.333106
+  place_id: ChIJKYkNn-dx5kcRA6_FZSnmNCA
+  location_source: places
 - name: Scarpetta
   locality: Paris
   province: Île-de-France
@@ -2464,6 +3292,10 @@ entries:
   address: 72 Rue Marguerite de Rochechouart
   postal_code: '75009'
   guide_category: Italien
+  latitude: 48.881640499999996
+  longitude: 2.3466989
+  place_id: ChIJBSdSRQBv5kcRUE84s9j3iOo
+  location_source: places
 - name: Septime
   locality: Paris
   province: Île-de-France
@@ -2487,6 +3319,10 @@ entries:
   address: 32 Rue de la Villette
   postal_code: '75019'
   guide_category: Bistrot
+  latitude: 48.8763046
+  longitude: 2.3879091
+  place_id: ChIJHc0YiXdt5kcRqxr5cSr6m4o
+  location_source: places
 - name: Sola
   locality: Paris
   province: Île-de-France
@@ -2510,6 +3346,10 @@ entries:
   address: 3 Rue Volta
   postal_code: '75003'
   guide_category: Vietnamien
+  latitude: 48.8647245
+  longitude: 2.3567826
+  place_id: ChIJS_hANgVu5kcRZKjdafwk-Fg
+  location_source: places
 - name: Sucrépice
   locality: Paris
   province: Île-de-France
@@ -2520,6 +3360,10 @@ entries:
   address: 5 Rue d'Arras
   postal_code: '75005'
   guide_category: Chinois
+  latitude: 48.847368499999995
+  longitude: 2.3517316999999998
+  place_id: ChIJZ_DBo-Vx5kcRXR9GaGvMyik
+  location_source: places
 - name: Sugaar
   locality: Paris
   province: Île-de-France
@@ -2530,6 +3374,10 @@ entries:
   address: 5 Rue Gozlin
   postal_code: '75006'
   guide_category: Nourritures mondaines
+  latitude: 48.853291999999996
+  longitude: 2.333627
+  place_id: ChIJQSqvWGFx5kcR3NRMOrTecpk
+  location_source: places
 - name: Superposé
   locality: Paris
   province: Île-de-France
@@ -2540,6 +3388,10 @@ entries:
   address: 103 Rue Saint-Maur
   postal_code: '75011'
   guide_category: Bistrot
+  latitude: 48.8652644
+  longitude: 2.3774699
+  place_id: ChIJCVzssZht5kcR2riD17tlAJE
+  location_source: places
 - name: Sur Mer
   locality: Paris
   province: Île-de-France
@@ -2550,6 +3402,10 @@ entries:
   address: 1 Rue de Marseille
   postal_code: '75010'
   guide_category: Poissons et fruits de mer
+  latitude: 48.8714133
+  longitude: 2.3626527
+  place_id: ChIJZd33m2Zv5kcRDA_zRfnImIU
+  location_source: places
 - name: Sushi B
   locality: Paris
   province: Île-de-France
@@ -2599,6 +3455,10 @@ entries:
   address: 6 Rue Dupuytren
   postal_code: '75006'
   guide_category: Coréen
+  latitude: 48.8517392
+  longitude: 2.3394057999999998
+  place_id: ChIJl8BALABx5kcRcqB9X8pffNA
+  location_source: places
 - name: Taco Mesa
   locality: Paris
   province: Île-de-France
@@ -2609,6 +3469,10 @@ entries:
   address: 40 Rue du Faubourg Poissonnière
   postal_code: '75010'
   guide_category: Lèche-doigts
+  latitude: 48.8735985
+  longitude: 2.3480095
+  place_id: ChIJT3S9CYhv5kcRQbdZVUPGYak
+  location_source: places
 - name: Tadam
   locality: Paris
   province: Île-de-France
@@ -2619,6 +3483,10 @@ entries:
   address: 14 Rue du Jura
   postal_code: '75013'
   guide_category: Bistrot
+  latitude: 48.8371113
+  longitude: 2.3559688
+  place_id: ChIJ1Tjg6fJx5kcROWdRcwWgerU
+  location_source: places
 - name: Tanguy
   locality: Paris
   province: Île-de-France
@@ -2629,6 +3497,10 @@ entries:
   address: 15 Rue de l'Échiquier
   postal_code: '75010'
   guide_category: Crêperie
+  latitude: 48.871209099999994
+  longitude: 2.3517957
+  place_id: ChIJETeoPUNv5kcRGEyZMQzdh8k
+  location_source: places
 - name: Tara
   locality: Paris
   province: Île-de-France
@@ -2639,6 +3511,10 @@ entries:
   address: 2 Rue de la Fontaine au Roi
   postal_code: '75011'
   guide_category: Bar à vins / Cave à manger
+  latitude: 48.862153799999994
+  longitude: 2.3421157999999997
+  place_id: ChIJb0pURtZv5kcRB9vOmiu-_vc
+  location_source: places
 - name: Tarántula
   locality: Paris
   province: Île-de-France
@@ -2649,6 +3525,10 @@ entries:
   address: 13 bis Rue Keller
   postal_code: '75011'
   guide_category: Cuisine d'auteur
+  latitude: 48.8542857
+  longitude: 2.3760513
+  place_id: ChIJS6vqdQBz5kcRb8Sgn_HdvLY
+  location_source: places
 - name: Tekés
   locality: Paris
   province: Île-de-France
@@ -2659,6 +3539,10 @@ entries:
   address: 4 Rue Saint-Sauveur
   postal_code: '75002'
   guide_category: Israélien
+  latitude: 48.8659569
+  longitude: 2.3496387000000003
+  place_id: ChIJP0h7fOFv5kcRnVPMvx7dfq4
+  location_source: places
 - name: Tempête
   locality: Paris
   province: Île-de-France
@@ -2669,6 +3553,10 @@ entries:
   address: 5 Cr des Petites Écuries
   postal_code: '75010'
   guide_category: Lèche-doigts
+  latitude: 48.8724227
+  longitude: 2.3531896999999997
+  place_id: ChIJOXD9HPZv5kcRIEiUeMz0p6o
+  location_source: places
 - name: Ten Belles 6
   locality: Paris
   province: Île-de-France
@@ -2679,6 +3567,10 @@ entries:
   address: 53 Rue du Cherche-Midi
   postal_code: '75006'
   guide_category: Lèche-doigts
+  latitude: 48.8487222
+  longitude: 2.3252468
+  place_id: ChIJr6K0cJ9x5kcR0bAIb-trvFk
+  location_source: places
 - name: Ten Belles Bread
   locality: Paris
   province: Île-de-France
@@ -2689,6 +3581,10 @@ entries:
   address: 19 Rue Breguet
   postal_code: '75011'
   guide_category: Lèche-doigts
+  latitude: 48.8576591
+  longitude: 2.3737094
+  place_id: ChIJ58s82_ht5kcRBXKvgoYfR_4
+  location_source: places
 - name: Test
   locality: Paris
   province: Île-de-France
@@ -2699,6 +3595,10 @@ entries:
   address: 70 Rue de Dunkerque
   postal_code: '75009'
   guide_category: Poissons et fruits de mer
+  latitude: 48.8822553
+  longitude: 2.3462982
+  place_id: ChIJMYhUXc1v5kcRyb2eHpBvdiY
+  location_source: places
 - name: The Blossom Arms
   locality: Paris
   province: Île-de-France
@@ -2729,6 +3629,10 @@ entries:
   address: 111 Rue de Vaugirard
   postal_code: '75006'
   guide_category: Thaïlandais
+  latitude: 48.8451678
+  longitude: 2.3207834
+  place_id: ChIJe-qpCzJw5kcRH4GmTSEd1b4
+  location_source: places
 - name: Tomo
   locality: Paris
   province: Île-de-France
@@ -2739,6 +3643,10 @@ entries:
   address: 16 Rue Grégoire de Tours
   postal_code: '75006'
   guide_category: Japonais
+  latitude: 48.853078700000005
+  longitude: 2.3378118
+  place_id: ChIJ8VmzO6Rx5kcRzBMTt9_tF4U
+  location_source: places
 - name: Tonton Ramen
   locality: Paris
   province: Île-de-France
@@ -2749,6 +3657,10 @@ entries:
   address: 4 Rue Cherubini
   postal_code: '75002'
   guide_category: Japonais
+  latitude: 48.8678575
+  longitude: 2.3364843000000004
+  place_id: ChIJQUtbOwBv5kcRECOH96z-zC4
+  location_source: places
 - name: Tora Tora
   locality: Paris
   province: Île-de-France
@@ -2759,6 +3671,10 @@ entries:
   address: 1 Rue Villédo
   postal_code: '75001'
   guide_category: Japonais
+  latitude: 48.865923800000004
+  longitude: 2.3368028
+  place_id: ChIJV8npkxZv5kcRpbL-n6kY3j8
+  location_source: places
 - name: Toraya
   locality: Paris
   province: Île-de-France
@@ -2779,6 +3695,10 @@ entries:
   address: 2 Rue Cherubini
   postal_code: '75002'
   guide_category: Japonais
+  latitude: 48.8677908
+  longitude: 2.3368366
+  place_id: ChIJLeR7fexv5kcR0dRyQZ-u-T4
+  location_source: places
 - name: Toy
   locality: Paris
   province: Île-de-France
@@ -2789,6 +3709,10 @@ entries:
   address: 21 Rue Saint-Nicolas
   postal_code: '75012'
   guide_category: Japonais
+  latitude: 48.8513995
+  longitude: 2.374616
+  place_id: ChIJqQCa4edz5kcRF8JCZGvKfX8
+  location_source: places
 - name: Trois B
   locality: Paris
   province: Île-de-France
@@ -2809,6 +3733,10 @@ entries:
   address: 15 Rue Hippolyte Lebas
   postal_code: '75009'
   guide_category: Bar à vins / Cave à manger
+  latitude: 48.8771547
+  longitude: 2.3400601
+  place_id: ChIJ063SfwBv5kcRI2GFuBZB4og
+  location_source: places
 - name: Trâm 130
   locality: Paris
   province: Île-de-France
@@ -2819,6 +3747,10 @@ entries:
   address: 130 Rue Saint-Maur
   postal_code: '75011'
   guide_category: Cuisine d'auteur
+  latitude: 48.8680202
+  longitude: 2.3754187
+  place_id: ChIJIyCodwBt5kcRb1tE1izyXos
+  location_source: places
 - name: Trâmette
   locality: Paris
   province: Île-de-France
@@ -2849,6 +3781,10 @@ entries:
   address: 58 Rue du Faubourg Saint-Denis
   postal_code: '75010'
   guide_category: Lèche-doigts
+  latitude: 48.872382
+  longitude: 2.3542836
+  place_id: ChIJY-1XtRNu5kcR6cJga57p0dg
+  location_source: places
 - name: Vandal
   locality: Paris
   province: Île-de-France
@@ -2859,6 +3795,10 @@ entries:
   address: 56 Rue des Alouettes
   postal_code: '75019'
   guide_category: Lèche-doigts
+  latitude: 48.879177299999995
+  longitude: 2.3859007
+  place_id: ChIJ5_cMgDdt5kcRTkeB5cpWH9w
+  location_source: places
 - name: Vantre
   locality: Paris
   province: Île-de-France
@@ -2869,6 +3809,10 @@ entries:
   address: 19 Rue de la Fontaine au Roi
   postal_code: '75011'
   guide_category: Bistrot
+  latitude: 48.8684957
+  longitude: 2.3701262
+  place_id: ChIJ34SrV-Jt5kcR9ZAebuU_c5Q
+  location_source: places
 - name: Vivant 2
   locality: Paris
   province: Île-de-France
@@ -2879,6 +3823,10 @@ entries:
   address: 43 Rue des Petites Écuries
   postal_code: '75010'
   guide_category: Cuisine d'auteur
+  latitude: 48.8738226
+  longitude: 2.3497774
+  place_id: ChIJ6Tfl_Lhv5kcRMr5NkAy_pGg
+  location_source: places
 - name: Vivide
   locality: Paris
   province: Île-de-France
@@ -2889,6 +3837,10 @@ entries:
   address: 3 Rue Dancourt
   postal_code: '75018'
   guide_category: Cuisine d'auteur
+  latitude: 48.882884499999996
+  longitude: 2.3417619000000003
+  place_id: ChIJfXbMOJ1v5kcROLmSiKnlpUI
+  location_source: places
 - name: Wani
   locality: Paris
   province: Île-de-France
@@ -2909,6 +3861,10 @@ entries:
   address: 4 Rue de Port-Mahon
   postal_code: '75002'
   guide_category: Japonais
+  latitude: 48.869214899999996
+  longitude: 2.3341985
+  place_id: ChIJ5wEXqixv5kcRu5pTwcYI7OU
+  location_source: places
 - name: Ze Kitchen Galerie
   locality: Paris
   province: Île-de-France
@@ -2932,6 +3888,10 @@ entries:
   address: 10 R. des Petites Écuries
   postal_code: '75010'
   guide_category: Lèche-doigts
+  latitude: 48.8732012
+  longitude: 2.3534402
+  place_id: ChIJ5ZiYNllv5kcRlaRcQ3cyZ5M
+  location_source: places
 - name: alt
   locality: Paris
   province: Île-de-France
@@ -2952,6 +3912,10 @@ entries:
   address: 87 Rue de la Roquette
   postal_code: '75011'
   guide_category: Bistrot
+  latitude: 48.8571955
+  longitude: 2.3787317
+  place_id: ChIJbSGWjvdt5kcRTZPgPTeuDPA
+  location_source: places
 - name: Åke Table & Vin
   locality: Paris
   province: Île-de-France
@@ -2962,6 +3926,10 @@ entries:
   address: 8 Rue Marie et Louise
   postal_code: '75010'
   guide_category: Bistrot
+  latitude: 48.871980699999995
+  longitude: 2.3668728
+  place_id: ChIJP8ofonVv5kcRgtGn-1DTzEM
+  location_source: places
 - name: Özlem
   locality: Paris
   province: Île-de-France
@@ -2972,6 +3940,10 @@ entries:
   address: 57 Rue des Petites Écuries
   postal_code: '75010'
   guide_category: Lèche-doigts
+  latitude: 48.8738363
+  longitude: 2.3485348
+  place_id: ChIJQe37ABVu5kcREEJIS8-mWi0
+  location_source: places
 - latitude: 48.8857071
   longitude: 2.8562352
   name: Auberge de la Brie
@@ -4628,3 +5600,555 @@ entries:
   verified_at: '2026-09-16'
   address: 12 rue de l'Église
   postal_code: '94300'
+- latitude: 48.83182
+  longitude: 2.2383199
+  name: Baca'v - Boulogne
+  locality: Boulogne-Billancourt
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/boulogne-billancourt/restaurant/baca-v-boulogne
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 33 avenue du Général-Leclerc
+  postal_code: '92100'
+- latitude: 48.9005301
+  longitude: 2.3040467
+  name: Rosette
+  locality: Clichy
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/clichy/restaurant/rosette
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 77 rue de Paris
+  postal_code: '92110'
+- latitude: 48.9074103
+  longitude: 2.2410229
+  name: Le Saint Joseph
+  locality: La Garenne-Colombes
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/la-garenne-colombes/restaurant/le-saint-joseph
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 100 boulevard de la République
+  postal_code: '92250'
+- latitude: 48.9050099
+  longitude: 2.2336919
+  name: Tata Yoyo
+  locality: La Garenne-Colombes
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/la-garenne-colombes/restaurant/tata-yoyo
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 26 avenue de Verdun-1916
+  postal_code: '92250'
+- latitude: 48.8199305
+  longitude: 2.3237523
+  name: Farouche
+  locality: Montrouge
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/montrouge/restaurant/farouche
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 42 avenue Henri-Ginoux
+  postal_code: '92120'
+- latitude: 48.8918373
+  longitude: 2.1947908
+  name: Cabane
+  locality: Nanterre
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/nanterre/restaurant/cabane
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 8 rue du Docteur-Foucault
+  postal_code: '92000'
+- latitude: 48.8594686
+  longitude: 2.2985472
+  name: 20 Eiffel
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/20-eiffel
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 20 rue de Monttessuy
+  postal_code: '75007'
+- latitude: 48.8747039
+  longitude: 2.3444157
+  name: Abri Soba
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/abri-soba
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 10 rue Saulnier
+  postal_code: '75009'
+- latitude: 48.8815609
+  longitude: 2.3341354
+  name: Adami
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/adami
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 19 bis rue Pierre-Fontaine
+  postal_code: '75009'
+- latitude: 48.8680983
+  longitude: 2.3685454
+  name: Auberge Pyrénées Cévennes
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/auberge-pyrenees-cevennes
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 106 rue de la Folie-Méricourt
+  postal_code: '75011'
+- latitude: 48.8788232
+  longitude: 2.3449245
+  name: Aux 2 K
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/aux-2-k
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 5 rue Louise-Émilie-de-la-Tour-d'Auvergne
+  postal_code: '75009'
+- latitude: 48.8321771
+  longitude: 2.3275939
+  name: Aux Plumes
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/aux-plumes
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 45 rue Boulard
+  postal_code: '75014'
+- latitude: 48.87941
+  longitude: 2.3338156
+  name: BRU
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/bru
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 28 rue Jean-Baptiste-Pigalle
+  postal_code: '75009'
+- latitude: 48.839165
+  longitude: 2.3560498
+  name: Baca'v par Gilles Choukroun
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/baca-v
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 6 rue des Fossés-Saint-Marcel
+  postal_code: '75005'
+- latitude: 48.8580904
+  longitude: 2.3015551
+  name: Bistrot des Fables
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/bistrot-des-fables
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 139 rue Saint-Dominique
+  postal_code: '75007'
+- latitude: 48.8734847
+  longitude: 2.3479937
+  name: Brigade du Tigre
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/brigade-du-tigre
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 38 rue du Faubourg-Poissonnière
+  postal_code: '75010'
+- latitude: 48.8771253
+  longitude: 2.3407373
+  name: Caillebotte
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/le-caillebotte
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 8 rue Hippolyte-Lebas
+  postal_code: '75009'
+- latitude: 48.8367478
+  longitude: 2.3382366
+  name: Capsule
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/capsule
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 2 rue Cassini
+  postal_code: '75014'
+- latitude: 48.8536111
+  longitude: 2.3806195
+  name: Clamato
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/clamato
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 80 rue de Charonne
+  postal_code: '75011'
+- latitude: 48.8626799
+  longitude: 2.3797202
+  name: Double Dragon
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/double-dragon
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 52 rue Saint-Maur
+  postal_code: '75011'
+- latitude: 48.8916425
+  longitude: 2.3461024
+  name: Fana
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/fana
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 14 rue Ferdinand-Flocon
+  postal_code: '75018'
+- latitude: 48.8220951
+  longitude: 2.3631496
+  name: Impérial Choisy
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/imperial-choisy
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 32 avenue de Choisy
+  postal_code: '75013'
+- latitude: 48.856883
+  longitude: 2.378355
+  name: Jip
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/jip
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 112 rue de la Roquette
+  postal_code: '75011'
+- latitude: 48.8502663
+  longitude: 2.3822709
+  name: Jouvence
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/jouvence
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 172 bis rue du Faubourg-Saint-Antoine
+  postal_code: '75012'
+- latitude: 48.870302
+  longitude: 2.3105362
+  name: Kisin
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/kisin
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 7-9 rue de Ponthieu
+  postal_code: '75008'
+- latitude: 48.8547351
+  longitude: 2.3380215
+  name: Kodawari Ramen - Yokochō
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/kodawari-ramen
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 29 rue Mazarine
+  postal_code: '75006'
+- latitude: 48.8468197
+  longitude: 2.310224
+  name: L'Antre Amis
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/l-antre-amis
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 9 rue Bouchut
+  postal_code: '75015'
+- latitude: 48.8530426
+  longitude: 2.3340394
+  name: La Table de Mee
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/la-table-de-mee
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 6 rue des Ciseaux
+  postal_code: '75006'
+- latitude: 48.8730687
+  longitude: 2.3807795
+  name: Lao Siam
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/lao-siam
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 49 rue de Belleville
+  postal_code: '75019'
+- latitude: 48.8534357
+  longitude: 2.2952113
+  name: Le CasseNoix
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/le-casse-noix
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 56 rue de la Fédération
+  postal_code: '75015'
+- latitude: 48.8341702
+  longitude: 2.3261818
+  name: Le Cornichon
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/le-cornichon
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 34 rue Gassendi
+  postal_code: '75014'
+- latitude: 48.880979
+  longitude: 2.342698
+  name: Le Coucou
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/le-coucou-1241534
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 14 rue Bochart-de-Saron
+  postal_code: '75009'
+- latitude: 48.8804947
+  longitude: 2.3399142
+  name: Le Pantruche
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/le-pantruche
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 3 rue Victor-Massé
+  postal_code: '75009'
+- latitude: 48.8463108
+  longitude: 2.3078408
+  name: Le Radis Beurre
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/le-radis-beurre
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 51 boulevard Garibaldi
+  postal_code: '75015'
+- latitude: 48.8795859
+  longitude: 2.3396022
+  name: Le Savarin
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/savarin-1219118
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 4 rue de Navarin
+  postal_code: '75009'
+- latitude: 48.8803445
+  longitude: 2.3437811
+  name: Le Tire-Bouchon Rodier
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/le-tire-bouchon-rodier
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 47 rue Claude-Rodier
+  postal_code: '75009'
+- latitude: 48.8793235
+  longitude: 2.3346319
+  name: Les Canailles Pigalle
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/les-canailles-pigalle
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 25 rue La Bruyère
+  postal_code: '75009'
+- latitude: 48.86384
+  longitude: 2.37219
+  name: Lissit
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/lissit
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 48 rue de la Folie-Méricourt
+  postal_code: '75011'
+- latitude: 48.87939
+  longitude: 2.3211699
+  name: Mandoobar
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/mandoobar
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 7 rue d'Édimbourg
+  postal_code: '75008'
+- latitude: 48.8841785
+  longitude: 2.3233172
+  name: Mova
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/mova
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 39 rue des Dames
+  postal_code: '75017'
+- latitude: 48.868479
+  longitude: 2.3480425
+  name: Mắm From Hanoï
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/mam-from-hanoi
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 39 rue de Cléry
+  postal_code: '75002'
+- latitude: 48.8852338
+  longitude: 2.3373871
+  name: Ose
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/ose-1203614
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 3 rue Durantin
+  postal_code: '75018'
+- latitude: 48.8611264
+  longitude: 2.3055501
+  name: Rosemarie
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/rosemarie
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 149 rue de l'Université
+  postal_code: '75007'
+- latitude: 48.8810357
+  longitude: 2.303993
+  name: À L'Improviste
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/a-l-improviste
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 21 rue Médéric
+  postal_code: '75017'
+- latitude: 48.8561516
+  longitude: 2.3861883
+  name: Épopée
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/epopee
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 52 rue Léon-Frot
+  postal_code: '75011'
+- latitude: 48.7164372
+  longitude: 2.490399
+  name: Bird
+  locality: Yerres
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/yerres/restaurant/bird
+  guide: michelin_bib
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 38 rue Charles-de-Gaulle
+  postal_code: '91330'

@@ -21,7 +21,8 @@ Fetched official pages and named-room passages are cached in `index/rooms.sqlite
 are the reviewed restaurant cards, chosen by the request country. Stage 2 uses
 `registry/<cc>_restaurants.yaml` to qualify swept restaurants and inject missing
 rated ones: Michelin stars in all three countries (Spain nationwide, Greater
-London, Île-de-France only for France), Guía Repsol Soles in Spain, Guía
+London, Île-de-France only for France), Michelin Bib Gourmand for the United
+Kingdom and Île-de-France, Guía Repsol Soles in Spain, Guía
 Macarfi for Barcelona and Madrid (rating 7 or more out of 10), Harden's Top 100
 for the United Kingdom, Le Fooding's Paris selection, and The World's 50 Best
 Restaurants (1 to 100) where an entry can be placed in one of these countries.
@@ -49,8 +50,8 @@ uv run python scripts/refresh_guide_registry.py --country FR
 ```
 
 `--country` selects the guides (ES: Michelin, Repsol, 50 Best, Macarfi; GB:
-Michelin, 50 Best, Harden's; FR: Michelin, 50 Best, Le Fooding) and the output
-file. A rebuild keeps every earlier row's coordinates and Place ID by guide and URL. The refresh follows all Michelin star-filter pages
+Michelin, Michelin Bib Gourmand, 50 Best, Harden's; FR: Michelin, Michelin Bib
+Gourmand, 50 Best, Le Fooding) and the output file. A rebuild keeps every earlier row's coordinates and Place ID by guide and URL. The refresh follows all Michelin star-filter pages
 (the Île-de-France region listing for France) and the complete Repsol Soles
 listing, and prints any 50 Best entry it cannot place in a country. Requests run serially, at least one second apart by default. Raw pages
 and retrieval dates are cached locally under ignored `registry/raw/`; full HTML

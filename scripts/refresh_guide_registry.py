@@ -17,13 +17,13 @@ import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from osusume.michelin_registry import crawl_michelin  # noqa: E402
+from osusume.michelin_registry import crawl_michelin, crawl_michelin_bib  # noqa: E402
 
 # Guides seeded per country, in the order they are crawled and reported.
 COUNTRY_GUIDES = {
     "ES": ("michelin", "repsol", "fifty_best", "macarfi"),
-    "GB": ("michelin", "fifty_best", "hardens"),
-    "FR": ("michelin", "fifty_best", "le_fooding"),
+    "GB": ("michelin", "michelin_bib", "fifty_best", "hardens"),
+    "FR": ("michelin", "michelin_bib", "fifty_best", "le_fooding"),
 }
 # Position fields a separate enrichment pass adds; a rebuild must keep them.
 ENRICHMENT_FIELDS = ("latitude", "longitude", "place_id", "location_source", "location_source_url")
@@ -96,6 +96,7 @@ def guide_crawlers(country, unresolved):
 
     crawlers = {
         "michelin": lambda fetch, stamp: crawl_michelin(fetch, stamp, country),
+        "michelin_bib": lambda fetch, stamp: crawl_michelin_bib(fetch, stamp, country),
         "repsol": lambda fetch, stamp: crawl_repsol(fetch, stamp),
         "fifty_best": lambda fetch, stamp: crawl_fifty_best(fetch, stamp, country, unresolved),
         "macarfi": lambda fetch, stamp: crawl_macarfi(fetch, stamp),

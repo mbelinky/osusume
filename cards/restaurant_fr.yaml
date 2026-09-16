@@ -11,9 +11,10 @@ query_templates:
   - "{name} {city} menu dégustation carte des vins"
   - "{name} {city} tasting menu wine list official website"
 sources:
-  FR: {michelin: 1.0, fifty_best: 1.0, le_fooding: 0.5}
+  FR: {michelin: 1.0, fifty_best: 1.0, michelin_bib: 0.6, le_fooding: 0.5}
 source_domains:
   michelin: [guide.michelin.com]
+  michelin_bib: [guide.michelin.com]
   fifty_best: [theworlds50best.com]
   le_fooding: [lefooding.com]
 load_bearing_claims:

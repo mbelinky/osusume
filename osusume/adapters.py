@@ -264,6 +264,8 @@ def _guide_award_text(entry: dict) -> str:
         award = f"scores {rating} out of 10 in Guía Macarfi" if rating is not None else f"is rated at Guía Macarfi's level {level}"
     elif guide == "le_fooding":
         award = "is selected by Le Fooding"
+    elif guide == "michelin_bib":
+        award = "holds a Michelin Bib Gourmand"
     elif guide in GUIDE_AWARD_WORDS:
         singular, plural = GUIDE_AWARD_WORDS[guide]
         award = f"holds {level} {singular if level == 1 else plural}"

@@ -5,6 +5,26 @@ All notable changes to Osusume are recorded here. The format follows
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Osusume is in
 super beta: minor versions can still change commands and output.
 
+## [0.10.0] - 2026-09-16
+
+### Added
+
+- Michelin Bib Gourmand as its own guide, `michelin_bib`, read by the same
+  crawler as the stars: a distinction table in `osusume/michelin_registry.py`
+  binds each distinction to its listing filter, the guide its rows are stored
+  under, and the two award readings that must agree. Every Bib row is level 1
+  and the restaurant cards weight the guide 0.6, below Michelin stars and The
+  World's 50 Best at 1.0 and Harden's at 0.8, so a Bib Gourmand never outranks
+  a star. The United Kingdom gains 146 rows and Île-de-France 46, which takes
+  London from 126 rated restaurants to 174 and Paris from 415 to 454 without
+  altering a single existing row.
+- Coordinates for rows their guides publish without them, through
+  `scripts/enrich_registry_locations.py`: 243 more French rows and 41 more
+  British ones, each kept only when the registry identity rules accept the
+  Places match. Paris now carries coordinates on 421 of its 454 rows and London
+  on 172 of 175, where Paris previously had 140, so travel-time gating now
+  reaches most of both cities rather than a third of Paris.
+
 ## [0.9.0] - 2026-09-16
 
 ### Added
