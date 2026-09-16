@@ -43,7 +43,7 @@ class Candidate:
             business_status=data.get("business_status") or data.get("businessStatus") or "BUSINESS_STATUS_UNSPECIFIED",
             location=data.get("location") or {},
             rating=data.get("rating"),
-            review_count=data.get("review_count") or data.get("userRatingCount"),
+            review_count=data.get("review_count") or data.get("userRatingCount") or data.get("user_rating_count"),
             primary_type=data.get("primary_type") or data.get("primaryType"),
             types=list(data.get("types") or []),
             raw=data,

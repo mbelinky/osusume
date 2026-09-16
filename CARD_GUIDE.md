@@ -42,3 +42,37 @@ Source weights only order candidates. A weight cannot make a review, listicle, d
 The food example in `cards/salumeria_it.yaml` checks products and counter service. The antiques example in `cards/antiques_it.yaml` checks inventory, layout, and guide quality. Both use Italian search vocabulary and stricter one-year limits for changeable claims.
 
 Run `osusume card promote NAME` only after reviewing a draft. Promotion refuses to overwrite an existing reviewed card.
+
+
+## Local restaurant registries
+
+`cards/restaurant_es.yaml` is the Spanish restaurant example. Its English,
+Spanish, and Catalan terms cover restaurants and tasting menus, with `restaurant`
+and `fine_dining_restaurant` as Places search hints. It declares Michelin and
+Guía Repsol at weight 1.0 and limits quality evidence to one year. The core claims
+and quality are load-bearing; concrete menu and wine requirements come from the
+parsed request.
+
+A reviewed restaurant card can use `registry/<country>_restaurants.yaml` (lowercase
+country code). The YAML envelope has `format_version: 1`, `country: ES`, and an
+`entries` list. Each row requires `name`, `locality`, `province`, `guide`
+(`michelin` or `repsol`), `level` (1, 2, or 3), `url`, and `verified_at` (ISO date).
+Optional coordinates improve scope filtering; explicit aliases handle genuine
+name variants. Only guide names declared in the card's country-specific `sources`
+are used. A guide contributes its ranking weight once per venue, even if several
+rows resolve to the same Places listing.
+
+Refresh and review changes with:
+
+```sh
+uv run python scripts/refresh_guide_registry.py --country ES --dry-run
+uv run python scripts/refresh_guide_registry.py --country ES
+uv run osusume card show restaurant_es
+uv run pytest
+```
+
+Review additions, removals, award changes, and reported discrepancies with the
+supplied notes. Never turn a Recommended entry, roundup, or unverified note into
+a star/Sol entry. Local entries retain their verification dates in the evidence
+ledger; they cannot establish status, hours, or arrival feasibility. Draft cards
+cannot declare sources and cannot use the seed registry.

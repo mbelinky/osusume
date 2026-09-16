@@ -6,11 +6,26 @@ Photo slots return empty judgments (text lane cannot inspect images), so
 photo-dependent claims fail closed to unknown instead of being invented.
 """
 import json
+import os
 import re
+import shutil
 import subprocess
 import sys
 
 MODEL = sys.argv[1] if len(sys.argv) > 1 else "claude-sonnet-5"
+
+
+def claude_binary() -> str:
+    """Prefer the account-slot wrapper: a bare ``claude`` needs the keychain,
+    which is unreachable from a remote-exec SSH session."""
+    override = os.environ.get("CLAUDE_LANE_BIN")
+    if override:
+        return override
+    for name in ("claude-headless", "claude"):
+        found = shutil.which(name)
+        if found:
+            return found
+    return "claude"
 
 PARSE_SCHEMA = {
     "request": {
@@ -34,15 +49,76 @@ PARSE_SCHEMA = {
 }
 
 def ask_claude(prompt: str) -> dict:
+    binary = claude_binary()
     out = subprocess.run(
-        ["claude", "-p", "--model", MODEL, "--output-format", "json"],
+        [binary, "-p", "--model", MODEL, "--output-format", "json"],
         input=prompt, capture_output=True, text=True, timeout=240,
     )
     if out.returncode != 0:
-        raise SystemExit(f"claude lane failed: {out.stderr[:300]}")
-    text = json.loads(out.stdout)["result"]
+        detail = (out.stderr or out.stdout or "").strip()[:300] or f"exit {out.returncode}, no output"
+        raise SystemExit(f"claude lane failed ({binary}): {detail}")
+    result = json.loads(out.stdout)
+    usage = result.get("usage") or {}
+    print(
+        f"claude lane: model={MODEL} api_ms={result.get('duration_api_ms')} "
+        f"in={usage.get('input_tokens')} cache_read={usage.get('cache_read_input_tokens')} "
+        f"out={usage.get('output_tokens')} cost={result.get('total_cost_usd')}",
+        file=sys.stderr,
+    )
+    text = result["result"]
     match = re.search(r"\{.*\}", text, re.S)
     return json.loads(match.group(0) if match else text)
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, ROOT)
+from osusume.evidence import EvidenceRecord  # noqa: E402
+from osusume.funnel import _structured_evidence  # noqa: E402
+
+
+def _settled_by_engine(row: dict) -> bool:
+    """Rows the engine accepts literally (see funnel.STRUCTURED_EVIDENCE_KINDS)."""
+    try:
+        record = EvidenceRecord(
+            row.get("evidence_id", ""), row.get("claim_id", ""), row.get("source_kind", ""), row.get("url", ""),
+            row.get("fetched_at", ""), row.get("evidence_date", ""), row.get("text", ""), row.get("quote", ""),
+            metadata=row.get("metadata") or {},
+        )
+    except Exception:  # noqa: BLE001 - an odd row simply goes to the judge
+        return False
+    return _structured_evidence(record)
+
+
+def compact_ledger(payload: dict) -> dict:
+    """Official pages are attached once per claim, so the same page text can
+    appear six times in one ledger. Send each distinct text once under
+    ``texts`` and point the rows at it; quotes stay verbatim substrings."""
+    ledger = payload.get("ledger") or {}
+    rows = ledger.get("evidence") or []
+    texts: dict[str, str] = {}
+    keys: dict[str, str] = {}
+    compact_rows = []
+    for row in rows:
+        if _settled_by_engine(row):
+            continue  # nothing for the judge to read
+        text = row.get("text") or ""
+        if len(text) < 200:
+            compact_rows.append(row)
+            continue
+        key = keys.get(text)
+        if key is None:
+            key = f"text_{len(texts) + 1}"
+            keys[text] = key
+            texts[key] = text
+        compact_rows.append({**{k: v for k, v in row.items() if k != "quote"}, "text": f"@{key}"})
+    compact = {**payload, "ledger": {**ledger, "evidence": compact_rows}}
+    if texts:
+        compact["texts"] = texts
+        compact["texts_note"] = (
+            "An evidence text written as @text_N refers to texts[text_N]. Your quote must be a verbatim "
+            "substring of that entry's text; never answer with @text_N itself."
+        )
+    return compact
+
 
 def main() -> None:
     job = json.load(sys.stdin)
@@ -74,7 +150,8 @@ def main() -> None:
             "For hotel asks, fill stay from dates and guest count in the ask, and fill hotel_filters "
             "from explicit star range, guest score, pet-friendly, breakfast included, free cancellation, and "
             "hot tub, jacuzzi, whirlpool, spa bath, bañera de hidromasaje, or jacuzzi privado phrases. "
-            "Put a named destination city in scope.city. "
+            "Put a named destination city in scope.city. arrival_start and arrival_end are the moment of "
+            "arrival, not the length of the visit: set both to the same time unless the ask states a window. "
             "Do not invent scope coordinates. Preserve caller-supplied scope. If none is supplied and the ask names an anchor place, emit scope as kind=anchor with place, mode (walk by default), and max_min (10 by default). Always include "
             "ephemeral_card (it is ignored when a reviewed card exists).\n\nInput:\n"
             + json.dumps(payload, ensure_ascii=False)
@@ -82,6 +159,7 @@ def main() -> None:
         print(json.dumps(ask_claude(prompt), ensure_ascii=False))
         return
     if slot == "judge":
+        payload = compact_ledger(payload)
         prompt = (
             "You are an adversarial evidence judge. For each claim in the ledger, examine each "
             "evidence row whose claim_id matches. A claim's listed synonyms can satisfy it when the evidence "
@@ -89,8 +167,10 @@ def main() -> None:
             "does not qualify. Try to REFUTE the claim. Respond with ONLY a "
             'JSON object {"judgments": [{"claim_id": str, "evidence_id": str, "quote": str, '
             '"entails": bool, "contradicts": bool}]}. The quote MUST be copied verbatim from '
-            "the evidence text (it is checked mechanically; a paraphrase is discarded). Emit a "
-            "judgment only when the evidence text actually addresses the claim.\n\nLedger:\n"
+            "the evidence text (it is checked mechanically; a paraphrase is discarded). Quote the "
+            "shortest passage that settles the claim, at most about 200 characters. Emit a "
+            "judgment only when the evidence text actually addresses the claim, at most one per "
+            "claim and evidence row, and nothing else.\n\nLedger:\n"
             + json.dumps(payload, ensure_ascii=False)
         )
         print(json.dumps(ask_claude(prompt), ensure_ascii=False))

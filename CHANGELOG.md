@@ -5,6 +5,80 @@ All notable changes to Osusume are recorded here. The format follows
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Osusume is in
 super beta: minor versions can still change commands and output.
 
+## [0.9.0] - 2026-09-16
+
+### Added
+
+- Local guide registry for restaurants: `registry/es_restaurants.yaml` seeds
+  every current Michelin-starred and Guía Repsol Soles restaurant in Spain,
+  crawled from the official listings by `scripts/refresh_guide_registry.py`
+  (polite, cached, offline and dry-run modes, atomic replacement after
+  validation). The reviewed `cards/restaurant_es.yaml` (English, Spanish and
+  Catalan vocabulary) uses it at stage 2 to weight swept restaurants and
+  inject the rated ones the sweep missed, resolving identities through Places
+  and applying each guide's weight once. A registry row backs every
+  quality-type claim, so a "Michelin-starred or equivalent" ask can be
+  supported in quick mode, where no web mining runs. Exa stays the fallback
+  for a configured guide with no local entries; ephemeral cards keep an
+  empty guide lane.
+- Guide registries for the United Kingdom (`registry/gb_restaurants.yaml`,
+  Michelin stars nationwide with Greater London complete) and France
+  (`registry/fr_restaurants.yaml`, Michelin stars in Île-de-France), plus The
+  World's 50 Best Restaurants for all three countries, with reviewed
+  `cards/restaurant_gb.yaml` and `cards/restaurant_fr.yaml`.
+- Registry identity matching folds accents, ignores generic words (restaurant,
+  by, the locality) and hotel suffixes, and accepts token containment, so
+  "Angle" matches "Angle Barcelona" and "Aleia" matches "Aleia Restaurant at
+  Casa Fuster Hotel"; with coordinates on both sides the 300 m rule decides.
+  A live run had rejected 27 of 77 injected entries on name alone.
+- `scripts/enrich_registry_locations.py` adds Places coordinates to registry
+  rows that have none.
+- Three more guides: Guía Macarfi (Barcelona and Madrid, rating 7+ mapped to
+  levels), Harden's Top 100 UK Restaurants, and Le Fooding's Paris selection.
+  Registry injections are ordered by card weight, then level, then distance,
+  so a Michelin star is never displaced by a Macarfi score.
+- A run keeps verifying ranked candidates until `top` of them survive the
+  gates or `retrieval.refill_rounds` times `top` have been checked, so a
+  closed or over-budget venue no longer eats one of the five slots.
+- Review-count-aware ranking (`ranking.prior_rating`, `ranking.prior_weight`)
+  and level-scaled guide weights (`ranking.level_factors`).
+- `models.photo_capable`: when false, no photo fetches or photo lanes run.
+- `models.quick_task_overrides`: model overrides that apply to `--depth quick`
+  only, so a chat-speed judge does not weaken full runs.
+- Evidence the code produced itself (Places fields, computed routes, local
+  registry rows, Booking rates and signals) is accepted literally; the judge
+  model reads only page, review, and photo evidence and is not called when a
+  candidate has none.
+- Packet fields `swept` and `rejected_counts`.
+
+### Changed
+
+- The sweep dedupes by place before the gates (one rejection row per venue),
+  rejects listings whose Places types share nothing with the card's
+  `accept_types` when the card declares them (`type_mismatch`), restricts
+  text search to the request country, and cuts to `retrieval.max_candidates`
+  after ranking instead of taking the first twenty in query order. Cards are
+  chosen by request country: a Spanish restaurant card no longer answers a
+  London ask; a card marked `portable: true` (the Booking hotel card) still
+  answers anywhere.
+- Ranking now reads the Places CLI's `user_rating_count`; before, every live
+  candidate had no review count and ranking fell back to raw rating.
+- Snapshot format: runs recorded before 0.9.0 no longer replay or resume
+  (the registry payload, judge payload, and judge call sequence changed).
+- Judge calls run in parallel in every lane, Places details are fetched
+  concurrently, and registry injections resolve concurrently (one call per
+  distinct venue), recorded in candidate order so snapshots replay unchanged.
+  `retrieval.max_registry_injections` (12) caps injections, best level first.
+- The Claude lane prefers `claude-headless` so runs started over SSH no longer
+  fail on the keychain, reports the failing binary and exit code, and sends each
+  distinct page text once to the judge instead of once per claim.
+
+### Fixed
+
+- `--when` now sets both ends of the arrival window even when the parse lane
+  proposed its own: a lane that widened a 20:30 dinner to 20:30-23:00 made
+  every restaurant with a 21:30 last seating fail `hours_at_arrival`.
+
 ## [0.8.2] - 2026-09-11
 
 ### Added

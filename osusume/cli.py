@@ -154,10 +154,12 @@ def _run_find(args: argparse.Namespace, config: dict[str, Any]) -> int:
             recorder.calls = list(replay.calls)
         run_at = recorder.run_at
         recorder.finish(raw_input, {})
+        model_adapter = ModelAdapter(config)
+        model_adapter.quick = raw_input.get("depth") == "quick" and not raw_input.get("deep_dive")
         adapters = RecordedAdapters(
             GoplacesAdapter(),
             WebAdapter(config["web"]["endpoint"], retrieval=config["retrieval"]),
-            ModelAdapter(config),
+            model_adapter,
             recorder=recorder,
             replay=replay if args.resume and replay.calls else None,
             resume=bool(args.resume),

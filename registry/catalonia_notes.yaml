@@ -1,0 +1,53 @@
+# User-supplied 2026 Michelin cross-check, not an evidence source.
+michelin:
+  3:
+    Girona: [El Celler de Can Roca]
+    Barcelona: [Lasarte, ABaC, Hermanos Torres, Disfrutar]
+  2:
+    Barcelona: [Aleia, Cinc Sentits, Enigma, Enoteca, Mont Bar]
+    Corçà: [Bo.TiC]
+    Llançà: [Miramar]
+    Bellvís: [La Boscana]
+    Olot: [Les Cols]
+  1:
+    Santa Coloma de Gramenet: [Lluerna]
+    Alcanar: [Citrus del Tancat]
+    Anglès: [L'Aliança 1919]
+    Arbúcies: [Les Magnòlies]
+    Barcelona: [Alkimia, Caelis, Dos Palillos, Hisop, Hofmann, Koy Shunka, Moments, Via Veneto, Quirat, Suto, COME, Slow&Low, Atempo, Àngel, Fishølogy, MAE, Prodigi, Teatro kitchen & bar, Kamikaze, Escape]
+    Calldetenes: [Can Jubany]
+    Cambrils: [Can Bosch, Diego's Corner]
+    Castelló d'Empúries: [Emporium]
+    Cornudella de Montsant: [Quatre Molins]
+    Girona: [Massana, Divinum]
+    Gombrèn: [La Fonda Xesc]
+    Gimenells: [Malena]
+    Llagostera: [Els Tinars]
+    Sagàs: [Els Casals]
+    Salou: [Delirium]
+    Sant Fruitós de Bages: [L'Ó]
+    Sant Julià de Ramis: [Esperit Roca]
+    Sant Martí Sarroca: [Casa Nova]
+    Sort: [Fogony]
+    Ulldecona: [L'Antic Molí, Les Moles]
+    La Vall de Bianya: [Ca l'Enric]
+    El Masnou: [Tresmacarrons]
+    Peralada: [Castell Peralada]
+    Portbou: [Voramar]
+    Xerta: [Villa Retiro]
+    Olost: [Sala]
+repsol:
+  soles: [Suto, Sato i Tanaka]
+  recommended: [Sensato, Os-Kuro]
+# Explicit cross-check correspondences observed in the official listing.
+# Differences are still printed by the refresh command; these are not runtime aliases.
+name_correspondences:
+  Hermanos Torres: Cocina Hermanos Torres
+  Enoteca: Enoteca Paco Pérez
+  L'Aliança 1919: L'Aliança d'Anglès
+  COME: COME by Paco Méndez
+  Àngel: Angle
+  MAE: MAE Barcelona
+  Diego's Corner: Rincón de Diego
+  Delirium: Deliranto
+  Castell Peralada: Castell Perelada

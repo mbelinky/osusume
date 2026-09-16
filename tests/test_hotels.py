@@ -516,7 +516,7 @@ def test_places_resolution_adds_optional_hotel_type(monkeypatch) -> None:
     adapter.resolve("BLESS Barcelona", hotel_request(), "hotel")
 
     assert commands == [[
-        "search", "BLESS Barcelona", "--limit", "1", "--type", "hotel",
+        "search", "BLESS Barcelona", "--limit", "1", "--region", "ES", "--type", "hotel",
         "--lat", "42.0", "--lng", "12.0", "--radius-m", "5000",
     ]]
 
@@ -705,7 +705,9 @@ def test_booking_ledger_omits_hours_while_places_ledger_keeps_it() -> None:
     assert "hours_at_arrival" in {claim.claim_id for claim in places_ledger.claims}
 
 
-def test_booking_price_evidence_text_is_computed_from_the_stay(tmp_path) -> None:
+def test_booking_price_evidence_text_is_computed_from_the_stay(tmp_path, monkeypatch) -> None:
+    monkeypatch.setattr("osusume.funnel._structured_evidence", lambda row: False)
+
     class CapturingModel(FakeModel):
         def __init__(self, parsed: dict) -> None:
             super().__init__(parsed)

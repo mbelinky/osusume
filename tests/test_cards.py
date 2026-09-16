@@ -141,3 +141,24 @@ def test_source_weights_are_bounded_ranking_data() -> None:
     card["sources"] = {"IT": {"guide": 1.1}}
     with pytest.raises(CardValidationError, match="0 to 1"):
         validate_card(card, DEFAULTS)
+
+
+def test_reviewed_spanish_restaurant_card():
+    from osusume.cards import load_card
+    from osusume.config import load_config
+
+    root = Path(__file__).resolve().parents[1]
+    card = load_card(root / "cards/restaurant_es.yaml", load_config()["freshness_days"])
+    assert card["reviewed"] is True
+    assert card["category"] == "restaurant"
+    assert set(card["languages"]) == {"en", "es", "ca"}
+    assert card["sources"] == {
+        "ES": {"michelin": 1.0, "repsol": 1.0, "fifty_best": 1.0, "macarfi": 0.8}
+    }
+    assert card["source_domains"] == {
+        "michelin": ["guide.michelin.com"],
+        "repsol": ["guiarepsol.com"],
+        "fifty_best": ["theworlds50best.com"],
+        "macarfi": ["macarfi.com"],
+    }
+    assert {"operational_status", "hours_at_arrival", "detour", "quality"} <= set(card["load_bearing_claims"])

@@ -1,0 +1,4630 @@
+format_version: 1
+country: FR
+entries:
+- name: Arpège
+  locality: Paris
+  province: Paris
+  guide: fifty_best
+  level: 2
+  rank: 45
+  url: https://www.theworlds50best.com/restaurants/best-in-the-world/the-list/arpege.html
+  verified_at: '2026-09-16'
+  latitude: 48.8557538
+  longitude: 2.3170127
+  location_source_url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/arpege
+- name: Plénitude
+  locality: Paris
+  province: Paris
+  guide: fifty_best
+  level: 2
+  rank: 14
+  url: https://www.theworlds50best.com/restaurants/best-in-the-world/the-list/plenitude.html
+  verified_at: '2026-09-16'
+- name: Septime
+  locality: Paris
+  province: Paris
+  guide: fifty_best
+  level: 2
+  rank: 40
+  url: https://www.theworlds50best.com/restaurants/best-in-the-world/the-list/septime.html
+  verified_at: '2026-09-16'
+  latitude: 48.8536287
+  longitude: 2.3806905
+  location_source_url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/septime
+- name: Table by Bruno Verjus
+  locality: Paris
+  province: Paris
+  guide: fifty_best
+  level: 3
+  rank: 8
+  url: https://www.theworlds50best.com/restaurants/best-in-the-world/the-list/table-by-bruno-verjus.html
+  verified_at: '2026-09-16'
+- name: Le Doyenné
+  locality: Saint-Vrain
+  province: Saint-Vrain
+  guide: fifty_best
+  level: 1
+  rank: 77
+  url: https://www.theworlds50best.com/discovery/Establishments/France/Saint-Vrain/Le-Doyenné.html
+  verified_at: '2026-09-16'
+- name: 19 Saint Roch
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/19-saint-roch
+  verified_at: '2026-09-16'
+  address: 19 Rue Saint-Roch
+  postal_code: '75001'
+  guide_category: Cuisine d'auteur
+- name: 4M2
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/4m2
+  verified_at: '2026-09-16'
+  address: 4 Rue Charles-François Dupuis
+  postal_code: '75003'
+  guide_category: Japonais
+- name: Abri Soba
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-abri-soba-paris-3
+  verified_at: '2026-09-16'
+  address: 10 Rue Saulnier
+  postal_code: '75009'
+  guide_category: Japonais
+- name: Acid Lactic
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/acid-lactic
+  verified_at: '2026-09-16'
+  address: 15 Rue de la Folie Méricourt
+  postal_code: '75011'
+  guide_category: Bar à vins / Cave à manger
+- name: Agrology
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-agrology-paris
+  verified_at: '2026-09-16'
+  address: 15 Rue de Prague
+  postal_code: '75012'
+  guide_category: Bar à vins / Cave à manger
+- name: Altro Frenchie
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/altro-frenchie
+  verified_at: '2026-09-16'
+  address: 9 Rue du Nil
+  postal_code: '75002'
+  guide_category: Cuisine d'auteur
+- name: Ama Siam
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-ama-siam-paris
+  verified_at: '2026-09-16'
+  address: 49 Rue de Belleville
+  postal_code: '75019'
+  guide_category: Laotien
+- name: Amarante
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-amarante-paris-4
+  verified_at: '2026-09-16'
+  address: 4 Rue Biscornet
+  postal_code: '75012'
+  guide_category: Bistrot
+- name: Anima
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-anima-paris-1
+  verified_at: '2026-09-16'
+  address: 78 Rue du Cherche-Midi
+  postal_code: '75006'
+  guide_category: Pizza
+- name: Argile
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/argile
+  verified_at: '2026-09-16'
+  address: 4 Rue de Milan
+  postal_code: '75009'
+  guide_category: Bistrot
+- name: Astrance
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/astrance
+  verified_at: '2026-09-16'
+  address: 32 Rue de Longchamp
+  postal_code: '75016'
+  guide_category: Cuisine d'auteur
+  latitude: 48.8650917
+  longitude: 2.2900701
+  location_source_url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/astrance
+- name: Au Ciel
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-au-ciel-paris
+  verified_at: '2026-09-16'
+  address: 97 Rue de Charonne
+  postal_code: '75011'
+  guide_category: Chinois
+- name: Au Petit Panisse
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-au-petit-panisse-paris
+  verified_at: '2026-09-16'
+  address: 35 Rue de Montreuil
+  postal_code: '75011'
+  guide_category: Bar à vins / Cave à manger
+- name: Aux Deux Amis
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-aux-deux-amis-paris
+  verified_at: '2026-09-16'
+  address: 45 Rue Oberkampf
+  postal_code: '75011'
+  guide_category: Bar à vins / Cave à manger
+- name: Ave Pizza Romana
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-ave-pizza-romana-paris
+  verified_at: '2026-09-16'
+  address: 90 Rue de la Folie Méricourt
+  postal_code: '75011'
+  guide_category: Pizza
+- name: Bang Bang
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/bangbang
+  verified_at: '2026-09-16'
+  address: 9 Rue du Liban
+  postal_code: '75020'
+  guide_category: Asiatique
+- name: Banh Mi Angela
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-banh-mi-paris-5
+  verified_at: '2026-09-16'
+  address: 81 Rue de Turbigo
+  postal_code: '75003'
+  guide_category: Lèche-doigts
+- name: Banh mi 88
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/banh-mi-88
+  verified_at: '2026-09-16'
+  address: 88 Av. d'Ivry
+  postal_code: '75013'
+  guide_category: Vietnamien
+- name: Bar des Prés Saint-Germain
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-le-bar-des-pres-paris
+  verified_at: '2026-09-16'
+  address: 25 Rue du Dragon
+  postal_code: '75006'
+  guide_category: Japonais
+- name: Becquetance
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/becquetance
+  verified_at: '2026-09-16'
+  address: 67 Rue de Ménilmontant
+  postal_code: '75020'
+  guide_category: Bistrot
+- name: Benchy
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/benchy
+  verified_at: '2026-09-16'
+  address: 50 Rue du Cherche-Midi
+  postal_code: '75006'
+  guide_category: Japonais
+- name: Billili
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-billili-paris
+  verified_at: '2026-09-16'
+  address: 136 Rue du Faubourg Poissonnière
+  postal_code: '75010'
+  guide_category: Bar à vins / Cave à manger
+- name: Bistrot Flaubert
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-bistrot-flaubert-paris
+  verified_at: '2026-09-16'
+  address: 10 Rue Gustave Flaubert
+  postal_code: '75017'
+  guide_category: Cuisine d'auteur
+- name: Bistrot des Tournelles
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/bistrot-des-tournelles
+  verified_at: '2026-09-16'
+  address: 6 Rue des Tournelles
+  postal_code: '75004'
+  guide_category: Bistrot
+- name: Bistrotters
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-bistrotters-paris
+  verified_at: '2026-09-16'
+  address: 9 Rue Decrès
+  postal_code: '75014'
+  guide_category: Cuisine d'auteur
+- name: Bittikesu
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/bittikesu
+  verified_at: '2026-09-16'
+  address: 5 Rue Crillon
+  postal_code: '75004'
+  guide_category: Cuisine d'auteur
+- name: Brigade du Tigre
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-brigade-du-tigre-paris
+  verified_at: '2026-09-16'
+  address: 38 Rue du Faubourg Poissonnière
+  postal_code: '75010'
+  guide_category: Asiatique
+- name: Brion
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/brion
+  verified_at: '2026-09-16'
+  address: 17 Rue Lamartine
+  postal_code: '75009'
+  guide_category: Cuisine d'auteur
+- name: Briquet
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/briquet-4
+  verified_at: '2026-09-16'
+  address: 7 Rue Riquet
+  postal_code: '75019'
+  guide_category: Bar à vins / Cave à manger
+- name: Broche
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/broche
+  verified_at: '2026-09-16'
+  address: 49 Pass. des Panoramas
+  postal_code: '75002'
+  guide_category: Viandes / Grillades
+- name: Bru
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/bru
+  verified_at: '2026-09-16'
+  address: 28 Rue Jean-Baptiste Pigalle
+  postal_code: '75009'
+  guide_category: Bistrot
+- name: Brutos
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-brutos-paris
+  verified_at: '2026-09-16'
+  address: 5 Rue du Général Renault
+  postal_code: '75011'
+  guide_category: Bistrot
+- name: Buck Fried Chicken & More
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/buck
+  verified_at: '2026-09-16'
+  address: 25 Rue de la Forge Royale
+  postal_code: '75011'
+  guide_category: Lèche-doigts
+- name: Buttes Snack Bar
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/buttes
+  verified_at: '2026-09-16'
+  address: 10 Rue Pradier
+  postal_code: '75019'
+  guide_category: Bar à vins / Cave à manger
+- name: Buzkashi
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-buzkashi-paris-5
+  verified_at: '2026-09-16'
+  address: 7 Rue des Dames
+  postal_code: '75017'
+  guide_category: Afghan
+- name: Cadoret
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/cadoret
+  verified_at: '2026-09-16'
+  address: 1 Rue Pradier
+  postal_code: '75019'
+  guide_category: Bistrot
+- name: Café Les Deux Gares
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-cafe-les-deux-gares-paris
+  verified_at: '2026-09-16'
+  address: 1 Rue des Deux Gares
+  postal_code: '75010'
+  guide_category: Cuisine d'auteur
+- name: Café Mirette
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/cafe-mirette
+  verified_at: '2026-09-16'
+  address: 1 Cr Paul Ricard
+  postal_code: '75008'
+  guide_category: Coffee shop
+- name: Café Singuliers
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/cafe-singuliers
+  verified_at: '2026-09-16'
+  address: 2 Rue Titon
+  postal_code: '75011'
+  guide_category: Coffee shop
+- name: Café de Mars
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-le-cafe-de-mars-paris-14
+  verified_at: '2026-09-16'
+  address: 11 Rue Augereau
+  postal_code: '75007'
+  guide_category: Néobistrot
+- name: Café des Ministères
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/cafe-des-ministeres
+  verified_at: '2026-09-16'
+  address: 83 Rue de l'Université
+  postal_code: '75007'
+  guide_category: Cuisine d'auteur
+- name: Café du Coin
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-cafe-du-coin-paris
+  verified_at: '2026-09-16'
+  address: 9 Rue Camille Desmoulins
+  postal_code: '75011'
+  guide_category: Bar à vins / Cave à manger
+- name: Caillebotte
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-caillebotte-paris-5
+  verified_at: '2026-09-16'
+  address: 8 Rue Hippolyte Lebas
+  postal_code: '75009'
+  guide_category: Bistrot
+- name: Calice
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/calice
+  verified_at: '2026-09-16'
+  address: 5 Rue de Bazeilles
+  postal_code: '75005'
+  guide_category: Néobistrot
+- name: Camino
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/il-camino
+  verified_at: '2026-09-16'
+  address: 43 R. des Petites Écuries
+  postal_code: '75010'
+  guide_category: Bistrot
+- name: Caractère de Cochon
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-caractere-de-cochon-paris-5
+  verified_at: '2026-09-16'
+  address: 42 Rue Charlot
+  postal_code: '75003'
+  guide_category: Lèche-doigts
+- name: Casa Pregonda
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/casa-pregonda
+  verified_at: '2026-09-16'
+  address: 6 Rue Marie Stuart
+  postal_code: '75002'
+  guide_category: Nourritures mondaines
+- name: Cendrillon
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/cendrillon
+  verified_at: '2026-09-16'
+  address: 50 Rue Piat
+  postal_code: '75020'
+  guide_category: Cuisine d'auteur
+- name: Chakaiseki Akiyoshi
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/chakaiseki-akiyoshi
+  verified_at: '2026-09-16'
+  address: 59 Rue Letellier
+  postal_code: '75015'
+  guide_category: Japonais
+  latitude: 48.8469761
+  longitude: 2.2988947
+  location_source_url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/chakaiseiki-akiyoshi
+- name: Chanceux Galande
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/chanceux-galande
+  verified_at: '2026-09-16'
+  address: 63 Rue Galande
+  postal_code: '75005'
+  guide_category: Lèche-doigts
+- name: Chantira
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/chantira
+  verified_at: '2026-09-16'
+  address: 46 Rue Daubenton
+  postal_code: '75005'
+  guide_category: Thaïlandais
+- name: Chantoiseau
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-chantoiseau-paris
+  verified_at: '2026-09-16'
+  address: 63 Rue Lepic
+  postal_code: '75018'
+  guide_category: Bistrot
+- name: Charbon Kunitoraya
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/charbon-kunitoraya
+  verified_at: '2026-09-16'
+  address: 5 Rue Villédo
+  postal_code: '75001'
+  guide_category: Cuisine d'auteur
+- name: Chez Babo
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/chez-babo
+  verified_at: '2026-09-16'
+  address: 8 Rue Marie et Louise
+  postal_code: '75010'
+  guide_category: Bar à vins / Cave à manger
+- name: Chez Carrie
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/chez-carrie
+  verified_at: '2026-09-16'
+  address: 14 Rue Léopold Bellan
+  postal_code: '75002'
+  guide_category: Bistrot
+- name: Chez Mamane
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-chez-mamane-paris-16
+  verified_at: '2026-09-16'
+  address: 27 Rue des cinq Diamants
+  postal_code: '75013'
+  guide_category: Algérien
+- name: Chez Michel
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-chez-michel-paris-14
+  verified_at: '2026-09-16'
+  address: 10 Rue de Belzunce
+  postal_code: '75010'
+  guide_category: Bistrot
+- name: Chez Taeko
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-chez-taeko-paris-17
+  verified_at: '2026-09-16'
+  address: 39 Rue de Bretagne
+  postal_code: '75003'
+  guide_category: Japonais
+- name: Chi’s Vietfood
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/chis-vietfood
+  verified_at: '2026-09-16'
+  address: 13 Rue Pradier
+  postal_code: '75019'
+  guide_category: Vietnamien
+- name: ChoCho
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/chocho-2
+  verified_at: '2026-09-16'
+  address: 54 Rue de Paradis
+  postal_code: '75010'
+  guide_category: Cuisine d'auteur
+- name: Clamato
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-clamato-paris-5
+  verified_at: '2026-09-16'
+  address: 80 Rue de Charonne
+  postal_code: '75011'
+  guide_category: Poissons et fruits de mer
+- name: Clos d'Astorg
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/clos-dastorg
+  verified_at: '2026-09-16'
+  address: 22 Rue d'Astorg
+  postal_code: '75008'
+  guide_category: Bistrot
+- name: Clown Bar
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-clown-bar-paris-6
+  verified_at: '2026-09-16'
+  address: 114 Rue Amelot
+  postal_code: '75011'
+  guide_category: Bistrot
+- name: Comer
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/comer
+  verified_at: '2026-09-16'
+  address: 96 Rue d'Hauteville
+  postal_code: '75010'
+  guide_category: Lèche-doigts
+- name: Comice
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-comice-paris
+  verified_at: '2026-09-16'
+  address: 31 Avenue de Versailles
+  postal_code: '75016'
+  guide_category: Cuisine d'auteur
+  latitude: 48.8495058
+  longitude: 2.2761393
+  location_source_url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/comice
+- name: Comptoir Sur Mer
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/comptoir-sur-mer
+  verified_at: '2026-09-16'
+  address: 53 Rue de Lancry
+  postal_code: '75010'
+  guide_category: Poissons et fruits de mer
+- name: Coupi Bar
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/coupi-bar
+  verified_at: '2026-09-16'
+  address: 48 Av. de la Prte d'Ivry
+  postal_code: '75013'
+  guide_category: Lèche-doigts
+- name: Cravan
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-cravan-paris
+  verified_at: '2026-09-16'
+  address: 17 Rue Jean de la Fontaine
+  postal_code: '75016'
+  guide_category: Lèche-doigts
+- name: Crudo
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/crudo
+  verified_at: '2026-09-16'
+  address: 107 Rue de Ménilmontant
+  postal_code: '75020'
+  guide_category: Bar à vins / Cave à manger
+- name: Cuisine
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-cuisine-paris-3
+  verified_at: '2026-09-16'
+  address: 50 Rue Condorcet
+  postal_code: '75009'
+  guide_category: Bistrot
+- name: Cypsèle
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/cypsele
+  verified_at: '2026-09-16'
+  address: 11 Rue des Deux Ponts
+  postal_code: '75004'
+  guide_category: Cuisine d'auteur
+- name: Da Paride
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/da-paride
+  verified_at: '2026-09-16'
+  address: 41 Av. Secrétan
+  postal_code: '75019'
+  guide_category: Pizza
+- name: Dandelion
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/dandelion
+  verified_at: '2026-09-16'
+  address: 46 Rue des Vignoles
+  postal_code: '75020'
+  guide_category: Cuisine d'auteur
+- name: Dante
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/106189-2
+  verified_at: '2026-09-16'
+  address: 14 Rue de Paradis
+  postal_code: '75010'
+  guide_category: Cuisine d'auteur
+- name: Dao
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/dao
+  verified_at: '2026-09-16'
+  address: 55 Bd Saint-Marcel
+  postal_code: '75013'
+  guide_category: Chinois
+- name: Datil
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/datil
+  verified_at: '2026-09-16'
+  address: 13 Rue des Gravilliers
+  postal_code: '75003'
+  guide_category: Cuisine d'auteur
+  latitude: 48.8636089
+  longitude: 2.3572627
+  location_source_url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/datil
+- name: Delicatessen Place
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/delicatessen-place
+  verified_at: '2026-09-16'
+  address: 5 Rue Jean-Pierre Timbaud
+  postal_code: '75011'
+  guide_category: Bar à vins / Cave à manger
+- name: Delish
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/delish
+  verified_at: '2026-09-16'
+  address: 4 Rue Ramey
+  postal_code: '75018'
+  guide_category: Lèche-doigts
+- name: Des Terres
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/des-terres
+  verified_at: '2026-09-16'
+  address: 82 Rue Alexandre Dumas
+  postal_code: '75020'
+  guide_category: Bistrot
+- name: Deux Gares Express
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/deux-gares-express
+  verified_at: '2026-09-16'
+  address: 2 Rue des Deux Gares
+  postal_code: '75010'
+  guide_category: Café
+- name: Dilia
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-dilia-paris-4
+  verified_at: '2026-09-16'
+  address: 1 Rue d'Eupatoria
+  postal_code: '75020'
+  guide_category: Cuisine d'auteur
+- name: Dogma
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/dogma
+  verified_at: '2026-09-16'
+  address: 10 R. des Petites Écuries
+  postal_code: '75010'
+  guide_category: Lèche-doigts
+- name: Double Dragon
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-double-dragon-paris
+  verified_at: '2026-09-16'
+  address: 52 Rue Saint-Maur
+  postal_code: '75011'
+  guide_category: Bistrot
+- name: Dumbo Petites-Écuries
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/dumbo-petites-ecuries-meilleur-smash-burger-paris
+  verified_at: '2026-09-16'
+  address: 14 Rue des Petites Écuries
+  postal_code: '75010'
+  guide_category: Lèche-doigts
+- name: Délit.
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/delit
+  verified_at: '2026-09-16'
+  address: 55 Av. Marceau
+  postal_code: '75116'
+  guide_category: Lèche-doigts
+- name: Déviant
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/deviant
+  verified_at: '2026-09-16'
+  address: 39 R. des Petites Écuries
+  postal_code: '75010'
+  guide_category: Cuisine d'auteur
+- name: Dìdi
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/didi
+  verified_at: '2026-09-16'
+  address: 88 Rue Jean-Pierre Timbaud
+  postal_code: '75011'
+  guide_category: Lèche-doigts
+- name: ED’S
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/eds
+  verified_at: '2026-09-16'
+  address: 11 Rue Muller
+  postal_code: '75018'
+  guide_category: Lèche-doigts
+- name: Early June
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-early-june-paris
+  verified_at: '2026-09-16'
+  address: 19 Rue Jean Poulmarch
+  postal_code: '75010'
+  guide_category: Bar à vins / Cave à manger
+- name: Echizen Soba Togo
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-echizen-soba-togo-paris
+  verified_at: '2026-09-16'
+  address: 33 Rue Saint-Roch
+  postal_code: '75001'
+  guide_category: Japonais
+- name: Echo
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/echo
+  verified_at: '2026-09-16'
+  address: 95 Rue d'Aboukir
+  postal_code: '75002'
+  guide_category: Lèche-doigts
+- name: Eels
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-eels-paris
+  verified_at: '2026-09-16'
+  address: 27 Rue d'Hauteville
+  postal_code: '75010'
+  guide_category: Cuisine d'auteur
+- name: Eme
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/eme
+  verified_at: '2026-09-16'
+  address: 4 Imp. Guéménée
+  postal_code: '75004'
+  guide_category: Cuisine d'auteur
+- name: Facette
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/facette
+  verified_at: '2026-09-16'
+  address: 69 Port de la Rapée
+  postal_code: '75012'
+  guide_category: À partager
+- name: Fantine
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/fantine
+  verified_at: '2026-09-16'
+  address: 6 Rue de la Bourse
+  postal_code: '75002'
+  guide_category: Sandwichs
+- name: Fitzcaraldo
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/fitzcaraldo
+  verified_at: '2026-09-16'
+  address: 9 Rue Lacharrière
+  postal_code: '75011'
+  guide_category: Bar à vins / Cave à manger
+- name: Foujita
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/foujita
+  verified_at: '2026-09-16'
+  address: 41 Rue Saint-Roch
+  postal_code: '75001'
+  guide_category: Japonais
+- name: Frenchie
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-frenchie-paris-14
+  verified_at: '2026-09-16'
+  address: 5 Rue du Nil
+  postal_code: '75002'
+  guide_category: Cuisine d'auteur
+  latitude: 48.867722
+  longitude: 2.3478539
+  location_source_url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/frenchie262795
+- name: Frenchie bar à vins
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-frenchie-bar-a-vins-paris-18
+  verified_at: '2026-09-16'
+  address: 6 Rue du Nil
+  postal_code: '75002'
+  guide_category: Bistrot
+- name: Fugazi
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/fugazi
+  verified_at: '2026-09-16'
+  address: 18 Rue Lacharrière
+  postal_code: '75011'
+  guide_category: Bar à vins / Cave à manger
+- name: Fugue
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/fugue
+  verified_at: '2026-09-16'
+  address: 128 Rue du Faubourg Saint-Martin
+  postal_code: '75010'
+  guide_category: Bistrot
+- name: Furia
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/furia
+  verified_at: '2026-09-16'
+  address: 2 Rue Lacharrière
+  postal_code: '75011'
+  guide_category: Bar à vins / Cave à manger
+- name: Gaya
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-gaya-paris
+  verified_at: '2026-09-16'
+  address: 6 Rue de Saint-Simon
+  postal_code: '75007'
+  guide_category: Cuisine d'auteur
+- name: Giclette
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/giclette
+  verified_at: '2026-09-16'
+  address: 13 Rue Keller
+  postal_code: '75011'
+  guide_category: Bar à vins / Cave à manger
+- name: Gilou
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/gilou
+  verified_at: '2026-09-16'
+  address: 9 Rue du Tunnel
+  postal_code: '75019'
+  guide_category: Cuisine d'auteur
+- name: Grain[s]
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/grains
+  verified_at: '2026-09-16'
+  address: 6 Rue Mabillon
+  postal_code: '75006'
+  guide_category: Bar à vins / Cave à manger
+- name: Gyoza Hohei
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/gyoza-hohei
+  verified_at: '2026-09-16'
+  address: 11 Rue Sainte-Anne
+  postal_code: '75001'
+  guide_category: Japonais
+- name: Habesha
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/habesha
+  verified_at: '2026-09-16'
+  address: 19 Rue Copreaux
+  postal_code: '75015'
+  guide_category: Viandes / Grillades
+- name: Haikara Deep Fried
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/haikara-deep-fried
+  verified_at: '2026-09-16'
+  address: 60 Bd Voltaire
+  postal_code: '75011'
+  guide_category: Japonais
+- name: Hanada
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/hanada
+  verified_at: '2026-09-16'
+  address: 15 Quai Voltaire
+  postal_code: '75007'
+  guide_category: Japonais
+  latitude: 48.858699
+  longitude: 2.331507
+  location_source_url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/hanada
+- name: Holybelly
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-holybelly-5-paris
+  verified_at: '2026-09-16'
+  address: 5 Rue Lucien Sampaix
+  postal_code: '75010'
+  guide_category: Coffee shop
+- name: Iné
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/ine
+  verified_at: '2026-09-16'
+  address: 29 Rue d'Enghien
+  postal_code: '75010'
+  guide_category: Japonais
+- name: Jamat
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/jamat
+  verified_at: '2026-09-16'
+  address: 33 Rue de Navarin
+  postal_code: '75009'
+  guide_category: Bistrot
+- name: Jin Saint-Honoré
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-jin-saint-honore-paris-3
+  verified_at: '2026-09-16'
+  address: 6 Rue de la Sourdière
+  postal_code: '75001'
+  guide_category: Japonais
+- name: Jium
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-jium-paris
+  verified_at: '2026-09-16'
+  address: 26 Rue Tiphaine
+  postal_code: '75015'
+  guide_category: Coréen
+- name: Jones
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/jones
+  verified_at: '2026-09-16'
+  address: 43 Rue Godefroy Cavaignac
+  postal_code: '75011'
+  guide_category: Cuisine d'auteur
+- name: Jong-no Samgyetang
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-jong-no-samgyetang-paris
+  verified_at: '2026-09-16'
+  address: 23 Boulevard de Port-Royal
+  postal_code: '75013'
+  guide_category: Coréen
+- name: Juveniles
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-juveniles-paris-12
+  verified_at: '2026-09-16'
+  address: 47 Rue de Richelieu
+  postal_code: '75001'
+  guide_category: Bistrot
+- name: Kamo
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/kamo-4
+  verified_at: '2026-09-16'
+  address: 17 Rue Martel
+  postal_code: '75010'
+  guide_category: Bistrot
+- name: Kapé
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/kape
+  verified_at: '2026-09-16'
+  address: 17 Rue de Malte
+  postal_code: '75011'
+  guide_category: Lèche-doigts
+- name: Kimono
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/kimono
+  verified_at: '2026-09-16'
+  address: 66 Rue du Cherche-Midi
+  postal_code: '75006'
+  guide_category: Japonais
+- name: Kisin
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/kisin
+  verified_at: '2026-09-16'
+  address: 7 Rue de Ponthieu
+  postal_code: '75008'
+  guide_category: Japonais
+- name: Kitchen 32
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/kitchen-32
+  verified_at: '2026-09-16'
+  address: 32 Rue Tiquetonne
+  postal_code: '75002'
+  guide_category: Japonais
+- name: Kitchen Ter(re)
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-kitchen-ter-re-paris
+  verified_at: '2026-09-16'
+  address: 26 Boulevard Saint-Germain
+  postal_code: '75005'
+  guide_category: Cuisine d'auteur
+- name: Komatsubaki
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-komatsubaki-paris
+  verified_at: '2026-09-16'
+  address: 3 Rue d'Artois
+  postal_code: '75008'
+  guide_category: Cuisine d'auteur
+- name: Kubri
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/kubri
+  verified_at: '2026-09-16'
+  address: 108 Rue Amelot
+  postal_code: '75011'
+  guide_category: Cuisine d'auteur
+- name: Kuma
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/kuma
+  verified_at: '2026-09-16'
+  address: 5 Rue des Écouffes
+  postal_code: '75004'
+  guide_category: Japonais
+- name: Kunitoraya
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-kunitoraya-paris-6
+  verified_at: '2026-09-16'
+  address: 1 Rue Villédo
+  postal_code: '75001'
+  guide_category: Japonais
+- name: L'Avant-Comptoir du Marché
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-l-avant-comptoir-du-marche-paris-1
+  verified_at: '2026-09-16'
+  address: 14 Rue Lobineau
+  postal_code: '75006'
+  guide_category: Bar à vins / Cave à manger
+- name: L'Escale
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/lescale
+  verified_at: '2026-09-16'
+  address: 1 Rue des Deux Ponts
+  postal_code: '75004'
+  guide_category: Bistrot
+- name: L'Orillon
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/lorillon
+  verified_at: '2026-09-16'
+  address: 35 Rue de l'Orillon
+  postal_code: '75011'
+  guide_category: Bar à vins / Cave à manger
+- name: La Boule Rouge
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/la-boule-rouge
+  verified_at: '2026-09-16'
+  address: 1 Rue de la Boule Rouge
+  postal_code: '75009'
+  guide_category: Bistrot
+- name: La Bourse et la Vie
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-la-bourse-et-la-vie-paris-4
+  verified_at: '2026-09-16'
+  address: 12 Rue Vivienne
+  postal_code: '75002'
+  guide_category: Bistrot
+- name: La Cave à Michel
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-la-cave-a-michel-paris-3
+  verified_at: '2026-09-16'
+  address: 34 Rue Sainte-Marthe
+  postal_code: '75010'
+  guide_category: Bar à vins / Cave à manger
+- name: La Fontaine de Mars
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-la-fontaine-de-mars-paris-14
+  verified_at: '2026-09-16'
+  address: 129 Rue Saint-Dominique
+  postal_code: '75007'
+  guide_category: Bistrot
+- name: La Joie
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/la-joie
+  verified_at: '2026-09-16'
+  address: 117 Rue du Chemin Vert
+  postal_code: '75011'
+  guide_category: À partager
+- name: Lao Siam
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-lao-siam-paris-1
+  verified_at: '2026-09-16'
+  address: 49 Rue de Belleville
+  postal_code: '75019'
+  guide_category: Laotien
+- name: Le Baratin
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-le-baratin-paris-14
+  verified_at: '2026-09-16'
+  address: 3 Rue Jouye-Rouve
+  postal_code: '75020'
+  guide_category: Bistrot
+- name: Le Bon Saint Pourçain
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-le-bon-saint-pourcain-paris-4
+  verified_at: '2026-09-16'
+  address: 10B Rue Servandoni
+  postal_code: '75006'
+  guide_category: Bistrot
+- name: Le Café de l’Usine
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/le-cafe-de-lusine
+  verified_at: '2026-09-16'
+  address: L'Usine Spring Court
+  postal_code: '75011'
+  guide_category: Bistrot
+- name: Le Café des Délices
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/le-cafe-des-delices
+  verified_at: '2026-09-16'
+  address: 4 Rue Lemon
+  postal_code: '75020'
+  guide_category: Café
+- name: Le Canard Sauvage
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/le-canard-sauvage
+  verified_at: '2026-09-16'
+  address: 14 Bd de Strasbourg
+  postal_code: '75010'
+  guide_category: Bistrot
+- name: Le Chateaubriand
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-le-chateaubriand-paris-18
+  verified_at: '2026-09-16'
+  address: 129 Avenue Parmentier
+  postal_code: '75011'
+  guide_category: Cuisine d'auteur
+- name: Le Cheval d’Or
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/cheval-dor
+  verified_at: '2026-09-16'
+  address: 21 Rue de la Villette
+  postal_code: '75019'
+  guide_category: Bistrot
+- name: Le Coyote
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/le-coyote
+  verified_at: '2026-09-16'
+  address: 86 Rue des Archives
+  postal_code: '75003'
+  guide_category: Bar à vins / Cave à manger
+- name: Le Dauphin
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-le-dauphin-chateaubriand-paris-11
+  verified_at: '2026-09-16'
+  address: 131 Avenue Parmentier
+  postal_code: '75011'
+  guide_category: Bar à vins / Cave à manger
+- name: Le Favori
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/le-favori
+  verified_at: '2026-09-16'
+  address: 112 Rue Saint-Maur
+  postal_code: '75011'
+  guide_category: Lèche-doigts
+- name: Le Grand Bain
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-le-grand-bain-paris
+  verified_at: '2026-09-16'
+  address: 14 Rue Denoyez
+  postal_code: '75020'
+  guide_category: Bistrot
+- name: Le Grand Bol
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-le-grand-bol-paris
+  verified_at: '2026-09-16'
+  address: 7 Rue de la Présentation
+  postal_code: '75011'
+  guide_category: Chinois
+- name: Le Grand Pan
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-le-grand-pan-paris-16
+  verified_at: '2026-09-16'
+  address: 20 Rue Rosenwald
+  postal_code: '75015'
+  guide_category: Bistrot
+- name: Le Maquis
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-le-maquis-paris-2
+  verified_at: '2026-09-16'
+  address: 53 Rue des Cloys
+  postal_code: '75018'
+  guide_category: Cuisine d'auteur
+- name: Le Pantruche
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-le-pantruche-paris-16
+  verified_at: '2026-09-16'
+  address: 3 Rue Victor Massé
+  postal_code: '75009'
+  guide_category: Bistrot
+- name: Le Petit Cambodge
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-le-petit-cambodge-paris-11
+  verified_at: '2026-09-16'
+  address: 20 Rue Alibert
+  postal_code: '75010'
+  guide_category: Cambodgien
+- name: Le Saint Sébastien
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-le-saint-sebastien-paris
+  verified_at: '2026-09-16'
+  address: 42 Rue Saint-Sébastien
+  postal_code: '75011'
+  guide_category: Cuisine d'auteur
+- name: Le Savarin
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/le-savarin
+  verified_at: '2026-09-16'
+  address: 4 Rue de Navarin
+  postal_code: '75009'
+  guide_category: Bistrot
+- name: Le Servan
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-le-servan-paris-4
+  verified_at: '2026-09-16'
+  address: 32 Rue Saint-Maur
+  postal_code: '75011'
+  guide_category: Cuisine d'auteur
+- name: Le Severo
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-le-severo-paris-12
+  verified_at: '2026-09-16'
+  address: 8 Rue des Plantes
+  postal_code: '75014'
+  guide_category: Bistrot
+- name: Le Tagine
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-le-tagine-paris-4
+  verified_at: '2026-09-16'
+  address: 13 Rue de Crussol
+  postal_code: '75011'
+  guide_category: Marocain
+- name: Le Verre Volé
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-le-verre-vole-paris-14
+  verified_at: '2026-09-16'
+  address: 67 Rue de Lancry
+  postal_code: '75010'
+  guide_category: Bistrot
+- name: Les Arlots
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-les-arlots-paris-3
+  verified_at: '2026-09-16'
+  address: 136 Rue du Faubourg Poissonnière
+  postal_code: '75010'
+  guide_category: Bistrot
+- name: Les Collonges
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/les-collonges
+  verified_at: '2026-09-16'
+  address: 12 Rue Francœur
+  postal_code: '75018'
+  guide_category: Bistrot
+- name: Les Enfants Rouges
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-les-enfants-rouges-paris-15
+  verified_at: '2026-09-16'
+  address: 9 Rue de Beauce
+  postal_code: '75003'
+  guide_category: Cuisine d'auteur
+- name: Les Marches
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-les-marches-paris
+  verified_at: '2026-09-16'
+  address: 5 Rue de la Manutention
+  postal_code: '75116'
+  guide_category: Bistrot
+- name: Les Pères Populaires
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-les-peres-populaires-paris-9
+  verified_at: '2026-09-16'
+  address: 46 Rue de Buzenval
+  postal_code: '75020'
+  guide_category: Bistrot
+- name: Les Œillets
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/les-oeillets
+  verified_at: '2026-09-16'
+  address: 137 Rue Saint-Maur
+  postal_code: '75011'
+  guide_category: Bar à vins / Cave à manger
+- name: Lissit
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/lissit
+  verified_at: '2026-09-16'
+  address: 48 Rue de la Folie Méricourt
+  postal_code: '75011'
+  guide_category: Bistrot
+- name: Localino
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/localino
+  verified_at: '2026-09-16'
+  address: 10 Rue de l'Odéon
+  postal_code: '75006'
+  guide_category: Italien
+- name: Locomal
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/locomal
+  verified_at: '2026-09-16'
+  address: 74 Rue de Charonne
+  postal_code: '75011'
+  guide_category: Mexicain
+- name: Lolo cave à manger
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-lolo-paris
+  verified_at: '2026-09-16'
+  address: 12 Rue de Châteaudun
+  postal_code: '75009'
+  guide_category: Bar à vins / Cave à manger
+- name: L’Arlequin
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/larlequin
+  verified_at: '2026-09-16'
+  address: 33 Rue du Faubourg Saint-Martin
+  postal_code: '75010'
+  guide_category: Bistrot
+- name: L’Avant Comptoir de la Mer
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-l-avant-comptoir-de-la-mer-paris-1
+  verified_at: '2026-09-16'
+  address: 3 Carrefour de l'Odéon
+  postal_code: '75006'
+  guide_category: Bar à vins / Cave à manger
+- name: L’Ouzeri
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/louzeri
+  verified_at: '2026-09-16'
+  address: 41 Rue du Ruisseau
+  postal_code: '75018'
+  guide_category: Grec
+- name: Ma-Shi-Ta
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/ma-shi-ta
+  verified_at: '2026-09-16'
+  address: 9 Rue Poirier de Narçay
+  postal_code: '75014'
+  guide_category: Coréen
+- name: Magma
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/magma
+  verified_at: '2026-09-16'
+  address: 9 Rue Jean-Pierre Timbaud
+  postal_code: '75011'
+  guide_category: Cuisine d'auteur
+- name: Magnolia
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/magnolia
+  verified_at: '2026-09-16'
+  address: 5 Rue Henry Monnier
+  postal_code: '75009'
+  guide_category: Bistrot
+- name: Maison
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/maison
+  verified_at: '2026-09-16'
+  address: 3 Rue Saint-Hubert
+  postal_code: '75011'
+  guide_category: Cuisine d'auteur
+- name: Maiya
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/maiya
+  verified_at: '2026-09-16'
+  address: 23 Rue de Sambre-et-Meuse
+  postal_code: '75010'
+  guide_category: Bistrot
+- name: Mala Boom
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/mala-boom
+  verified_at: '2026-09-16'
+  address: 42 Rue Jean-Pierre Timbaud
+  postal_code: '75011'
+  guide_category: Chinois
+- name: Mandoobar
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-mandoobar-paris-5
+  verified_at: '2026-09-16'
+  address: 7 Rue d'Édimbourg
+  postal_code: '75008'
+  guide_category: Coréen
+- name: Mantra
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/mantra
+  verified_at: '2026-09-16'
+  address: 17 Rue Claude Rodier
+  postal_code: '75009'
+  guide_category: Cuisine d'auteur
+- name: Marzo
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-marzo-paris-3
+  verified_at: '2026-09-16'
+  address: 5 Rue Paul-Louis Courier
+  postal_code: '75007'
+  guide_category: Pizza
+- name: Masaikuta
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/masaikuta
+  verified_at: '2026-09-16'
+  address: 26 bis Rue de la Fontaine au Roi
+  postal_code: '75011'
+  guide_category: Cuisine d'auteur
+- name: Mazali
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/mazali
+  verified_at: '2026-09-16'
+  address: 4 Rue Crozatier
+  postal_code: '75012'
+  guide_category: Bistrot
+- name: Mehmet
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/mehmet
+  verified_at: '2026-09-16'
+  address: 43 Rue Ramey
+  postal_code: '75018'
+  guide_category: Viandes / Grillades
+- name: Menkicchi
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-menkicchi-paris
+  verified_at: '2026-09-16'
+  address: 41 Rue Sainte-Anne
+  postal_code: '75001'
+  guide_category: Japonais
+- name: Mensch
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/mensch
+  verified_at: '2026-09-16'
+  address: 31 Rue Saint-Lazare
+  postal_code: '75009'
+  guide_category: Lèche-doigts
+- name: Minibar
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/minibar
+  verified_at: '2026-09-16'
+  address: 23 Rue de Lancry
+  postal_code: '75010'
+  guide_category: Bar à vins / Cave à manger
+- name: Mischief
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/336690-2
+  verified_at: '2026-09-16'
+  address: 25 Rue des Gravilliers
+  postal_code: '75003'
+  guide_category: Cuisine d'auteur
+- name: Misu
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/misu
+  verified_at: '2026-09-16'
+  address: 8 Rue Falguière
+  postal_code: '75015'
+  guide_category: Coréen
+- name: Moderno
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/moderno
+  verified_at: '2026-09-16'
+  address: 12 Rue Vitruve
+  postal_code: '75020'
+  guide_category: Italien
+- name: Mokochaya
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/mokochaya
+  verified_at: '2026-09-16'
+  address: 11 Rue Saint-Bernard
+  postal_code: '75011'
+  guide_category: Asiatique
+- name: Mokonuts
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-mokonuts-paris-3
+  verified_at: '2026-09-16'
+  address: 5 Rue Saint-Bernard
+  postal_code: '75011'
+  guide_category: Cuisine d'auteur
+- name: Monaco
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/monaco
+  verified_at: '2026-09-16'
+  address: 2 Rue Vulpian
+  postal_code: '75013'
+  guide_category: Café
+- name: Montezuma Café
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/montezuma-cafe
+  verified_at: '2026-09-16'
+  address: 15 Rue Notre Dame des Victoires
+  postal_code: '75002'
+  guide_category: Bar à vins / Cave à manger
+- name: Mosuke
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/mosuke
+  verified_at: '2026-09-16'
+  address: 11 Rue Raymond Losserand
+  postal_code: '75014'
+  guide_category: Cuisine d'auteur
+  latitude: 48.8364014
+  longitude: 2.3225579
+  location_source_url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/mosuke
+- name: Mắm from Hanoï
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/mam-from-hanoi
+  verified_at: '2026-09-16'
+  address: 39 Rue de Cléry
+  postal_code: '75002'
+  guide_category: Vietnamien
+- name: New Hoa Khoan
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/new-hoa-khoan
+  verified_at: '2026-09-16'
+  address: 15 Av. de Choisy
+  postal_code: '75013'
+  guide_category: Chinois
+- name: Ngoc Xuyen Saigon
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-ngoc-xuyen-saigon-paris
+  verified_at: '2026-09-16'
+  address: 4 Rue Caillaux
+  postal_code: '75013'
+  guide_category: Vietnamien
+- name: Occasion
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/occasion
+  verified_at: '2026-09-16'
+  address: 13 Rue Jacques Louvel-Tessier
+  postal_code: '75010'
+  guide_category: Cuisine d'auteur
+- name: Ogata
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-ogata-paris
+  verified_at: '2026-09-16'
+  address: 16 Rue Debelleyme
+  postal_code: '75003'
+  guide_category: Japonais
+- name: Olive Chicken
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/olive-chicken
+  verified_at: '2026-09-16'
+  address: 46 Rue de Richelieu
+  postal_code: '75001'
+  guide_category: Lèche-doigts
+- name: Oobatz
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/oobatz
+  verified_at: '2026-09-16'
+  address: 4 Av. Jean Aicard
+  postal_code: '75011'
+  guide_category: Pizza
+- name: Opla
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/opla
+  verified_at: '2026-09-16'
+  address: 59 Rue Daguerre
+  postal_code: '75014'
+  guide_category: Thaïlandais
+- name: Osteria Ferrara
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-osteria-ferrara-paris-3
+  verified_at: '2026-09-16'
+  address: 7 Rue du Dahomey
+  postal_code: '75011'
+  guide_category: Cuisine d'auteur
+- name: Osteria Gòto
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/osteria-goto
+  verified_at: '2026-09-16'
+  address: 151 Bd Voltaire
+  postal_code: '75011'
+  guide_category: Bistrot
+- name: Osteria Paradiso
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/osteria-paradiso
+  verified_at: '2026-09-16'
+  address: 35 Rue de Sambre-et-Meuse
+  postal_code: '75010'
+  guide_category: Italien
+- name: Our House
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/our-house
+  verified_at: '2026-09-16'
+  address: 35 Rue Coquillière
+  postal_code: '75001'
+  guide_category: Japonais
+- name: Pages
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-pages-paris-5
+  verified_at: '2026-09-16'
+  address: 4 Rue Auguste Vacquerie
+  postal_code: '75116'
+  guide_category: Cuisine d'auteur
+- name: Paloma
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/paloma
+  verified_at: '2026-09-16'
+  address: 93 Rue Julien Lacroix
+  postal_code: '75020'
+  guide_category: Bistrot
+- name: Pantobaguette
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/pantobaguette
+  verified_at: '2026-09-16'
+  address: 16 Rue Eugène Sue
+  postal_code: '75018'
+  guide_category: Bar à vins / Cave à manger
+- name: Parcelles
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-parcelles-paris
+  verified_at: '2026-09-16'
+  address: 13 Rue Chapon
+  postal_code: '75003'
+  guide_category: Bistrot
+- name: Passerina
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/passerina
+  verified_at: '2026-09-16'
+  address: 44 Rue Traversière
+  postal_code: '75012'
+  guide_category: Cuisine d'auteur
+- name: Passerini
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-passerini-paris-3
+  verified_at: '2026-09-16'
+  address: 65 Rue Traversière
+  postal_code: '75012'
+  guide_category: Cuisine d'auteur
+- name: Patine
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/patine
+  verified_at: '2026-09-16'
+  address: 16 Rue la Vacquerie
+  postal_code: '75011'
+  guide_category: Bistrot
+- name: Paulownia
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/paulownia
+  verified_at: '2026-09-16'
+  address: 15 Rue des Vignoles
+  postal_code: '75020'
+  guide_category: Cuisine d'auteur
+- name: Petit Vatel
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/petit-vatel
+  verified_at: '2026-09-16'
+  address: 5 Rue Lobineau
+  postal_code: '75006'
+  guide_category: Cuisine d'auteur
+- name: Pho bom
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/pho-bom
+  verified_at: '2026-09-16'
+  address: 71 Av. de Choisy
+  postal_code: '75013'
+  guide_category: Vietnamien
+- name: Pistil
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/pistil
+  verified_at: '2026-09-16'
+  address: 12 Rue Lechevin
+  postal_code: '75011'
+  guide_category: Café
+- name: Pizza Chic
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-pizza-chic-paris-14
+  verified_at: '2026-09-16'
+  address: 13 Rue de Mézières
+  postal_code: '75006'
+  guide_category: Pizza
+- name: Pluto
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/pluto
+  verified_at: '2026-09-16'
+  address: 44 Rue Sainte-Croix de la Bretonnerie
+  postal_code: '75004'
+  guide_category: Cuisine d'auteur
+- name: Pochana
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/pochana
+  verified_at: '2026-09-16'
+  address: 1 Pass. du Jeu de Boules
+  postal_code: '75011'
+  guide_category: Bar à vins / Cave à manger
+- name: Pontochoux
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-pontochoux-paris
+  verified_at: '2026-09-16'
+  address: 18 Rue du Pont aux Choux
+  postal_code: '75003'
+  guide_category: Japonais
+- name: Pristine
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/pristine
+  verified_at: '2026-09-16'
+  address: 8 Rue de Maubeuge
+  postal_code: '75009'
+  guide_category: Cuisine d'auteur
+- name: Prévelle
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/prevelle
+  verified_at: '2026-09-16'
+  address: 34 Rue Saint-Dominique
+  postal_code: '75007'
+  guide_category: Cuisine d'auteur
+  latitude: 48.8599912
+  longitude: 2.3152937
+  location_source_url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/prevelle
+- name: Pétrelle
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-petrelle-paris
+  verified_at: '2026-09-16'
+  address: 34 Rue Petrelle
+  postal_code: '75009'
+  guide_category: Cuisine d'auteur
+- name: Quinsou
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-quinsou-paris-3
+  verified_at: '2026-09-16'
+  address: 33 Rue de l'Abbé Grégoire
+  postal_code: '75006'
+  guide_category: Cuisine d'auteur
+  latitude: 48.8476485
+  longitude: 2.325489
+  location_source_url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/quinsou
+- name: Racines
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-racines-paris-17
+  verified_at: '2026-09-16'
+  address: 8 Passage des Panoramas
+  postal_code: '75002'
+  guide_category: Bistrot
+- name: Ramen Wagaya
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/ramen-wagaya
+  verified_at: '2026-09-16'
+  address: 25 Rue Jean-Pierre Timbaud
+  postal_code: '75011'
+  guide_category: Japonais
+- name: Rencontres
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/rencontres
+  verified_at: '2026-09-16'
+  address: 67 Rue de Charenton
+  postal_code: '75012'
+  guide_category: Bistrot
+- name: Rond
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-rond-paris
+  verified_at: '2026-09-16'
+  address: 21 Rue du Transvaal
+  postal_code: '75020'
+  guide_category: Crêperie
+- name: Rooster
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-rooster-paris
+  verified_at: '2026-09-16'
+  address: 137 Rue Cardinet
+  postal_code: '75017'
+  guide_category: Cuisine d'auteur
+- name: Rori
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/rori
+  verified_at: '2026-09-16'
+  address: 96 Rue Jean-Pierre Timbaud
+  postal_code: '75011'
+  guide_category: Pizza
+- name: Round Egg Buns
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/round
+  verified_at: '2026-09-16'
+  address: 25 Rue Louis Blanc
+  postal_code: '75010'
+  guide_category: Lèche-doigts
+- name: Ryô
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-ryo-paris
+  verified_at: '2026-09-16'
+  address: 7 Rue des Moulins
+  postal_code: '75001'
+  guide_category: Japonais
+- name: SENsation
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/sensation
+  verified_at: '2026-09-16'
+  address: 32 Rue Saint-Maur
+  postal_code: '75011'
+  guide_category: Chinois
+- name: Sama Bistro
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/sama
+  verified_at: '2026-09-16'
+  address: 5 Rue Guillaume Bertrand
+  postal_code: '75011'
+  guide_category: Libanais
+- name: Sanjo
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-sanjo-paris
+  verified_at: '2026-09-16'
+  address: 29 Rue d'Argenteuil
+  postal_code: '75001'
+  guide_category: Japonais
+- name: Sant Ambroeus
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/sant-ambroeus
+  verified_at: '2026-09-16'
+  address: 11 Rue Saint-Benoît
+  postal_code: '75006'
+  guide_category: Nourritures mondaines
+- name: Scarpetta
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/scarpetta
+  verified_at: '2026-09-16'
+  address: 72 Rue Marguerite de Rochechouart
+  postal_code: '75009'
+  guide_category: Italien
+- name: Septime
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-septime-paris
+  verified_at: '2026-09-16'
+  address: 80 Rue de Charonne
+  postal_code: '75011'
+  guide_category: Cuisine d'auteur
+  latitude: 48.8536287
+  longitude: 2.3806905
+  location_source_url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/septime
+- name: Soces
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/soces
+  verified_at: '2026-09-16'
+  address: 32 Rue de la Villette
+  postal_code: '75019'
+  guide_category: Bistrot
+- name: Sola
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-sola-paris-12
+  verified_at: '2026-09-16'
+  address: 12 Rue de l'Hôtel Colbert
+  postal_code: '75005'
+  guide_category: Cuisine d'auteur
+  latitude: 48.8515799
+  longitude: 2.3483585
+  location_source_url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/sola
+- name: Song Heng
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-song-heng
+  verified_at: '2026-09-16'
+  address: 3 Rue Volta
+  postal_code: '75003'
+  guide_category: Vietnamien
+- name: Sucrépice
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-sucrepice-paris
+  verified_at: '2026-09-16'
+  address: 5 Rue d'Arras
+  postal_code: '75005'
+  guide_category: Chinois
+- name: Sugaar
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/sugaar
+  verified_at: '2026-09-16'
+  address: 5 Rue Gozlin
+  postal_code: '75006'
+  guide_category: Nourritures mondaines
+- name: Superposé
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/superpose
+  verified_at: '2026-09-16'
+  address: 103 Rue Saint-Maur
+  postal_code: '75011'
+  guide_category: Bistrot
+- name: Sur Mer
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-sur-mer-paris
+  verified_at: '2026-09-16'
+  address: 1 Rue de Marseille
+  postal_code: '75010'
+  guide_category: Poissons et fruits de mer
+- name: Sushi B
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-sushi-b-paris-1
+  verified_at: '2026-09-16'
+  address: 5 Rue Rameau
+  postal_code: '75002'
+  guide_category: Cuisine d'auteur
+  latitude: 48.867715
+  longitude: 2.3376315
+  location_source_url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/sushi-b514232
+- name: Sushi Shunei
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/sushi-shunei
+  verified_at: '2026-09-16'
+  address: 3 Rue Audran
+  postal_code: '75018'
+  guide_category: Cuisine d'auteur
+  latitude: 48.8851108
+  longitude: 2.3357826
+  location_source_url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/sushi-shunei
+- name: Sushi Yoshinaga
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/yoshinaga
+  verified_at: '2026-09-16'
+  address: 27 Rue du 4 septembre
+  postal_code: '75002'
+  guide_category: Cuisine d'auteur
+  latitude: 48.8698375
+  longitude: 2.3349558
+  location_source_url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/sushi-yoshinaga
+- name: Sétopa
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/setopa
+  verified_at: '2026-09-16'
+  address: 6 Rue Dupuytren
+  postal_code: '75006'
+  guide_category: Coréen
+- name: Taco Mesa
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/taco-mesa
+  verified_at: '2026-09-16'
+  address: 40 Rue du Faubourg Poissonnière
+  postal_code: '75010'
+  guide_category: Lèche-doigts
+- name: Tadam
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/tadam
+  verified_at: '2026-09-16'
+  address: 14 Rue du Jura
+  postal_code: '75013'
+  guide_category: Bistrot
+- name: Tanguy
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-tanguy-paris
+  verified_at: '2026-09-16'
+  address: 15 Rue de l'Échiquier
+  postal_code: '75010'
+  guide_category: Crêperie
+- name: Tara
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/tara
+  verified_at: '2026-09-16'
+  address: 2 Rue de la Fontaine au Roi
+  postal_code: '75011'
+  guide_category: Bar à vins / Cave à manger
+- name: Tarántula
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/tarantula
+  verified_at: '2026-09-16'
+  address: 13 bis Rue Keller
+  postal_code: '75011'
+  guide_category: Cuisine d'auteur
+- name: Tekés
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/tekes
+  verified_at: '2026-09-16'
+  address: 4 Rue Saint-Sauveur
+  postal_code: '75002'
+  guide_category: Israélien
+- name: Tempête
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/tempete
+  verified_at: '2026-09-16'
+  address: 5 Cr des Petites Écuries
+  postal_code: '75010'
+  guide_category: Lèche-doigts
+- name: Ten Belles 6
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-ten-belles-6-paris
+  verified_at: '2026-09-16'
+  address: 53 Rue du Cherche-Midi
+  postal_code: '75006'
+  guide_category: Lèche-doigts
+- name: Ten Belles Bread
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-ten-belles-bread-paris
+  verified_at: '2026-09-16'
+  address: 19 Rue Breguet
+  postal_code: '75011'
+  guide_category: Lèche-doigts
+- name: Test
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/test
+  verified_at: '2026-09-16'
+  address: 70 Rue de Dunkerque
+  postal_code: '75009'
+  guide_category: Poissons et fruits de mer
+- name: The Blossom Arms
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/the-blossom-arms
+  verified_at: '2026-09-16'
+  address: 17 Rue Guy Môquet
+  postal_code: '75017'
+  guide_category: Anglais
+- name: The Dancing Goat
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/the-dancing-goat
+  verified_at: '2026-09-16'
+  address: 117 Av. Gambetta
+  postal_code: '75020'
+  guide_category: Café
+- name: Thuy Long
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-thuy-long-paris-5
+  verified_at: '2026-09-16'
+  address: 111 Rue de Vaugirard
+  postal_code: '75006'
+  guide_category: Thaïlandais
+- name: Tomo
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/tomo
+  verified_at: '2026-09-16'
+  address: 16 Rue Grégoire de Tours
+  postal_code: '75006'
+  guide_category: Japonais
+- name: Tonton Ramen
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/tonton-ramen
+  verified_at: '2026-09-16'
+  address: 4 Rue Cherubini
+  postal_code: '75002'
+  guide_category: Japonais
+- name: Tora Tora
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/tora-tora
+  verified_at: '2026-09-16'
+  address: 1 Rue Villédo
+  postal_code: '75001'
+  guide_category: Japonais
+- name: Toraya
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-toraya-paris-13
+  verified_at: '2026-09-16'
+  address: 10 Rue Saint-Florentin
+  postal_code: '75001'
+  guide_category: Japonais
+- name: ToriTori Ramen
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/toritori-ramen
+  verified_at: '2026-09-16'
+  address: 2 Rue Cherubini
+  postal_code: '75002'
+  guide_category: Japonais
+- name: Toy
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/toy
+  verified_at: '2026-09-16'
+  address: 21 Rue Saint-Nicolas
+  postal_code: '75012'
+  guide_category: Japonais
+- name: Trois B
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/trois-b
+  verified_at: '2026-09-16'
+  address: 48 Av. Jean Jaurès
+  postal_code: '75019'
+  guide_category: Bistrot
+- name: Trouble
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/trouble
+  verified_at: '2026-09-16'
+  address: 15 Rue Hippolyte Lebas
+  postal_code: '75009'
+  guide_category: Bar à vins / Cave à manger
+- name: Trâm 130
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/tram-130
+  verified_at: '2026-09-16'
+  address: 130 Rue Saint-Maur
+  postal_code: '75011'
+  guide_category: Cuisine d'auteur
+- name: Trâmette
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/tramette
+  verified_at: '2026-09-16'
+  address: 128 Rue Saint-Maur
+  postal_code: '75011'
+  guide_category: Bar à vins / Cave à manger
+- name: Tuan
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/tuan
+  verified_at: '2026-09-16'
+  address: 24 Rue de Babylone
+  postal_code: '75007'
+  guide_category: Japonais
+- name: Urfa Dürüm
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-urfa-durum-paris-3
+  verified_at: '2026-09-16'
+  address: 58 Rue du Faubourg Saint-Denis
+  postal_code: '75010'
+  guide_category: Lèche-doigts
+- name: Vandal
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/vandal
+  verified_at: '2026-09-16'
+  address: 56 Rue des Alouettes
+  postal_code: '75019'
+  guide_category: Lèche-doigts
+- name: Vantre
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-vantre-paris
+  verified_at: '2026-09-16'
+  address: 19 Rue de la Fontaine au Roi
+  postal_code: '75011'
+  guide_category: Bistrot
+- name: Vivant 2
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-vivant-2-paris
+  verified_at: '2026-09-16'
+  address: 43 Rue des Petites Écuries
+  postal_code: '75010'
+  guide_category: Cuisine d'auteur
+- name: Vivide
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/vivide
+  verified_at: '2026-09-16'
+  address: 3 Rue Dancourt
+  postal_code: '75018'
+  guide_category: Cuisine d'auteur
+- name: Wani
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/wani
+  verified_at: '2026-09-16'
+  address: 7 ter Rue Saint-Placide
+  postal_code: '75006'
+  guide_category: Lèche-doigts
+- name: Zakuro
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/zakuro
+  verified_at: '2026-09-16'
+  address: 4 Rue de Port-Mahon
+  postal_code: '75002'
+  guide_category: Japonais
+- name: Ze Kitchen Galerie
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-ze-kitchen-galerie-paris-16
+  verified_at: '2026-09-16'
+  address: 4 Rue des Grands Augustins
+  postal_code: '75006'
+  guide_category: Cuisine d'auteur
+  latitude: 48.85513
+  longitude: 2.3412194
+  location_source_url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/ze-kitchen-galerie
+- name: Zinga
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/zinga
+  verified_at: '2026-09-16'
+  address: 10 R. des Petites Écuries
+  postal_code: '75010'
+  guide_category: Lèche-doigts
+- name: alt
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/alt
+  verified_at: '2026-09-16'
+  address: 25 Rue le Sueur
+  postal_code: '75116'
+  guide_category: Bistrot
+- name: À La Renaissance
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/a-la-renaissance
+  verified_at: '2026-09-16'
+  address: 87 Rue de la Roquette
+  postal_code: '75011'
+  guide_category: Bistrot
+- name: Åke Table & Vin
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-ake-table-vin-paris-3
+  verified_at: '2026-09-16'
+  address: 8 Rue Marie et Louise
+  postal_code: '75010'
+  guide_category: Bistrot
+- name: Özlem
+  locality: Paris
+  province: Île-de-France
+  guide: le_fooding
+  level: 1
+  url: https://lefooding.com/restaurants/restaurant-ozlem-paris
+  verified_at: '2026-09-16'
+  address: 57 Rue des Petites Écuries
+  postal_code: '75010'
+  guide_category: Lèche-doigts
+- latitude: 48.8857071
+  longitude: 2.8562352
+  name: Auberge de la Brie
+  locality: Couilly-Pont-aux-Dames
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/couilly-pont-aux-dames/restaurant/auberge-de-la-brie
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 14 avenue Alphonse-Boulingre
+  postal_code: '77860'
+- latitude: 48.4049021
+  longitude: 2.6973236
+  name: L'Axel
+  locality: Fontainebleau
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/fontainebleau/restaurant/l-axel
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 43 rue de France
+  postal_code: '77300'
+- latitude: 48.790545
+  longitude: 1.6961807
+  name: Ruche
+  locality: Gambais
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/gambais/restaurant/ruche
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: Domaine les Bruyères, 251 avenue de Neuville
+  postal_code: '78950'
+- latitude: 48.8173763
+  longitude: 2.2665575
+  name: Maison Avoise
+  locality: Issy-les-Moulineaux
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/issy-les-moulineaux/restaurant/maison-avoise
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 58 promenade du Verger
+  postal_code: '92130'
+- latitude: 48.8202241
+  longitude: 2.2270933
+  name: L'Escarbille
+  locality: Meudon
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/meudon/restaurant/l-escarbille
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 8 rue de Vélizy
+  postal_code: '92190'
+- latitude: 48.8639214
+  longitude: 2.433313
+  name: Villa9Trois
+  locality: Montreuil
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/montreuil-ile-de-france/restaurant/villa9trois
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 71 rue Hoche
+  postal_code: '93100'
+- latitude: 48.8718054
+  longitude: 2.3143326
+  name: 114 Faubourg
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/114-faubourg
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: Le Bristol, 114 rue du Faubourg-Saint-Honoré
+  postal_code: '75008'
+- latitude: 48.8496507
+  longitude: 2.3544763
+  name: AT
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/at
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 4bis rue du Cardinal-Lemoine
+  postal_code: '75005'
+- latitude: 48.8699134
+  longitude: 2.3404253
+  name: Accents Table Bourse
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/accents-table-bourse
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 24 rue Feydeau
+  postal_code: '75002'
+- latitude: 48.8848898
+  longitude: 2.30697
+  name: Agapé
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/agape
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 51 rue Jouffroy-d'Abbans
+  postal_code: '75017'
+- latitude: 48.850275
+  longitude: 2.3186554
+  name: Aida
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/aida
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 1 rue Pierre-Leroux
+  postal_code: '75007'
+- latitude: 48.8714069
+  longitude: 2.3252971
+  name: Akrame
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/akrame507272
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 7 rue Tronchet
+  postal_code: '75008'
+- latitude: 48.8715425
+  longitude: 2.2924321
+  name: Alan Geaam
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/alan-geaam
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 19 rue Lauriston
+  postal_code: '75016'
+- latitude: 48.85496
+  longitude: 2.3554
+  name: Aldehyde
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/aldehyde
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 5 rue du Pont-Louis-Philippe
+  postal_code: '75004'
+- latitude: 48.8500038
+  longitude: 2.353269
+  name: Alliance
+  locality: Paris
+  region: Ile-de-France
+  level: 2
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/alliance
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 5 rue de Poissy
+  postal_code: '75005'
+- latitude: 48.8660932
+  longitude: 2.3164993
+  name: Alléno Paris au Pavillon Ledoyen
+  locality: Paris
+  region: Ile-de-France
+  level: 3
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/alleno-paris-au-pavillon-ledoyen
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 8 avenue Dutuit
+  postal_code: '75008'
+- latitude: 48.8681622
+  longitude: 2.371705
+  name: Amâlia
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/amalia
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 32 rue de la Fontaine-au-Roi
+  postal_code: '75011'
+- latitude: 48.856273
+  longitude: 2.3659439
+  name: Anne
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/anne
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 28 place des Vosges
+  postal_code: '75003'
+- latitude: 48.881942
+  longitude: 2.3186535
+  name: Anona
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/anona
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 80 boulevard des Batignolles
+  postal_code: '75017'
+- latitude: 48.8732881
+  longitude: 2.3072835
+  name: Apicius
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/apicius6479
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 20 rue d'Artois
+  postal_code: '75008'
+- latitude: 48.8537124
+  longitude: 2.3325851
+  name: Armani Ristorante
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/armani-ristorante
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 7 place du Québec
+  postal_code: '75006'
+- latitude: 48.8557538
+  longitude: 2.3170127
+  name: Arpège
+  locality: Paris
+  region: Ile-de-France
+  level: 3
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/arpege
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 84 rue de Varenne
+  postal_code: '75007'
+- latitude: 48.8650917
+  longitude: 2.2900701
+  name: Astrance
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/astrance
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 32 rue de Longchamp
+  postal_code: '75016'
+- latitude: 48.8561689
+  longitude: 2.317003
+  name: Auguste
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/auguste
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 54 rue de Bourgogne
+  postal_code: '75007'
+- latitude: 48.8547615
+  longitude: 2.3822285
+  name: Automne
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/automne
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 11 rue Richard-Lenoir
+  postal_code: '75011'
+- latitude: 48.8501648
+  longitude: 2.3523102
+  name: Baieta
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/baieta
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 5 rue de Pontoise
+  postal_code: '75005'
+- latitude: 48.8704851
+  longitude: 2.2797777
+  name: Bellefeuille - Saint James Paris
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/bellefeuille-saint-james-paris
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: Saint James Paris, 5 place du Chancelier-Adenauer
+  postal_code: '75116'
+- latitude: 48.8651172
+  longitude: 2.2874808
+  name: Blanc
+  locality: Paris
+  region: Ile-de-France
+  level: 2
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/blanc-1211547
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 52 rue de Longchamp
+  postal_code: '75116'
+- latitude: 48.8469761
+  longitude: 2.2988947
+  name: Chakaiseki Akiyoshi
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/chakaiseiki-akiyoshi
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 59 rue Letellier
+  postal_code: '75015'
+- latitude: 48.8495058
+  longitude: 2.2761393
+  name: Comice
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/comice
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 31 avenue de Versailles
+  postal_code: '75016'
+- latitude: 48.8705248
+  longitude: 2.3213463
+  name: Contraste
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/contraste1186546
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 18 rue d'Anjou
+  postal_code: '75008'
+- latitude: 48.8636089
+  longitude: 2.3572627
+  name: Datil
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/datil
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 13 rue des Gravilliers
+  postal_code: '75003'
+- latitude: 48.8602663
+  longitude: 2.3097038
+  name: David Toutain
+  locality: Paris
+  region: Ile-de-France
+  level: 2
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/david-toutain
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 29 rue Surcouf
+  postal_code: '75007'
+- latitude: 48.8610318
+  longitude: 2.3114674
+  name: Divellec
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/divellec
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 18 rue Fabert
+  postal_code: '75007'
+- latitude: 48.8630387
+  longitude: 2.2959142
+  name: Don Juan II
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/don-juan-ii
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: Port Debilly
+  postal_code: '75016'
+- latitude: 48.856449
+  longitude: 2.3211774
+  name: ES
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/es
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 91 rue de Grenelle
+  postal_code: '75007'
+- latitude: 48.8680554
+  longitude: 2.329016
+  name: Espadon
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/espadon
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: Ritz Paris, 15 place Vendôme
+  postal_code: '75001'
+- latitude: 48.8636981
+  longitude: 2.372288
+  name: FIEF
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/fief
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 44 rue de la Folie-Méricourt
+  postal_code: '75011'
+- latitude: 48.8677
+  longitude: 2.34333
+  name: Fleur de Pavé
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/fleur-de-pave
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 5 rue Paul-Lelong
+  postal_code: '75002'
+- latitude: 48.867722
+  longitude: 2.3478539
+  name: Frenchie
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/frenchie262795
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 5 rue du Nil
+  postal_code: '75002'
+- latitude: 48.8799368
+  longitude: 2.2942663
+  name: Frédéric Simonin
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/frederic-simonin
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 25 rue Bayen
+  postal_code: '75017'
+- latitude: 48.8565083
+  longitude: 2.324072
+  name: Gaya par Pierre Gagnaire
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/gaya-par-pierre-gagnaire
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 6 rue de Saint-Simon
+  postal_code: '75007'
+- latitude: 48.8632822
+  longitude: 2.2744526
+  name: Geoélia
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/geoelia
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 125 rue de la Tour
+  postal_code: '75116'
+- latitude: 48.8610315
+  longitude: 2.3419097
+  name: Granite
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/granite
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 6 rue Bailleul
+  postal_code: '75001'
+- latitude: 48.8566248
+  longitude: 2.3391955
+  name: Guy Savoy
+  locality: Paris
+  region: Ile-de-France
+  level: 2
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/guy-savoy
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 11 quai de Conti
+  postal_code: '75006'
+- latitude: 48.8655091
+  longitude: 2.3705908
+  name: Géosmine
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/geosmine
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 71 rue de la Folie-Méricourt
+  postal_code: '75011'
+- latitude: 48.858699
+  longitude: 2.331507
+  name: HANADA
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/hanada
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 15 quai Voltaire
+  postal_code: '75007'
+- latitude: 48.8587333
+  longitude: 2.3422408
+  name: Hakuba
+  locality: Paris
+  region: Ile-de-France
+  level: 2
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/hakuba
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: Cheval Blanc Paris, 8 quai du Louvre
+  postal_code: '75001'
+- latitude: 48.8769662
+  longitude: 2.3140253
+  name: Héritages
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/heritages
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 11 rue Treilhard
+  postal_code: '75008'
+- latitude: 48.87577
+  longitude: 2.29997
+  name: Il Carpaccio
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/il-carpaccio300866
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: Le Royal Monceau, 37 avenue Hoche
+  postal_code: '75008'
+- latitude: 48.870498
+  longitude: 2.2992201
+  name: Imperial Treasure
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/imperial-treasure1186891
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 44 rue de Bassano
+  postal_code: '75008'
+- latitude: 48.8734966
+  longitude: 2.3179304
+  name: Irwin
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/irwin
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 22 rue Cambacérès
+  postal_code: '75008'
+- latitude: 48.8830027
+  longitude: 2.3066708
+  name: Jacques Faussat
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/jacques-faussat
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 54 rue Cardinet
+  postal_code: '75017'
+- latitude: 48.86532
+  longitude: 2.3318698
+  name: Jin
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/jin
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 6 rue de la Sourdière
+  postal_code: '75001'
+- latitude: 48.8643513
+  longitude: 2.342169
+  name: Kei
+  locality: Paris
+  region: Ile-de-France
+  level: 3
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/kei
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 5 rue Coq-Héron
+  postal_code: '75001'
+- latitude: 48.8662069
+  longitude: 2.3164988
+  name: L'Abysse Paris
+  locality: Paris
+  region: Ile-de-France
+  level: 2
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/l-abysse-paris
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 8 avenue Dutuit
+  postal_code: '75008'
+- latitude: 48.855494
+  longitude: 2.3645215
+  name: L'Ambroisie
+  locality: Paris
+  region: Ile-de-France
+  level: 2
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/l-ambroisie
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 9 place des Vosges
+  postal_code: '75004'
+- latitude: 48.8617268
+  longitude: 2.2782052
+  name: L'Archeste
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/l-archeste
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 79 rue de la Tour
+  postal_code: '75016'
+- latitude: 48.8732722
+  longitude: 2.3089154
+  name: L'Arôme
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/l-arome174292
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 3 rue Saint-Philippe-du-Roule
+  postal_code: '75008'
+- latitude: 48.8728404
+  longitude: 2.2973168
+  name: L'Atelier de Joël Robuchon - Étoile
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/l-atelier-de-joel-robuchon-etoile
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 133 avenue des Champs-Élysées
+  postal_code: '75008'
+- latitude: 48.8707602
+  longitude: 2.2933134
+  name: L'Oiseau Blanc
+  locality: Paris
+  region: Ile-de-France
+  level: 2
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/l-oiseau-blanc
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: The Peninsula Paris, 19 avenue Kléber
+  postal_code: '75116'
+- latitude: 48.8687851
+  longitude: 2.3008263
+  name: L'Orangerie
+  locality: Paris
+  region: Ile-de-France
+  level: 2
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/l-orangerie505878
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: Four Seasons George V, 31 avenue George-V
+  postal_code: '75008'
+- latitude: 48.8626663
+  longitude: 2.2404762
+  name: La Grande Cascade
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/la-grande-cascade
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: Allée de Longchamp, Bois de Boulogne
+  postal_code: '75016'
+- latitude: 48.8661718
+  longitude: 2.3042735
+  name: La Grande Table du Plaza Athénée
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/la-grande-du-plaza-athenee
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 25 avenue Montaigne
+  postal_code: '75008'
+- latitude: 48.8720059
+  longitude: 2.3144577
+  name: La Scène
+  locality: Paris
+  region: Ile-de-France
+  level: 2
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/la-scene
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 32 avenue Matignon
+  postal_code: '75008'
+- latitude: 48.8663787
+  longitude: 2.3099647
+  name: Lasserre
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/lasserre
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 17 avenue Franklin-D.-Roosevelt
+  postal_code: '75008'
+- latitude: 48.8680116
+  longitude: 2.3257735
+  name: Le Baudelaire
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/le-baudelaire
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: Le Burgundy, 6-8 rue Duphot
+  postal_code: '75001'
+- latitude: 48.8687604
+  longitude: 2.3008612
+  name: Le Cinq
+  locality: Paris
+  region: Ile-de-France
+  level: 3
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/le-cinq6102
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: Four Seasons Hotel George V, 31 avenue George-V
+  postal_code: '75008'
+- latitude: 48.8673498
+  longitude: 2.3098732
+  name: Le Clarence
+  locality: Paris
+  region: Ile-de-France
+  level: 2
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/le-clarence
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 31 avenue Franklin-D.-Roosevelt
+  postal_code: '75008'
+- latitude: 48.8857122
+  longitude: 2.3117036
+  name: Le Faham
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/le-faham
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 108 rue Cardinet
+  postal_code: '75017'
+- latitude: 48.8697309
+  longitude: 2.3132078
+  name: Le Gabriel - La Réserve Paris
+  locality: Paris
+  region: Ile-de-France
+  level: 3
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/le-gabriel476630
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: La Réserve Paris, 42 avenue Gabriel
+  postal_code: '75008'
+- latitude: 48.8687251
+  longitude: 2.3007485
+  name: Le George
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/le-george
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: Four Seasons George V, 31 avenue George-V
+  postal_code: '75008'
+- latitude: 48.8701983
+  longitude: 2.3193146
+  name: Le Grand Restaurant - Jean-François Piège
+  locality: Paris
+  region: Ile-de-France
+  level: 2
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/le-grand-restaurant-jean-francois-piege
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 7 rue d'Aguesseau
+  postal_code: '75008'
+- latitude: 48.85756
+  longitude: 2.29462
+  name: Le Jules Verne
+  locality: Paris
+  region: Ile-de-France
+  level: 2
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/le-jules-verne
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: Tour Eiffel - 6 avenue Gustave-Eiffel
+  postal_code: '75007'
+- latitude: 48.8639374
+  longitude: 2.2507182
+  name: Le Pré Catelan
+  locality: Paris
+  region: Ile-de-France
+  level: 3
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/le-pre-catelan
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: Route de Suresnes - bois de Boulogne
+  postal_code: '75016'
+- latitude: 48.8519498
+  longitude: 2.3560682
+  name: Le Sergent Recruteur
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/le-sergent-recruteur
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 41 rue Saint-Louis-en-l'Île
+  postal_code: '75004'
+- latitude: 48.874195
+  longitude: 2.3024829
+  name: Le Taillevent
+  locality: Paris
+  region: Ile-de-France
+  level: 2
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/le-taillevent
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 15 rue Lamennais
+  postal_code: '75008'
+- latitude: 48.8588392
+  longitude: 2.342155
+  name: Le Tout-Paris
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/le-tout-paris
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: Cheval Blanc Paris, 8 quai du Louvre
+  postal_code: '75001'
+- latitude: 48.8582135
+  longitude: 2.3017796
+  name: Le Violon d'Ingres
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/le-violon-d-ingres5989
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 135 rue Saint-Dominique
+  postal_code: '75007'
+- latitude: 48.8697476
+  longitude: 2.3232442
+  name: Lucas Carton
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/lucas-carton
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 9 place de la Madeleine
+  postal_code: '75008'
+- latitude: 48.881407
+  longitude: 2.2985363
+  name: Maison Rostang
+  locality: Paris
+  region: Ile-de-France
+  level: 2
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/maison-rostang
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 20 rue Rennequin
+  postal_code: '75017'
+- latitude: 48.8657726
+  longitude: 2.3390338
+  name: Maison Ruggieri Palais Royal
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/maison-ruggieri-palais-royal
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 111 galerie de Valois
+  postal_code: '75001'
+- latitude: 48.876837
+  longitude: 2.2915873
+  name: Mallory Gabsi
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/mallory-gabsi
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 28 rue des Acacias
+  postal_code: '75017'
+- latitude: 48.8499883
+  longitude: 2.3279216
+  name: Marsan par Hélène Darroze
+  locality: Paris
+  region: Ile-de-France
+  level: 2
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/marsan-par-helene-darroze
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 4 rue d'Assas
+  postal_code: '75006'
+- latitude: 48.8405528
+  longitude: 2.3511901
+  name: Mavrommatis
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/mavrommatis
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 42 rue Daubenton
+  postal_code: '75005'
+- latitude: 48.8364014
+  longitude: 2.3225579
+  name: MoSuke
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/mosuke
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 11 rue Raymond-Losserand
+  postal_code: '75014'
+- latitude: 48.8668548
+  longitude: 2.3064128
+  name: Monsieur Dior by Yannick Alléno
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/monsieur-dior-by-yannick-alleno
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 32 avenue Montaigne
+  postal_code: '75008'
+- latitude: 48.8760396
+  longitude: 2.34745
+  name: NESO
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/neso
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 3 rue Papillon
+  postal_code: '75009'
+- latitude: 48.8482237
+  longitude: 2.3196445
+  name: Nakatani
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/nakatani
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 27 rue Pierre-Leroux
+  postal_code: '75007'
+- latitude: 48.8454303
+  longitude: 2.2989942
+  name: Neige d'Été
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/neige-d-ete
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 12 rue de l'Amiral-Roussin
+  postal_code: '75015'
+- latitude: 48.8661738
+  longitude: 2.3374459
+  name: Nhome
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/nhome
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 41 rue de Montpensier
+  postal_code: '75001'
+- latitude: 48.8702767
+  longitude: 2.2830545
+  name: Nomicos
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/nomicos
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 16 avenue Hubert-Germain
+  postal_code: '75116'
+- latitude: 48.8652933
+  longitude: 2.3421907
+  name: Omar Dhiab
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/omar-dhiab
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 23 rue Hérold
+  postal_code: '75001'
+- latitude: 48.8772724
+  longitude: 2.3003097
+  name: Onor
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/onor
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 258 rue du Faubourg-Saint-Honoré
+  postal_code: '75008'
+- latitude: 48.8702343
+  longitude: 2.3111842
+  name: Origines Restaurant
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/origines-restaurant
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 6 rue de Ponthieu
+  postal_code: '75008'
+- latitude: 48.8757794
+  longitude: 2.2956526
+  name: Oxte
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/oxte
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 5 rue Troyon
+  postal_code: '75017'
+- latitude: 48.864083
+  longitude: 2.336137
+  name: Pantagruel
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/pantagruel
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 10 rue de Richelieu
+  postal_code: '75001'
+- latitude: 48.8659971
+  longitude: 2.3162586
+  name: Pavyllon Paris
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/pavyllon-paris
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 8 avenue Dutuit
+  postal_code: '75008'
+- latitude: 48.8571707
+  longitude: 2.3033772
+  name: Pertinence
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/pertinence
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 29 rue de l'Exposition
+  postal_code: '75007'
+- latitude: 48.8732731
+  longitude: 2.3003493
+  name: Pierre Gagnaire
+  locality: Paris
+  region: Ile-de-France
+  level: 3
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/pierre-gagnaire6112
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 6 rue Balzac
+  postal_code: '75008'
+- latitude: 48.8425254
+  longitude: 2.313917
+  name: Pilgrim
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/pilgrim1000208
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 8 rue Nicolas-Charlet
+  postal_code: '75015'
+- latitude: 48.8588148
+  longitude: 2.3421588
+  name: Plénitude - Cheval Blanc Paris
+  locality: Paris
+  region: Ile-de-France
+  level: 3
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/plenitude-cheval-blanc-paris
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: Cheval Blanc Paris, 8 quai du Louvre
+  postal_code: '75001'
+- latitude: 48.8599912
+  longitude: 2.3152937
+  name: Prévelle
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/prevelle
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 34 rue Saint-Dominique
+  postal_code: '75007'
+- latitude: 48.868617
+  longitude: 2.3303786
+  name: Pur' - Jean-François Rouquette
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/pur-jean-francois-rouquette
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: Park Hyatt Paris-Vendôme, 5 rue de la Paix
+  postal_code: '75002'
+- latitude: 48.8590909
+  longitude: 2.3683449
+  name: Qui Plume la Lune
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/qui-plume-la-lune
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 50 rue Amelot
+  postal_code: '75011'
+- latitude: 48.8476485
+  longitude: 2.325489
+  name: Quinsou
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/quinsou
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 33 rue de l'Abbé-Grégoire
+  postal_code: '75006'
+- latitude: 48.8546533
+  longitude: 2.3408104
+  name: Relais Louis XIII
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/relais-louis-xiii
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 8 rue des Grands-Augustins
+  postal_code: '75006'
+- latitude: 48.8543896
+  longitude: 2.368087
+  name: Restaurant H
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/restaurant-h
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 13 rue Jean-Beausire
+  postal_code: '75004'
+- latitude: 48.86525
+  longitude: 2.3278399
+  name: Restaurant Le Meurice Alain Ducasse
+  locality: Paris
+  region: Ile-de-France
+  level: 2
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/le-meurice-alain-ducasse
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: Le Meurice, 228 rue de Rivoli
+  postal_code: '75001'
+- latitude: 48.8536287
+  longitude: 2.3806905
+  name: Septime
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/septime
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 80 rue de Charonne
+  postal_code: '75011'
+- latitude: 48.8659204
+  longitude: 2.3490797
+  name: Shabour
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/shabour
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 19 rue Saint-Sauveur
+  postal_code: '75002'
+- latitude: 48.8515799
+  longitude: 2.3483585
+  name: Sola
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/sola
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 12 rue de l'Hôtel-Colbert
+  postal_code: '75005'
+- latitude: 48.8402902
+  longitude: 2.3458979
+  name: Solstice
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/solstice
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 45 rue Claude-Bernard
+  postal_code: '75005'
+- latitude: 48.8673445
+  longitude: 2.2976536
+  name: Substance
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/substance
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 18 rue de Chaillot
+  postal_code: '75016'
+- latitude: 48.867715
+  longitude: 2.3376315
+  name: Sushi B
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/sushi-b514232
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 5 rue Rameau
+  postal_code: '75002'
+- latitude: 48.8851108
+  longitude: 2.3357826
+  name: Sushi Shunei
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/sushi-shunei
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 3 rue Audran
+  postal_code: '75018'
+- latitude: 48.8698375
+  longitude: 2.3349558
+  name: Sushi Yoshinaga
+  locality: Paris
+  region: Ile-de-France
+  level: 2
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/sushi-yoshinaga
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 27 rue du 4-Septembre
+  postal_code: '75002'
+- latitude: 48.8486151
+  longitude: 2.3759654
+  name: Table - Bruno Verjus
+  locality: Paris
+  region: Ile-de-France
+  level: 2
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/table-bruno-verjus
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 3 rue de Prague
+  postal_code: '75012'
+- latitude: 48.8605434
+  longitude: 2.3095202
+  name: Tomy & Co
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/tomy-co
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 22 rue Surcouf
+  postal_code: '75007'
+- latitude: 48.8498353
+  longitude: 2.3549236
+  name: Tour d'Argent
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/tour-d-argent
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 15 quai de la Tournelle
+  postal_code: '75005'
+- latitude: 48.8652115
+  longitude: 2.304464
+  name: Trente-Trois
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/trente-trois
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: Maison Villeroy, 33 rue Jean-Goujon
+  postal_code: '75008'
+- latitude: 48.8532272
+  longitude: 2.3827958
+  name: Vaisseau
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/vaisseau
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 35 rue Faidherbe
+  postal_code: '75011'
+- latitude: 48.8501479
+  longitude: 2.3780547
+  name: Virtus
+  locality: Paris
+  region: Ile-de-France
+  level: 2
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/virtus
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 29 rue de Cotte
+  postal_code: '75012'
+- latitude: 48.8528439
+  longitude: 2.3377712
+  name: Yoshinori
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/yoshinori
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 18 rue Grégoire-de-Tours
+  postal_code: '75006'
+- latitude: 48.85513
+  longitude: 2.3412194
+  name: Ze Kitchen Galerie
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/ze-kitchen-galerie
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 4 rue des Grands-Augustins
+  postal_code: '75006'
+- latitude: 48.8743525
+  longitude: 2.2826529
+  name: Zostera
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/zostera
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 40 rue Pergolèse
+  postal_code: '75116'
+- latitude: 48.8716826
+  longitude: 2.3147289
+  name: Épicure
+  locality: Paris
+  region: Ile-de-France
+  level: 3
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/epicure
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: Le Bristol, 112 rue du Faubourg-Saint-Honoré
+  postal_code: '75008'
+- latitude: 48.8835225
+  longitude: 2.3046062
+  name: Épisodes
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/episodes
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 8 rue Meissonier
+  postal_code: '75017'
+- latitude: 48.8584133
+  longitude: 2.2875568
+  name: Ōrtensia
+  locality: Paris
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/paris/restaurant/ortensia-1202241
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 4 rue Beethoven
+  postal_code: '75016'
+- latitude: 49.0501575
+  longitude: 2.0976083
+  name: L'Or Q'idée
+  locality: Pontoise
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/pontoise/restaurant/l-or-q-idee
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 14 rue Marcel-Rousier
+  postal_code: '95000'
+- latitude: 49.0227565
+  longitude: 1.6096554
+  name: Le Panoramique - Domaine de la Corniche
+  locality: Rolleboise
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/rolleboise/restaurant/le-panoramique-domaine-de-la-corniche
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 5 route de la Corniche
+  postal_code: '78270'
+- latitude: 48.8778387
+  longitude: 2.1830535
+  name: Ochre
+  locality: Rueil-Malmaison
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/rueil-malmaison/restaurant/ochre
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 56 rue du Gué
+  postal_code: '92500'
+- latitude: 48.801401
+  longitude: 2.120209
+  name: Ducasse au Château de Versailles - Le Grand Contrôle
+  locality: Versailles
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/versailles/restaurant/ducasse-au-chateau-de-versailles-le-grand-controle
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 12 rue de l'Indépendance-Américaine
+  postal_code: '78000'
+- latitude: 48.8108088
+  longitude: 2.1203284
+  name: Gordon Ramsay au Trianon
+  locality: Versailles
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/versailles/restaurant/gordon-ramsay-au-trianon
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 1 boulevard de la Reine
+  postal_code: '78000'
+- latitude: 48.8028642
+  longitude: 2.1233414
+  name: La Table du 11
+  locality: Versailles
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/versailles/restaurant/la-table-du-11
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 8 rue de la Chancellerie
+  postal_code: '78000'
+- latitude: 48.8220267
+  longitude: 2.1830041
+  name: Le Corot
+  locality: Ville-d'Avray
+  region: Ile-de-France
+  level: 2
+  url: https://guide.michelin.com/en/ile-de-france/ville-d-avray/restaurant/le-corot
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: Les Étangs de Corot, 55 rue de Versailles
+  postal_code: '92410'
+- latitude: 48.8130658
+  longitude: 2.8295952
+  name: La Vieille Auberge
+  locality: Villeneuve-le-Comte
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/villeneuve-le-comte_1553696/restaurant/la-vieille-auberge-1206650
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 11 rue du Général-de-Gaulle
+  postal_code: '77174'
+- latitude: 48.8476098
+  longitude: 2.4367513
+  name: L'Ours
+  locality: Vincennes
+  region: Ile-de-France
+  level: 1
+  url: https://guide.michelin.com/en/ile-de-france/vincennes/restaurant/l-ours
+  guide: michelin
+  province: Ile-de-France
+  verified_at: '2026-09-16'
+  address: 12 rue de l'Église
+  postal_code: '94300'

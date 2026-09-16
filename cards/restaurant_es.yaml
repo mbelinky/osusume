@@ -1,0 +1,29 @@
+category: restaurant
+country: ES
+reviewed: true
+languages:
+  en: [restaurant, tasting menu restaurant, fine dining restaurant]
+  es: [restaurante, restaurante menú degustación, restaurante gastronómico]
+  ca: [restaurant, restaurant menú degustació, restaurant gastronòmic]
+places_types: [restaurant, fine_dining_restaurant]
+accept_types: [restaurant]
+query_templates:
+  - "{name} {city} web oficial horarios reservas"
+  - "{name} {city} menú degustación carta de vinos"
+  - "{name} {city} menú degustació carta de vins horaris"
+  - "{name} {city} tasting menu wine list official website"
+sources:
+  ES: {michelin: 1.0, repsol: 1.0, fifty_best: 1.0, macarfi: 0.8}
+source_domains:
+  michelin: [guide.michelin.com]
+  repsol: [guiarepsol.com]
+  fifty_best: [theworlds50best.com]
+  macarfi: [macarfi.com]
+load_bearing_claims:
+  - operational_status
+  - hours_at_arrival
+  - detour
+  - quality
+freshness_overrides:
+  quality: 365
+event_shaped: false

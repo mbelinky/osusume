@@ -4,6 +4,7 @@ import json
 import os
 import re
 import subprocess
+import sys
 from copy import deepcopy
 from datetime import datetime, timezone
 from html.parser import HTMLParser
@@ -15,6 +16,13 @@ from urllib.parse import quote, unquote, urljoin, urlparse
 from urllib.request import Request, urlopen
 
 from .evidence import registrable_domain
+from .guide_registry import (
+    DEFAULT_REGISTRY_DIR,
+    distance_km,
+    entry_in_text_scope,
+    load_guide_registry,
+    registry_entry_matches_candidate,
+)
 from .room_index import _room_name_from_text
 
 
@@ -226,10 +234,49 @@ def _json_subprocess(command: list[str], *, input_data: dict | None = None) -> A
     )
     if completed.returncode:
         raise AdapterError(f"command failed ({completed.returncode}): {' '.join(command)}\n{completed.stderr.strip()}")
+    if completed.stderr.strip():
+        # Lane diagnostics (model, latency, tokens) stay visible on the run's stderr.
+        print(completed.stderr.strip(), file=sys.stderr)
     try:
         return json.loads(completed.stdout)
     except json.JSONDecodeError as exc:
         raise AdapterError(f"command returned invalid JSON: {' '.join(command)}") from exc
+
+
+GUIDE_AWARD_WORDS = {
+    "michelin": ("Michelin star", "Michelin stars"),
+    "repsol": ("Sol in Guía Repsol", "Soles in Guía Repsol"),
+}
+
+
+def _guide_award_text(entry: dict) -> str:
+    """Plain sentence the judge can read against a worded quality claim."""
+    level = int(entry["level"])
+    guide = str(entry["guide"])
+    if guide == "fifty_best":
+        tier = {3: "top 10", 2: "top 50", 1: "51 to 100"}.get(level, f"tier {level}")
+        award = f"is in The World's 50 Best Restaurants list ({tier})"
+    elif guide == "hardens":
+        rank = entry.get("rank")
+        award = f"is number {rank} in Harden's Top 100 UK Restaurants" if rank else "is in Harden's Top 100 UK Restaurants"
+    elif guide == "macarfi":
+        rating = entry.get("rating")
+        award = f"scores {rating} out of 10 in Guía Macarfi" if rating is not None else f"is rated at Guía Macarfi's level {level}"
+    elif guide == "le_fooding":
+        award = "is selected by Le Fooding"
+    elif guide in GUIDE_AWARD_WORDS:
+        singular, plural = GUIDE_AWARD_WORDS[guide]
+        award = f"holds {level} {singular if level == 1 else plural}"
+    else:
+        award = f"is a level {level} rated entry in {guide}"
+    return f"{entry['name']} ({entry['locality']}) {award}, verified {entry['verified_at']}."
+
+
+def _region_args(request: dict) -> list[str]:
+    """Restrict Places text search to the request country so a Barcelona ask
+    cannot pull a Houston "Chef's Table" into the sweep."""
+    country = str(request.get("country") or "").strip().upper()
+    return ["--region", country] if len(country) == 2 and country.isalpha() else []
 
 
 def _places_list(payload: Any) -> list[dict]:
@@ -421,9 +468,10 @@ class GoplacesAdapter:
             lat = scope.get("lat")
             lng = scope.get("lng")
             radius_m = anchor_radius_m(scope) if scope.get("kind") == "anchor" else int(scope.get("radius_km", 5) * 1000)
+            region = _region_args(request)
             for language, terms in language_rows.items():
                 for term in terms:
-                    args = ["search", term, "--language", language, "--lat", str(lat), "--lng", str(lng), "--radius-m", str(radius_m)]
+                    args = ["search", term, "--language", language, "--lat", str(lat), "--lng", str(lng), "--radius-m", str(radius_m), *region]
                     payload = self._run(args)
                     raw.append({"command": args, "response": payload})
                     results.extend(_places_list(payload))
@@ -447,7 +495,7 @@ class GoplacesAdapter:
 
     def resolve(self, name: str, request: dict, place_type: str | None = None) -> dict | None:
         scope = request.get("scope", {})
-        args = ["search", name, "--limit", "1"]
+        args = ["search", name, "--limit", "1", *_region_args(request)]
         if place_type:
             args.extend(["--type", place_type])
         if scope.get("kind") in {"near", "anchor"} and scope.get("lat") is not None and scope.get("lng") is not None:
@@ -500,7 +548,13 @@ class GoplacesAdapter:
 
 
 class WebAdapter:
-    def __init__(self, endpoint: str, api_key: str | None = None, retrieval: dict[str, int] | None = None) -> None:
+    def __init__(
+        self,
+        endpoint: str,
+        api_key: str | None = None,
+        retrieval: dict[str, int] | None = None,
+        registry_dir: Path | None = None,
+    ) -> None:
         self.endpoint = endpoint
         self.api_key = api_key or os.environ.get("EXA_API_KEY")
         limits = retrieval or {}
@@ -508,6 +562,8 @@ class WebAdapter:
         self.max_results_per_query = int(limits.get("max_results_per_query", 5))
         self.max_pages_per_candidate = int(limits.get("max_pages_per_candidate", 60))
         self.official_pages_per_venue = int(limits.get("official_pages_per_venue", 4))
+        self.max_registry_injections = int(limits.get("max_registry_injections", 0))
+        self.registry_dir = registry_dir or DEFAULT_REGISTRY_DIR
         self._host_locks: dict[str, Lock] = {}
         self._host_locks_guard = Lock()
 
@@ -559,9 +615,105 @@ class WebAdapter:
         searches = 0
         pages_retrieved = 0
         budget_exhausted = False
+        configured_sources = card.get("sources", {}).get(country, {}) or {}
+        local_entries: list[dict[str, Any]] = []
+        card_category = str(card.get("category") or request.get("category") or "").casefold()
+        local_registry_allowed = card.get("reviewed") is True and (
+            "restaurant" in card_category or card_category in {"fine_dining", "fine-dining"}
+        )
+        if configured_sources and local_registry_allowed:
+            local_entries = load_guide_registry(country, self.registry_dir) or []
+            local_entries = [entry for entry in local_entries if entry["guide"] in configured_sources]
+
+        matched_entries: set[int] = set()
+        for entry_index, entry in enumerate(local_entries):
+            for candidate in candidates or []:
+                if not registry_entry_matches_candidate(entry, candidate):
+                    continue
+                matched_entries.add(entry_index)
+                qualifications.append(
+                    {
+                        "place_id": candidate["place_id"],
+                        "source": entry["guide"],
+                        "entry_type": "rated_entry",
+                        "url": entry["url"],
+                        "title": f"{entry['name']} — {entry['level']} {entry['guide']}",
+                        "text": _guide_award_text(entry),
+                        "date": entry["verified_at"],
+                        "verified_at": entry["verified_at"],
+                        "level": entry["level"],
+                        "locality": entry["locality"],
+                        "province": entry["province"],
+                        "registry": "local",
+                    }
+                )
+
+        scope = request.get("scope") or {}
+        center = None
+        if scope.get("lat") is not None and scope.get("lng") is not None:
+            center = float(scope["lat"]), float(scope["lng"])
+        radius_km = None
+        if scope.get("kind") == "anchor":
+            radius_km = anchor_radius_m(scope) / 1000
+        elif scope.get("kind") == "near" and scope.get("radius_km") is not None:
+            radius_km = float(scope["radius_km"])
+        scoped_entries: list[tuple[float, dict[str, Any]]] = []
+        for entry_index, entry in enumerate(local_entries):
+            if entry_index in matched_entries:
+                continue
+            coordinates = (
+                (float(entry["latitude"]), float(entry["longitude"]))
+                if entry.get("latitude") is not None and entry.get("longitude") is not None
+                else None
+            )
+            known_distance = distance_km(center, coordinates) if center and coordinates else None
+            if known_distance is not None and radius_km is not None:
+                in_scope = known_distance <= radius_km
+            else:
+                in_scope = entry_in_text_scope(entry, request)
+            if not in_scope:
+                continue
+            scoped_entries.append((known_distance if known_distance is not None else float("inf"), entry))
+
+        # Strongest guide first (card weight), then best level, then nearest.
+        scoped_entries.sort(
+            key=lambda item: (
+                -float(configured_sources.get(item[1]["guide"], 0)),
+                -int(item[1]["level"]),
+                item[0],
+                str(item[1]["name"]).casefold(),
+            )
+        )
+        if self.max_registry_injections > 0 and len(scoped_entries) > self.max_registry_injections:
+            scoped_entries = scoped_entries[: self.max_registry_injections]
+            budget_exhausted = True
+        for _, entry in scoped_entries:
+            injected.append(
+                {
+                    "name": entry["name"],
+                    "locality": entry["locality"],
+                    "province": entry["province"],
+                    "source": entry["guide"],
+                    "entry_type": "rated_entry",
+                    "url": entry["url"],
+                    "title": f"{entry['name']} — {entry['level']} {entry['guide']}",
+                    "text": _guide_award_text(entry),
+                    "date": entry["verified_at"],
+                    "verified_at": entry["verified_at"],
+                    "level": entry["level"],
+                    "latitude": entry.get("latitude"),
+                    "longitude": entry.get("longitude"),
+                    "aliases": entry.get("aliases", []),
+                    "registry": "local",
+                }
+            )
+
+        local_sources = {entry["guide"] for entry in local_entries}
         localities = (locality_from_candidate(candidate) for candidate in candidates or [])
         locality = next((value for value in localities if value), "")
-        for source, weight in (card.get("sources", {}).get(country, {}) or {}).items():
+        for source, weight in configured_sources.items():
+            if source in local_sources:
+                continue
             if searches >= self.max_queries_per_candidate or pages_retrieved >= self.max_pages_per_candidate:
                 budget_exhausted = True
                 break
@@ -909,12 +1061,16 @@ class _OfficialPageParser(HTMLParser):
 
 
 class ModelAdapter:
-    def __init__(self, config: dict[str, Any]) -> None:
+    def __init__(self, config: dict[str, Any], *, quick: bool = False) -> None:
         self.config = config
+        self.quick = quick
 
     def run(self, slot: str, payload: dict[str, Any]) -> dict[str, Any]:
         models = self.config["models"]
-        model = models.get("task_overrides", {}).get(slot, models["default_model"])
+        overrides = dict(models.get("task_overrides") or {})
+        if self.quick:
+            overrides.update(models.get("quick_task_overrides") or {})
+        model = overrides.get(slot, models["default_model"])
         command_template = models.get("commands", {}).get(slot) or models.get("commands", {}).get("default")
         if not command_template:
             raise AdapterError(f"no model command configured for {slot}")

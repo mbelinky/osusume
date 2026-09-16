@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from collections import Counter
 import math
 import re
 import unicodedata
@@ -16,6 +17,7 @@ from .adapters import AdapterError, BookingAdapter, RecordedAdapters, _candidate
 from .cards import find_card, save_ephemeral_card, validate_card
 from .domain import Candidate, StructuredRequest, utc_now
 from .evidence import Claim, ClaimLedger, ClaimStatus, EvidenceRecord, registrable_domain
+from .guide_registry import entry_query, registry_entry_matches_candidate
 from .room_index import RoomIndex, passages_from_pages
 from .room_proof import attribute_terms, evaluate_room_proof
 
@@ -82,6 +84,25 @@ CHIP_PHRASES_WITHOUT_ARTICLES = (
     "room service",
     "wifi",
 )
+
+# Evidence the code produced itself (a Places field, a computed route, a
+# structured registry row, a Booking rate): the judge has nothing to read, so
+# these rows are accepted literally and never sent to the model.
+STRUCTURED_EVIDENCE_KINDS = {"places_field", "computed_route", "booking_signal", "booking_rate"}
+
+
+def _structured_evidence(row: EvidenceRecord) -> bool:
+    if row.source_kind in STRUCTURED_EVIDENCE_KINDS:
+        return True
+    # A local registry row settles the card's generic quality claim by itself.
+    # A worded quality claim ("three Michelin stars") still goes to the judge,
+    # which reads the row's guide and level against the wording.
+    return (
+        row.source_kind == "qualified_guide"
+        and row.metadata.get("registry") == "local"
+        and row.claim_id == "quality"
+    )
+
 
 HOURS_CONTACT_QUESTIONS = {
     "it": "Sarete aperti durante il nostro orario di arrivo?",
@@ -177,6 +198,26 @@ def _out_of_scope(candidate: Candidate, scope: dict[str, Any]) -> bool:
     if center_lat is None or center_lng is None or radius_km is None or location is None:
         return False
     return _haversine_km((float(center_lat), float(center_lng)), location) > float(radius_km)
+
+
+def _type_mismatch(candidate: Candidate, wanted: set[str]) -> bool:
+    """A swept listing whose Places types share nothing with the card's
+    ``accept_types`` is a different kind of business (a caterer or a cooking
+    school answering a restaurant sweep). Cards without ``accept_types`` and
+    listings without a types list are left alone."""
+    if not wanted or not candidate.types:
+        return False
+    return wanted.isdisjoint(candidate.types)
+
+
+def _rating_score(candidate: Candidate, ranking: dict[str, Any]) -> float:
+    """Review-count-aware rating: a 5.0 from twelve reviews must not outrank
+    a 4.8 from four thousand."""
+    prior = float(ranking.get("prior_rating", 4.2))
+    weight = float(ranking.get("prior_weight", 50))
+    count = float(candidate.review_count or 0)
+    rating = float(candidate.rating) if candidate.rating is not None else prior
+    return (count * rating + weight * prior) / (count + weight)
 
 
 def _parse_iso(raw: str) -> datetime:
@@ -495,6 +536,12 @@ class Funnel:
         self.room_index = room_index
         self._host_locks: dict[str, Lock] = {}
         self._host_locks_guard = Lock()
+        self.ranking = dict(self.config.get("ranking") or {})
+        self.level_factors = {
+            int(level): float(factor) for level, factor in (self.ranking.get("level_factors") or {}).items()
+        }
+        self.photo_capable = bool((self.config.get("models") or {}).get("photo_capable", True))
+        self.swept = 0
 
     def _call(self, adapter: str, operation: str, request: dict, fn) -> Any:
         self.model_failed = False
@@ -514,7 +561,10 @@ class Funnel:
         cli_scope = raw_input.get("scope")
         if cli_scope:
             parsed["scope"] = {**(parsed.get("scope") or {}), **cli_scope}
-        if raw_input.get("when") and not parsed.get("arrival_start"):
+        if raw_input.get("when"):
+            # The caller's arrival time is the window. A parse lane that widens
+            # it to the whole meal ("20:30 to 23:00") makes every restaurant
+            # with a 21:30 last seating look closed.
             parsed["arrival_start"] = raw_input["when"]
             parsed["arrival_end"] = raw_input["when"]
         if raw_input.get("max_detour_min") is not None:
@@ -536,7 +586,13 @@ class Funnel:
                 raise ValueError("each preference must have one of the three allowed effect types and state its effect")
 
         card_name = raw_input.get("card") or request.category
-        found = find_card(card_name, self.config["paths"]["cards"], self.config["freshness_days"])
+        found = find_card(
+            card_name,
+            self.config["paths"]["cards"],
+            self.config["freshness_days"],
+            request.country,
+            strict_country=not raw_input.get("card"),
+        )
         if found:
             card = found[0]
         else:
@@ -622,7 +678,14 @@ class Funnel:
         if response.get("type_attempt_count", 0) and not response.get("type_success_count", 0):
             raise AdapterError("every configured Places type failed")
         survivors: dict[str, Candidate] = {}
+        seen_place_ids: set[str] = set()
+        wanted_types = {str(value) for value in card.get("accept_types", []) if value}
         for raw in response.get("candidates", []):
+            raw_place_id = raw.get("place_id") or raw.get("id")
+            if not booking_sweep and raw_place_id:
+                if raw_place_id in seen_place_ids:
+                    continue
+                seen_place_ids.add(raw_place_id)
             if booking_sweep:
                 booking = raw.get("raw", {}).get("booking", raw.get("booking", raw))
                 name = str(booking.get("name") or raw.get("name") or "")
@@ -682,9 +745,20 @@ class Funnel:
                 candidate.verdict = "rejected"
                 self.rejected.append(candidate)
                 continue
+            if not booking_sweep and _type_mismatch(candidate, wanted_types):
+                candidate.rejection_reason = "type_mismatch"
+                candidate.verdict = "rejected"
+                self.rejected.append(candidate)
+                continue
             survivors.setdefault(candidate.place_id, candidate)
-        rows = list(survivors.values())
-        return rows if booking_sweep else rows[:20]
+        return list(survivors.values())
+
+    def _rank(self, candidates: list[Candidate]) -> list[Candidate]:
+        return sorted(
+            candidates,
+            key=lambda item: (item.source_weight, _rating_score(item, self.ranking)),
+            reverse=True,
+        )
 
     def resolve_anchor(self, request: StructuredRequest) -> StructuredRequest | None:
         if request.scope.get("kind") != "anchor":
@@ -718,32 +792,96 @@ class Funnel:
         return StructuredRequest.from_dict(parsed)
 
     def stage2_qualify(self, candidates: list[Candidate], request: StructuredRequest, card: dict) -> list[Candidate]:
+        weights = card.get("sources", {}).get(request.country, {}) or {}
+        if card.get("reviewed") is False or not weights:
+            return candidates
         candidate_rows = [{**candidate.raw, "place_id": candidate.place_id, "name": candidate.name} for candidate in candidates]
         payload = {"request": request.to_dict(), "card": card, "candidates": candidate_rows}
         response = self._call("web", "registry", payload, lambda: self.adapters.web.registry(request.to_dict(), card, candidate_rows))
         self.search_budget_exhausted = self.search_budget_exhausted or bool(response.get("budget_exhausted"))
         by_id = {candidate.place_id: candidate for candidate in candidates}
-        weights = card.get("sources", {}).get(request.country, {}) or {}
+
+        def attach(candidate: Candidate, row: dict[str, Any]) -> None:
+            entry_type = row.get("entry_type", "mention")
+            normalized = {**row, "entry_type": entry_type}
+            signature = (
+                normalized.get("source"),
+                normalized.get("entry_type"),
+                normalized.get("url"),
+                normalized.get("level"),
+            )
+            existing_signatures = {
+                (item.get("source"), item.get("entry_type"), item.get("url"), item.get("level"))
+                for item in candidate.registry
+            }
+            already_weighted = {
+                item.get("source") for item in candidate.registry if item.get("entry_type") == "rated_entry"
+            }
+            if signature not in existing_signatures:
+                candidate.registry.append(normalized)
+            source = normalized.get("source")
+            if entry_type == "rated_entry" and source not in already_weighted:
+                candidate.source_weight += float(weights.get(source, 0)) * self._level_factor(normalized.get("level"))
+
         for row in response.get("qualifications", []):
             candidate = by_id.get(row.get("place_id"))
             if not candidate:
                 continue
-            entry_type = row.get("entry_type", "mention")
-            source = row.get("source", "")
-            candidate.registry.append({**row, "entry_type": entry_type})
-            if entry_type == "rated_entry":
-                candidate.source_weight += float(weights.get(source, 0))
-        for injected in response.get("injected", []):
-            resolve_request = {"name": injected["name"], "request": request.to_dict()}
+            attach(candidate, row)
+        injected_rows = list(response.get("injected", []))
+        card_type = next(iter(card.get("places_types", [])), None)
+
+        def resolve_injected(query: str, place_type: str | None):
+            return lambda: self.adapters.places.resolve(query, request.to_dict(), place_type)
+
+        # One Places call per distinct venue, in parallel; recorded below in candidate order.
+        distinct = {
+            (entry_query(row), card_type) if row.get("registry") == "local" else (row["name"], None)
+            for row in injected_rows
+        }
+        prefetched = {} if self.adapters.replay else self._run_parallel(
+            [(key, resolve_injected(*key)) for key in distinct],
+            int(self.config.get("retrieval", {}).get("fetch_workers", 6)),
+        )
+
+        for injected in injected_rows:
+            local_registry_entry = injected.get("registry") == "local"
+            already_resolved = (
+                next(
+                    (
+                        candidate
+                        for candidate in by_id.values()
+                        if registry_entry_matches_candidate(
+                            injected, {**candidate.raw, "name": candidate.name, "location": candidate.location}
+                        )
+                    ),
+                    None,
+                )
+                if local_registry_entry
+                else None
+            )
+            if already_resolved:
+                attach(already_resolved, injected)
+                continue
+            query = entry_query(injected) if local_registry_entry else injected["name"]
+            place_type = card_type if local_registry_entry else None
+            resolve_request = {"name": query, "request": request.to_dict()}
+            if local_registry_entry:
+                resolve_request["place_type"] = place_type
             place = self._call(
                 "goplaces",
                 "resolve",
                 resolve_request,
-                lambda item=injected: self.adapters.places.resolve(item["name"], request.to_dict()),
+                self._outcome_runner(prefetched.get((query, place_type)), resolve_injected(query, place_type)),
             )
             if not place:
                 continue
             candidate = Candidate.from_place(place)
+            if local_registry_entry and not registry_entry_matches_candidate(injected, {**place, "name": candidate.name}):
+                candidate.rejection_reason = "registry_identity_mismatch"
+                candidate.verdict = "rejected"
+                self.rejected.append(candidate)
+                continue
             if _excluded(candidate, request.exclusions):
                 continue
             if candidate.business_status != OPERATIONAL:
@@ -756,10 +894,19 @@ class Funnel:
                 candidate.verdict = "rejected"
                 self.rejected.append(candidate)
                 continue
-            if candidate.place_id not in by_id:
-                candidate.registry.append(injected)
+            existing = by_id.get(candidate.place_id)
+            if existing:
+                attach(existing, injected)
+            else:
+                attach(candidate, injected)
                 by_id[candidate.place_id] = candidate
-        return sorted(by_id.values(), key=lambda item: (item.source_weight, item.rating or 0), reverse=True)
+        return list(by_id.values())
+
+    def _level_factor(self, level: Any) -> float:
+        try:
+            return self.level_factors.get(int(level), 1.0) if level is not None else 1.0
+        except (TypeError, ValueError):
+            return 1.0
 
     def stage3_mine(self, candidates: list[Candidate], request: StructuredRequest, card: dict, depth: str) -> dict[str, dict]:
         if self.adapters.replay:
@@ -771,8 +918,14 @@ class Funnel:
             self.coverage.setdefault("fetched", 0)
 
         details_by_id: dict[str, dict] = {}
-        for candidate in candidates:
-            details_by_id[candidate.place_id] = self.adapters.places.details(candidate.place_id, request.local_language)
+        detail_workers = max(1, int(self.config["retrieval"].get("fetch_workers", 6)))
+        with ThreadPoolExecutor(max_workers=detail_workers) as pool:
+            detail_futures = {
+                candidate.place_id: pool.submit(self.adapters.places.details, candidate.place_id, request.local_language)
+                for candidate in candidates
+            }
+            for place_id, future in detail_futures.items():
+                details_by_id[place_id] = future.result()
 
         official_by_id: dict[str, dict] = {}
         fetch_rows: list[tuple[Candidate, dict]] = []
@@ -1137,16 +1290,19 @@ class Funnel:
                             metadata={"scope": "property"},
                         )
                     )
+        quality_claims = [claim for claim in ledger.claims if claim.claim_type == "quality"]
         for index, row in enumerate(candidate.registry):
-            if row.get("entry_type") != "rated_entry" or "quality" not in claim_specs:
+            if row.get("entry_type") != "rated_entry":
                 continue
             text = row.get("text", row.get("title", "rated guide entry"))
-            ledger.add_evidence(
-                EvidenceRecord(
-                    f"registry_{index}", "quality", "qualified_guide", row.get("url", ""), stamp,
-                    row.get("date") or stamp, text, row.get("quote", text), roundup=False,
+            for claim in quality_claims:
+                ledger.add_evidence(
+                    EvidenceRecord(
+                        f"registry_{index}_{claim.claim_id}", claim.claim_id, "qualified_guide", row.get("url", ""), stamp,
+                        row.get("date") or stamp, text, row.get("quote", text), roundup=False,
+                        metadata={"registry": row["registry"]} if row.get("registry") else {},
+                    )
                 )
-            )
         rows = list(mined.get("evidence", []))
         indexed_room_claims = {
             claim.claim_id
@@ -1321,7 +1477,7 @@ class Funnel:
                 candidate.raw["_room_indexed"] = True
                 candidate.raw["_room_attributes"] = [dict(attribute) for attribute in indexed_room_attributes]
             photo_rows = []
-            for photo in ([] if indexed_room_attributes else en.get("photos", [])[:10]):
+            for photo in ([] if indexed_room_attributes or not self.photo_capable else en.get("photos", [])[:10]):
                 photo_name = photo.get("name") if isinstance(photo, dict) else str(photo)
                 if not photo_name:
                     continue
@@ -1431,7 +1587,24 @@ class Funnel:
             for candidate in candidates
             if candidate.raw.get("_room_indexed")
         }
-        outcomes = self._run_judges([(key, payload) for key, (_, payload) in plans.items() if payload is not None])
+        ledger_payloads: dict[int, dict[str, Any]] = {}
+        literal_by_candidate: dict[int, list[dict[str, Any]]] = {}
+        for candidate in candidates:
+            if candidate.raw.get("_room_indexed"):
+                continue
+            structured = [row for row in candidate.ledger.evidence if _structured_evidence(row)]
+            readable = [row for row in candidate.ledger.evidence if not _structured_evidence(row)]
+            literal_by_candidate[id(candidate)] = [self._literal_judgment(row) for row in structured]
+            if readable:
+                ledger_payloads[id(candidate)] = {
+                    "place_id": candidate.place_id,
+                    "ledger": {**candidate.ledger.to_dict(), "evidence": [row.to_dict() for row in readable]},
+                    "instruction": ROOM_JUDGE_INSTRUCTION,
+                }
+        outcomes = self._run_judges(
+            [(key, payload) for key, (_, payload) in plans.items() if payload is not None]
+            + list(ledger_payloads.items())
+        )
         for candidate in candidates:
             if candidate.raw.get("_room_indexed"):
                 judgments, payload = plans[id(candidate)]
@@ -1462,13 +1635,12 @@ class Funnel:
                     lambda: self.adapters.model.run("photo_read", read_payload),
                 )
                 photo_judgments = photo_read.get("judgments", [])
-            payload = {
-                "place_id": candidate.place_id,
-                "ledger": candidate.ledger.to_dict(),
-                "instruction": ROOM_JUDGE_INSTRUCTION,
-            }
-            response = self._call("model", "judge", payload, lambda current=candidate: self.adapters.model.run("judge", payload))
-            candidate.ledger.compute([*response.get("judgments", []), *photo_judgments], freshness, now=self.now)
+            payload = ledger_payloads.get(id(candidate))
+            judgments = list(literal_by_candidate.get(id(candidate), []))
+            if payload is not None:
+                response = self._call("model", "judge", payload, self._judge_runner(payload, outcomes.get(id(candidate))))
+                judgments.extend(response.get("judgments", []))
+            candidate.ledger.compute([*judgments, *photo_judgments], freshness, now=self.now)
 
     def _run_judges(self, payloads: list[tuple[int, dict[str, Any]]]) -> dict[int, tuple[str, Any]]:
         """Run the judge model for several venues at once.
@@ -1477,26 +1649,41 @@ class Funnel:
         through ``_call`` in candidate order, so snapshots stay replayable.
         During replay nothing runs here and ``_call`` reads the snapshot.
         """
-        workers = max(1, int(self.config["retrieval"].get("judge_workers", 4)))
-        if getattr(self.adapters, "replay", None) or workers == 1 or len(payloads) < 2:
+        workers = int(self.config["retrieval"].get("judge_workers", 4))
+        if getattr(self.adapters, "replay", None) or workers <= 1 or len(payloads) < 2:
+            return {}
+        return self._run_parallel(
+            [(key, (lambda current=payload: self.adapters.model.run("judge", current))) for key, payload in payloads],
+            workers,
+        )
+
+    @staticmethod
+    def _run_parallel(jobs: list[tuple[Any, Any]], workers: int) -> dict[Any, tuple[str, Any]]:
+        """Run adapter calls concurrently and keep each outcome by key, so the
+        caller can still record them one by one in candidate order."""
+        if not jobs:
             return {}
 
-        def run(payload: dict[str, Any]) -> tuple[str, Any]:
+        def run(fn) -> tuple[str, Any]:
             try:
-                return "ok", self.adapters.model.run("judge", payload)
+                return "ok", fn()
             except AdapterError as exc:
                 return "error", exc
 
-        outcomes: dict[int, tuple[str, Any]] = {}
-        with ThreadPoolExecutor(max_workers=workers) as pool:
-            futures = {pool.submit(run, payload): key for key, payload in payloads}
+        outcomes: dict[Any, tuple[str, Any]] = {}
+        with ThreadPoolExecutor(max_workers=max(1, workers)) as pool:
+            futures = {pool.submit(run, fn): key for key, fn in jobs}
             for future in as_completed(futures):
                 outcomes[futures[future]] = future.result()
         return outcomes
 
     def _judge_runner(self, payload: dict[str, Any], outcome: tuple[str, Any] | None):
+        return self._outcome_runner(outcome, lambda: self.adapters.model.run("judge", payload))
+
+    @staticmethod
+    def _outcome_runner(outcome: tuple[str, Any] | None, fallback):
         if outcome is None:
-            return lambda: self.adapters.model.run("judge", payload)
+            return fallback
         status, value = outcome
         if status == "error":
 
@@ -1775,6 +1962,12 @@ class Funnel:
                 }
             )
         refusal = not any(row["verdict"] == "cleared" for row in output_candidates)
+        rejected_counts = dict(
+            sorted(
+                Counter(candidate.rejection_reason or "rejected" for candidate in self.rejected).items(),
+                key=lambda item: (-item[1], item[0]),
+            )
+        )
         chips = self.coverage.get("chips") or []
         if "from_index" in self.coverage:
             checked = (
@@ -1868,6 +2061,8 @@ class Funnel:
             "candidates": output_candidates,
             "refusal": refusal,
             "reason": refusal_reason if refusal else None,
+            "swept": self.swept,
+            "rejected_counts": rejected_counts,
             "budget_exhausted": self.search_budget_exhausted,
             "widen_options": widen_options if refusal else [],
             "widen_candidates": widen_candidates,
@@ -1904,6 +2099,8 @@ class Funnel:
     def run(self, raw_input: dict[str, Any]) -> dict[str, Any]:
         self.top = int(raw_input.get("top", 5))
         self.deep_dive = bool(raw_input.get("deep_dive", False))
+        self.refill_rounds = max(1, int(self.config["retrieval"].get("refill_rounds", 2)))
+        self.swept = 0
         batch_size = int(self.config["retrieval"].get("deep_dive_batch", 5))
         if self.top < 1 or batch_size < 1:
             raise ValueError("top and retrieval.deep_dive_batch must be positive")
@@ -1939,14 +2136,26 @@ class Funnel:
         request = resolved_request
         candidates = self.stage1_sweep(request, card)
         candidates = self.stage2_qualify(candidates, request, card)
+        self.swept = len(candidates)
         if not booking_sweep:
+            max_candidates = int(self.config.get("retrieval", {}).get("max_candidates", 20))
+            candidates = self._rank(candidates)
+            if max_candidates > 0:
+                candidates = candidates[:max_candidates]
             self.coverage["candidates"] = len(candidates)
-        selected = candidates if self.deep_dive else candidates[:self.top]
+        # A non-deep-dive run verifies the ranked candidates in batches until
+        # `top` of them survive the gates (a closed or over-budget venue frees
+        # its slot for the next one) or the list runs out.
+        selected = candidates if self.deep_dive else candidates[: self.top * self.refill_rounds]
         completed = []
         verified = []
         self._checkpoint(raw_input, completed, selected, batch_size)
         for start in range(0, len(selected), batch_size):
+            if not self.deep_dive and len(verified) >= self.top:
+                break
             batch = selected[start:start + batch_size]
+            if not self.deep_dive:
+                batch = batch[: max(0, self.top - len(verified)) or len(batch)]
             rejected_count = len(self.rejected)
             try:
                 mined = self.stage3_mine(batch, request, card, "full" if self.deep_dive else raw_input.get("depth", "full"))
@@ -1965,4 +2174,8 @@ class Funnel:
             for candidate in survivors:
                 candidate.verdict = self._verdict(candidate, card, bool(raw_input.get("contact_drafts")), request.local_language)
             self._checkpoint(raw_input, completed, selected[start + batch_size:], batch_size)
+        if not self.deep_dive and not self.partial:
+            # Enough survivors: the unchecked remainder is not pending work.
+            self.coverage["pending"] = []
+            self._checkpoint(raw_input, completed, [], batch_size)
         return self.stage6_render(verified, request, card, bool(raw_input.get("contact_drafts")))

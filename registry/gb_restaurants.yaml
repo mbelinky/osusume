@@ -1,0 +1,3364 @@
+format_version: 1
+country: GB
+entries:
+- name: Ikoyi
+  locality: London
+  province: London
+  guide: fifty_best
+  level: 2
+  rank: 15
+  url: https://www.theworlds50best.com/restaurants/best-in-the-world/the-list/ikoyi.html
+  verified_at: '2026-09-16'
+  latitude: 51.5123195
+  longitude: -0.1155388
+  location_source_url: https://guide.michelin.com/en/greater-london/london/restaurant/ikoyi
+- name: Kol
+  locality: London
+  province: London
+  guide: fifty_best
+  level: 2
+  rank: 49
+  url: https://www.theworlds50best.com/restaurants/best-in-the-world/the-list/kol.html
+  verified_at: '2026-09-16'
+  latitude: 51.5147873
+  longitude: -0.1574918
+  location_source_url: https://guide.michelin.com/en/greater-london/london/restaurant/kol
+- name: Mountain
+  locality: London
+  province: London
+  guide: fifty_best
+  level: 1
+  rank: 74
+  url: https://www.theworlds50best.com/discovery/Establishments/UK/London/Mountain.html
+  verified_at: '2026-09-16'
+  latitude: 51.5120143
+  longitude: -0.1382586
+  location_source_url: https://guide.michelin.com/en/greater-london/london/restaurant/mountain
+- name: The Clove Club
+  locality: London
+  province: London
+  guide: fifty_best
+  level: 1
+  rank: 86
+  url: https://www.theworlds50best.com/discovery/Establishments/UK/London/The-Clove-Club.html
+  verified_at: '2026-09-16'
+  latitude: 51.5271054
+  longitude: -0.0793371
+  location_source_url: https://guide.michelin.com/en/greater-london/london/restaurant/the-clove-club
+- name: Old Stamp House
+  locality: Ambleside
+  province: Ambleside
+  guide: hardens
+  level: 1
+  rank: 92
+  url: https://www.hardens.com/az/restaurants/ambleside/la22/old-stamp-house.htm
+  verified_at: '2026-09-16'
+  latitude: 54.4309871
+  longitude: -2.9624289
+  location_source_url: https://guide.michelin.com/en/cumbria/ambleside/restaurant/old-stamp-house
+- name: Artichoke
+  locality: Amersham
+  province: Amersham
+  guide: hardens
+  level: 1
+  rank: 94
+  url: https://www.hardens.com/az/restaurants/amersham/hp7/artichoke.htm
+  verified_at: '2026-09-16'
+  latitude: 51.666449
+  longitude: -0.6162893
+  location_source_url: https://guide.michelin.com/en/buckinghamshire/amersham/restaurant/artichoke
+- name: Woven by Adam Smith at Coworth Park
+  locality: Ascot
+  province: Ascot
+  guide: hardens
+  level: 3
+  rank: 6
+  url: https://www.hardens.com/az/restaurants/ascot/sl5/woven-by-adam-smith-at-coworth-park.htm
+  verified_at: '2026-09-16'
+- name: Andrew Fairlie, Gleneagles Hotel
+  locality: Auchterarder
+  province: Auchterarder
+  guide: hardens
+  level: 3
+  rank: 17
+  url: https://www.hardens.com/az/restaurants/auchterarder/ph3/andrew-fairlie-gleneagles-hotel.htm
+  verified_at: '2026-09-16'
+- name: Moor Hall
+  locality: Aughton
+  province: Aughton
+  guide: hardens
+  level: 3
+  rank: 1
+  url: https://www.hardens.com/az/restaurants/aughton/l39/moor-hall.htm
+  verified_at: '2026-09-16'
+  latitude: 53.5423365
+  longitude: -2.8919183
+  location_source_url: https://guide.michelin.com/en/lancashire/aughton/restaurant/moor-hall
+- name: So-lo
+  locality: Aughton
+  province: Aughton
+  guide: hardens
+  level: 1
+  rank: 86
+  url: https://www.hardens.com/az/restaurants/aughton/l39/so-lo.htm
+  verified_at: '2026-09-16'
+- name: Albatross Death Cult
+  locality: Birmingham
+  province: Birmingham
+  guide: hardens
+  level: 3
+  rank: 12
+  url: https://www.hardens.com/az/restaurants/birmingham/b3/albatross-death-cult.htm
+  verified_at: '2026-09-16'
+- name: Opheem
+  locality: Birmingham
+  province: Birmingham
+  guide: hardens
+  level: 3
+  rank: 20
+  url: https://www.hardens.com/az/restaurants/birmingham/b3/opheem.htm
+  verified_at: '2026-09-16'
+  latitude: 52.4816298
+  longitude: -1.9077335
+  location_source_url: https://guide.michelin.com/en/west-midlands/birmingham/restaurant/opheem
+- name: The Cottage In The Wood
+  locality: Braithwaite
+  province: Braithwaite
+  guide: hardens
+  level: 1
+  rank: 84
+  url: https://www.hardens.com/az/restaurants/braithwaite/ca12/the-cottage-in-the-wood.htm
+  verified_at: '2026-09-16'
+  latitude: 54.6089402
+  longitude: -3.2218372
+  location_source_url: https://guide.michelin.com/en/cumbria/braithwaite/restaurant/cottage-in-the-wood
+- name: The Cedar Tree, Farlam Hall
+  locality: Brampton
+  province: Brampton
+  guide: hardens
+  level: 1
+  rank: 67
+  url: https://www.hardens.com/az/restaurants/brampton/ca8/farlam-hall.htm
+  verified_at: '2026-09-16'
+- name: The Fat Duck
+  locality: Bray
+  province: Bray
+  guide: hardens
+  level: 1
+  rank: 54
+  url: https://www.hardens.com/az/restaurants/bray/sl6/the-fat-duck.htm
+  verified_at: '2026-09-16'
+  latitude: 51.5078582
+  longitude: -0.7017529
+  location_source_url: https://guide.michelin.com/en/windsor-and-maidenhead/bray/restaurant/fat-duck
+- name: Waterside Inn
+  locality: Bray
+  province: Bray
+  guide: hardens
+  level: 3
+  rank: 3
+  url: https://www.hardens.com/az/restaurants/bray/sl6/waterside-inn.htm
+  verified_at: '2026-09-16'
+  latitude: 51.5091092
+  longitude: -0.6994376
+  location_source_url: https://guide.michelin.com/en/windsor-and-maidenhead/bray/restaurant/waterside-inn
+- name: Furna
+  locality: Brighton
+  province: Brighton
+  guide: hardens
+  level: 1
+  rank: 96
+  url: https://www.hardens.com/az/restaurants/brighton/bn1/furna.htm
+  verified_at: '2026-09-16'
+- name: Osip
+  locality: Bruton
+  province: Bruton
+  guide: hardens
+  level: 3
+  rank: 15
+  url: https://www.hardens.com/az/restaurants/bruton/ba10/osip.htm
+  verified_at: '2026-09-16'
+  latitude: 51.1059246
+  longitude: -2.3989953
+  location_source_url: https://guide.michelin.com/en/somerset/bruton/restaurant/osip
+- name: L’Enclume
+  locality: Cartmel
+  province: Cartmel
+  guide: hardens
+  level: 3
+  rank: 2
+  url: https://www.hardens.com/az/restaurants/cartmel/la11/lenclume.htm
+  verified_at: '2026-09-16'
+- name: Gidleigh Park
+  locality: Chagford
+  province: Chagford
+  guide: hardens
+  level: 2
+  rank: 34
+  url: https://www.hardens.com/az/restaurants/chagford/tq13/gidleigh-park.htm
+  verified_at: '2026-09-16'
+  latitude: 50.6768483
+  longitude: -3.8750375
+  location_source_url: https://guide.michelin.com/en/devon/chagford/restaurant/gidleigh-park
+- name: The Jackdaw
+  locality: Conwy
+  province: Conwy
+  guide: hardens
+  level: 1
+  rank: 95
+  url: https://www.hardens.com/az/restaurants/conwy/ll32/the-jackdaw.htm
+  verified_at: '2026-09-16'
+- name: The Glenturret Lalique Restaurant
+  locality: Crieff
+  province: Crieff
+  guide: hardens
+  level: 2
+  rank: 26
+  url: https://www.hardens.com/az/restaurants/crieff/ph7/the-glenturret-lalique-restaurant.htm
+  verified_at: '2026-09-16'
+- name: Gravetye Manor
+  locality: East Grinstead
+  province: East Grinstead
+  guide: hardens
+  level: 1
+  rank: 61
+  url: https://www.hardens.com/az/restaurants/east-grinstead/rh19/gravetye-manor.htm
+  verified_at: '2026-09-16'
+  latitude: 51.08932
+  longitude: -0.05691
+  location_source_url: https://guide.michelin.com/en/west-sussex/east-grinstead/restaurant/gravetye-manor
+- name: Pine
+  locality: East Wallhouses
+  province: East Wallhouses
+  guide: hardens
+  level: 2
+  rank: 38
+  url: https://www.hardens.com/az/restaurants/east-wallhouses/ne18/pine.htm
+  verified_at: '2026-09-16'
+  latitude: 55.0095322
+  longitude: -1.9266976
+  location_source_url: https://guide.michelin.com/en/northumberland/east-wallhouses/restaurant/pine
+- name: The Dining Room, Whatley Manor
+  locality: Easton Grey
+  province: Easton Grey
+  guide: hardens
+  level: 1
+  rank: 80
+  url: https://www.hardens.com/az/restaurants/easton-grey/sn16/the-dining-room-whatley-manor.htm
+  verified_at: '2026-09-16'
+- name: Edinbane Lodge
+  locality: Edinbane
+  province: Edinbane
+  guide: hardens
+  level: 1
+  rank: 59
+  url: https://www.hardens.com/az/restaurants/edinbane/iv51/edinbane-lodge.htm
+  verified_at: '2026-09-16'
+- name: Number One, Balmoral Hotel
+  locality: Edinburgh
+  province: Edinburgh
+  guide: hardens
+  level: 1
+  rank: 93
+  url: https://www.hardens.com/az/restaurants/edinburgh/eh2/number-one-balmoral-hotel.htm
+  verified_at: '2026-09-16'
+- name: Restaurant Martin Wishart
+  locality: Edinburgh
+  province: Edinburgh
+  guide: hardens
+  level: 2
+  rank: 36
+  url: https://www.hardens.com/az/restaurants/edinburgh/eh6/restaurant-martin-wishart.htm
+  verified_at: '2026-09-16'
+- name: The Kitchin
+  locality: Edinburgh
+  province: Edinburgh
+  guide: hardens
+  level: 1
+  rank: 69
+  url: https://www.hardens.com/az/restaurants/edinburgh/eh6/the-kitchin.htm
+  verified_at: '2026-09-16'
+- name: The Tudor Pass, Great Fosters Hotel
+  locality: Egham
+  province: Egham
+  guide: hardens
+  level: 1
+  rank: 78
+  url: https://www.hardens.com/az/restaurants/egham/tw20/the-tudor-pass-great-fosters-hotel.htm
+  verified_at: '2026-09-16'
+- name: Ynyshir Restaurant and Rooms
+  locality: Eglwys Fach
+  province: Eglwys Fach
+  guide: hardens
+  level: 1
+  rank: 62
+  url: https://www.hardens.com/az/restaurants/eglwys-fach/sy20/ynyshir-restaurant-and-rooms.htm
+  verified_at: '2026-09-16'
+- name: Lympstone Manor
+  locality: Exmouth
+  province: Exmouth
+  guide: hardens
+  level: 1
+  rank: 51
+  url: https://www.hardens.com/az/restaurants/exmouth/ex8/lympstone-manor.htm
+  verified_at: '2026-09-16'
+- name: Cail Bruich
+  locality: Glasgow
+  province: Glasgow
+  guide: hardens
+  level: 1
+  rank: 68
+  url: https://www.hardens.com/az/restaurants/glasgow/g12/cail-bruich.htm
+  verified_at: '2026-09-16'
+- name: Unalome by Graeme Cheevers
+  locality: Glasgow
+  province: Glasgow
+  guide: hardens
+  level: 1
+  rank: 98
+  url: https://www.hardens.com/az/restaurants/glasgow/g3/unalome-by-graeme-cheevers.htm
+  verified_at: '2026-09-16'
+- name: The Forest Side
+  locality: Grasmere
+  province: Grasmere
+  guide: hardens
+  level: 1
+  rank: 70
+  url: https://www.hardens.com/az/restaurants/grasmere/la22/the-forest-side.htm
+  verified_at: '2026-09-16'
+- name: A Wong
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 2
+  rank: 29
+  url: https://www.hardens.com/az/restaurants/london/sw1/a-wong.htm
+  verified_at: '2026-09-16'
+  latitude: 51.4930091
+  longitude: -0.1406558
+  location_source_url: https://guide.michelin.com/en/greater-london/london/restaurant/a-wong
+- name: Akoko
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 2
+  rank: 39
+  url: https://www.hardens.com/az/restaurants/london/w1t/akoko.htm
+  verified_at: '2026-09-16'
+  latitude: 51.5177438
+  longitude: -0.13691
+  location_source_url: https://guide.michelin.com/en/greater-london/london/restaurant/akoko
+- name: AngloThai
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 2
+  rank: 40
+  url: https://www.hardens.com/az/restaurants/london/w1h/anglothai.htm
+  verified_at: '2026-09-16'
+  latitude: 51.515139
+  longitude: -0.161181
+  location_source_url: https://guide.michelin.com/en/greater-london/london/restaurant/anglothai
+- name: Aulis London
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 1
+  rank: 55
+  url: https://www.hardens.com/az/restaurants/london/w1f/aulis-london.htm
+  verified_at: '2026-09-16'
+- name: Bar des Prés
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 1
+  rank: 90
+  url: https://www.hardens.com/az/restaurants/london/w1k/bar-des-pres.htm
+  verified_at: '2026-09-16'
+- name: Behind
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 3
+  rank: 18
+  url: https://www.hardens.com/az/restaurants/london/e8/behind.htm
+  verified_at: '2026-09-16'
+  latitude: 51.5392307
+  longitude: -0.0575568
+  location_source_url: https://guide.michelin.com/en/greater-london/london/restaurant/behind
+- name: Brooklands
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 1
+  rank: 64
+  url: https://www.hardens.com/az/restaurants/london/sw1x/brooklands.htm
+  verified_at: '2026-09-16'
+- name: Caractère
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 2
+  rank: 44
+  url: https://www.hardens.com/az/restaurants/london/w11/caractre.htm
+  verified_at: '2026-09-16'
+  latitude: 51.517865
+  longitude: -0.2008184
+  location_source_url: https://guide.michelin.com/en/greater-london/london/restaurant/caractere
+- name: Core by Clare Smyth
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 2
+  rank: 25
+  url: https://www.hardens.com/az/restaurants/london/w11/core-by-clare-smyth.htm
+  verified_at: '2026-09-16'
+  latitude: 51.5126689
+  longitude: -0.2030649
+  location_source_url: https://guide.michelin.com/en/greater-london/london/restaurant/core-by-clare-smyth
+- name: Cornus
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 2
+  rank: 45
+  url: https://www.hardens.com/az/restaurants/london/sw1w/cornus.htm
+  verified_at: '2026-09-16'
+  latitude: 51.4942405
+  longitude: -0.1477227
+  location_source_url: https://guide.michelin.com/en/greater-london/london/restaurant/cornus
+- name: Da Terra, Town Hall Hotel
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 3
+  rank: 9
+  url: https://www.hardens.com/az/restaurants/london/e2/da-terra-town-hall-hotel.htm
+  verified_at: '2026-09-16'
+- name: Evelyn’s Table at The Blue Posts
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 1
+  rank: 72
+  url: https://www.hardens.com/az/restaurants/london/w1d/evelyn-s-table-at-the-blue-posts.htm
+  verified_at: '2026-09-16'
+- name: Frog by Adam Handling
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 1
+  rank: 52
+  url: https://www.hardens.com/az/restaurants/london/wc2e/frog-by-adam-handling.htm
+  verified_at: '2026-09-16'
+  latitude: 51.51085
+  longitude: -0.12217
+  location_source_url: https://guide.michelin.com/en/greater-london/london/restaurant/frog-by-adam-handling
+- name: Hakkasan Mayfair
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 1
+  rank: 97
+  url: https://www.hardens.com/az/restaurants/london/w1/hakkasan-mayfair.htm
+  verified_at: '2026-09-16'
+- name: Hide
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 1
+  rank: 71
+  url: https://www.hardens.com/az/restaurants/london/w1j/hide.htm
+  verified_at: '2026-09-16'
+  latitude: 51.5061533
+  longitude: -0.1443531
+  location_source_url: https://guide.michelin.com/en/greater-london/london/restaurant/hide
+- name: Humble Chicken
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 3
+  rank: 7
+  url: https://www.hardens.com/az/restaurants/london/w1d/humble-chicken.htm
+  verified_at: '2026-09-16'
+  latitude: 51.5138258
+  longitude: -0.1317621
+  location_source_url: https://guide.michelin.com/en/greater-london/london/restaurant/humble-chicken
+- name: Hunan
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 2
+  rank: 43
+  url: https://www.hardens.com/az/restaurants/london/sw1/hunan.htm
+  verified_at: '2026-09-16'
+- name: Ikoyi
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 2
+  rank: 46
+  url: https://www.hardens.com/az/restaurants/london/wc2c/ikoyi.htm
+  verified_at: '2026-09-16'
+  latitude: 51.5123195
+  longitude: -0.1155388
+  location_source_url: https://guide.michelin.com/en/greater-london/london/restaurant/ikoyi
+- name: Kai Mayfair
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 1
+  rank: 81
+  url: https://www.hardens.com/az/restaurants/london/w1/kai-mayfair.htm
+  verified_at: '2026-09-16'
+- name: Kioku by Endo, The OWO
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 2
+  rank: 50
+  url: https://www.hardens.com/az/restaurants/london/sw1/kioku-by-endo-the-owo.htm
+  verified_at: '2026-09-16'
+- name: Kitchen Table
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 2
+  rank: 27
+  url: https://www.hardens.com/az/restaurants/london/w1/kitchen-table.htm
+  verified_at: '2026-09-16'
+  latitude: 51.5203616
+  longitude: -0.13647
+  location_source_url: https://guide.michelin.com/en/greater-london/london/restaurant/kitchen-table
+- name: LPM (fka La Petite Maison)
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 1
+  rank: 56
+  url: https://www.hardens.com/az/restaurants/london/w1/lpm-fka-la-petite-maison.htm
+  verified_at: '2026-09-16'
+- name: Nobu, Metropolitan Hotel
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 1
+  rank: 85
+  url: https://www.hardens.com/az/restaurants/london/w1/nobu-metropolitan-hotel.htm
+  verified_at: '2026-09-16'
+- name: Ormer Mayfair by Sofian, Flemings Mayfair Hotel
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 1
+  rank: 91
+  url: https://www.hardens.com/az/restaurants/london/w1/ormer-mayfair-by-sofian-flemings-mayfair-hotel.htm
+  verified_at: '2026-09-16'
+- name: Plates
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 2
+  rank: 21
+  url: https://www.hardens.com/az/restaurants/london/ec1v/plates.htm
+  verified_at: '2026-09-16'
+- name: ROW on 5
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 3
+  rank: 5
+  url: https://www.hardens.com/az/restaurants/london/w1s/row-on-5.htm
+  verified_at: '2026-09-16'
+  latitude: 51.5105221
+  longitude: -0.1397601
+  location_source_url: https://guide.michelin.com/en/greater-london/london/restaurant/row-on-5
+- name: Restaurant St. Barts
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 2
+  rank: 41
+  url: https://www.hardens.com/az/restaurants/london/ec1a/restaurant-st-barts.htm
+  verified_at: '2026-09-16'
+  latitude: 51.5183494
+  longitude: -0.0992235
+  location_source_url: https://guide.michelin.com/en/greater-london/london/restaurant/st-barts
+- name: Roketsu
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 3
+  rank: 19
+  url: https://www.hardens.com/az/restaurants/london/w1h/roketsu.htm
+  verified_at: '2026-09-16'
+- name: SOLA
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 1
+  rank: 73
+  url: https://www.hardens.com/az/restaurants/london/w2/sola.htm
+  verified_at: '2026-09-16'
+- name: Sketch, The Lecture Room and Library
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 1
+  rank: 53
+  url: https://www.hardens.com/az/restaurants/london/w1/sketch-the-lecture-room-and-library.htm
+  verified_at: '2026-09-16'
+  latitude: 51.5126775
+  longitude: -0.1415369
+  location_source_url: https://guide.michelin.com/en/greater-london/london/restaurant/sketch-the-lecture-room-library
+- name: Sollip
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 2
+  rank: 23
+  url: https://www.hardens.com/az/restaurants/london/se1/sollip.htm
+  verified_at: '2026-09-16'
+  latitude: 51.5025583
+  longitude: -0.0846577
+  location_source_url: https://guide.michelin.com/en/greater-london/london/restaurant/sollip
+- name: Sushi Tetsu
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 1
+  rank: 58
+  url: https://www.hardens.com/az/restaurants/london/ec1/sushi-tetsu.htm
+  verified_at: '2026-09-16'
+- name: Takahashi
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 1
+  rank: 65
+  url: https://www.hardens.com/az/restaurants/london/sw19/Takahashi.htm
+  verified_at: '2026-09-16'
+- name: The Cocochine
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 1
+  rank: 79
+  url: https://www.hardens.com/az/restaurants/london/w1j/the-cocochine.htm
+  verified_at: '2026-09-16'
+- name: The Ledbury
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 3
+  rank: 4
+  url: https://www.hardens.com/az/restaurants/london/w11/the-ledbury.htm
+  verified_at: '2026-09-16'
+  latitude: 51.5166662
+  longitude: -0.2000272
+  location_source_url: https://guide.michelin.com/en/greater-london/london/restaurant/the-ledbury
+- name: The Ritz
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 1
+  rank: 57
+  url: https://www.hardens.com/az/restaurants/london/w1/the-ritz.htm
+  verified_at: '2026-09-16'
+- name: Trinity
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 2
+  rank: 42
+  url: https://www.hardens.com/az/restaurants/london/sw4/trinity.htm
+  verified_at: '2026-09-16'
+  latitude: 51.4635167
+  longitude: -0.14151
+  location_source_url: https://guide.michelin.com/en/greater-london/london/restaurant/trinity
+- name: Trivet
+  locality: London
+  province: Greater London
+  guide: hardens
+  level: 1
+  rank: 74
+  url: https://www.hardens.com/az/restaurants/london/se1/trivet.htm
+  verified_at: '2026-09-16'
+  latitude: 51.502192
+  longitude: -0.084739
+  location_source_url: https://guide.michelin.com/en/greater-london/london/restaurant/trivet
+- name: Hambleton Hall
+  locality: Hambleton
+  province: Hambleton
+  guide: hardens
+  level: 2
+  rank: 35
+  url: https://www.hardens.com/az/restaurants/hambleton/le15/hambleton-hall.htm
+  verified_at: '2026-09-16'
+  latitude: 52.6574319
+  longitude: -0.6680979
+  location_source_url: https://guide.michelin.com/en/rutland/hambleton/restaurant/hambleton-hall
+- name: Grace & Savour
+  locality: Hampton in Arden
+  province: Hampton in Arden
+  guide: hardens
+  level: 1
+  rank: 63
+  url: https://www.hardens.com/az/restaurants/hampton-in-arden/b92/grace-savour.htm
+  verified_at: '2026-09-16'
+  latitude: 52.4287987
+  longitude: -1.7009081
+  location_source_url: https://guide.michelin.com/en/west-midlands/hampton-in-arden/restaurant/grace-and-savour
+- name: The Angel
+  locality: Hetton
+  province: Hetton
+  guide: hardens
+  level: 2
+  rank: 22
+  url: https://www.hardens.com/az/restaurants/hetton/bd23/the-angel.htm
+  verified_at: '2026-09-16'
+  latitude: 54.0258838
+  longitude: -2.0596882
+  location_source_url: https://guide.michelin.com/en/north-yorkshire/hetton/restaurant/the-angel189123
+- name: Meadowsweet
+  locality: Holt
+  province: Holt
+  guide: hardens
+  level: 3
+  rank: 16
+  url: https://www.hardens.com/az/restaurants/holt/nr25/meadowsweet.htm
+  verified_at: '2026-09-16'
+  latitude: 52.9046228
+  longitude: 1.0872934
+  location_source_url: https://guide.michelin.com/en/norfolk/holt/restaurant/meadowsweet-1196227
+- name: Mýse
+  locality: Hovingham
+  province: Hovingham
+  guide: hardens
+  level: 2
+  rank: 28
+  url: https://www.hardens.com/az/restaurants/hovingham/yo62/myse.htm
+  verified_at: '2026-09-16'
+  latitude: 54.1723889
+  longitude: -0.9790181
+  location_source_url: https://guide.michelin.com/en/north-yorkshire/hovingham/restaurant/myse
+- name: Bohemia
+  locality: Jersey
+  province: Jersey
+  guide: hardens
+  level: 2
+  rank: 49
+  url: https://www.hardens.com/az/restaurants/jersey/je2/bohemia.htm
+  verified_at: '2026-09-16'
+- name: Northcote
+  locality: Langho
+  province: Langho
+  guide: hardens
+  level: 3
+  rank: 13
+  url: https://www.hardens.com/az/restaurants/langho/bb6/northcote.htm
+  verified_at: '2026-09-16'
+  latitude: 53.8091411
+  longitude: -2.4474228
+  location_source_url: https://guide.michelin.com/en/lancashire/langho/restaurant/northcote
+- name: Upstairs by Tom Shepherd
+  locality: Lichfield
+  province: Lichfield
+  guide: hardens
+  level: 1
+  rank: 66
+  url: https://www.hardens.com/az/restaurants/lichfield/ws13/upstairs-by-tom-shepherd.htm
+  verified_at: '2026-09-16'
+  latitude: 52.6829118
+  longitude: -1.8277572
+  location_source_url: https://guide.michelin.com/en/staffordshire/lichfield/restaurant/upstairs-by-tom-shepherd
+- name: Interlude
+  locality: Lower Beeding
+  province: Lower Beeding
+  guide: hardens
+  level: 1
+  rank: 75
+  url: https://www.hardens.com/az/restaurants/lower-beeding/rh13/interlude.htm
+  verified_at: '2026-09-16'
+  latitude: 51.0201898
+  longitude: -0.2606582
+  location_source_url: https://guide.michelin.com/en/west-sussex/lower-beeding/restaurant/interlude
+- name: Gwen
+  locality: Machynlleth
+  province: Machynlleth
+  guide: hardens
+  level: 2
+  rank: 24
+  url: https://www.hardens.com/az/restaurants/machynlleth/sy20/gwen.htm
+  verified_at: '2026-09-16'
+- name: Mana
+  locality: Manchester
+  province: Manchester
+  guide: hardens
+  level: 3
+  rank: 11
+  url: https://www.hardens.com/az/restaurants/manchester/m4/mana.htm
+  verified_at: '2026-09-16'
+  latitude: 53.4848226
+  longitude: -2.2278659
+  location_source_url: https://guide.michelin.com/en/greater-manchester/manchester/restaurant/mana
+- name: Skof
+  locality: Manchester
+  province: Manchester
+  guide: hardens
+  level: 3
+  rank: 10
+  url: https://www.hardens.com/az/restaurants/manchester/m4/skof.htm
+  verified_at: '2026-09-16'
+  latitude: 53.486389
+  longitude: -2.2401307
+  location_source_url: https://guide.michelin.com/en/greater-manchester/manchester/restaurant/skof
+- name: Morston Hall
+  locality: Morston Holt
+  province: Morston Holt
+  guide: hardens
+  level: 2
+  rank: 37
+  url: https://www.hardens.com/az/restaurants/morston-holt/nr25/morston-hall.htm
+  verified_at: '2026-09-16'
+- name: John’s House
+  locality: Mountsorrel
+  province: Mountsorrel
+  guide: hardens
+  level: 1
+  rank: 99
+  url: https://www.hardens.com/az/restaurants/mountsorrel/le12/john-s-house.htm
+  verified_at: '2026-09-16'
+- name: The Nut Tree Inn
+  locality: Murcott
+  province: Murcott
+  guide: hardens
+  level: 1
+  rank: 83
+  url: https://www.hardens.com/az/restaurants/murcott/ox5/the-nut-tree-inn.htm
+  verified_at: '2026-09-16'
+- name: House of Tides
+  locality: Newcastle upon Tyne
+  province: Newcastle upon Tyne
+  guide: hardens
+  level: 1
+  rank: 82
+  url: https://www.hardens.com/az/restaurants/newcastle-upon-tyne/ne1/house-of-tides.htm
+  verified_at: '2026-09-16'
+  latitude: 54.9679675
+  longitude: -1.6101143
+  location_source_url: https://guide.michelin.com/en/tyne-and-wear/newcastle-upon-tyne/restaurant/house-of-tides
+- name: Heft
+  locality: Newton in Cartmel
+  province: Newton in Cartmel
+  guide: hardens
+  level: 2
+  rank: 47
+  url: https://www.hardens.com/az/restaurants/newton-in-cartmel/la11/heft.htm
+  verified_at: '2026-09-16'
+  latitude: 54.2386388
+  longitude: -2.9190308
+  location_source_url: https://guide.michelin.com/en/cumbria/newton-in-cartmel/restaurant/heft
+- name: Alchemilla
+  locality: Nottingham
+  province: Nottingham
+  guide: hardens
+  level: 1
+  rank: 60
+  url: https://www.hardens.com/az/restaurants/nottingham/ng7/alchemilla.htm
+  verified_at: '2026-09-16'
+  latitude: 52.9549911
+  longitude: -1.1655566
+  location_source_url: https://guide.michelin.com/en/nottingham-region/nottingham/restaurant/alchemilla530690
+- name: Restaurant Sat Bains
+  locality: Nottingham
+  province: Nottingham
+  guide: hardens
+  level: 2
+  rank: 30
+  url: https://www.hardens.com/az/restaurants/nottingham/ng7/restaurant-sat-bains.htm
+  verified_at: '2026-09-16'
+  latitude: 52.9251069
+  longitude: -1.1676041
+  location_source_url: https://guide.michelin.com/en/nottingham-region/nottingham/restaurant/restaurant-sat-bains
+- name: The Black Swan
+  locality: Oldstead
+  province: Oldstead
+  guide: hardens
+  level: 2
+  rank: 31
+  url: https://www.hardens.com/az/restaurants/oldstead/yo61/the-black-swan.htm
+  verified_at: '2026-09-16'
+- name: Paul Ainsworth at No6
+  locality: Padstow
+  province: Padstow
+  guide: hardens
+  level: 3
+  rank: 14
+  url: https://www.hardens.com/az/restaurants/padstow/pl28/paul-ainsworth-at-no6.htm
+  verified_at: '2026-09-16'
+- name: Home at Penarth
+  locality: Penarth
+  province: Penarth
+  guide: hardens
+  level: 1
+  rank: 76
+  url: https://www.hardens.com/az/restaurants/penarth/cf64/home-at-penarth.htm
+  verified_at: '2026-09-16'
+- name: Allium at Askham Hall
+  locality: Penrith
+  province: Penrith
+  guide: hardens
+  level: 1
+  rank: 77
+  url: https://www.hardens.com/az/restaurants/penrith/ca10/allium-at-askham-hall.htm
+  verified_at: '2026-09-16'
+- name: Outlaw’s Fish Kitchen
+  locality: Port Isaac
+  province: Port Isaac
+  guide: hardens
+  level: 1
+  rank: 87
+  url: https://www.hardens.com/az/restaurants/port-isaac/pl29/outlaws-fish-kitchen.htm
+  verified_at: '2026-09-16'
+- name: Outlaw’s New Road
+  locality: Port Isaac
+  province: Port Isaac
+  guide: hardens
+  level: 3
+  rank: 8
+  url: https://www.hardens.com/az/restaurants/port-isaac/pl29/outlaw-s-new-road.htm
+  verified_at: '2026-09-16'
+- name: The Old Deanery
+  locality: Ripon
+  province: Ripon
+  guide: hardens
+  level: 1
+  rank: 89
+  url: https://www.hardens.com/az/restaurants/ripon/hg4/the-old-deanery.htm
+  verified_at: '2026-09-16'
+- name: The Royal Oak
+  locality: Whatcote
+  province: Whatcote
+  guide: hardens
+  level: 1
+  rank: 100
+  url: https://www.hardens.com/az/restaurants/whatcote/cv36/the-royal-oak.htm
+  verified_at: '2026-09-16'
+  latitude: 52.0992219
+  longitude: -1.5630817
+  location_source_url: https://guide.michelin.com/en/warwickshire/whatcote/restaurant/the-royal-oak
+- name: The Whitebrook, Restaurant with Rooms
+  locality: Whitebrook
+  province: Whitebrook
+  guide: hardens
+  level: 1
+  rank: 88
+  url: https://www.hardens.com/az/restaurants/whitebrook/np25/the-whitebrook-restaurant-with-rooms.htm
+  verified_at: '2026-09-16'
+- name: Winteringham Fields
+  locality: Winteringham
+  province: Winteringham
+  guide: hardens
+  level: 2
+  rank: 33
+  url: https://www.hardens.com/az/restaurants/winteringham/dn15/winteringham-fields.htm
+  verified_at: '2026-09-16'
+  latitude: 53.6877042
+  longitude: -0.5904314
+  location_source_url: https://guide.michelin.com/en/north-lincolnshire/winteringham/restaurant/winteringham-fields
+- name: Paris House
+  locality: Woburn
+  province: Woburn
+  guide: hardens
+  level: 2
+  rank: 32
+  url: https://www.hardens.com/az/restaurants/woburn/mk17/paris-house.htm
+  verified_at: '2026-09-16'
+- name: Roots
+  locality: York
+  province: York
+  guide: hardens
+  level: 2
+  rank: 48
+  url: https://www.hardens.com/az/restaurants/york/yo30/roots.htm
+  verified_at: '2026-09-16'
+  latitude: 53.9618067
+  longitude: -1.0904831
+  location_source_url: https://guide.michelin.com/en/york-region/york/restaurant/roots1090849
+- latitude: 51.3872068
+  longitude: -2.3630903
+  name: Olive Tree
+  locality: Bath
+  region: Bath and North East Somerset
+  level: 1
+  url: https://guide.michelin.com/en/bath-and-north-east-somerset/bath/restaurant/olive-tree
+  guide: michelin
+  province: Bath and North East Somerset
+  verified_at: '2026-09-16'
+  address: The Queensberry Hotel, 4-7 Russel Street
+  postal_code: BA1 2QF
+- latitude: 54.599262
+  longitude: -5.9220051
+  name: OX
+  locality: Belfast
+  region: Belfast
+  level: 1
+  url: https://guide.michelin.com/en/belfast-region/belfast/restaurant/ox399109
+  guide: michelin
+  province: Belfast
+  verified_at: '2026-09-16'
+  address: 1 Oxford Street
+  postal_code: BT1 3LA
+- latitude: 54.6015177
+  longitude: -5.9273665
+  name: The Muddlers Club
+  locality: Belfast
+  region: Belfast
+  level: 1
+  url: https://guide.michelin.com/en/belfast-region/belfast/restaurant/muddlers-club
+  guide: michelin
+  province: Belfast
+  verified_at: '2026-09-16'
+  address: 1 Warehouse Lane
+  postal_code: BT1 2DX
+- latitude: 51.666449
+  longitude: -0.6162893
+  name: Artichoke
+  locality: Amersham
+  region: Buckinghamshire
+  level: 1
+  url: https://guide.michelin.com/en/buckinghamshire/amersham/restaurant/artichoke
+  guide: michelin
+  province: Buckinghamshire
+  verified_at: '2026-09-16'
+  address: 9 Market Square
+  postal_code: HP7 0DF
+- latitude: 51.5696616
+  longitude: -0.7836567
+  name: Hand and Flowers
+  locality: Marlow
+  region: Buckinghamshire
+  level: 2
+  url: https://guide.michelin.com/en/buckinghamshire/marlow/restaurant/hand-and-flowers
+  guide: michelin
+  province: Buckinghamshire
+  verified_at: '2026-09-16'
+  address: 126 West Street
+  postal_code: SL7 2BP
+- latitude: 51.5717051
+  longitude: -0.7771484
+  name: The Coach
+  locality: Marlow
+  region: Buckinghamshire
+  level: 1
+  url: https://guide.michelin.com/en/buckinghamshire/marlow/restaurant/the-coach
+  guide: michelin
+  province: Buckinghamshire
+  verified_at: '2026-09-16'
+  address: 3 West Street
+  postal_code: SL7 2LS
+- latitude: 52.2120545
+  longitude: 0.1284006
+  name: Midsummer House
+  locality: Cambridge
+  region: Cambridgeshire
+  level: 2
+  url: https://guide.michelin.com/en/cambridgeshire/cambridge/restaurant/midsummer-house
+  guide: michelin
+  province: Cambridgeshire
+  verified_at: '2026-09-16'
+  address: Midsummer Common
+  postal_code: CB4 1HA
+- latitude: 52.2139026
+  longitude: 0.1243546
+  name: Restaurant Twenty-Two
+  locality: Cambridge
+  region: Cambridgeshire
+  level: 1
+  url: https://guide.michelin.com/en/cambridgeshire/cambridge/restaurant/restaurant-22
+  guide: michelin
+  province: Cambridgeshire
+  verified_at: '2026-09-16'
+  address: 22 Chesterton Road
+  postal_code: CB4 3AX
+- latitude: 52.5445284
+  longitude: -3.9439501
+  name: Ynyshir
+  locality: Machynlleth
+  region: Ceredigion
+  level: 2
+  url: https://guide.michelin.com/en/ceredigion/machynlleth/restaurant/ynyshir
+  guide: michelin
+  province: Ceredigion
+  verified_at: '2026-09-16'
+  address: Eglwysfach
+  postal_code: SY20 8TA
+- latitude: 55.9578621
+  longitude: -3.2064362
+  name: AVERY
+  locality: Edinburgh
+  region: City of Edinburgh
+  level: 1
+  url: https://guide.michelin.com/en/city-of-edinburgh/edinburgh/restaurant/avery-1210944
+  guide: michelin
+  province: City of Edinburgh
+  verified_at: '2026-09-16'
+  address: 54 Saint Stephen Street
+  postal_code: EH3 5AL
+- latitude: 55.9371131
+  longitude: -3.1787608
+  name: Condita
+  locality: Edinburgh
+  region: City of Edinburgh
+  level: 1
+  url: https://guide.michelin.com/en/city-of-edinburgh/edinburgh/restaurant/condita
+  guide: michelin
+  province: City of Edinburgh
+  verified_at: '2026-09-16'
+  address: 15 Salisbury Place
+  postal_code: EH9 1SL
+- latitude: 55.9568362
+  longitude: -3.1807017
+  name: LYLA
+  locality: Edinburgh
+  region: City of Edinburgh
+  level: 1
+  url: https://guide.michelin.com/en/city-of-edinburgh/edinburgh/restaurant/lyla-1210030
+  guide: michelin
+  province: City of Edinburgh
+  verified_at: '2026-09-16'
+  address: 3 Royal Terrace
+  postal_code: EH7 5AB
+- latitude: 55.9465314
+  longitude: -3.2021003
+  name: Timberyard
+  locality: Edinburgh
+  region: City of Edinburgh
+  level: 1
+  url: https://guide.michelin.com/en/city-of-edinburgh/edinburgh/restaurant/timberyard
+  guide: michelin
+  province: City of Edinburgh
+  verified_at: '2026-09-16'
+  address: 10 Lady Lawson Street
+  postal_code: EH3 9DS
+- latitude: 55.974846
+  longitude: -3.1718853
+  name: Heron
+  locality: Leith
+  region: City of Edinburgh
+  level: 1
+  url: https://guide.michelin.com/en/city-of-edinburgh/leith/restaurant/heron-1197434
+  guide: michelin
+  province: City of Edinburgh
+  verified_at: '2026-09-16'
+  address: 87-91a Henderson Street
+  postal_code: EH6 6ED
+- latitude: 55.9755098
+  longitude: -3.1703986
+  name: Martin Wishart
+  locality: Leith
+  region: City of Edinburgh
+  level: 1
+  url: https://guide.michelin.com/en/city-of-edinburgh/leith/restaurant/martin-wishart
+  guide: michelin
+  province: City of Edinburgh
+  verified_at: '2026-09-16'
+  address: 54 The Shore
+  postal_code: EH6 6RA
+- latitude: 55.9770648
+  longitude: -3.1725849
+  name: The Kitchin
+  locality: Leith
+  region: City of Edinburgh
+  level: 1
+  url: https://guide.michelin.com/en/city-of-edinburgh/leith/restaurant/kitchin
+  guide: michelin
+  province: City of Edinburgh
+  verified_at: '2026-09-16'
+  address: 78 Commercial Quay
+  postal_code: EH6 6LX
+- latitude: 50.4203356
+  longitude: -5.0971612
+  name: Ugly Butterfly by Adam Handling
+  locality: Newquay
+  region: Cornwall
+  level: 1
+  url: https://guide.michelin.com/en/cornwall/newquay/restaurant/ugly-butterfly-by-adam-handling-1241870
+  guide: michelin
+  province: Cornwall
+  verified_at: '2026-09-16'
+  address: The Headland, Headland Road, Fistral Beach
+  postal_code: TR7 1EW
+- latitude: 50.5415048
+  longitude: -4.9398914
+  name: Paul Ainsworth at No.6
+  locality: Padstow
+  region: Cornwall
+  level: 1
+  url: https://guide.michelin.com/en/cornwall/padstow/restaurant/paul-ainsworth-at-no-6
+  guide: michelin
+  province: Cornwall
+  verified_at: '2026-09-16'
+  address: 6 Middle Street
+  postal_code: PL28 8AP
+- latitude: 50.5920513
+  longitude: -4.8319372
+  name: Outlaw's Fish Kitchen
+  locality: Port Isaac
+  region: Cornwall
+  level: 1
+  url: https://guide.michelin.com/en/cornwall/port-isaac/restaurant/outlaw-s-fish-kitchen
+  guide: michelin
+  province: Cornwall
+  verified_at: '2026-09-16'
+  address: 1 Middle Street
+  postal_code: PL29 3RH
+- latitude: 54.4302532
+  longitude: -2.9622231
+  name: Lake Road Kitchen
+  locality: Ambleside
+  region: Cumbria
+  level: 1
+  url: https://guide.michelin.com/en/cumbria/ambleside/restaurant/lake-road-kitchen
+  guide: michelin
+  province: Cumbria
+  verified_at: '2026-09-16'
+  address: Sussex House, Lake Road
+  postal_code: LA22 0AD
+- latitude: 54.4309871
+  longitude: -2.9624289
+  name: Old Stamp House
+  locality: Ambleside
+  region: Cumbria
+  level: 1
+  url: https://guide.michelin.com/en/cumbria/ambleside/restaurant/old-stamp-house
+  guide: michelin
+  province: Cumbria
+  verified_at: '2026-09-16'
+  address: Church Street
+  postal_code: LA22 0BU
+- latitude: 54.4147643
+  longitude: -2.9511723
+  name: The Samling
+  locality: Ambleside
+  region: Cumbria
+  level: 1
+  url: https://guide.michelin.com/en/cumbria/ambleside/restaurant/the-samling
+  guide: michelin
+  province: Cumbria
+  verified_at: '2026-09-16'
+  address: The Samling Hotel, Ambleside Road
+  postal_code: LA23 1LR
+- latitude: 54.6084828
+  longitude: -2.75094
+  name: Allium at Askham Hall
+  locality: Askham
+  region: Cumbria
+  level: 1
+  url: https://guide.michelin.com/en/cumbria/askham/restaurant/allium-at-askham-hall
+  guide: michelin
+  province: Cumbria
+  verified_at: '2026-09-16'
+  address: ''
+  postal_code: CA10 2PF
+- latitude: 54.3555618
+  longitude: -2.8814264
+  name: SOURCE at Gilpin Hotel
+  locality: Bowness-on-Windermere
+  region: Cumbria
+  level: 1
+  url: https://guide.michelin.com/en/cumbria/bowness-on-windermere/restaurant/source-1206579
+  guide: michelin
+  province: Cumbria
+  verified_at: '2026-09-16'
+  address: Crook Road
+  postal_code: LA23 3NE
+- latitude: 54.6089402
+  longitude: -3.2218372
+  name: The Cottage in the Wood
+  locality: Braithwaite
+  region: Cumbria
+  level: 1
+  url: https://guide.michelin.com/en/cumbria/braithwaite/restaurant/cottage-in-the-wood
+  guide: michelin
+  province: Cumbria
+  verified_at: '2026-09-16'
+  address: Magic Hill, Whinlatter Forest
+  postal_code: CA12 5TW
+- latitude: 54.9341337
+  longitude: -2.6728565
+  name: Cedar Tree by Hrishikesh Desai
+  locality: Brampton
+  region: Cumbria
+  level: 1
+  url: https://guide.michelin.com/en/cumbria/brampton_1739925/restaurant/cedar-tree-by-hrishikesh-desai
+  guide: michelin
+  province: Cumbria
+  verified_at: '2026-09-16'
+  address: Farlam Hall Hotel, Hallbankgate
+  postal_code: CA8 2NG
+- latitude: 54.2017708
+  longitude: -2.9538681
+  name: L'Enclume
+  locality: Cartmel
+  region: Cumbria
+  level: 3
+  url: https://guide.michelin.com/en/cumbria/cartmel/restaurant/l-enclume
+  guide: michelin
+  province: Cumbria
+  verified_at: '2026-09-16'
+  address: Cavendish Street
+  postal_code: LA11 6QA
+- latitude: 54.2008814
+  longitude: -2.9536409
+  name: Rogan & Co
+  locality: Cartmel
+  region: Cumbria
+  level: 1
+  url: https://guide.michelin.com/en/cumbria/cartmel/restaurant/rogan-co
+  guide: michelin
+  province: Cumbria
+  verified_at: '2026-09-16'
+  address: Devonshire Square
+  postal_code: LA11 6QD
+- latitude: 54.4639611
+  longitude: -3.0158049
+  name: Forest Side
+  locality: Grasmere
+  region: Cumbria
+  level: 1
+  url: https://guide.michelin.com/en/cumbria/grasmere/restaurant/forest-side
+  guide: michelin
+  province: Cumbria
+  verified_at: '2026-09-16'
+  address: Keswick Road
+  postal_code: LA22 9RN
+- latitude: 54.2386388
+  longitude: -2.9190308
+  name: heft
+  locality: Newton in Cartmel
+  region: Cumbria
+  level: 1
+  url: https://guide.michelin.com/en/cumbria/newton-in-cartmel/restaurant/heft
+  guide: michelin
+  province: Cumbria
+  verified_at: '2026-09-16'
+  address: ''
+  postal_code: LA11 6JH
+- latitude: 55.0798807
+  longitude: -2.8812522
+  name: Pentonbridge Inn
+  locality: Penton
+  region: Cumbria
+  level: 1
+  url: https://guide.michelin.com/en/cumbria/penton/restaurant/pentonbridge-inn
+  guide: michelin
+  province: Cumbria
+  verified_at: '2026-09-16'
+  address: ''
+  postal_code: CA6 5QB
+- latitude: 54.7107234
+  longitude: -2.8753453
+  name: Dog and Gun Inn
+  locality: Skelton
+  region: Cumbria
+  level: 1
+  url: https://guide.michelin.com/en/cumbria/skelton/restaurant/dog-and-gun-inn
+  guide: michelin
+  province: Cumbria
+  verified_at: '2026-09-16'
+  address: ''
+  postal_code: CA11 9SE
+- latitude: 50.6768483
+  longitude: -3.8750375
+  name: Gidleigh Park
+  locality: Chagford
+  region: Devon
+  level: 1
+  url: https://guide.michelin.com/en/devon/chagford/restaurant/gidleigh-park
+  guide: michelin
+  province: Devon
+  verified_at: '2026-09-16'
+  address: ''
+  postal_code: TQ13 8HH
+- latitude: 50.6402845
+  longitude: -3.4181281
+  name: Lympstone Manor
+  locality: Lympstone
+  region: Devon
+  level: 1
+  url: https://guide.michelin.com/en/devon/lympstone/restaurant/lympstone-manor
+  guide: michelin
+  province: Devon
+  verified_at: '2026-09-16'
+  address: Courtlands Lane
+  postal_code: EX8 3NZ
+- latitude: 53.8953622
+  longitude: -0.5350872
+  name: Pipe and Glass
+  locality: South Dalton
+  region: East Riding of Yorkshire
+  level: 1
+  url: https://guide.michelin.com/en/east-riding-of-yorkshire/south-dalton/restaurant/pipe-and-glass
+  guide: michelin
+  province: East Riding of Yorkshire
+  verified_at: '2026-09-16'
+  address: West End
+  postal_code: HU17 7PN
+- latitude: 50.8274373
+  longitude: -0.1693973
+  name: Maré by Rafael Cagali
+  locality: Brighton and Hove
+  region: East Sussex
+  level: 1
+  url: https://guide.michelin.com/en/east-sussex/brighton-and-hove/restaurant/mare-by-rafael-cagali
+  guide: michelin
+  province: East Sussex
+  verified_at: '2026-09-16'
+  address: 60 Church Road
+  postal_code: BN3 2FP
+- latitude: 51.7907812
+  longitude: 0.9686532
+  name: Stark
+  locality: East Mersea
+  region: Essex
+  level: 1
+  url: https://guide.michelin.com/en/essex/east-mersea_1753667/restaurant/stark
+  guide: michelin
+  province: Essex
+  verified_at: '2026-09-16'
+  address: East Road
+  postal_code: CO5 8TQ
+- latitude: 56.2783766
+  longitude: -2.8845087
+  name: The Peat Inn
+  locality: Peat Inn
+  region: Fife
+  level: 1
+  url: https://guide.michelin.com/en/fife/peat-inn/restaurant/the-peat-inn
+  guide: michelin
+  province: Fife
+  verified_at: '2026-09-16'
+  address: ''
+  postal_code: KY15 5LH
+- latitude: 55.8775205
+  longitude: -4.2892809
+  name: Cail Bruich
+  locality: Glasgow City
+  region: Glasgow City
+  level: 1
+  url: https://guide.michelin.com/en/glasgow-city/glasgow/restaurant/cail-bruich
+  guide: michelin
+  province: Glasgow City
+  verified_at: '2026-09-16'
+  address: 725 Great Western Road
+  postal_code: G12 8QX
+- latitude: 55.8656316
+  longitude: -4.2837872
+  name: UNALOME by Graeme Cheevers
+  locality: Glasgow City
+  region: Glasgow City
+  level: 1
+  url: https://guide.michelin.com/en/glasgow-city/glasgow/restaurant/unalome-by-graeme-cheevers
+  guide: michelin
+  province: Glasgow City
+  verified_at: '2026-09-16'
+  address: 36 Kelvingrove Street
+  postal_code: G3 7RZ
+- latitude: 51.8915462
+  longitude: -2.0789971
+  name: Le Champignon Sauvage
+  locality: Cheltenham
+  region: Gloucestershire
+  level: 1
+  url: https://guide.michelin.com/en/gloucestershire/cheltenham/restaurant/le-champignon-sauvage
+  guide: michelin
+  province: Gloucestershire
+  verified_at: '2026-09-16'
+  address: 24-28 Suffolk Road
+  postal_code: GL50 2AQ
+- latitude: 51.9003929
+  longitude: -2.0771961
+  name: Lumière
+  locality: Cheltenham
+  region: Gloucestershire
+  level: 1
+  url: https://guide.michelin.com/en/gloucestershire/cheltenham/restaurant/lumiere
+  guide: michelin
+  province: Gloucestershire
+  verified_at: '2026-09-16'
+  address: Clarence Parade
+  postal_code: GL50 3PA
+- latitude: 51.5102984
+  longitude: -0.120722
+  name: 1890 by Gordon Ramsay
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/1890-by-gordon-ramsay
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: Strand
+  postal_code: WC2R 0EU
+- latitude: 51.5190312
+  longitude: -0.1368487
+  name: 64 Goodge Street
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/64-goodge-street
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 64 Goodge Street, Fitzrovia
+  postal_code: W1T 4NF
+- latitude: 51.4930091
+  longitude: -0.1406558
+  name: A. Wong
+  locality: London
+  region: Greater London
+  level: 2
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/a-wong
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 70 Wilton Road, Victoria
+  postal_code: SW1V 1DE
+- latitude: 51.5177438
+  longitude: -0.13691
+  name: Akoko
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/akoko
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 21 Berners Street, Fitzrovia
+  postal_code: W1T3LP
+- latitude: 51.5073381
+  longitude: -0.152575
+  name: Alain Ducasse at The Dorchester
+  locality: London
+  region: Greater London
+  level: 3
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/alain-ducasse-at-the-dorchester
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: The Dorchester Hotel, 53 Park Lane, Mayfair
+  postal_code: W1K 1QA
+- latitude: 51.5100201
+  longitude: -0.1359557
+  name: Alex Dilling at Hotel Café Royal
+  locality: London
+  region: Greater London
+  level: 2
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/alex-dilling-at-hotel-cafe-royal
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 68 Regent Street, Soho
+  postal_code: W1B 4DY
+- latitude: 51.4993036
+  longitude: -0.1571945
+  name: Amaya
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/amaya
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: Halkin Arcade, 19 Motcomb Street, Belgravia
+  postal_code: SW1X 8JT
+- latitude: 51.5112065
+  longitude: -0.1399315
+  name: Ambassadors Clubhouse
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/ambassadors-clubhouse
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 25 Heddon Street, Mayfair
+  postal_code: W1B 4BH
+- latitude: 51.5189674
+  longitude: -0.086521
+  name: Angler
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/angler392235
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 3 South Place, Finsbury
+  postal_code: EC2M 2AF
+- latitude: 51.515139
+  longitude: -0.161181
+  name: AngloThai
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/anglothai
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 22 Seymour Place, Marylebone
+  postal_code: W1H 7NL
+- latitude: 51.5143368
+  longitude: -0.1343223
+  name: Aulis
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/aulis
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 16 St Anne's Court, Soho
+  postal_code: W1F 0BF
+- latitude: 51.5392307
+  longitude: -0.0575568
+  name: Behind
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/behind
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 20 Sidworth Street, London Fields
+  postal_code: E8 3SD
+- latitude: 51.5097876
+  longitude: -0.1450274
+  name: Benares
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/benares
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 12a Berkeley Square, Mayfair
+  postal_code: W1J 6BS
+- latitude: 51.5112593
+  longitude: -0.155109
+  name: Bonheur by Matt Abé
+  locality: London
+  region: Greater London
+  level: 2
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/bonheur-by-matt-abe
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 43 Upper Brook Street, Mayfair
+  postal_code: W1K 7QR
+- latitude: 51.5242457
+  longitude: -0.0769561
+  name: Brat
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/brat
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 4 Redchurch Street, Shoreditch
+  postal_code: E1 6JL
+- latitude: 51.5017267
+  longitude: -0.1518849
+  name: Brooklands by Claude Bosi
+  locality: London
+  region: Greater London
+  level: 2
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/brooklands
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: The Peninsula Hotel, 1 Grosvenor Place, Belgravia
+  postal_code: SW1X 7HJ
+- latitude: 51.5126689
+  longitude: -0.2030649
+  name: CORE by Clare Smyth
+  locality: London
+  region: Greater London
+  level: 3
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/core-by-clare-smyth
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 92 Kensington Park Road, Notting Hill
+  postal_code: W11 2PN
+- latitude: 51.517865
+  longitude: -0.2008184
+  name: Caractère
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/caractere
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 209 Westbourne Park Road, Notting Hill
+  postal_code: W11 1EA
+- latitude: 51.5499681
+  longitude: -0.0641532
+  name: Casa Fofō
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/casa-fofo
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 158 Sandringham Road, Dalston
+  postal_code: E8 2HS
+- latitude: 51.4464026
+  longitude: -0.1653296
+  name: Chez Bruce
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/chez-bruce
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 2 Bellevue Road, Wandsworth
+  postal_code: SW17 7EG
+- latitude: 51.5167307
+  longitude: -0.1399754
+  name: Chishuru
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/chishuru
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 3 Great Titchfield Street, Fitzrovia
+  postal_code: W1W 8AX
+- latitude: 51.4902602
+  longitude: -0.1554088
+  name: Corenucopia by Clare Smyth
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/corenucopia-by-clare-smyth
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 18-22 Holbein Place, Belgravia
+  postal_code: SW1W 8NL
+- latitude: 51.4942405
+  longitude: -0.1477227
+  name: Cornus
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/cornus
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 27c Eccleston Place, Belgravia
+  postal_code: SW1W 9NF
+- latitude: 51.5244846
+  longitude: -0.0752056
+  name: Cycene
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/cycene
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: Blue Mountain School, 9 Chance Street, Shoreditch
+  postal_code: E2 7JB
+- latitude: 51.530411
+  longitude: -0.05607
+  name: Da Terra
+  locality: London
+  region: Greater London
+  level: 2
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/da-terra
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: Town Hall Hotel, 8 Patriot Square, Bethnal Green
+  postal_code: E2 9NF
+- latitude: 51.497523
+  longitude: -0.1456983
+  name: Dining Room at The Goring
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/dining-room-at-the-goring
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 15 Beeston Place, Belgravia
+  postal_code: SW1W 0JW
+- latitude: 51.5021106
+  longitude: -0.1599147
+  name: Dinner by Heston Blumenthal
+  locality: London
+  region: Greater London
+  level: 2
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/dinner-by-heston-blumenthal
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: Mandarin Oriental Hyde Park, 66 Knightsbridge, Knightsbridge
+  postal_code: SW1X 7LA
+- latitude: 51.5166259
+  longitude: -0.2006009
+  name: Dorian
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/dorian
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 105 Talbot Road, Notting Hill
+  postal_code: W11 2AT
+- latitude: 51.4464604
+  longitude: -0.3001695
+  name: Dysart Petersham
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/dysart-petersham
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 135 Petersham Road, Richmond
+  postal_code: TW10 7AA
+- latitude: 51.4915449
+  longitude: -0.1675485
+  name: Elystan Street
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/elystan-street
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 43 Elystan Street, Chelsea
+  postal_code: SW3 3NT
+- latitude: 51.5111621
+  longitude: -0.1326022
+  name: Evelyn's Table
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/evelyn-s-table
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: The Blue Posts, 28 Rupert Street, Soho
+  postal_code: W1D 6DJ
+- latitude: 51.51085
+  longitude: -0.12217
+  name: Frog by Adam Handling
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/frog-by-adam-handling
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 34-35 Southampton Street, Covent Garden
+  postal_code: WC2E 7HG
+- latitude: 51.520295
+  longitude: -0.0783716
+  name: Galvin La Chapelle
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/galvin-la-chapelle
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 35 Spital Square, Shoreditch
+  postal_code: E1 6DY
+- latitude: 51.5085431
+  longitude: -0.141547
+  name: Gymkhana
+  locality: London
+  region: Greater London
+  level: 2
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/gymkhana
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 42 Albemarle Street, Mayfair
+  postal_code: W1S 4JH
+- latitude: 51.5061533
+  longitude: -0.1443531
+  name: HIDE
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/hide
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 85 Piccadilly, Mayfair
+  postal_code: W1J 7NB
+- latitude: 51.5138258
+  longitude: -0.1317621
+  name: Humble Chicken
+  locality: London
+  region: Greater London
+  level: 2
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/humble-chicken
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 54 Frith Street, Soho
+  postal_code: W1D 4SL
+- latitude: 51.510188
+  longitude: -0.1492905
+  name: Hélène Darroze at The Connaught
+  locality: London
+  region: Greater London
+  level: 3
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/helene-darroze-at-the-connaught
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: Carlos Place, Mayfair
+  postal_code: W1K 2AL
+- latitude: 51.5123195
+  longitude: -0.1155388
+  name: Ikoyi
+  locality: London
+  region: Greater London
+  level: 2
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/ikoyi
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 180 Strand, Strand
+  postal_code: WC2R 1EA
+- latitude: 51.5103041
+  longitude: -0.1484316
+  name: Jamavar
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/jamavar
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 8 Mount Street, Mayfair
+  postal_code: W1K 3NF
+- latitude: 51.5147873
+  longitude: -0.1574918
+  name: KOL
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/kol
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 9 Seymour Street, Marylebone
+  postal_code: W1H 7BA
+- latitude: 51.4730004
+  longitude: -0.0898627
+  name: Kerfield Arms
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/kerfield-arms
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 16 Grove Lane, Camberwell, Southwark
+  postal_code: SE5 8SY
+- latitude: 51.5203616
+  longitude: -0.13647
+  name: Kitchen Table
+  locality: London
+  region: Greater London
+  level: 2
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/kitchen-table
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 70 Charlotte Street, Fitzrovia
+  postal_code: W1T 4QG
+- latitude: 51.4990858
+  longitude: -0.1969096
+  name: Kitchen W8
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/kitchen-w8
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 11-13 Abingdon Road, Kensington
+  postal_code: W8 6AH
+- latitude: 51.491995
+  longitude: -0.2558505
+  name: La Trompette
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/la-trompette
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 3-7 Devonshire Road, Chiswick
+  postal_code: W4 2EU
+- latitude: 51.5050011
+  longitude: -0.1500251
+  name: Labombe by Trivet
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/labombe-by-trivet
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: COMO Metropolitan London, 19 Old Park Lane, Mayfair
+  postal_code: W1K 1LB
+- latitude: 51.5244168
+  longitude: -0.0783756
+  name: Legado
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/legado
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 1C Montacute Yards, 185-186 Shoreditch High Street
+  postal_code: E1 6HU
+- latitude: 51.520828
+  longitude: -0.1526149
+  name: Lita
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/lita
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 7-9 Paddington Street, Marylebone
+  postal_code: W1U 5QH
+- latitude: 51.5223158
+  longitude: -0.1018292
+  name: Luca
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/luca
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 88 St John Street, Clerkenwell
+  postal_code: EC1M 4EH
+- latitude: 51.5053846
+  longitude: -0.1263389
+  name: Mauro Colagreco at Raffles London at The OWO
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/mauro-colagreco-at-raffles-london-at-the-owo
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: Whitehall
+  postal_code: SW1A 2BX
+- latitude: 51.5057705
+  longitude: -0.1404344
+  name: Michael Caines at The Stafford
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/michael-caines-at-the-stafford
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 16-18 St James's Place, St James's
+  postal_code: SW1A 1NJ
+- latitude: 51.5120143
+  longitude: -0.1382586
+  name: Mountain
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/mountain
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 16-18 Beak Street, Soho
+  postal_code: W1F 9RD
+- latitude: 51.5071742
+  longitude: -0.1472229
+  name: Murano
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/murano
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 20 Queen Street, Mayfair
+  postal_code: W1J 5PP
+- latitude: 51.4994673
+  longitude: -0.1509184
+  name: Muse by Tom Aikens
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/muse-1188132
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 38 Groom Place, Belgravia
+  postal_code: SW1X 7BA
+- latitude: 51.5053331
+  longitude: -0.0897239
+  name: OMA
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/oma-1213973
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 3 Bedale Street, Borough Market
+  postal_code: SE1 9AL
+- latitude: 51.5065597
+  longitude: -0.1453868
+  name: Ormer Mayfair
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/ormer-mayfair
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: Flemings Hotel, 7-12 Half Moon Street, Mayfair
+  postal_code: W1J 7BH
+- latitude: 51.5045981
+  longitude: -0.150181
+  name: Pavyllon London
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/pavyllon-london
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: Four Seasons Hotel, Hamilton Place, Mayfair
+  postal_code: W1J 7DR
+- latitude: 51.5191109
+  longitude: -0.1352265
+  name: Pied à Terre
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/pied-a-terre
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 34 Charlotte Street, Fitzrovia
+  postal_code: W1T 2NH
+- latitude: 51.5265904
+  longitude: -0.0819587
+  name: Plates London
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/plates-london
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 320 Old Street, Shoreditch
+  postal_code: EC1V 9DR
+- latitude: 51.5198009
+  longitude: -0.1427082
+  name: Portland
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/portland
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 113 Great Portland Street, Fitzrovia
+  postal_code: W1W 6QQ
+- latitude: 51.4995628
+  longitude: -0.1567357
+  name: Pétrus by Gordon Ramsay
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/petrus284688
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 1 Kinnerton Street, Belgravia
+  postal_code: SW1X 8EA
+- latitude: 51.4987577
+  longitude: -0.1375764
+  name: Quilon
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/quilon
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: Taj 51 Hotel, 41 Buckingham Gate, Westminster
+  postal_code: SW1E 6AF
+- latitude: 51.4854381
+  longitude: -0.1621766
+  name: Restaurant Gordon Ramsay
+  locality: London
+  region: Greater London
+  level: 3
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/restaurant-gordon-ramsay
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 68-69 Royal Hospital Road, Chelsea
+  postal_code: SW3 4HP
+- latitude: 51.5144387
+  longitude: -0.0834119
+  name: Restaurant Gordon Ramsay High
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/restaurant-gordon-ramsay-high
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 60th Floor, 22 Bishopsgate, City of London
+  postal_code: EC2N 4BQ
+- latitude: 51.5183494
+  longitude: -0.0992235
+  name: Restaurant St. Barts
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/st-barts
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 63 Bartholomew Close, City of London
+  postal_code: EC1A 7BF
+- latitude: 51.5028085
+  longitude: -0.077787
+  name: Restaurant Story
+  locality: London
+  region: Greater London
+  level: 2
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/story
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 199 Tooley Street, Southwark
+  postal_code: SE1 2JX
+- latitude: 51.4841179
+  longitude: -0.2243521
+  name: River Café
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/river-cafe
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: Thames Wharf, Rainville Road, Hammersmith
+  postal_code: W6 9HA
+- latitude: 51.5105221
+  longitude: -0.1397601
+  name: Row on 5
+  locality: London
+  region: Greater London
+  level: 2
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/row-on-5
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 5 Savile Row, Mayfair
+  postal_code: W1S 3PB
+- latitude: 51.5114463
+  longitude: -0.1394943
+  name: Sabor
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/sabor
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 35-37 Heddon Street, Mayfair
+  postal_code: W1B 4BR
+- latitude: 51.5126775
+  longitude: -0.1415369
+  name: Sketch, The Lecture Room and Library
+  locality: London
+  region: Greater London
+  level: 3
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/sketch-the-lecture-room-library
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 9 Conduit Street, Mayfair
+  postal_code: W1S 2XG
+- latitude: 51.5025583
+  longitude: -0.0846577
+  name: Sollip
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/sollip
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: Unit 1, 8 Melior Street, Southwark
+  postal_code: SE1 3QP
+- latitude: 51.520489
+  longitude: -0.1014108
+  name: St. JOHN
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/st-john
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 26 St. John Street, Smithfield
+  postal_code: EC1M 4AY
+- latitude: 51.5064815
+  longitude: -0.1517726
+  name: Sushi Kanesaka
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/sushi-kanesaka-1210127
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 45 Park Lane, Mayfair
+  postal_code: W1K 1PN
+- latitude: 51.5271054
+  longitude: -0.0793371
+  name: The Clove Club
+  locality: London
+  region: Greater London
+  level: 2
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/the-clove-club
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: Shoreditch Town Hall, 380 Old Street, Shoreditch
+  postal_code: EC1V 9LT
+- latitude: 51.4828975
+  longitude: -0.1964558
+  name: The Harwood Arms
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/harwood-arms
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: Walham Grove, Fulham
+  postal_code: SW6 1QP
+- latitude: 51.5166662
+  longitude: -0.2000272
+  name: The Ledbury
+  locality: London
+  region: Greater London
+  level: 3
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/the-ledbury
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 127 Ledbury Road, Notting Hill
+  postal_code: W11 2AQ
+- latitude: 51.5188446
+  longitude: -0.1349237
+  name: The Ninth
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/the-ninth
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 22 Charlotte Street, Fitzrovia
+  postal_code: W1T 2NB
+- latitude: 51.5069929
+  longitude: -0.1418453
+  name: The Ritz Restaurant
+  locality: London
+  region: Greater London
+  level: 2
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/ritz-restaurant
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 150 Piccadilly, St James’s
+  postal_code: W1J 9BR
+- latitude: 51.5001262
+  longitude: -0.1615559
+  name: Tom Brown at The Capital
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/tom-brown-at-the-capital
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 22-24 Basil Street, Knightsbridge
+  postal_code: SW3 1AT
+- latitude: 51.4635167
+  longitude: -0.14151
+  name: Trinity
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/trinity
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 4 The Polygon, Clapham
+  postal_code: SW4 0JG
+- latitude: 51.5183427
+  longitude: -0.1529346
+  name: Trishna
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/trishna
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 15-17 Blandford Street, Marylebone
+  postal_code: W1U 3DG
+- latitude: 51.502192
+  longitude: -0.084739
+  name: Trivet
+  locality: London
+  region: Greater London
+  level: 2
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/trivet
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 36 Snowsfields, Southwark
+  postal_code: SE1 3SU
+- latitude: 51.5113444
+  longitude: -0.1444006
+  name: Umu
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/umu
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 14-16 Bruton Place, Mayfair
+  postal_code: W1J 6LX
+- latitude: 51.5099386
+  longitude: -0.1378476
+  name: Veeraswamy
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/veeraswamy
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: Victory House, 99 Regent Street, Mayfair
+  postal_code: W1B 4RS
+- latitude: 51.5074626
+  longitude: -0.1321565
+  name: Wild Honey St James
+  locality: London
+  region: Greater London
+  level: 1
+  url: https://guide.michelin.com/en/greater-london/london/restaurant/wild-honey-st-james
+  guide: michelin
+  province: Greater London
+  verified_at: '2026-09-16'
+  address: 8 Pall Mall, St James’s
+  postal_code: SW1Y 5NG
+- latitude: 53.486389
+  longitude: -2.2401307
+  name: Skof
+  locality: Manchester
+  region: Greater Manchester
+  level: 1
+  url: https://guide.michelin.com/en/greater-manchester/manchester/restaurant/skof
+  guide: michelin
+  province: Greater Manchester
+  verified_at: '2026-09-16'
+  address: 3 Federation Street
+  postal_code: M4 4BF
+- latitude: 53.4848226
+  longitude: -2.2278659
+  name: mana
+  locality: Manchester
+  region: Greater Manchester
+  level: 1
+  url: https://guide.michelin.com/en/greater-manchester/manchester/restaurant/mana
+  guide: michelin
+  province: Greater Manchester
+  verified_at: '2026-09-16'
+  address: 42 Blossom Street, Ancoats
+  postal_code: M4 6BF
+- latitude: 49.5043821
+  longitude: -2.5426366
+  name: Vraic
+  locality: Vale
+  region: Guernsey
+  level: 1
+  url: https://guide.michelin.com/en/guernsey/vale_7770442/restaurant/vraic
+  guide: michelin
+  province: Guernsey
+  verified_at: '2026-09-16'
+  address: Mont Cuet Road, Chouet Bay
+  postal_code: GY3 5AT
+- latitude: 52.0382656
+  longitude: -2.4237209
+  name: 33 The Homend
+  locality: Ledbury
+  region: Herefordshire
+  level: 1
+  url: https://guide.michelin.com/en/herefordshire/ledbury_1728106/restaurant/33-the-homend
+  guide: michelin
+  province: Herefordshire
+  verified_at: '2026-09-16'
+  address: 33 The Homend
+  postal_code: HR8 1BP
+- latitude: 57.51557
+  longitude: -6.57252
+  name: Loch Bay
+  locality: Isle of Skye
+  region: Highland
+  level: 1
+  url: https://guide.michelin.com/en/highland/isle-of-skye/restaurant/loch-bay
+  guide: michelin
+  province: Highland
+  verified_at: '2026-09-16'
+  address: 1-2 Macleods Terrace, Stein, Waternish
+  postal_code: IV55 8GA
+- latitude: 57.52892
+  longitude: -5.52819
+  name: '1887'
+  locality: Torridon
+  region: Highland
+  level: 1
+  url: https://guide.michelin.com/en/highland/torridon/restaurant/1887
+  guide: michelin
+  province: Highland
+  verified_at: '2026-09-16'
+  address: Torridon Hotel, Annat, By Achnasheen
+  postal_code: IV22 2EY
+- latitude: 53.2260376
+  longitude: -4.1629618
+  name: Sosban & The Old Butchers
+  locality: Menai Bridge
+  region: Isle of Anglesey
+  level: 1
+  url: https://guide.michelin.com/en/isle-of-anglesey/menai-bridge/restaurant/sosban-the-old-butchers
+  guide: michelin
+  province: Isle of Anglesey
+  verified_at: '2026-09-16'
+  address: Trinity House, 1a High Street
+  postal_code: LL59 5EE
+- latitude: 51.2957384
+  longitude: 1.1264202
+  name: Fordwich Arms
+  locality: Fordwich
+  region: Kent
+  level: 1
+  url: https://guide.michelin.com/en/kent/fordwich/restaurant/fordwich-arms
+  guide: michelin
+  province: Kent
+  verified_at: '2026-09-16'
+  address: King Street
+  postal_code: CT2 0DB
+- latitude: 51.0805389
+  longitude: 1.0762788
+  name: hide and fox
+  locality: Saltwood
+  region: Kent
+  level: 2
+  url: https://guide.michelin.com/en/kent/saltwood/restaurant/hide-and-fox
+  guide: michelin
+  province: Kent
+  verified_at: '2026-09-16'
+  address: The Green
+  postal_code: CT21 4PS
+- latitude: 51.344186
+  longitude: 0.9585055
+  name: The Sportsman
+  locality: Seasalter
+  region: Kent
+  level: 1
+  url: https://guide.michelin.com/en/kent/seasalter/restaurant/the-sportsman
+  guide: michelin
+  province: Kent
+  verified_at: '2026-09-16'
+  address: Faversham Road
+  postal_code: CT5 4BP
+- latitude: 53.5423365
+  longitude: -2.8919183
+  name: Moor Hall
+  locality: Aughton
+  region: Lancashire
+  level: 3
+  url: https://guide.michelin.com/en/lancashire/aughton/restaurant/moor-hall
+  guide: michelin
+  province: Lancashire
+  verified_at: '2026-09-16'
+  address: Prescot Road
+  postal_code: L39 6RT
+- latitude: 53.5402555
+  longitude: -2.8902774
+  name: The Barn
+  locality: Aughton
+  region: Lancashire
+  level: 1
+  url: https://guide.michelin.com/en/lancashire/aughton/restaurant/the-barn
+  guide: michelin
+  province: Lancashire
+  verified_at: '2026-09-16'
+  address: Prescot Road
+  postal_code: L39 6RT
+- latitude: 53.5445999
+  longitude: -2.9003591
+  name: sō–lō
+  locality: Aughton
+  region: Lancashire
+  level: 1
+  url: https://guide.michelin.com/en/lancashire/aughton/restaurant/so%E2%80%93lo
+  guide: michelin
+  province: Lancashire
+  verified_at: '2026-09-16'
+  address: 17 Town Green Lane
+  postal_code: L39 6SE
+- latitude: 53.8392556
+  longitude: -2.2508633
+  name: The White Swan
+  locality: Fence
+  region: Lancashire
+  level: 1
+  url: https://guide.michelin.com/en/lancashire/fence/restaurant/white-swan
+  guide: michelin
+  province: Lancashire
+  verified_at: '2026-09-16'
+  address: 300 Wheatley Lane Road
+  postal_code: BB12 9QA
+- latitude: 53.8091411
+  longitude: -2.4474228
+  name: Northcote
+  locality: Langho
+  region: Lancashire
+  level: 1
+  url: https://guide.michelin.com/en/lancashire/langho/restaurant/northcote
+  guide: michelin
+  province: Lancashire
+  verified_at: '2026-09-16'
+  address: Northcote Road
+  postal_code: BB6 8BE
+- latitude: 52.7328574
+  longitude: -1.1459883
+  name: John's House
+  locality: Mountsorrel
+  region: Leicestershire
+  level: 1
+  url: https://guide.michelin.com/en/leicestershire/mountsorrel/restaurant/john-s-house
+  guide: michelin
+  province: Leicestershire
+  verified_at: '2026-09-16'
+  address: Stonehurst Farm, 139-141 Loughborough Road
+  postal_code: LE12 7AR
+- latitude: 51.8435039
+  longitude: -2.9632276
+  name: Walnut Tree
+  locality: Llanddewi Skirrid
+  region: Monmouthshire
+  level: 1
+  url: https://guide.michelin.com/en/monmouthshire/llanddewi-skirrid/restaurant/walnut-tree
+  guide: michelin
+  province: Monmouthshire
+  verified_at: '2026-09-16'
+  address: ''
+  postal_code: NP7 8AW
+- latitude: 51.759697
+  longitude: -2.686909
+  name: The Whitebrook
+  locality: Whitebrook
+  region: Monmouthshire
+  level: 1
+  url: https://guide.michelin.com/en/monmouthshire/whitebrook/restaurant/the-whitebrook
+  guide: michelin
+  province: Monmouthshire
+  verified_at: '2026-09-16'
+  address: ''
+  postal_code: NP25 4TX
+- latitude: 52.9046228
+  longitude: 1.0872934
+  name: Meadowsweet
+  locality: Holt
+  region: Norfolk
+  level: 1
+  url: https://guide.michelin.com/en/norfolk/holt/restaurant/meadowsweet-1196227
+  guide: michelin
+  province: Norfolk
+  verified_at: '2026-09-16'
+  address: 37 Norwich Road
+  postal_code: NR25 6SA
+- latitude: 52.9511554
+  longitude: 0.5092639
+  name: The Neptune
+  locality: Hunstanton
+  region: Norfolk
+  level: 1
+  url: https://guide.michelin.com/en/norfolk/hunstanton/restaurant/the-neptune
+  guide: michelin
+  province: Norfolk
+  verified_at: '2026-09-16'
+  address: 85 Old Hunstanton Road, Old Hunstanton
+  postal_code: PE36 6HZ
+- latitude: 52.9546971
+  longitude: 0.9880742
+  name: Morston Hall
+  locality: Morston
+  region: Norfolk
+  level: 1
+  url: https://guide.michelin.com/en/norfolk/morston/restaurant/morston-hall
+  guide: michelin
+  province: Norfolk
+  verified_at: '2026-09-16'
+  address: The Street
+  postal_code: NR25 7AA
+- latitude: 53.6877042
+  longitude: -0.5904314
+  name: Winteringham Fields
+  locality: Winteringham
+  region: North Lincolnshire
+  level: 1
+  url: https://guide.michelin.com/en/north-lincolnshire/winteringham/restaurant/winteringham-fields
+  guide: michelin
+  province: North Lincolnshire
+  verified_at: '2026-09-16'
+  address: 1 Silver Street
+  postal_code: DN15 9ND
+- latitude: 54.231039
+  longitude: -1.0100664
+  name: Star Inn at Harome
+  locality: Harome
+  region: North Yorkshire
+  level: 1
+  url: https://guide.michelin.com/en/north-yorkshire/harome/restaurant/star-inn-at-harome
+  guide: michelin
+  province: North Yorkshire
+  verified_at: '2026-09-16'
+  address: High Street
+  postal_code: YO62 5JE
+- latitude: 53.9726725
+  longitude: -1.4951622
+  name: FIFTY TWO
+  locality: Harrogate
+  region: North Yorkshire
+  level: 1
+  url: https://guide.michelin.com/en/north-yorkshire/harrogate/restaurant/fifty-two
+  guide: michelin
+  province: North Yorkshire
+  verified_at: '2026-09-16'
+  address: Rudding Park Hotel, Follifoot
+  postal_code: HG3 1JH
+- latitude: 54.0258838
+  longitude: -2.0596882
+  name: The Angel
+  locality: Hetton
+  region: North Yorkshire
+  level: 1
+  url: https://guide.michelin.com/en/north-yorkshire/hetton/restaurant/the-angel189123
+  guide: michelin
+  province: North Yorkshire
+  verified_at: '2026-09-16'
+  address: Back Lane
+  postal_code: BD23 6LT
+- latitude: 54.1723889
+  longitude: -0.9790181
+  name: mýse
+  locality: Hovingham
+  region: North Yorkshire
+  level: 1
+  url: https://guide.michelin.com/en/north-yorkshire/hovingham/restaurant/myse
+  guide: michelin
+  province: North Yorkshire
+  verified_at: '2026-09-16'
+  address: Main Street
+  postal_code: YO62 4LF
+- latitude: 54.458091
+  longitude: -1.660081
+  name: Forge
+  locality: Middleton Tyas
+  region: North Yorkshire
+  level: 1
+  url: https://guide.michelin.com/en/north-yorkshire/middleton-tyas/restaurant/forge-1190154
+  guide: michelin
+  province: North Yorkshire
+  verified_at: '2026-09-16'
+  address: Middleton Lodge Estate, Kneeton Lane
+  postal_code: DL10 6NJ
+- latitude: 54.2120881
+  longitude: -1.1879112
+  name: Black Swan
+  locality: Oldstead
+  region: North Yorkshire
+  level: 1
+  url: https://guide.michelin.com/en/north-yorkshire/oldstead/restaurant/black-swan
+  guide: michelin
+  province: North Yorkshire
+  verified_at: '2026-09-16'
+  address: Main Street
+  postal_code: YO61 4BL
+- latitude: 54.11882
+  longitude: -1.63174
+  name: Shaun Rankin at Grantley Hall
+  locality: Ripon
+  region: North Yorkshire
+  level: 1
+  url: https://guide.michelin.com/en/north-yorkshire/ripon/restaurant/shaun-rankin-at-grantley-hall
+  guide: michelin
+  province: North Yorkshire
+  verified_at: '2026-09-16'
+  address: Grantley Hall
+  postal_code: HG4 3ET
+- latitude: 55.0095322
+  longitude: -1.9266976
+  name: Pine
+  locality: East Wallhouses
+  region: Northumberland
+  level: 1
+  url: https://guide.michelin.com/en/northumberland/east-wallhouses/restaurant/pine
+  guide: michelin
+  province: Northumberland
+  verified_at: '2026-09-16'
+  address: Vallum Farm, Military Road
+  postal_code: NE18 0LL
+- latitude: 52.9251069
+  longitude: -1.1676041
+  name: Restaurant Sat Bains
+  locality: Nottingham
+  region: Nottingham
+  level: 2
+  url: https://guide.michelin.com/en/nottingham-region/nottingham/restaurant/restaurant-sat-bains
+  guide: michelin
+  province: Nottingham
+  verified_at: '2026-09-16'
+  address: Lenton Lane
+  postal_code: NG7 2SA
+- latitude: 52.9549911
+  longitude: -1.1655566
+  name: alchemilla
+  locality: Nottingham
+  region: Nottingham
+  level: 1
+  url: https://guide.michelin.com/en/nottingham-region/nottingham/restaurant/alchemilla530690
+  guide: michelin
+  province: Nottingham
+  verified_at: '2026-09-16'
+  address: 192 Derby Road
+  postal_code: NG7 1NF
+- latitude: 51.8361729
+  longitude: -1.1499072
+  name: Nut Tree Inn
+  locality: Murcott
+  region: Oxfordshire
+  level: 1
+  url: https://guide.michelin.com/en/oxfordshire/murcott/restaurant/nut-tree
+  guide: michelin
+  province: Oxfordshire
+  verified_at: '2026-09-16'
+  address: Main Street
+  postal_code: OX5 2RE
+- latitude: 56.2832316
+  longitude: -3.7517344
+  name: Restaurant Andrew Fairlie
+  locality: Auchterarder
+  region: Perth and Kinross
+  level: 2
+  url: https://guide.michelin.com/en/perth-and-kinross/auchterarder/restaurant/andrew-fairlie-at-gleneagles
+  guide: michelin
+  province: Perth and Kinross
+  verified_at: '2026-09-16'
+  address: The Gleneagles Hotel
+  postal_code: PH3 1NF
+- latitude: 56.3890265
+  longitude: -3.8527163
+  name: The Glenturret Lalique
+  locality: Crieff
+  region: Perth and Kinross
+  level: 2
+  url: https://guide.michelin.com/en/perth-and-kinross/crieff/restaurant/the-glenturret-lalique
+  guide: michelin
+  province: Perth and Kinross
+  verified_at: '2026-09-16'
+  address: The Glenturret Distillery, The Hosh, Torreglen
+  postal_code: PH7 4HA
+- latitude: 56.7442889
+  longitude: -3.7771885
+  name: Killiecrankie House
+  locality: Killiecrankie
+  region: Perth and Kinross
+  level: 1
+  url: https://guide.michelin.com/en/perth-and-kinross/killiecrankie/restaurant/killiecrankie-house
+  guide: michelin
+  province: Perth and Kinross
+  verified_at: '2026-09-16'
+  address: Pitlochry
+  postal_code: PH16 5LG
+- latitude: 50.4016374
+  longitude: -4.0566742
+  name: Àclèaf
+  locality: Plymouth
+  region: Plymouth
+  level: 1
+  url: https://guide.michelin.com/en/plymouth-region/plymouth/restaurant/acleaf
+  guide: michelin
+  province: Plymouth
+  verified_at: '2026-09-16'
+  address: Boringdon Hill, Colebrook, Devon
+  postal_code: PL7 4DP
+- latitude: 52.6574319
+  longitude: -0.6680979
+  name: Hambleton Hall
+  locality: Hambleton
+  region: Rutland
+  level: 1
+  url: https://guide.michelin.com/en/rutland/hambleton/restaurant/hambleton-hall
+  guide: michelin
+  province: Rutland
+  verified_at: '2026-09-16'
+  address: ''
+  postal_code: LE15 8TH
+- latitude: 49.1814937
+  longitude: -2.1021873
+  name: Bohemia
+  locality: Saint Helier
+  region: Saint Helier
+  level: 1
+  url: https://guide.michelin.com/en/saint-helier/saint-helier/restaurant/bohemia
+  guide: michelin
+  province: Saint Helier
+  verified_at: '2026-09-16'
+  address: Green Street, The Club Hotel & Spa
+  postal_code: JE2 4UH
+- latitude: 51.1059246
+  longitude: -2.3989953
+  name: Osip
+  locality: Bruton
+  region: Somerset
+  level: 1
+  url: https://guide.michelin.com/en/somerset/bruton/restaurant/osip
+  guide: michelin
+  province: Somerset
+  verified_at: '2026-09-16'
+  address: 25 Kingsettle Hill, Hardway
+  postal_code: BA10 0LN
+- latitude: 51.4861304
+  longitude: -3.2000614
+  name: Gorse
+  locality: Cardiff
+  region: South Glamorgan
+  level: 1
+  url: https://guide.michelin.com/en/south-glamorgan/cardiff/restaurant/gorse
+  guide: michelin
+  province: South Glamorgan
+  verified_at: '2026-09-16'
+  address: 186-188 Kings Road
+  postal_code: CF11 9DF
+- latitude: 51.4627517
+  longitude: -2.597816
+  name: Bulrush
+  locality: City of Bristol
+  region: South Gloucestershire
+  level: 1
+  url: https://guide.michelin.com/en/south-gloucestershire/bristol/restaurant/bulrush
+  guide: michelin
+  province: South Gloucestershire
+  verified_at: '2026-09-16'
+  address: 21 Cotham Road South
+  postal_code: BS6 5TZ
+- latitude: 51.4679292
+  longitude: -2.6052331
+  name: Wilsons
+  locality: City of Bristol
+  region: South Gloucestershire
+  level: 1
+  url: https://guide.michelin.com/en/south-gloucestershire/bristol/restaurant/wilsons
+  guide: michelin
+  province: South Gloucestershire
+  verified_at: '2026-09-16'
+  address: 24 Chandos Road
+  postal_code: BS6 6PF
+- latitude: 53.44283
+  longitude: -1.5477921
+  name: JÖRO
+  locality: Sheffield
+  region: South Yorkshire
+  level: 1
+  url: https://guide.michelin.com/en/south-yorkshire/sheffield/restaurant/joro
+  guide: michelin
+  province: South Yorkshire
+  verified_at: '2026-09-16'
+  address: Oughtibridge Mill, Main Road, Wharncliffe Side
+  postal_code: S35 0LB
+- latitude: 52.651783
+  longitude: -1.8892139
+  name: The Boat
+  locality: Lichfield
+  region: Staffordshire
+  level: 1
+  url: https://guide.michelin.com/en/staffordshire/lichfield/restaurant/the-boat-inn
+  guide: michelin
+  province: Staffordshire
+  verified_at: '2026-09-16'
+  address: Walsall Road
+  postal_code: WS14 0BU
+- latitude: 52.6829118
+  longitude: -1.8277572
+  name: Upstairs by Tom Shepherd
+  locality: Lichfield
+  region: Staffordshire
+  level: 1
+  url: https://guide.michelin.com/en/staffordshire/lichfield/restaurant/upstairs-by-tom-shepherd
+  guide: michelin
+  province: Staffordshire
+  verified_at: '2026-09-16'
+  address: 25 Bore Street
+  postal_code: WS13 6NA
+- latitude: 52.249572
+  longitude: 0.7144697
+  name: Pea Porridge
+  locality: Bury St Edmunds
+  region: Suffolk
+  level: 1
+  url: https://guide.michelin.com/en/suffolk/bury-st-edmunds/restaurant/pea-porridge
+  guide: michelin
+  province: Suffolk
+  verified_at: '2026-09-16'
+  address: 28-29 Cannon Street
+  postal_code: IP33 1JR
+- latitude: 51.3566975
+  longitude: -0.7088648
+  name: Latymer
+  locality: Bagshot
+  region: Surrey
+  level: 1
+  url: https://guide.michelin.com/en/surrey/bagshot/restaurant/latymer
+  guide: michelin
+  province: Surrey
+  verified_at: '2026-09-16'
+  address: London Road
+  postal_code: GU19 5EU
+- latitude: 51.4172749
+  longitude: -0.544566
+  name: The Tudor Pass
+  locality: Egham
+  region: Surrey
+  level: 1
+  url: https://guide.michelin.com/en/surrey/egham/restaurant/the-tudor-pass
+  guide: michelin
+  province: Surrey
+  verified_at: '2026-09-16'
+  address: Great Fosters, Stroude Road
+  postal_code: TW20 9UR
+- latitude: 51.3709737
+  longitude: -0.3630118
+  name: Starling
+  locality: Esher
+  region: Surrey
+  level: 1
+  url: https://guide.michelin.com/en/surrey/esher_1753740/restaurant/starling
+  guide: michelin
+  province: Surrey
+  verified_at: '2026-09-16'
+  address: 3 High Street
+  postal_code: KT10 9RL
+- latitude: 51.5570687
+  longitude: -4.1612128
+  name: Beach House
+  locality: Oxwich
+  region: Swansea
+  level: 1
+  url: https://guide.michelin.com/en/swansea/oxwich/restaurant/beach-house
+  guide: michelin
+  province: Swansea
+  verified_at: '2026-09-16'
+  address: Oxwich Beach
+  postal_code: SA3 1LS
+- latitude: 51.4361609
+  longitude: -3.1752013
+  name: Home
+  locality: Penarth
+  region: The Vale of Glamorgan
+  level: 1
+  url: https://guide.michelin.com/en/the-vale-of-glamorgan/penarth/restaurant/home-1196052
+  guide: michelin
+  province: The Vale of Glamorgan
+  verified_at: '2026-09-16'
+  address: 1 Royal Buildings, Stanwell Road
+  postal_code: CF64 3EB
+- latitude: 50.4588679
+  longitude: -3.5248752
+  name: Elephant
+  locality: Torquay
+  region: Torbay
+  level: 1
+  url: https://guide.michelin.com/en/torbay/torquay/restaurant/elephant
+  guide: michelin
+  province: Torbay
+  verified_at: '2026-09-16'
+  address: 3-4 Beacon Terrace
+  postal_code: TQ1 2BH
+- latitude: 54.9679675
+  longitude: -1.6101143
+  name: House of Tides
+  locality: Newcastle Upon Tyne
+  region: Tyne and Wear
+  level: 1
+  url: https://guide.michelin.com/en/tyne-and-wear/newcastle-upon-tyne/restaurant/house-of-tides
+  guide: michelin
+  province: Tyne and Wear
+  verified_at: '2026-09-16'
+  address: 28-30 The Close
+  postal_code: NE1 3RF
+- latitude: 54.9692585
+  longitude: -1.6084582
+  name: SOLSTICE BY KENNY ATKINSON
+  locality: Newcastle Upon Tyne
+  region: Tyne and Wear
+  level: 1
+  url: https://guide.michelin.com/en/tyne-and-wear/newcastle-upon-tyne/restaurant/solstice-by-kenny-atkinson
+  guide: michelin
+  province: Tyne and Wear
+  verified_at: '2026-09-16'
+  address: 5-7 Side
+  postal_code: NE1 3JE
+- latitude: 52.3503568
+  longitude: -1.5796992
+  name: The Cross
+  locality: Kenilworth
+  region: Warwickshire
+  level: 1
+  url: https://guide.michelin.com/en/warwickshire/kenilworth/restaurant/the-cross-at-kenilworth
+  guide: michelin
+  province: Warwickshire
+  verified_at: '2026-09-16'
+  address: 16 New Street
+  postal_code: CV8 2EZ
+- latitude: 52.0992219
+  longitude: -1.5630817
+  name: The Royal Oak
+  locality: Whatcote
+  region: Warwickshire
+  level: 1
+  url: https://guide.michelin.com/en/warwickshire/whatcote/restaurant/the-royal-oak
+  guide: michelin
+  province: Warwickshire
+  verified_at: '2026-09-16'
+  address: The Orchard
+  postal_code: CV36 5EF
+- latitude: 52.4799361
+  longitude: -1.9013634
+  name: Adam's
+  locality: Birmingham
+  region: West Midlands
+  level: 1
+  url: https://guide.michelin.com/en/west-midlands/birmingham/restaurant/adam-s
+  guide: michelin
+  province: West Midlands
+  verified_at: '2026-09-16'
+  address: 16 Waterloo Street
+  postal_code: B2 5UG
+- latitude: 52.4816298
+  longitude: -1.9077335
+  name: Opheem
+  locality: Birmingham
+  region: West Midlands
+  level: 2
+  url: https://guide.michelin.com/en/west-midlands/birmingham/restaurant/opheem
+  guide: michelin
+  province: West Midlands
+  verified_at: '2026-09-16'
+  address: 48 Summer Row
+  postal_code: B3 1JJ
+- latitude: 52.4872516
+  longitude: -1.9104396
+  name: The Wilderness
+  locality: Birmingham
+  region: West Midlands
+  level: 1
+  url: https://guide.michelin.com/en/west-midlands/birmingham/restaurant/the-wilderness
+  guide: michelin
+  province: West Midlands
+  verified_at: '2026-09-16'
+  address: Unit B, 27 Warstone Lane
+  postal_code: B18 6JQ
+- latitude: 52.4287987
+  longitude: -1.7009081
+  name: Grace & Savour
+  locality: Hampton in Arden
+  region: West Midlands
+  level: 1
+  url: https://guide.michelin.com/en/west-midlands/hampton-in-arden/restaurant/grace-and-savour
+  guide: michelin
+  province: West Midlands
+  verified_at: '2026-09-16'
+  address: Hampton Manor, Shadowbrook Lane
+  postal_code: B92 0EN
+- latitude: 51.08932
+  longitude: -0.05691
+  name: Gravetye Manor
+  locality: East Grinstead
+  region: West Sussex
+  level: 1
+  url: https://guide.michelin.com/en/west-sussex/east-grinstead/restaurant/gravetye-manor
+  guide: michelin
+  province: West Sussex
+  verified_at: '2026-09-16'
+  address: Vowels Lane
+  postal_code: RH19 4LJ
+- latitude: 51.0159528
+  longitude: -0.2637258
+  name: Ben Wilkinson at The Pass
+  locality: Lower Beeding
+  region: West Sussex
+  level: 1
+  url: https://guide.michelin.com/en/west-sussex/lower-beeding/restaurant/ben-wilkinson-at-the-pass
+  guide: michelin
+  province: West Sussex
+  verified_at: '2026-09-16'
+  address: South Lodge Hotel & Spa, Brighton Road
+  postal_code: RH13 6PS
+- latitude: 51.0201898
+  longitude: -0.2606582
+  name: Interlude
+  locality: Lower Beeding
+  region: West Sussex
+  level: 1
+  url: https://guide.michelin.com/en/west-sussex/lower-beeding/restaurant/interlude
+  guide: michelin
+  province: West Sussex
+  verified_at: '2026-09-16'
+  address: Leonardslee Gardens, Brighton Road
+  postal_code: RH13 6PP
+- latitude: 51.4938103
+  longitude: -2.2319991
+  name: Bybrook
+  locality: Castle Combe
+  region: Wiltshire
+  level: 1
+  url: https://guide.michelin.com/en/wiltshire/castle-combe/restaurant/bybrook
+  guide: michelin
+  province: Wiltshire
+  verified_at: '2026-09-16'
+  address: West Street
+  postal_code: SN14 7HX
+- latitude: 51.4562596
+  longitude: -2.2587232
+  name: Restaurant Hywel Jones by Lucknam Park
+  locality: Colerne
+  region: Wiltshire
+  level: 1
+  url: https://guide.michelin.com/en/wiltshire/colerne/restaurant/restaurant-hywel-jones-by-lucknam-park
+  guide: michelin
+  province: Wiltshire
+  verified_at: '2026-09-16'
+  address: Lucknam Park
+  postal_code: SN14 8AZ
+- latitude: 51.58398
+  longitude: -2.1537031
+  name: The Dining Room
+  locality: Malmesbury
+  region: Wiltshire
+  level: 1
+  url: https://guide.michelin.com/en/wiltshire/malmesbury/restaurant/the-dining-room193454
+  guide: michelin
+  province: Wiltshire
+  verified_at: '2026-09-16'
+  address: Whatley Manor, Easton Grey
+  postal_code: SN16 0RB
+- latitude: 51.4046576
+  longitude: -0.6164597
+  name: Woven by Adam Smith
+  locality: Ascot
+  region: Windsor and Maidenhead
+  level: 1
+  url: https://guide.michelin.com/en/windsor-and-maidenhead/ascot/restaurant/coworth-park
+  guide: michelin
+  province: Windsor and Maidenhead
+  verified_at: '2026-09-16'
+  address: Coworth Park, Blacknest Road
+  postal_code: SL5 7SE
+- latitude: 51.5081037
+  longitude: -0.7020536
+  name: Hinds Head
+  locality: Bray
+  region: Windsor and Maidenhead
+  level: 1
+  url: https://guide.michelin.com/en/windsor-and-maidenhead/bray/restaurant/hinds-head
+  guide: michelin
+  province: Windsor and Maidenhead
+  verified_at: '2026-09-16'
+  address: High Street
+  postal_code: SL6 2AB
+- latitude: 51.5078582
+  longitude: -0.7017529
+  name: The Fat Duck
+  locality: Bray
+  region: Windsor and Maidenhead
+  level: 3
+  url: https://guide.michelin.com/en/windsor-and-maidenhead/bray/restaurant/fat-duck
+  guide: michelin
+  province: Windsor and Maidenhead
+  verified_at: '2026-09-16'
+  address: High Street
+  postal_code: SL6 2AQ
+- latitude: 51.5091092
+  longitude: -0.6994376
+  name: Waterside Inn
+  locality: Bray
+  region: Windsor and Maidenhead
+  level: 3
+  url: https://guide.michelin.com/en/windsor-and-maidenhead/bray/restaurant/waterside-inn
+  guide: michelin
+  province: Windsor and Maidenhead
+  verified_at: '2026-09-16'
+  address: Ferry Road
+  postal_code: SL6 2AT
+- latitude: 53.9618067
+  longitude: -1.0904831
+  name: Roots
+  locality: York
+  region: York
+  level: 1
+  url: https://guide.michelin.com/en/york-region/york/restaurant/roots1090849
+  guide: michelin
+  province: York
+  verified_at: '2026-09-16'
+  address: 68 Marygate
+  postal_code: YO30 7BH

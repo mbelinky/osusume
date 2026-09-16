@@ -36,6 +36,9 @@ def setup_run(monkeypatch, tmp_path, model, count=7):
     monkeypatch.setattr("osusume.cli.GoplacesAdapter", lambda: FakePlaces(fixture))
     monkeypatch.setattr("osusume.cli.WebAdapter", lambda *a, **kw: FakeWeb(fixture))
     monkeypatch.setattr("osusume.cli.ModelAdapter", lambda config: model)
+    # These fixtures carry only Places evidence; keep the judge in the loop so
+    # model limits still pause and resume per batch.
+    monkeypatch.setattr("osusume.funnel._structured_evidence", lambda row: False)
     config = load_config()
     config["retrieval"]["deep_dive_batch"] = 2
     config["paths"]["runs"] = tmp_path

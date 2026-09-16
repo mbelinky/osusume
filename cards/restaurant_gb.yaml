@@ -1,0 +1,24 @@
+category: restaurant
+country: GB
+reviewed: true
+languages:
+  en: [restaurant, tasting menu restaurant, fine dining restaurant]
+places_types: [restaurant, fine_dining_restaurant]
+accept_types: [restaurant]
+query_templates:
+  - "{name} {city} official website opening hours reservations"
+  - "{name} {city} tasting menu wine list"
+sources:
+  GB: {michelin: 1.0, fifty_best: 1.0, hardens: 0.8}
+source_domains:
+  michelin: [guide.michelin.com]
+  fifty_best: [theworlds50best.com]
+  hardens: [hardens.com]
+load_bearing_claims:
+  - operational_status
+  - hours_at_arrival
+  - detour
+  - quality
+freshness_overrides:
+  quality: 365
+event_shaped: false

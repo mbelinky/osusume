@@ -1,7 +1,13 @@
 models:
+  photo_capable: true
   default_model: gpt-5-mini
-  fallback_model: gpt-5-mini
-  task_overrides: {}
+  fallback_model: gemini-2.5-flash
+  quick_task_overrides: {}
+  task_overrides:
+    photo_triage: gemini-2.5-flash
+    photo_read: gemini-2.5-pro
+    judge: grok-4
+    assemble: claude-sonnet-4-5
   commands:
     default: [codex, exec, --model, "{model}", --json, -]
 freshness_days:
@@ -26,7 +32,14 @@ paths:
   index: index/rooms.sqlite
 web:
   endpoint: https://api.exa.ai/search
+ranking:
+  prior_rating: 4.2
+  prior_weight: 50
+  level_factors: {1: 0.6, 2: 0.8, 3: 1.0}
 retrieval:
+  max_candidates: 20
+  refill_rounds: 2
+  max_registry_injections: 12
   deep_dive_batch: 5
   fetch_workers: 6
   judge_workers: 4

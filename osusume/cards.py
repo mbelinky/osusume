@@ -21,6 +21,8 @@ EPHEMERAL_ALLOWED = {
     "auto_written",
     "sweep_source",
     "official_link_terms",
+    "accept_types",
+    "portable",
 }
 
 
@@ -79,6 +81,12 @@ def validate_card(card: dict[str, Any], defaults: dict[str, int]) -> dict[str, A
                 raise CardValidationError(f"contact_questions.{claim_type} languages must be non-empty strings")
             if not isinstance(question, str) or not question.strip():
                 raise CardValidationError(f"contact_questions.{claim_type}.{language} must be a non-empty string")
+    accept_types = card.get("accept_types")
+    if accept_types is not None and (
+        not isinstance(accept_types, list)
+        or any(not isinstance(value, str) or not value.strip() for value in accept_types)
+    ):
+        raise CardValidationError("accept_types must be a list of non-empty Places types")
     official_link_terms = card.get("official_link_terms")
     if official_link_terms is not None and (
         not isinstance(official_link_terms, list)
@@ -94,11 +102,35 @@ def load_card(path: Path, defaults: dict[str, int]) -> dict[str, Any]:
     return validate_card(card, defaults)
 
 
-def find_card(name: str, cards_dir: Path, defaults: dict[str, int]) -> tuple[dict[str, Any], Path] | None:
-    candidates = [cards_dir / f"{name}.yaml"] + sorted(cards_dir.glob(f"{name}_*.yaml"))
+def find_card(
+    name: str,
+    cards_dir: Path,
+    defaults: dict[str, int],
+    country: str | None = None,
+    *,
+    strict_country: bool = False,
+) -> tuple[dict[str, Any], Path] | None:
+    """Find a reviewed card, preferring the request country's edition. With
+    ``strict_country`` another country's card never answers (a Spanish
+    restaurant card must not judge a London ask with Spanish guides); an
+    explicitly named card keeps the old any-country fallback."""
+    candidates = [cards_dir / f"{name}.yaml"]
+    if country:
+        candidates.append(cards_dir / f"{name}_{country.lower()}.yaml")
+    foreign = [path for path in sorted(cards_dir.glob(f"{name}_*.yaml")) if path not in candidates]
     for path in candidates:
         if path.exists() and path.parent.name != "drafts":
             return load_card(path, defaults), path
+    for path in foreign:
+        if not path.exists() or path.parent.name == "drafts":
+            continue
+        card = load_card(path, defaults)
+        # Another country's edition answers only when the card says it is
+        # portable (the Booking hotel lane works anywhere); a card written
+        # around one country's guides and vocabulary is not.
+        if country and strict_country and not card.get("portable"):
+            continue
+        return card, path
     return None
 
 
